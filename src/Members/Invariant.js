@@ -1,4 +1,5 @@
 import Base from "../Base";
+import MissingAttributes from "../Errors/MissingAttributes";
 import ENGINE_TYPES from "../TYPES";
 /**
  * Class representing a Invariant in the design.
@@ -13,14 +14,30 @@ class Invariant extends Base {
         super();
         this.type = ENGINE_TYPES.INVARIANT;
         this.invariantViolated = false
-        if (typeof args === "object" && args !== null) {
-            if (Object.hasOwn(args, "uid")) {
-                this.loadInvariantFromJSON(args);
-            } else {
-                this.name = args.name;
-                this.rule = args.rule;
-            }
+        if (typeof args === "object" && Object.hasOwn(args, "uid")) {
+            this.loadInvariantFromJSON(args);
+        } else {
+            this.loadArgs(args);
         }
+    }
+
+    /**
+     * Loads the provided arguments.
+     * @throws {MissingAttributes} Thrown when required attr is not present.
+     * @param {Object} args
+     */
+    loadArgs (args) {
+        const expectedAttributes = ["name", "rule"];
+        if (typeof args !== "object" || args === null || Array.isArray(args)) {
+            // Not an object, so all attributes are missing.
+            throw new MissingAttributes("Behavior", expectedAttributes);
+        }
+        expectedAttributes.forEach((attr) => {
+            if (!(attr in args)) {
+                throw new MissingAttributes("Invariant", attr);
+            }
+            this[attr] = args[attr];
+        });
     }
 
     /**
@@ -56,7 +73,6 @@ class Invariant extends Base {
     enforceMinLength (value) {
         if ("keys" in this.rule) {
             for (let i = 0; i < this.rule["keys"].length; i++) {
-                console.log(this.rule["keys"][i], value)
                 value = value[this.rule["keys"][i]];
             }
         };

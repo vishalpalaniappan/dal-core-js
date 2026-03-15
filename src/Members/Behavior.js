@@ -1,4 +1,5 @@
 import Base from "../Base";
+import MissingAttributes from "../Errors/MissingAttributes";
 import ENGINE_TYPES from "../TYPES";
 import Participant from "./Participant";
 /**
@@ -15,13 +16,30 @@ class Behavior extends Base {
         this.type = ENGINE_TYPES.BEHAVIOR;
         this.participants = [];
         this.invalidWorldState = false;
-        if (typeof args === "object" && args !== null) {
-            if (Object.hasOwn(args, "uid")) {
-                this.loadBehaviorFromJSON(args);
-            } else {
-                this.name = args.name;
-            }
+        if (typeof args === "object" && Object.hasOwn(args, "uid")) {
+            this.loadBehaviorFromJSON(args);
+        } else {
+            this.loadArgs(args);
         }
+    }
+
+    /**
+     * Loads the provided arguments.
+     * @throws {MissingAttributes} Thrown when required attr is not present.
+     * @param {Object} args
+     */
+    loadArgs (args) {
+        const expectedAttributes = ["name"];
+        if (typeof args !== "object" || args === null || Array.isArray(args)) {
+            // Not an object, so all attributes are missing.
+            throw new MissingAttributes("Behavior", expectedAttributes);
+        }
+        expectedAttributes.forEach((attr) => {
+            if (!(attr in args)) {
+                throw new MissingAttributes("Behavior", attr);
+            }
+            this[attr] = args[attr];
+        });
     }
 
     /**

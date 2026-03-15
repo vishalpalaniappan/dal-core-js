@@ -43,9 +43,6 @@ export class DALEngine {
      * @returns {Participant}
      */
     createParticipant (args) {
-        // TODO: Validate that the args have the necessary keys
-        // and raise custom error if they are missing.
-        // Perhaps it is better to do that in the class itself.
         return new Participant(args);
     }
 
@@ -55,8 +52,6 @@ export class DALEngine {
      * @returns {Behavior}
      */
     createBehavior (args) {
-        // TODO: Validate that the args have the necessary keys
-        // and raise custom error if they are missing.
         return new Behavior(args);
     }
 
@@ -66,8 +61,6 @@ export class DALEngine {
      * @returns {Invariant}
      */
     createInvariant (args) {
-        // TODO: Validate that the args have the necessary keys
-        // and raise custom error if they are missing.
         return new Invariant(args);
     }
 }

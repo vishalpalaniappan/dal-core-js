@@ -3,8 +3,17 @@ import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
 import {DALEngine} from "../src/DALEngine.js";
+import MissingAttributes from "../src/Errors/MissingAttributes.js";
 
 describe("invariantTests", () => {
+
+    it("invariant throws on missing attributes", () => {
+        let d = new DALEngine({name: "Library Manager"});
+        expect(() => {d.createInvariant({"name": "asdf"})}).toThrow(MissingAttributes);
+        expect(() => {d.createInvariant({})}).toThrow(MissingAttributes);
+        expect(() => {d.createInvariant()}).toThrow(MissingAttributes);
+    });
+
     it("test invariant directly through participants", async () => {
         let d = new DALEngine({name: "Library Manager"});
 

@@ -4,6 +4,7 @@ import {describe, expect, it} from "vitest";
 
 import {DALEngine} from "../src/DALEngine.js";
 import InvalidTransitionError from "../src/Errors/InvalidTransitionError.js";
+import MissingAttributes from "../src/Errors/MissingAttributes.js";
 import UnknownBehaviorError from "../src/Errors/UnknownBehaviorError.js";
 import ENGINE_TYPES from "../src/TYPES.js";
 
@@ -11,6 +12,16 @@ describe("DALEngine", () => {
     it("sets the name correctly", () => {
         const dalInstance = new DALEngine({name: "Library Manager"});
         expect(dalInstance.name).toBe("Library Manager");
+    });
+
+    it("throws on missing attributes", () => {
+        const d = new DALEngine({name: "Library Manager"});
+        expect(() => {d.createBehavior()}).toThrow(MissingAttributes);
+        expect(() => {d.createBehavior({})}).toThrow(MissingAttributes);
+        expect(() => {d.createBehavior({"rule": "adsf"})}).toThrow(MissingAttributes);
+        expect(() => {d.createInvariant({"name": "asdf"})}).toThrow(MissingAttributes);
+        expect(() => {d.createParticipant()}).toThrow(MissingAttributes);
+        expect(() => {d.createParticipant({})}).toThrow(MissingAttributes);
     });
 
     it("adds node to graph", () => {
@@ -82,7 +93,16 @@ describe("DALEngine", () => {
     it("add invariant to participant", () => {
         const d = new DALEngine({name: "Library Manager"});
         const book = d.createParticipant({name: "book"});
-        const invariant = d.createInvariant({name: "minLength"});
+        const invariant = d.createInvariant(
+            {
+                "name": "MinLengthConstraint",
+                "rule": {
+                    "type": "minLength",
+                    "keys": ["value", "name"],
+                    "value": 1,
+                },
+            }
+        );
 
         book.addInvariant(invariant);
 
