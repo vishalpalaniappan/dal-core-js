@@ -8,15 +8,31 @@ describe("SimpleDesignTest", () => {
 
     it("create simple design", async () => {
         const d = new DALEngine({name: "Library Manager"});
-        const behavior1 = d.createBehavior({name: "AcceptBookFromUser"});
-        const behavior2 = d.createBehavior({name: "AddBookToBasket"});
-        const behavior3 = d.createBehavior({name: "AnotherBehavior"});
-        const behavior4 = d.createBehavior({name: "AnotherBehavior4"});
-        const behavior5 = d.createBehavior({name: "AnotherBehavior5"});
-        d.graph.addNode(behavior1, [behavior2, behavior3]);
-        d.graph.addNode(behavior2, [behavior4]);
-        d.graph.addNode(behavior3, [behavior5]);
-        d.graph.addNode(behavior5, [behavior1]);
+        let behavior = d.createBehavior({name: "AcceptChoiceToAddBookToBasket"});
+        const AcceptBookFromUser = d.createBehavior({name: "AcceptBookFromUser"});
+        d.graph.addNode(behavior, [AcceptBookFromUser]);
+        const AddBookToBasket = d.createBehavior({name: "AddBookToBasket"});
+        d.graph.addNode(AcceptBookFromUser, [AddBookToBasket]);
+
+        const AcceptChoiceToAuditLibrary = d.createBehavior({name: "AcceptChoiceToAuditLibrary"});
+        const GenerateAuditReport = d.createBehavior({name: "GenerateAuditReport"});
+        d.graph.addNode(AcceptChoiceToAuditLibrary, [GenerateAuditReport]);
+        const HandAuditToUser = d.createBehavior({name: "HandAuditToUser"});
+        d.graph.addNode(GenerateAuditReport, [HandAuditToUser]);
+
+        const AcceptChoiceToPlaceBooksOnShelf = d.createBehavior(
+            {name: "AcceptChoiceToPlaceBooksOnShelf"}
+        );
+        const GetBookFromBasket = d.createBehavior({name: "GetBookFromBasket"});
+        d.graph.addNode(AcceptChoiceToPlaceBooksOnShelf, [GetBookFromBasket]);
+        const GetFirstLetterOfBookName = d.createBehavior({name: "GetFirstLetterOfBookName"});
+        d.graph.addNode(GetBookFromBasket, [GetFirstLetterOfBookName]);
+        const CreateSlotOnBookShelf = d.createBehavior({name: "CreateSlotOnBookShelf"});
+        const AddBookToShelf = d.createBehavior({name: "AddBookToShelf"});
+        d.graph.addNode(GetFirstLetterOfBookName, [CreateSlotOnBookShelf]);
+        d.graph.addNode(GetFirstLetterOfBookName, [AddBookToShelf]);
+        d.graph.addNode(CreateSlotOnBookShelf, [AddBookToShelf]);
+        d.graph.addNode(AddBookToShelf, [GetBookFromBasket]);
 
         // Output can be viewed using https://mermaid.live/
         const filePath2 = resolve(__dirname, "./temp/simple_design_mermaid.txt")
