@@ -106,6 +106,20 @@ class BehavioralControlGraph extends Base {
             throw new InvalidTransitionError(this.currentNode.behavior.name, nextBehaviorName);
         }
     }
-}
+
+    /**
+     * Exports the graph represented using mermaid syntax for visualization.
+     * @returns {String} Graph as mermaid diagram.
+     */
+    exportAsMermaid () {
+        let mermaid = "behavioral_control_graph TD\n";
+        this.nodes.forEach((node) => {
+            node.goToBehaviors.forEach((behavior) => {
+                mermaid += `  ${node.behavior.name} --> ${behavior.name}\n`;
+            });
+        });
+        return mermaid;
+    }
+};
 
 export default BehavioralControlGraph;
