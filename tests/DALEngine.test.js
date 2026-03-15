@@ -56,9 +56,9 @@ describe("DALEngine", () => {
         const behavior1 = d.createBehavior({name: "AcceptBookFromUser"});
         const behavior2 = d.createBehavior({name: "AddBookToBasket"});
         const behavior3 = d.createBehavior({name: "AnotherBehavior"});
-        d.graph.addNode(behavior1, [behavior2, behavior3])
-        d.graph.addNode(behavior2, [])
-        d.graph.addNode(behavior3, [])
+        d.graph.addNode(behavior1, [behavior2, behavior3]);
+        d.graph.addNode(behavior2, []);
+        d.graph.addNode(behavior3, []);
 
         // Misspell behavior name to trigger unknown behavior error
         expect(() => {
