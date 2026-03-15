@@ -72,15 +72,11 @@ class Behavior extends Base {
      * @param {*} value
      */
     setParticipantValue (participantName, value) {
-        for (let i = 0; i < this.participants.length; i++) {
-            const participant = this.participants[i];
-            if (participant.name === participantName) {
-                participant.value = value;
-                const violation = participant.enforceInvariants();
-                if (violation) {
-                    this.invalidWorldState = true;
-                }
-            }
+        const participant = this.participants.find(obj => obj.name === participantName);
+        participant.value = value;
+        const violation = participant.enforceInvariants();
+        if (violation) {
+            this.invalidWorldState = true;
         }
     }
 }
