@@ -112,7 +112,7 @@ class BehavioralControlGraph extends Base {
      * @returns {String} Graph as mermaid diagram.
      */
     exportAsMermaid () {
-        let mermaid = "behavioral_control_graph TD\n";
+        let mermaid = "flowchart TD\n";
         this.nodes.forEach((node) => {
             node.goToBehaviors.forEach((behavior) => {
                 mermaid += `  ${node.behavior.name} --> ${behavior.name}\n`;
