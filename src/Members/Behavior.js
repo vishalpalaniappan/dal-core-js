@@ -79,6 +79,14 @@ class Behavior extends Base {
             this.invalidWorldState = true;
         }
     }
+
+    /**
+     * Maps the abstraction id from execution to the behavior.
+     * @param {String} abstractionId
+     */
+    addMapping (abstractionId) {
+        this.abstractionId = abstractionId;
+    }
 }
 
 export default Behavior;
