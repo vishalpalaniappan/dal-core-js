@@ -16,6 +16,7 @@ class Participant extends Base {
         super();
         this.type = ENGINE_TYPES.INVARIANT;
         this.invariants = [];
+        this.abstractionId = null;
         this.invariantViolated = false;
         if (typeof args === "object" && Object.hasOwn(args, "uid")) {
             this.loadParticipantFromJSON(args);
@@ -89,6 +90,18 @@ class Participant extends Base {
             }
         }
         return this.invariantViolated;
+    }
+
+    /**
+     * Map the abstraction ID from the execution to the participant.
+     *
+     * This abstraction id will be used to assign a value to the
+     * participant from the execution using the logged abstraction id.
+     *
+     * @param {String} abstractionId
+     */
+    mapAbstraction (abstractionId) {
+        this.abstractionId = abstractionId;
     }
 }
 
