@@ -15,6 +15,7 @@ class Behavior extends Base {
         super();
         this.type = ENGINE_TYPES.BEHAVIOR;
         this.participants = [];
+        this.abstractionIds = [];
         this.invalidWorldState = false;
         if (typeof args === "object" && Object.hasOwn(args, "uid")) {
             this.loadBehaviorFromJSON(args);
@@ -85,7 +86,7 @@ class Behavior extends Base {
      * @param {String} abstractionId
      */
     addMapping (abstractionId) {
-        this.abstractionId = abstractionId;
+        this.abstractionIds.push(abstractionId);
     }
 }
 
