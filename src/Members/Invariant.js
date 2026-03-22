@@ -30,7 +30,7 @@ class Invariant extends Base {
         const expectedAttributes = ["name", "rule"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
-            throw new MissingAttributes("Behavior", expectedAttributes);
+            throw new MissingAttributes("Invariant", expectedAttributes);
         }
         expectedAttributes.forEach((attr) => {
             if (!(attr in args)) {
