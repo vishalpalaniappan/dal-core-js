@@ -1,6 +1,7 @@
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
 import ENGINE_TYPES from "../TYPES";
+
 /**
  * Class representing a Invariant in the design.
  */
@@ -13,7 +14,9 @@ class Invariant extends Base {
     constructor (args) {
         super();
         this.type = ENGINE_TYPES.INVARIANT;
-        this.invariantViolated = false
+        this.invariantViolated = false;
+        this.invariantType = null;
+        this.traceId = null;
         if (typeof args === "object" && Object.hasOwn(args, "uid")) {
             this.loadInvariantFromJSON(args);
         } else {
@@ -79,6 +82,46 @@ class Invariant extends Base {
         if (value === null || typeof value !== "string" || value.length < this.rule.value) {
             this.invariantViolated = true;
         }
+    }
+
+
+    /**
+     * Sets the invariant type.
+     *
+     * The two types of invariants are: Intrinsic and Substrate
+     *
+     * Substrate invariants are learnt by the design from the
+     * environment.
+     *
+     * Intrinsic invariants are arrived at naturally from the
+     * designs control flow, data dependencies and semantic assumptions.
+     *
+     * @param {String} invariantType
+     */
+    setInvariantType (invariantType) {
+        // TODO: Add validation for invariantType.
+        this.invariantType = invariantType;
+    }
+
+    /**
+     * This function adds the trace id which can be used for
+     * automated testing.
+     *
+     * Substrate invariants correspond to a trace that represents
+     * an environment that reveals a limitation of the substrate,
+     * thus motivating the invariant. It is also the environment
+     * in which an implementation can prove that it respects this
+     * invariant.
+     *
+     * Intrisinc invariants correspond to a trace that represents
+     * a factory default environment that enables the implementation
+     * to prove that it respects the invariant.
+     *
+     * @param {String} traceId ID of trace used for automated testing.
+     */
+    setTraceId (traceId) {
+        // TODO: Add validation for traceId.
+        this.traceId = traceId;
     }
 }
 
