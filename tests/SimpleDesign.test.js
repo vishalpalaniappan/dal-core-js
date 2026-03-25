@@ -34,6 +34,9 @@ describe("SimpleDesignTest", () => {
         d.graph.addNode(CreateSlotOnBookShelf, [AddBookToShelf]);
         d.graph.addNode(AddBookToShelf, [GetBookFromBasket]);
 
+        const filePath = resolve(__dirname, "./simple_design_temp.json")
+        await writeFile(filePath, d.serialize())
+
         // Output can be viewed using https://mermaid.live/
         const filePath2 = resolve(__dirname, "./temp/simple_design_mermaid.txt")
         await writeFile(filePath2, d.graph.exportAsMermaid())
