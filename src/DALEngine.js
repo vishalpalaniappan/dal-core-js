@@ -8,9 +8,13 @@ import Participant from "./Members/Participant";
  * abstraction language. It exposes functions
  * configure the engine through the DAL specification.
  *
- * The execution of an program instrumented with the
- * same design be used to step through the design
- * while the engine automatically debugs the execution.
+ * The design specified in this engine is mapped onto
+ * the implementation using abstraction ids. The
+ * implementation is then instrumented and the resulting
+ * execution trace is fed back into the engine and is
+ * automatically debugged by transforming the execution
+ * into the behavior of the design and enforcing the
+ * invariants.
  */
 export class DALEngine {
     constructor (args) {
