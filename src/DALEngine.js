@@ -1,6 +1,5 @@
 import BehavioralControlGraph from "./BehavioralControlGraph/BehavioralControlGraph";
 import MissingAttributes from "./Errors/MissingAttributes";
-import UnknownBehaviorError from "./Errors/UnknownBehaviorError";
 import Behavior from "./Members/Behavior";
 import Invariant from "./Members/Invariant";
 import Participant from "./Members/Participant";
