@@ -18,9 +18,9 @@ class Invariant extends Base {
         this.invariantType = null;
         this.traceId = null;
         if (typeof args === "object" && Object.hasOwn(args, "uid")) {
-            this.loadInvariantFromJSON(args);
+            this._loadInvariantFromJSON(args);
         } else {
-            this.loadArgs(args);
+            this._loadArgs(args);
         }
     }
 
@@ -29,7 +29,7 @@ class Invariant extends Base {
      * @throws {MissingAttributes} Thrown when required attr is not present.
      * @param {Object} args
      */
-    loadArgs (args) {
+    _loadArgs (args) {
         const expectedAttributes = ["name", "rule"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
@@ -47,7 +47,7 @@ class Invariant extends Base {
      * Loads the participant from a JSON object.
      * @param {Object} invariantJSON
      */
-    loadInvariantFromJSON (invariantJSON) {
+    _loadInvariantFromJSON (invariantJSON) {
         for (const [key, value] of Object.entries(invariantJSON)) {
             this[key] = value;
         };

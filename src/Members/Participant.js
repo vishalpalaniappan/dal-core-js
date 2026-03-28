@@ -14,14 +14,14 @@ class Participant extends Base {
      */
     constructor (args) {
         super();
-        this.type = ENGINE_TYPES.INVARIANT;
+        this.type = ENGINE_TYPES.PARTICIPANT;
         this.invariants = [];
         this.abstractionId = null;
         this.invariantViolated = false;
         if (typeof args === "object" && Object.hasOwn(args, "uid")) {
-            this.loadParticipantFromJSON(args);
+            this._loadParticipantFromJSON(args);
         } else {
-            this.loadArgs(args);
+            this._loadArgs(args);
         }
     }
 
@@ -30,7 +30,7 @@ class Participant extends Base {
      * @throws {MissingAttributes} Thrown when required attr is not present.
      * @param {Object} args
      */
-    loadArgs (args) {
+    _loadArgs (args) {
         const expectedAttributes = ["name"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
@@ -48,7 +48,7 @@ class Participant extends Base {
      * Loads the participant from a JSON object.
      * @param {Object} participantJSON
      */
-    loadParticipantFromJSON (participantJSON) {
+    _loadParticipantFromJSON (participantJSON) {
         for (const [key, value] of Object.entries(participantJSON)) {
             if (key === "invariants") {
                 value.forEach(node => this.invariants.push(new Invariant(node)));

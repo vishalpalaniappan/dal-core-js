@@ -18,9 +18,9 @@ class Behavior extends Base {
         this.abstractionIds = [];
         this.invalidWorldState = false;
         if (typeof args === "object" && Object.hasOwn(args, "uid")) {
-            this.loadBehaviorFromJSON(args);
+            this._loadBehaviorFromJSON(args);
         } else {
-            this.loadArgs(args);
+            this._loadArgs(args);
         }
     }
 
@@ -29,7 +29,7 @@ class Behavior extends Base {
      * @throws {MissingAttributes} Thrown when required attr is not present.
      * @param {Object} args
      */
-    loadArgs (args) {
+    _loadArgs (args) {
         const expectedAttributes = ["name"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
@@ -47,7 +47,7 @@ class Behavior extends Base {
      * Loads the behavior from a JSON object.
      * @param {Object} behaviorJSON
      */
-    loadBehaviorFromJSON (behaviorJSON) {
+    _loadBehaviorFromJSON (behaviorJSON) {
         for (const [key, value] of Object.entries(behaviorJSON)) {
             if (key === "participants") {
                 value.forEach(node => this.participants.push(new Participant(node)));
