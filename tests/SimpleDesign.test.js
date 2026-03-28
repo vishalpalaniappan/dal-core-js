@@ -21,7 +21,7 @@ describe("SimpleDesignTest", () => {
         d.addNode("CreateSlotOnBookShelf", ["AddBookToShelf"]);
         d.addNode("AddBookToShelf", ["GetBookFromBasket"]);
 
-        const filePath = resolve(__dirname, "./simple_design_temp.json")
+        const filePath = resolve(__dirname, "./temp/simple_design_temp.json")
         await writeFile(filePath, d.serialize())
 
         // Output can be viewed using https://mermaid.live/
