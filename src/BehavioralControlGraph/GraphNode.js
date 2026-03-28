@@ -77,13 +77,11 @@ class GraphNode extends Base {
 
     /**
      * Checks if the provided behavior name is a valid
-     * behavior that the control flow selects as a
-     * result of the this nodes state transformation. i.e.
-     * is this behavior in the goToBehavior list.
+     * transition from this node.
      * @param {String} behaviorName
      * @returns {Boolean}
      */
-    isValidGoToBehavior (behaviorName) {
+    isValidTransition (behaviorName) {
         for (let i = 0; i < this._goToBehaviorIds.length; i++) {
             const behaviorId = this._goToBehaviorIds[i];
             if (behaviorId === behaviorName) {

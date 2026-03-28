@@ -100,7 +100,7 @@ class BehavioralControlGraph extends Base {
      * behavior is not a valid transition.
      */
     _goToBehavior (nextBehaviorName) {
-        if (this.currentNode.isValidGoToBehavior(nextBehaviorName)) {
+        if (this.currentNode.isValidTransition(nextBehaviorName)) {
             this.currentNode = this._findNode(nextBehaviorName);
         } else {
             throw new InvalidTransitionError(this.currentNode.getBehavior().name, nextBehaviorName);
