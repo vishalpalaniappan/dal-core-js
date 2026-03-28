@@ -116,12 +116,8 @@ export class DALEngine {
         const node = this.graph._findNode(behaviorId);
         const nodeIndex = this.graph.nodes.indexOf(node);
         this.graph.nodes.splice(nodeIndex, 1);
-
         for (const node of this.graph.nodes) {
-            const goToIndex = node.goToBehaviorsIds.indexOf(behaviorId);
-            if (goToIndex > -1) {
-                node.goToBehaviorsIds.splice(goToIndex, 1);
-            }
+            node.removeGoToBehavior(behaviorId);
         }
     }
 

@@ -75,6 +75,13 @@ class GraphNode extends Base {
         this._goToBehaviorIds.push(...behaviorIds);
     }
 
+    removeGoToBehavior (behaviorId) {
+        const goToIndex = this._goToBehaviorIds.indexOf(behaviorId);
+        if (goToIndex > -1) {
+            this._goToBehaviorIds.splice(goToIndex, 1);
+        }
+    }
+
     /**
      * Checks if the provided behavior name is a valid
      * transition from this node.

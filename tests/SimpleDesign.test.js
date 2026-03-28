@@ -21,6 +21,9 @@ describe("SimpleDesignTest", () => {
         d.addNode("CreateSlotOnBookShelf", ["AddBookToShelf"]);
         d.addNode("AddBookToShelf", ["GetBookFromBasket"]);
 
+
+        d.removeNode("GetBookFromBasket");
+
         const filePath = resolve(__dirname, "./temp/simple_design_temp.json")
         await writeFile(filePath, d.serialize())
 
