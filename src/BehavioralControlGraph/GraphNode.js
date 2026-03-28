@@ -15,6 +15,7 @@ class GraphNode extends Base {
         this.type = ENGINE_TYPES.GRAPH_NODE;
         this._behavior = null;
         this._goToBehaviorIds = [];
+        this._isAtomic = false;
         if (typeof args === "object" && args !== null) {
             if (Object.hasOwn(args, "uid")) {
                 this._loadNodeFromJSON(args);
@@ -75,11 +76,31 @@ class GraphNode extends Base {
         this._goToBehaviorIds.push(...behaviorIds);
     }
 
+    /**
+     * Remove the behavior from the list of transitions.
+     * @param {String} behaviorId
+     */
     removeGoToBehavior (behaviorId) {
         const goToIndex = this._goToBehaviorIds.indexOf(behaviorId);
         if (goToIndex > -1) {
             this._goToBehaviorIds.splice(goToIndex, 1);
         }
+    }
+
+    /**
+     * Raises a flag to indicate if the behavior is atomic or not.
+     * @param {Boolean} isAtomic Flag indicates if the behavior is atomic.
+     */
+    setAtomic (isAtomic) {
+        this._isAtomic = isAtomic;
+    }
+
+    /**
+     * Returns whether the behavior is atomic or not.
+     * @returns {Boolean}
+     */
+    isAtomic () {
+        return this._isAtomic;
     }
 
     /**
