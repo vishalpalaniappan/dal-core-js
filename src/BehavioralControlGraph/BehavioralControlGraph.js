@@ -65,7 +65,7 @@ class BehavioralControlGraph extends Base {
      */
     _findNode (behaviorName) {
         for (let i = 0; i < this.nodes.length; i++) {
-            const behavior = this.nodes[i].behavior;
+            const behavior = this.nodes[i].getBehavior();
             if (behavior.name === behaviorName) {
                 return this.nodes[i];
             }
@@ -103,7 +103,7 @@ class BehavioralControlGraph extends Base {
         if (this.currentNode.isValidGoToBehavior(nextBehaviorName)) {
             this.currentNode = this._findNode(nextBehaviorName);
         } else {
-            throw new InvalidTransitionError(this.currentNode.behavior.name, nextBehaviorName);
+            throw new InvalidTransitionError(this.currentNode.getBehavior().name, nextBehaviorName);
         }
     }
 
@@ -114,8 +114,8 @@ class BehavioralControlGraph extends Base {
     exportAsMermaid () {
         let mermaid = "flowchart TD\n";
         this.nodes.forEach((node) => {
-            node.goToBehaviorsIds.forEach((behaviorId) => {
-                mermaid += `  ${node.behavior.name} --> ${behaviorId}\n`;
+            node.getGoToBehaviors().forEach((behaviorId) => {
+                mermaid += `  ${node.getBehavior().name} --> ${behaviorId}\n`;
             });
         });
         return mermaid;

@@ -32,8 +32,8 @@ describe("DALEngine", () => {
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
-        expect(node.behavior.name).toStrictEqual("AcceptBookFromUser");
-        expect(node.goToBehaviorsIds).toStrictEqual(goToBehaviorIds);
+        expect(node.getBehavior().name).toStrictEqual("AcceptBookFromUser");
+        expect(node.getGoToBehaviors()).toStrictEqual(goToBehaviorIds);
     });
 
     it("find node that was added using behavior name", () => {
@@ -57,8 +57,8 @@ describe("DALEngine", () => {
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
-        expect(node.behavior.name).toStrictEqual("AcceptBookFromUser");
-        expect(node.goToBehaviorsIds).toStrictEqual(["AddBookToBasket"]);
+        expect(node.getBehavior().name).toStrictEqual("AcceptBookFromUser");
+        expect(node.getGoToBehaviors()).toStrictEqual(["AddBookToBasket"]);
     });
 
     it("find node and check if observed behavior is valid transition", () => {
@@ -143,7 +143,7 @@ describe("DALEngine", () => {
         d.getNode("AcceptBookFromUser").addGoToBehavior("AddBookToBasket");
         d.getNode("AcceptBookFromUser").addGoToBehavior("AnotherBehavior");
 
-        d.getNode("AcceptBookFromUser").behavior.addParticipant(book);
+        d.getNode("AcceptBookFromUser").getBehavior().addParticipant(book);
 
         const filePath = resolve(__dirname, "./temp/inspectSerializeTemp.json")
         await writeFile(filePath, d.serialize())

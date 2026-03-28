@@ -73,26 +73,26 @@ describe("invariantTests", () => {
 
         // Create behavior and participant
         const node1 = d.addNode("AcceptBookFromUser", []);
-        node1.behavior.addParticipant(book);
+        node1.getBehavior().addParticipant(book);
 
         // Add value that respects invariant and expect valid world state
-        node1.behavior.setParticipantValue("book", {
+        node1.getBehavior().setParticipantValue("book", {
             "uid": 1,
             "value": {
                 "name": "Harry Potter and Chamber of Secrets",
             },
         })
-        expect(node1.behavior.invalidWorldState).toBe(false);
+        expect(node1.getBehavior().invalidWorldState).toBe(false);
 
 
         // Add value that violates invariant and expect invalid world state
-        node1.behavior.setParticipantValue("book", {
+        node1.getBehavior().setParticipantValue("book", {
             "uid": 1,
             "value": {
                 "name": "",
             },
         })
-        expect(node1.behavior.invalidWorldState).toBe(true);
+        expect(node1.getBehavior().invalidWorldState).toBe(true);
 
         // Write to file for inspection
         const filePath = resolve(__dirname, "./temp/invariantBehaviorTemp.json")
