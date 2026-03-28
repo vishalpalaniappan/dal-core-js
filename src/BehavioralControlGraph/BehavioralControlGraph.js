@@ -1,6 +1,7 @@
 import Base from "../Base";
 import InvalidTransitionError from "../Errors/InvalidTransitionError";
 import UnknownBehaviorError from "../Errors/UnknownBehaviorError";
+import Behavior from "../Members/Behavior";
 import ENGINE_TYPES from "../TYPES";
 import GraphNode from "./GraphNode";
 
@@ -42,14 +43,16 @@ class BehavioralControlGraph extends Base {
 
     /**
      * Adds a node to the graph.
-     * @param {Behavior} behavior
+     * @param {Behavior} behaviorId
      * @param {Array} goToBehaviorsIds
+     * @param {Boolean} isAtomic
      * @returns
      */
-    _addNode (behavior, goToBehaviorsIds) {
+    _addNode (behaviorId, goToBehaviorsIds, isAtomic) {
         const node = new GraphNode({
-            behavior: behavior,
-            goToBehaviorsIds: goToBehaviorsIds,
+            behavior: new Behavior({name: behaviorId}),
+            goToBehaviorsIds: goToBehaviorsIds?goToBehaviorsIds:[],
+            isAtomic: isAtomic?isAtomic:false,
         });
         this.nodes.push(node);
         return node;

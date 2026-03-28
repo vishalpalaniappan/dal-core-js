@@ -100,12 +100,11 @@ export class DALEngine {
      * Adds a node to the graph with the given behaviorId and goToBehaviors.
      * @param {String} behaviorId
      * @param {Array} goToBehaviorsIds
+     * @param {Boolean} isAtomic
      * @returns {GraphNode}
      */
-    addNode (behaviorId, goToBehaviorsIds) {
-        const behavior = this.createBehavior({name: behaviorId});
-        const goToIds = goToBehaviorsIds?goToBehaviorsIds:[];
-        return this.graph._addNode(behavior, goToIds);
+    addNode (behaviorId, goToBehaviorsIds, isAtomic) {
+        return this.graph._addNode(behaviorId, goToBehaviorsIds, isAtomic);
     }
 
     /**
@@ -129,7 +128,6 @@ export class DALEngine {
     setCurrentBehavior (behaviorId) {
         this.graph._setCurrentBehavior(behaviorId);
     }
-
 
     /**
      * Transitions the graph to the given behavior if it
