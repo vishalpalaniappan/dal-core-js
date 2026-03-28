@@ -8,31 +8,18 @@ describe("SimpleDesignTest", () => {
 
     it("create simple design", async () => {
         const d = new DALEngine({name: "Library Manager"});
-        let behavior = d.createBehavior({name: "AcceptChoiceToAddBookToBasket"});
-        const AcceptBookFromUser = d.createBehavior({name: "AcceptBookFromUser"});
-        d.graph.addNode(behavior, [AcceptBookFromUser]);
-        const AddBookToBasket = d.createBehavior({name: "AddBookToBasket"});
-        d.graph.addNode(AcceptBookFromUser, [AddBookToBasket]);
+        d.addNode("AcceptChoiceToAddBookToBasket", ["AcceptBookFromUser"]);
+        d.addNode("AcceptBookFromUser", ["AddBookToBasket"]);
+        d.addNode("AddBookToBasket", []);
+        d.addNode("AcceptChoiceToAuditLibrary", ["GenerateAuditReport"]);
+        d.addNode("GenerateAuditReport", ["HandAuditToUser"]);
+        d.addNode("HandAuditToUser", []);
 
-        const AcceptChoiceToAuditLibrary = d.createBehavior({name: "AcceptChoiceToAuditLibrary"});
-        const GenerateAuditReport = d.createBehavior({name: "GenerateAuditReport"});
-        d.graph.addNode(AcceptChoiceToAuditLibrary, [GenerateAuditReport]);
-        const HandAuditToUser = d.createBehavior({name: "HandAuditToUser"});
-        d.graph.addNode(GenerateAuditReport, [HandAuditToUser]);
-
-        const AcceptChoiceToPlaceBooksOnShelf = d.createBehavior(
-            {name: "AcceptChoiceToPlaceBooksOnShelf"}
-        );
-        const GetBookFromBasket = d.createBehavior({name: "GetBookFromBasket"});
-        d.graph.addNode(AcceptChoiceToPlaceBooksOnShelf, [GetBookFromBasket]);
-        const GetFirstLetterOfBookName = d.createBehavior({name: "GetFirstLetterOfBookName"});
-        d.graph.addNode(GetBookFromBasket, [GetFirstLetterOfBookName]);
-        const CreateSlotOnBookShelf = d.createBehavior({name: "CreateSlotOnBookShelf"});
-        const AddBookToShelf = d.createBehavior({name: "AddBookToShelf"});
-        d.graph.addNode(GetFirstLetterOfBookName, [CreateSlotOnBookShelf]);
-        d.graph.addNode(GetFirstLetterOfBookName, [AddBookToShelf]);
-        d.graph.addNode(CreateSlotOnBookShelf, [AddBookToShelf]);
-        d.graph.addNode(AddBookToShelf, [GetBookFromBasket]);
+        d.addNode("AcceptChoiceToPlaceBooksOnShelf", ["GetBookFromBasket"]);
+        d.addNode("GetBookFromBasket", ["GetFirstLetterOfBookName"]);
+        d.addNode("GetFirstLetterOfBookName", ["CreateSlotOnBookShelf", "AddBookToShelf"]);
+        d.addNode("CreateSlotOnBookShelf", ["AddBookToShelf"]);
+        d.addNode("AddBookToShelf", ["GetBookFromBasket"]);
 
         const filePath = resolve(__dirname, "./simple_design_temp.json")
         await writeFile(filePath, d.serialize())

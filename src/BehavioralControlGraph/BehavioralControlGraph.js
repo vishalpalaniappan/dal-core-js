@@ -19,7 +19,7 @@ class BehavioralControlGraph extends Base {
         this.nodes = [];
         if (typeof args === "object" && args !== null) {
             if (Object.hasOwn(args, "uid")) {
-                this.loadGraphFromJSON(args);
+                this._loadGraphFromJSON(args);
             } else {
                 this.name = args.name;
             }
@@ -30,7 +30,7 @@ class BehavioralControlGraph extends Base {
      * Loads the graph from a JSON object..
      * @param {Object} graphJson
      */
-    loadGraphFromJSON (graphJson) {
+    _loadGraphFromJSON (graphJson) {
         for (const [key, value] of Object.entries(graphJson)) {
             if (key === "nodes") {
                 value.forEach(node => this.nodes.push(new GraphNode(node)));
@@ -43,13 +43,13 @@ class BehavioralControlGraph extends Base {
     /**
      * Adds a node to the graph.
      * @param {Behavior} behavior
-     * @param {Array} goToBehaviors
+     * @param {Array} goToBehaviorsIds
      * @returns
      */
-    addNode (behavior, goToBehaviors) {
+    _addNode (behavior, goToBehaviorsIds) {
         const node = new GraphNode({
             behavior: behavior,
-            goToBehaviors: goToBehaviors,
+            goToBehaviorsIds: goToBehaviorsIds,
         });
         this.nodes.push(node);
         return node;
@@ -63,7 +63,7 @@ class BehavioralControlGraph extends Base {
      * does not exist in the graph.
      * @returns
      */
-    findNode (behaviorName) {
+    _findNode (behaviorName) {
         for (let i = 0; i < this.nodes.length; i++) {
             const behavior = this.nodes[i].behavior;
             if (behavior.name === behaviorName) {
@@ -83,7 +83,7 @@ class BehavioralControlGraph extends Base {
      * @param {String} behaviorName
      */
     setCurrentBehavior (behaviorName) {
-        const node = this.findNode(behaviorName);
+        const node = this._findNode(behaviorName);
         /**
          * TODO: Ensure it is atomic because the execution
          * will only set a behavior when its the first one.
@@ -101,7 +101,7 @@ class BehavioralControlGraph extends Base {
      */
     goToBehavior (nextBehaviorName) {
         if (this.currentNode.isValidGoToBehavior(nextBehaviorName)) {
-            this.currentNode = this.findNode(nextBehaviorName);
+            this.currentNode = this._findNode(nextBehaviorName);
         } else {
             throw new InvalidTransitionError(this.currentNode.behavior.name, nextBehaviorName);
         }
@@ -114,8 +114,8 @@ class BehavioralControlGraph extends Base {
     exportAsMermaid () {
         let mermaid = "flowchart TD\n";
         this.nodes.forEach((node) => {
-            node.goToBehaviors.forEach((behavior) => {
-                mermaid += `  ${node.behavior.name} --> ${behavior.name}\n`;
+            node.goToBehaviorsIds.forEach((behaviorId) => {
+                mermaid += `  ${node.behavior.name} --> ${behaviorId}\n`;
             });
         });
         return mermaid;

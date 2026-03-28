@@ -14,7 +14,8 @@ describe("DALEngine", () => {
         expect(dalInstance.name).toBe("Library Manager");
     });
 
-    it("throws on missing attributes", () => {
+    it(" throws on missing attributes", () => {
+        expect(() => {new DALEngine()}).toThrow(MissingAttributes);
         const d = new DALEngine({name: "Library Manager"});
         expect(() => {d.createBehavior()}).toThrow(MissingAttributes);
         expect(() => {d.createBehavior({})}).toThrow(MissingAttributes);
@@ -26,39 +27,33 @@ describe("DALEngine", () => {
 
     it("adds node to graph", () => {
         const d = new DALEngine({name: "Library Manager"});
-        const behavior1 = d.createBehavior({name: "AcceptBookFromUser"});
-        const behavior2 = d.createBehavior({name: "AddBookToBasket"});
-        const goToBehaviors = [behavior2];
-
-        const node = d.graph.addNode(behavior1, goToBehaviors)
+        const goToBehaviorIds = ["AddBookToBasket"];
+        const node = d.addNode("AcceptBookFromUser", goToBehaviorIds)
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
-        expect(node.behavior).toStrictEqual(behavior1);
-        expect(node.goToBehaviors).toStrictEqual([behavior2]);
-
-        const foundNode = d.graph.findNode("AcceptBookFromUser");
-        expect(foundNode).toStrictEqual(node);
+        expect(node.behavior.name).toStrictEqual("AcceptBookFromUser");
+        expect(node.goToBehaviorsIds).toStrictEqual(goToBehaviorIds);
     });
 
     it("find node that was added using behavior name", () => {
         const d = new DALEngine({name: "Library Manager"});
-        const behavior1 = d.createBehavior({name: "AcceptBookFromUser"});
-        const behavior2 = d.createBehavior({name: "AddBookToBasket"});
-        const node = d.graph.addNode(behavior1, [behavior2])
+        const node = d.addNode("AcceptBookFromUser", []);
 
-        const foundNode = d.graph.findNode("AcceptBookFromUser");
+        expect(() => {d.getNode("AcceptBookFrmUser")}).toThrow(UnknownBehaviorError);
+
+        const foundNode = d.getNode("AcceptBookFromUser");
         expect(foundNode).toStrictEqual(node);
     });
 
     it("find node and check if observed behavior is valid transition", () => {
         const d = new DALEngine({name: "Library Manager"});
-        const behavior1 = d.createBehavior({name: "AcceptBookFromUser"});
-        const behavior2 = d.createBehavior({name: "AddBookToBasket"});
-        const behavior3 = d.createBehavior({name: "AnotherBehavior"});
-        d.graph.addNode(behavior1, [behavior2, behavior3]);
-        d.graph.addNode(behavior2, []);
-        d.graph.addNode(behavior3, []);
+        const node1 = d.addNode("AcceptBookFromUser", []);
+        const node2 = d.addNode("AddBookToBasket", []);
+        d.addNode("AnotherBehavior", []);
+
+        node1.addGoToBehavior("AddBookToBasket");
+        node2.addGoToBehavior("AnotherBehavior");
 
         // Misspell behavior name to trigger unknown behavior error
         expect(() => {
@@ -66,20 +61,20 @@ describe("DALEngine", () => {
         }).toThrow(UnknownBehaviorError);
 
         d.graph.setCurrentBehavior("AcceptBookFromUser");
-        expect(d.graph.currentNode.behavior).toBe(behavior1);
+        expect(d.graph.currentNode).toBe(node1);
 
         d.graph.goToBehavior("AddBookToBasket")
-        expect(d.graph.currentNode.behavior).toBe(behavior2);
+        expect(d.graph.currentNode).toBe(node2);
 
         // Reset current behavior so transition is valid
         d.graph.setCurrentBehavior("AcceptBookFromUser");
-        d.graph.goToBehavior("AnotherBehavior")
-        expect(d.graph.currentNode.behavior).toBe(behavior3);
+        d.graph.goToBehavior("AddBookToBasket")
+        expect(d.graph.currentNode).toBe(node2);
 
         // Raises error because current behavior is "AnotherBehavior"
         // and it does not transition to itself.
         expect(() => {
-            d.graph.goToBehavior("AnotherBehavior")
+            d.graph.goToBehavior("AddBookToBasket")
         }).toThrow(InvalidTransitionError);
 
         // Reset the current behavior and then go to a behavior
@@ -125,13 +120,15 @@ describe("DALEngine", () => {
         );
         book.addInvariant(invariant);
 
-        const behavior1 = d.createBehavior({name: "AcceptBookFromUser"});
-        behavior1.addParticpant(book);
-        const behavior2 = d.createBehavior({name: "AddBookToBasket"});
-        const behavior3 = d.createBehavior({name: "AnotherBehavior"});
-        d.graph.addNode(behavior1, [behavior2, behavior3]);
-        d.graph.addNode(behavior2, []);
-        d.graph.addNode(behavior3, []);
+
+        const node1 = d.addNode("AcceptBookFromUser", []);
+        d.addNode("AddBookToBasket", []);
+        d.addNode("AnotherBehavior", []);
+
+        node1.addGoToBehavior("AddBookToBasket");
+        node1.addGoToBehavior("AnotherBehavior");
+
+        node1.behavior.addParticpant(book);
 
         const filePath = resolve(__dirname, "./temp/inspectSerializeTemp.json")
         await writeFile(filePath, d.serialize())

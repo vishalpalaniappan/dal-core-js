@@ -13,13 +13,13 @@ class GraphNode extends Base {
     constructor (args) {
         super();
         this.type = ENGINE_TYPES.GRAPH_NODE;
-        this.goToBehaviors = [];
+        this.goToBehaviorsIds = [];
         if (typeof args === "object" && args !== null) {
             if (Object.hasOwn(args, "uid")) {
                 this.loadNodeFromJSON(args);
             } else {
                 this.behavior = args.behavior;
-                this.goToBehaviors = args.goToBehaviors;
+                this.goToBehaviorsIds = args.goToBehaviorsIds;
             }
         }
     }
@@ -32,12 +32,21 @@ class GraphNode extends Base {
         for (const [key, value] of Object.entries(nodesJSON)) {
             if (key === "behavior") {
                 this.behavior = new Behavior(value);
-            } else if (key === "goToBehaviors") {
-                value.forEach(node => this.goToBehaviors.push(new Behavior(node)));
+            } else if (key === "goToBehaviorsIds") {
+                value.forEach(behaviorId => this.goToBehaviorsIds.push(behaviorId));
             } else {
                 this[key] = nodesJSON[key];
             }
         };
+    }
+
+    /**
+     * Adds a behavior name to the list of behaviors that this 
+     * node transitions to.
+     * @param {String} behaviorId ID of behavior.
+     */
+    addGoToBehavior (behaviorId) {
+        this.goToBehaviorsIds.push(behaviorId);
     }
 
     /**
@@ -49,9 +58,9 @@ class GraphNode extends Base {
      * @returns {Boolean}
      */
     isValidGoToBehavior (behaviorName) {
-        for (let i = 0; i < this.goToBehaviors.length; i++) {
-            const behavior = this.goToBehaviors[i];
-            if (behavior.name === behaviorName) {
+        for (let i = 0; i < this.goToBehaviorsIds.length; i++) {
+            const behaviorId = this.goToBehaviorsIds[i];
+            if (behaviorId === behaviorName) {
                 return true;
             }
         }
