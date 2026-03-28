@@ -20,6 +20,7 @@ import Participant from "./Members/Participant";
 export class DALEngine {
     constructor (args) {
         this.graph = new BehavioralControlGraph();
+        this.atomicGraphs = [];
         this.loadArgs(args);
     }
 
