@@ -108,6 +108,25 @@ export class DALEngine {
     }
 
     /**
+     * Deletes a node from the graph with the given behaviorId and
+     * removes it from the goToBehavior list of all other nodes.
+     * @param {String} behaviorId
+     */
+    deleteNode (behaviorId) {
+        const node = this.graph._findNode(behaviorId);
+        const nodeIndex = this.graph.nodes.indexOf(node);
+        this.graph.nodes.splice(nodeIndex, 1);
+
+        for (const node of this.graph.nodes) {
+            const goToIndex = node.goToBehaviorsIds.indexOf(behaviorId);
+            if (goToIndex > -1) {
+                node.goToBehaviorsIds.splice(goToIndex, 1);
+            }
+        }
+    }
+
+
+    /**
      * Adds a goToBehavior to the node with the given behaviorId.
      * @param {String} behaviorId
      * @param {String|Array} goToBehaviorIds
@@ -119,6 +138,21 @@ export class DALEngine {
             node.goToBehaviorsIds.push(...goToBehaviorIds);
         } else {
             node.goToBehaviorsIds.push(goToBehaviorIds);
+        }
+        return node;
+    }
+
+    /**
+     * Removes a goToBehavior from the node with the given behaviorId.
+     * @param {String} behaviorId
+     * @param {String} goToBehaviorId
+     * @returns {GraphNode}
+     */
+    removeGoToBehavior (behaviorId, goToBehaviorId) {
+        const node = this.graph.findNode(behaviorId);
+        const goToIndex = node.goToBehaviorsIds.indexOf(goToBehaviorId);
+        if (goToIndex > -1) {
+            node.goToBehaviorsIds.splice(goToIndex, 1);
         }
         return node;
     }
