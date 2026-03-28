@@ -156,4 +156,23 @@ export class DALEngine {
         }
         return node;
     }
+
+
+    /**
+     * Sets the current behavior in the graph.
+     * @param {String} behaviorId
+     */
+    setCurrentBehavior (behaviorId) {
+        this.graph._setCurrentBehavior(behaviorId);
+    }
+
+
+    /**
+     * Transitions the graph to the given behavior if it
+     *  is a valid transition from the current behavior.
+     * @param {String} nextBehaviorId ID of the next behavior.
+     */
+    goToBehavior (nextBehaviorId) {
+        this.graph._goToBehavior(nextBehaviorId);
+    }
 }

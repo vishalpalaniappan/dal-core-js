@@ -57,31 +57,31 @@ describe("DALEngine", () => {
 
         // Misspell behavior name to trigger unknown behavior error
         expect(() => {
-            d.graph.setCurrentBehavior("AcceptBookromUser");
+            d.setCurrentBehavior("AcceptBookromUser");
         }).toThrow(UnknownBehaviorError);
 
-        d.graph.setCurrentBehavior("AcceptBookFromUser");
+        d.setCurrentBehavior("AcceptBookFromUser");
         expect(d.graph.currentNode).toBe(node1);
 
-        d.graph.goToBehavior("AddBookToBasket")
+        d.goToBehavior("AddBookToBasket")
         expect(d.graph.currentNode).toBe(node2);
 
         // Reset current behavior so transition is valid
-        d.graph.setCurrentBehavior("AcceptBookFromUser");
-        d.graph.goToBehavior("AddBookToBasket")
+        d.setCurrentBehavior("AcceptBookFromUser");
+        d.goToBehavior("AddBookToBasket")
         expect(d.graph.currentNode).toBe(node2);
 
         // Raises error because current behavior is "AnotherBehavior"
         // and it does not transition to itself.
         expect(() => {
-            d.graph.goToBehavior("AddBookToBasket")
+            d.goToBehavior("AddBookToBasket")
         }).toThrow(InvalidTransitionError);
 
         // Reset the current behavior and then go to a behavior
         // which is misspelled and expect an invalid transition error
         expect(() => {
-            d.graph.setCurrentBehavior("AcceptBookFromUser");
-            d.graph.goToBehavior("AddBookToasket")
+            d.setCurrentBehavior("AcceptBookFromUser");
+            d.goToBehavior("AddBookToasket")
         }).toThrow(InvalidTransitionError);
     });
 
