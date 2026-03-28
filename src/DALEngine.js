@@ -125,52 +125,6 @@ export class DALEngine {
         }
     }
 
-
-    /**
-     * Adds a goToBehavior to the node with the given behaviorId.
-     * @param {String} behaviorId
-     * @param {String} goToBehaviorId
-     * @returns {GraphNode}
-     */
-    addGoToBehavior (behaviorId, goToBehaviorId) {
-        const node = this.graph._findNode(behaviorId);
-        this.graph._findNode(goToBehaviorId);
-        node.addGoToBehavior(goToBehaviorId);
-        return node;
-    }
-
-
-    /**
-     * Adds a list of goToBehaviors to the node with the given behaviorId.
-     * @param {String} behaviorId
-     * @param {Array} goToBehaviorIds
-     * @returns {GraphNode}
-     */
-    addGoToBehaviors (behaviorId, goToBehaviorIds) {
-        const node = this.graph._findNode(behaviorId);
-        goToBehaviorIds.forEach((goToBehaviorId) => {
-            this.graph._findNode(goToBehaviorId);
-            node.addGoToBehavior(behaviorId, goToBehaviorId);
-        });
-        return node;
-    }
-
-    /**
-     * Removes a goToBehavior from the node with the given behaviorId.
-     * @param {String} behaviorId
-     * @param {String} goToBehaviorId
-     * @returns {GraphNode}
-     */
-    removeGoToBehavior (behaviorId, goToBehaviorId) {
-        const node = this.graph._findNode(behaviorId);
-        const goToIndex = node.goToBehaviorsIds.indexOf(goToBehaviorId);
-        if (goToIndex > -1) {
-            node.goToBehaviorsIds.splice(goToIndex, 1);
-        }
-        return node;
-    }
-
-
     /**
      * Sets the current behavior in the graph.
      * @param {String} behaviorId
