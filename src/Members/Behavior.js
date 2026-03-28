@@ -62,7 +62,7 @@ class Behavior extends Base {
      * @param {Participant} participant
      * @returns
      */
-    addParticpant (participant) {
+    addParticipant (participant) {
         this.participants.push(participant);
         return participant;
     }
