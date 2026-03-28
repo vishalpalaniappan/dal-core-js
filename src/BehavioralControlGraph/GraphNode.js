@@ -17,7 +17,7 @@ class GraphNode extends Base {
         this._goToBehaviorIds = [];
         if (typeof args === "object" && args !== null) {
             if (Object.hasOwn(args, "uid")) {
-                this.loadNodeFromJSON(args);
+                this._loadNodeFromJSON(args);
             } else {
                 this._behavior = args.behavior;
                 this._goToBehaviorIds = args.goToBehaviorsIds;
@@ -29,7 +29,7 @@ class GraphNode extends Base {
      * Loads the nodes from a JSON object.
      * @param {Object} nodesJSON
      */
-    loadNodeFromJSON (nodesJSON) {
+    _loadNodeFromJSON (nodesJSON) {
         for (const [key, value] of Object.entries(nodesJSON)) {
             if (key === "behavior") {
                 this._behavior = new Behavior(value);
