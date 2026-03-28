@@ -50,6 +50,15 @@ class GraphNode extends Base {
     }
 
     /**
+     * Adds a behavior name to the list of behaviors that this
+     * node transitions to.
+     * @param {Array} behaviorIds IDs of behaviors.
+     */
+    addGoToBehaviors (behaviorIds) {
+        this.goToBehaviorsIds.push(...behaviorIds);
+    }
+
+    /**
      * Checks if the provided behavior name is a valid
      * behavior that the control flow selects as a
      * result of the this nodes state transformation. i.e.
