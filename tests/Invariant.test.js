@@ -72,7 +72,7 @@ describe("invariantTests", () => {
         ));
 
         // Create behavior and participant
-        const node1 = d.addBehavior("AcceptBookFromUser", []);
+        const node1 = d.addNode("AcceptBookFromUser", []);
         node1.behavior.addParticpant(book);
 
         // Add value that respects invariant and expect valid world state

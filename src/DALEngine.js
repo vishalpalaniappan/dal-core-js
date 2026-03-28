@@ -1,5 +1,6 @@
 import BehavioralControlGraph from "./BehavioralControlGraph/BehavioralControlGraph";
 import MissingAttributes from "./Errors/MissingAttributes";
+import UnknownBehaviorError from "./Errors/UnknownBehaviorError";
 import Behavior from "./Members/Behavior";
 import Invariant from "./Members/Invariant";
 import Participant from "./Members/Participant";
@@ -91,7 +92,7 @@ export class DALEngine {
      * @param {String} behaviorId
      * @returns {GraphNode}
      */
-    getBehavior (behaviorId) {
+    getNode (behaviorId) {
         return this.graph._findNode(behaviorId);
     }
 
@@ -101,7 +102,7 @@ export class DALEngine {
      * @param {Array} goToBehaviorsIds
      * @returns {GraphNode}
      */
-    addBehavior (behaviorId, goToBehaviorsIds) {
+    addNode (behaviorId, goToBehaviorsIds) {
         const behavior = this.createBehavior({name: behaviorId});
         const goToIds = goToBehaviorsIds?goToBehaviorsIds:[];
         return this.graph._addNode(behavior, goToIds);
@@ -112,7 +113,7 @@ export class DALEngine {
      * removes it from the goToBehavior list of all other nodes.
      * @param {String} behaviorId
      */
-    removeBehavior (behaviorId) {
+    removeNode (behaviorId) {
         const node = this.graph._findNode(behaviorId);
         const nodeIndex = this.graph.nodes.indexOf(node);
         this.graph.nodes.splice(nodeIndex, 1);
@@ -129,16 +130,29 @@ export class DALEngine {
     /**
      * Adds a goToBehavior to the node with the given behaviorId.
      * @param {String} behaviorId
-     * @param {String|Array} goToBehaviorIds
+     * @param {String} goToBehaviorId
      * @returns {GraphNode}
      */
-    addGoToBehavior (behaviorId, goToBehaviorIds) {
-        const node = this.graph.findNode(behaviorId);
-        if (Array.isArray(goToBehaviorIds)) {
-            node.goToBehaviorsIds.push(...goToBehaviorIds);
-        } else {
-            node.goToBehaviorsIds.push(goToBehaviorIds);
-        }
+    addGoToBehavior (behaviorId, goToBehaviorId) {
+        const node = this.graph._findNode(behaviorId);
+        this.graph._findNode(goToBehaviorId);
+        node.addGoToBehavior(goToBehaviorId);
+        return node;
+    }
+
+
+    /**
+     * Adds a list of goToBehaviors to the node with the given behaviorId.
+     * @param {String} behaviorId
+     * @param {Array} goToBehaviorIds
+     * @returns {GraphNode}
+     */
+    addGoToBehaviors (behaviorId, goToBehaviorIds) {
+        const node = this.graph._findNode(behaviorId);
+        goToBehaviorIds.forEach((goToBehaviorId) => {
+            this.graph._findNode(goToBehaviorId);
+            node.addGoToBehavior(behaviorId, goToBehaviorId);
+        });
         return node;
     }
 
@@ -149,7 +163,7 @@ export class DALEngine {
      * @returns {GraphNode}
      */
     removeGoToBehavior (behaviorId, goToBehaviorId) {
-        const node = this.graph.findNode(behaviorId);
+        const node = this.graph._findNode(behaviorId);
         const goToIndex = node.goToBehaviorsIds.indexOf(goToBehaviorId);
         if (goToIndex > -1) {
             node.goToBehaviorsIds.splice(goToIndex, 1);

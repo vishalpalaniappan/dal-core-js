@@ -28,7 +28,7 @@ describe("DALEngine", () => {
     it("adds node to graph", () => {
         const d = new DALEngine({name: "Library Manager"});
         const goToBehaviorIds = ["AddBookToBasket"];
-        const node = d.addBehavior("AcceptBookFromUser", goToBehaviorIds)
+        const node = d.addNode("AcceptBookFromUser", goToBehaviorIds);
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
@@ -38,19 +38,33 @@ describe("DALEngine", () => {
 
     it("find node that was added using behavior name", () => {
         const d = new DALEngine({name: "Library Manager"});
-        const node = d.addBehavior("AcceptBookFromUser", []);
+        const node = d.addNode("AcceptBookFromUser", []);
 
-        expect(() => {d.getBehavior("AcceptBookFrmUser")}).toThrow(UnknownBehaviorError);
+        expect(() => {d.getNode("AcceptBookFrmUser")}).toThrow(UnknownBehaviorError);
 
-        const foundNode = d.getBehavior("AcceptBookFromUser");
+        const foundNode = d.getNode("AcceptBookFromUser");
         expect(foundNode).toStrictEqual(node);
+    });
+
+    it("adds node to graph and removes it", () => {
+        const d = new DALEngine({name: "Library Manager"});
+        d.addNode("AcceptBookFromUser", []);
+        d.addNode("AddBookToBasket", []);
+        d.addGoToBehaviors("AcceptBookFromUser", ["AddBookToBasket"]);
+
+        const node = d.getNode("AcceptBookFromUser");
+
+        // const nodeType = node.type;
+        // expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
+        // expect(node.behavior.name).toStrictEqual("AcceptBookFromUser");
+        // expect(node.goToBehaviorsIds).toStrictEqual(goToBehaviorIds);
     });
 
     it("find node and check if observed behavior is valid transition", () => {
         const d = new DALEngine({name: "Library Manager"});
-        const node1 = d.addBehavior("AcceptBookFromUser", []);
-        const node2 = d.addBehavior("AddBookToBasket", []);
-        d.addBehavior("AnotherBehavior", []);
+        const node1 = d.addNode("AcceptBookFromUser", []);
+        const node2 = d.addNode("AddBookToBasket", []);
+        d.addNode("AnotherBehavior", []);
 
         node1.addGoToBehavior("AddBookToBasket");
         node2.addGoToBehavior("AnotherBehavior");
@@ -121,9 +135,9 @@ describe("DALEngine", () => {
         book.addInvariant(invariant);
 
 
-        const node1 = d.addBehavior("AcceptBookFromUser", []);
-        d.addBehavior("AddBookToBasket", []);
-        d.addBehavior("AnotherBehavior", []);
+        const node1 = d.addNode("AcceptBookFromUser", []);
+        d.addNode("AddBookToBasket", []);
+        d.addNode("AnotherBehavior", []);
 
         node1.addGoToBehavior("AddBookToBasket");
         node1.addGoToBehavior("AnotherBehavior");
