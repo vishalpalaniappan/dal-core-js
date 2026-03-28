@@ -41,7 +41,7 @@ class GraphNode extends Base {
     }
 
     /**
-     * Adds a behavior name to the list of behaviors that this 
+     * Adds a behavior name to the list of behaviors that this
      * node transitions to.
      * @param {String} behaviorId ID of behavior.
      */
