@@ -28,7 +28,7 @@ describe("DALEngine", () => {
     it("adds node to graph", () => {
         const d = new DALEngine({name: "Library Manager"});
         const goToBehaviorIds = ["AddBookToBasket"];
-        const node = d.addNode("AcceptBookFromUser", goToBehaviorIds)
+        const node = d.addBehavior("AcceptBookFromUser", goToBehaviorIds)
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
@@ -38,19 +38,19 @@ describe("DALEngine", () => {
 
     it("find node that was added using behavior name", () => {
         const d = new DALEngine({name: "Library Manager"});
-        const node = d.addNode("AcceptBookFromUser", []);
+        const node = d.addBehavior("AcceptBookFromUser", []);
 
-        expect(() => {d.getNode("AcceptBookFrmUser")}).toThrow(UnknownBehaviorError);
+        expect(() => {d.getBehavior("AcceptBookFrmUser")}).toThrow(UnknownBehaviorError);
 
-        const foundNode = d.getNode("AcceptBookFromUser");
+        const foundNode = d.getBehavior("AcceptBookFromUser");
         expect(foundNode).toStrictEqual(node);
     });
 
     it("find node and check if observed behavior is valid transition", () => {
         const d = new DALEngine({name: "Library Manager"});
-        const node1 = d.addNode("AcceptBookFromUser", []);
-        const node2 = d.addNode("AddBookToBasket", []);
-        d.addNode("AnotherBehavior", []);
+        const node1 = d.addBehavior("AcceptBookFromUser", []);
+        const node2 = d.addBehavior("AddBookToBasket", []);
+        d.addBehavior("AnotherBehavior", []);
 
         node1.addGoToBehavior("AddBookToBasket");
         node2.addGoToBehavior("AnotherBehavior");
@@ -121,9 +121,9 @@ describe("DALEngine", () => {
         book.addInvariant(invariant);
 
 
-        const node1 = d.addNode("AcceptBookFromUser", []);
-        d.addNode("AddBookToBasket", []);
-        d.addNode("AnotherBehavior", []);
+        const node1 = d.addBehavior("AcceptBookFromUser", []);
+        d.addBehavior("AddBookToBasket", []);
+        d.addBehavior("AnotherBehavior", []);
 
         node1.addGoToBehavior("AddBookToBasket");
         node1.addGoToBehavior("AnotherBehavior");

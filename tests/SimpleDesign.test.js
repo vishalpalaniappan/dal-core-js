@@ -8,18 +8,18 @@ describe("SimpleDesignTest", () => {
 
     it("create simple design", async () => {
         const d = new DALEngine({name: "Library Manager"});
-        d.addNode("AcceptChoiceToAddBookToBasket", ["AcceptBookFromUser"]);
-        d.addNode("AcceptBookFromUser", ["AddBookToBasket"]);
-        d.addNode("AddBookToBasket", []);
-        d.addNode("AcceptChoiceToAuditLibrary", ["GenerateAuditReport"]);
-        d.addNode("GenerateAuditReport", ["HandAuditToUser"]);
-        d.addNode("HandAuditToUser", []);
+        d.addBehavior("AcceptChoiceToAddBookToBasket", ["AcceptBookFromUser"]);
+        d.addBehavior("AcceptBookFromUser", ["AddBookToBasket"]);
+        d.addBehavior("AddBookToBasket", []);
+        d.addBehavior("AcceptChoiceToAuditLibrary", ["GenerateAuditReport"]);
+        d.addBehavior("GenerateAuditReport", ["HandAuditToUser"]);
+        d.addBehavior("HandAuditToUser", []);
 
-        d.addNode("AcceptChoiceToPlaceBooksOnShelf", ["GetBookFromBasket"]);
-        d.addNode("GetBookFromBasket", ["GetFirstLetterOfBookName"]);
-        d.addNode("GetFirstLetterOfBookName", ["CreateSlotOnBookShelf", "AddBookToShelf"]);
-        d.addNode("CreateSlotOnBookShelf", ["AddBookToShelf"]);
-        d.addNode("AddBookToShelf", ["GetBookFromBasket"]);
+        d.addBehavior("AcceptChoiceToPlaceBooksOnShelf", ["GetBookFromBasket"]);
+        d.addBehavior("GetBookFromBasket", ["GetFirstLetterOfBookName"]);
+        d.addBehavior("GetFirstLetterOfBookName", ["CreateSlotOnBookShelf", "AddBookToShelf"]);
+        d.addBehavior("CreateSlotOnBookShelf", ["AddBookToShelf"]);
+        d.addBehavior("AddBookToShelf", ["GetBookFromBasket"]);
 
         const filePath = resolve(__dirname, "./temp/simple_design_temp.json")
         await writeFile(filePath, d.serialize())

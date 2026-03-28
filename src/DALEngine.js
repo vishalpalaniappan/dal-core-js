@@ -91,7 +91,7 @@ export class DALEngine {
      * @param {String} behaviorId
      * @returns {GraphNode}
      */
-    getNode (behaviorId) {
+    getBehavior (behaviorId) {
         return this.graph._findNode(behaviorId);
     }
 
@@ -101,7 +101,7 @@ export class DALEngine {
      * @param {Array} goToBehaviorsIds
      * @returns {GraphNode}
      */
-    addNode (behaviorId, goToBehaviorsIds) {
+    addBehavior (behaviorId, goToBehaviorsIds) {
         const behavior = this.createBehavior({name: behaviorId});
         const goToIds = goToBehaviorsIds?goToBehaviorsIds:[];
         return this.graph._addNode(behavior, goToIds);
@@ -112,7 +112,7 @@ export class DALEngine {
      * removes it from the goToBehavior list of all other nodes.
      * @param {String} behaviorId
      */
-    deleteNode (behaviorId) {
+    removeBehavior (behaviorId) {
         const node = this.graph._findNode(behaviorId);
         const nodeIndex = this.graph.nodes.indexOf(node);
         this.graph.nodes.splice(nodeIndex, 1);
