@@ -66,8 +66,8 @@ export class DALEngine {
      * Loads the behavioral control graphs from JSON text and sets
      * the active graph to the first graph in the collection of graphs.
      *
-     * @throws {SyntaxError|TypeError} Raised when the JSON text is invalid.
      * @param {String} serializedText JSON text representing the control graphs.
+     * @throws {SyntaxError|TypeError} Raised when the JSON text is invalid.
      */
     deserialize (serializedText) {
         // TODO: Improve validation to throw specific error.
@@ -79,9 +79,9 @@ export class DALEngine {
     /**
      * Creates a graph with the given name and sets it as the active graph.
      *
+     * @param {String} name Name of the graph to create.
      * @throws {GraphWithNameExistsError} Raised when a graph with the provided
      * name already exists.
-     * @param {String} name Name of the graph to create.
      */
     createGraph (name) {
         this.graph = this.graphs.addGraph(name);
@@ -90,9 +90,9 @@ export class DALEngine {
     /**
      * Sets the active graph to the graph with the given graphId.
      *
+     * @param {String} graphId ID of the graph to set as active.
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
-     * @param {String} graphId ID of the graph to set as active.
      */
     selectGraph (graphId) {
         this.graph = this.graphs.setActiveGraph(graphId);
@@ -101,9 +101,9 @@ export class DALEngine {
     /**
      * Deletes the graph with the given graphId
      *
+     * @param {String} graphId Id of graph to delete.
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
-     * @param {String} graphId Id of graph to delete.
      */
     deleteGraph (graphId) {
         this.graphs.deleteGraph(graphId);
@@ -123,9 +123,9 @@ export class DALEngine {
      * Creates a participant with the provided args and returns it.
      *
      * @param {Object} args Arguments to create the participant with.
+     * @returns {Participant} Returns the created participant.
      * @throws {MissingAttributes} Raised when required attributes are not
      * present in the args. See Participant class for required attributes.
-     * @returns {Participant} Returns the created participant.
      */
     createParticipant (args) {
         return new Participant(args);
@@ -135,9 +135,9 @@ export class DALEngine {
      * Creates a behavior with the provided args and returns it.
      *
      * @param {Object} args Arguments to create the behavior with.
+     * @returns {Behavior} Returns the created behavior.
      * @throws {MissingAttributes} Raised when required attributes are not
      * present in the args. See Behavior class for required attributes.
-     * @returns {Behavior} Returns the created behavior.
      */
     createBehavior (args) {
         return new Behavior(args);
@@ -147,9 +147,9 @@ export class DALEngine {
      * Creates an invariant with the provided args and returns it.
      *
      * @param {Object} args Arguments to create the invariant with.
+     * @returns {Invariant} Returns the created invariant.
      * @throws {MissingAttributes} Raised when required attributes are not
      * present in the args. See Invariant class for required attributes.
-     * @returns {Invariant} Returns the created invariant.
      */
     createInvariant (args) {
         return new Invariant(args);
@@ -159,10 +159,10 @@ export class DALEngine {
      * Returns the node in the graph with the given behavior name.
      *
      * @param {String} behaviorId ID of the behavior.
-     * @throws {UnknownBehaviorError} Raised when the provided behaviorId is not
-     * a valid behavior in the graph.
      * @returns {GraphNode} Returns the node in the graph with the
      * given behavior name.
+     * @throws {UnknownBehaviorError} Raised when the provided behaviorId is not
+     * a valid behavior in the graph.
      */
     getNode (behaviorId) {
         return this.graph.findNode(behaviorId);
@@ -178,9 +178,9 @@ export class DALEngine {
      * atomic behavior.
      * @param {Boolean} isDesignFork Flag to indicate if this node
      * is a fork in the design.
+     * @returns {GraphNode} Returns the created graph node.
      * @throws {BehaviorAlreadyExistsError} Raised when a node with the provided
      * behaviorId already exists in the graph.
-     * @returns {GraphNode} Returns the created graph node.
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
         return this.graph.addNode(
@@ -196,9 +196,9 @@ export class DALEngine {
      * removes it from the goToBehavior list of all other nodes.
      *
      * @param {String} behaviorId Behavior ID of the node to delete.
+     * @returns {GraphNode} Returns the deleted graph node.
      * @throws {UnknownBehaviorError} Raised when the provided behaviorId is not
      * a valid behavior in the graph.
-     * @returns {GraphNode} Returns the deleted graph node.
      */
     removeNode (behaviorId) {
         const node = this.graph.findNode(behaviorId);
@@ -226,11 +226,11 @@ export class DALEngine {
      * For the current node in the graph, transitions to the node with the given
      * behaviorId if it is a valid transition.
      *
+     * @param {String} nextBehaviorId ID of the next behavior.
      * @throws {UnknownBehaviorError} Raised when the provided behavior is not
      * a valid behavior in the graph.
      * @throws {InvalidTransitionError} Raised when the provided behavior is not
      * a valid transition from the current node.
-     * @param {String} nextBehaviorId ID of the next behavior.
      */
     goToBehavior (nextBehaviorId) {
         this.graph.goToBehavior(nextBehaviorId);
