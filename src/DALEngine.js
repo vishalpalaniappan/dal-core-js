@@ -97,7 +97,7 @@ export class DALEngine {
     }
 
     /**
-     * Returns the name of all the graphs in the design.
+     * Returns the names of all the graphs in the design.
      * @returns {Array} Returns an array of graph names.
      */
     getSelectableGraphs () {
