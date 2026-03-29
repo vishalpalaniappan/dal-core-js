@@ -33,7 +33,7 @@ export class DALEngine {
     }
 
     /**
-     * Loads the provided arguments.
+     * Sets the provided arguments to the engine.
      * @throws {MissingAttributes} Thrown when required attr is not present.
      * @param {Object} args Arguments to load.
      */
@@ -53,14 +53,16 @@ export class DALEngine {
 
     /**
      * Exports the behavioral control graph to JSON text.
-     * @returns {String} JSON text representing the behavioral control graph.
+     * @returns {String} Returns JSON text representing the
+     * behavioral control graphs.
      */
     serialize () {
         return JSON.stringify(this.graphs);
     }
 
     /**
-     * Import the behavioral control graph from JSON text.
+     * Loads the behavioral control graphs from JSON text and sets
+     * the active graph to the first graph in the collection of graphs.
      * @param {String} jsonText JSON text representing the control graphs.
      */
     deserialize (jsonText) {
