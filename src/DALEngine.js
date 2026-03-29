@@ -98,7 +98,7 @@ export class DALEngine {
 
     /**
      * Returns the name of all the graphs in the design.
-     * @returns {Array}
+     * @returns {Array} Returns an array of graph names.
      */
     getSelectableGraphs () {
         return this.graphs.getGraphNames();
@@ -107,7 +107,7 @@ export class DALEngine {
     /**
      * Creates a participant with the provided args and returns it.
      * @param {Object} args Arguments to create the participant with.
-     * @returns {Participant}
+     * @returns {Participant} Returns the created participant.
      */
     createParticipant (args) {
         return new Participant(args);
@@ -116,7 +116,7 @@ export class DALEngine {
     /**
      * Creates a behavior with the provided args and returns it.
      * @param {Object} args Arguments to create the behavior with.
-     * @returns {Behavior}
+     * @returns {Behavior} Returns the created behavior.
      */
     createBehavior (args) {
         return new Behavior(args);
@@ -125,7 +125,7 @@ export class DALEngine {
     /**
      * Creates an invariant with the provided args and returns it.
      * @param {Object} args Arguments to create the invariant with.
-     * @returns {Invariant}
+     * @returns {Invariant} Returns the created invariant.
      */
     createInvariant (args) {
         return new Invariant(args);
