@@ -38,7 +38,7 @@ class Graphs {
         if (graphId in this._graphs) {
             throw new GraphWithNameExistsError(graphId);
         }
-        this._graphs[graphId] = new BehavioralControlGraph();
+        this._graphs[graphId] = new BehavioralControlGraph({name: graphId});
         this._activeGraph = this._graphs[graphId];
         return this._activeGraph
     }
