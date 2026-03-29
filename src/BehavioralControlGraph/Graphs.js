@@ -93,9 +93,9 @@ class Graphs {
      * Finds the graph with the given graphId and sets it as the active graph.
      *
      * @param {String} graphId Id of the graph to set as active.
+     * @returns {BehavioralControlGraph} The currently active graph.
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
-     * @returns {BehavioralControlGraph} The currently active graph.
      */
     setActiveGraph (graphId) {
         if (graphId in this._graphs) {
