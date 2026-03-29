@@ -1,5 +1,7 @@
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
+import ParticipantAlreadyExistsError from "../Errors/ParticipantAlreadyExistsError";
+import UnknownParticipantError from "../Errors/UnknownParticipantError";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 import Participant from "./Participant";
@@ -40,8 +42,9 @@ class Behavior extends Base {
     }
 
     /**
-     * Loads the behavior from a JSON object.
-     * @param {Object} behaviorJSON
+     * Loads the behavior from a JSON object that was read from file.
+     * @param {Object} behaviorJSON The JSON object representing the behavior
+     * read from file.
      */
     _loadFromFile (behaviorJSON) {
         for (const [key, value] of Object.entries(behaviorJSON)) {
@@ -55,24 +58,35 @@ class Behavior extends Base {
 
     /**
      * Adds a participant to the behavior.
-     * @param {Participant} participant
-     * @returns
+     * @param {Participant} participant The participant to add.
+     * @returns {Participant} The added participant.
+     * @throws {ParticipantAlreadyExistsError} Thrown when a participant with
+     * the same name already exists in the behavior.
      */
     addParticipant (participant) {
+        if (this.participants.some(p => p.name === participant.name)) {
+            throw new ParticipantAlreadyExistsError(participant.name);
+        }
         this.participants.push(participant);
         return participant;
     }
 
     /**
-     * Set the participant value.
-     * @param {String} participantName
-     * @param {*} value
+     * Sets the value of a participant and checks for invariant violations.
+     * If any invariant is violated, the world state for this behavior is
+     * marked as invalid.
+     * @param {String} name Name of the participant whose value is being set.
+     * @param {*} value Value to set for the participant.
+     * @throws {UnknownParticipantError} Thrown when a participant with the
+     * provided name does not exist in the behavior.
      */
-    setParticipantValue (participantName, value) {
-        const participant = this.participants.find(obj => obj.name === participantName);
+    setParticipantValue (name, value) {
+        const participant = this.participants.find(obj => obj.name === name);
+        if (!participant) {
+            throw new UnknownParticipantError(name);
+        }
         participant.value = value;
-        const violation = participant.enforceInvariants();
-        if (violation) {
+        if (participant.enforceInvariants()) {
             this.invalidWorldState = true;
         }
     }
