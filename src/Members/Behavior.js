@@ -10,6 +10,7 @@ import Participant from "./Participant";
 class Behavior extends Base {
     /**
      * Initialize the Behavior.
+     *
      * @param {String} name
      * @param args
      */
@@ -24,6 +25,7 @@ class Behavior extends Base {
 
     /**
      * Loads the provided arguments.
+     *
      * @throws {MissingAttributes} Thrown when required attr is not present.
      * @param {Object} args
      */
@@ -43,6 +45,7 @@ class Behavior extends Base {
 
     /**
      * Loads the behavior from a JSON object that was read from file.
+     *
      * @param {Object} behaviorJSON The JSON object representing the behavior
      * read from file.
      */
@@ -58,6 +61,7 @@ class Behavior extends Base {
 
     /**
      * Adds a participant to the behavior.
+     *
      * @param {Participant} participant The participant to add.
      * @returns {Participant} The added participant.
      * @throws {ParticipantAlreadyExistsError} Thrown when a participant with
@@ -75,6 +79,7 @@ class Behavior extends Base {
      * Sets the value of a participant and checks for invariant violations.
      * If any invariant is violated, the world state for this behavior is
      * marked as invalid.
+     *
      * @param {String} name Name of the participant whose value is being set.
      * @param {*} value Value to set for the participant.
      * @throws {UnknownParticipantError} Thrown when a participant with the
@@ -93,6 +98,7 @@ class Behavior extends Base {
 
     /**
      * Maps the abstraction id from implementation to the behavior.
+     *
      * @param {String} abstractionId ID of mapped abstraction.
      */
     addMapping (abstractionId) {
