@@ -23,7 +23,7 @@ class Graphs {
      */
     addGraph (graphId) {
         this._graphs[graphId] = new BehavioralControlGraph();
-        this.activeGraph = this._graphs[graphId];
+        this._activeGraph = this._graphs[graphId];
     }
 
     /**
@@ -42,6 +42,8 @@ class Graphs {
     /**
      * Deletes a graph from the collection of graphs.
      * @param {String} graphId ID of the graph to delete.
+     * @throws {UnknownGraph} Raised when the provided graphId does not exist
+     * in the collection of graphs.
      */
     deleteGraph (graphId) {
         if (graphId in this._graphs) {
@@ -52,20 +54,30 @@ class Graphs {
         if (Object.keys(this._graphs).length === 0) {
             this.addGraph("default graph");
         } else {
-            this.activeGraph = this._graphs[Object.keys(this._graphs)[0]];
+            this._activeGraph = this._graphs[Object.keys(this._graphs)[0]];
         }
     }
 
     /**
      * Sets the active graph.
      * @param {String} graphId ID of the graph to set as active.
+     * @throws {UnknownGraph} Raised when the provided graphId does not exist
+     * in the collection of graphs.
      */
     setActiveGraph (graphId) {
         if (graphId in this._graphs) {
-            this.activeGraph = this._graphs[graphId];
+            this._activeGraph = this._graphs[graphId];
         } else {
             throw new UnknownGraph(graphId);
         }
+    }
+
+    /**
+     * Returns the active graph.
+     * @returns {BehavioralControlGraph}
+     */
+    getActiveGraph () {
+        return this._activeGraph;
     }
 }
 

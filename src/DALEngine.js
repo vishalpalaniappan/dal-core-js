@@ -1,4 +1,5 @@
 import BehavioralControlGraph from "./BehavioralControlGraph/BehavioralControlGraph";
+import Graphs from "./BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
 import Behavior from "./Members/Behavior";
 import Invariant from "./Members/Invariant";
@@ -19,8 +20,8 @@ import Participant from "./Members/Participant";
  */
 export class DALEngine {
     constructor (args) {
-        this.graph = new BehavioralControlGraph();
-        this.atomicGraphs = [];
+        this.graphs = new Graphs();
+        this.graph = this.graphs.getActiveGraph();
         this.loadArgs(args);
     }
 
@@ -58,6 +59,15 @@ export class DALEngine {
     deserialize (jsonText) {
         this.graph = new BehavioralControlGraph(JSON.parse(jsonText));
     }
+
+    /**
+     * Create a graph.
+     * @param {String} name
+     */
+    createGraph (name) {
+
+    }
+
 
     /**
      * Creates a participant.
