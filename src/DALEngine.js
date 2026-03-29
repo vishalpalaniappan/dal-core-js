@@ -34,6 +34,7 @@ export class DALEngine {
 
     /**
      * Sets the provided arguments to the engine.
+     *
      * @throws {MissingAttributes} Thrown when required attr is not present.
      * @param {Object} args Arguments to load.
      */
@@ -53,6 +54,7 @@ export class DALEngine {
 
     /**
      * Serializes the behavioral control graphs and returns the JSON text.
+     *
      * @returns {String} Returns JSON text representing the behavioral
      * control graphs.
      */
@@ -63,6 +65,7 @@ export class DALEngine {
     /**
      * Loads the behavioral control graphs from JSON text and sets
      * the active graph to the first graph in the collection of graphs.
+     *
      * @throws {SyntaxError|TypeError} Raised when the JSON text is invalid.
      * @param {String} serializedText JSON text representing the control graphs.
      */
@@ -75,6 +78,7 @@ export class DALEngine {
 
     /**
      * Creates a graph with the given name and sets it as the active graph.
+     *
      * @throws {GraphWithNameExistsError} Raised when a graph with the provided
      * name already exists.
      * @param {String} name Name of the graph to create.
@@ -85,6 +89,7 @@ export class DALEngine {
 
     /**
      * Sets the active graph to the graph with the given graphId.
+     *
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
      * @param {String} graphId ID of the graph to set as active.
@@ -95,6 +100,7 @@ export class DALEngine {
 
     /**
      * Deletes the graph with the given graphId
+     *
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
      * @param {String} graphId Id of graph to delete.
@@ -106,6 +112,7 @@ export class DALEngine {
 
     /**
      * Returns the names of all the graphs in the design.
+     *
      * @returns {Array} Returns an array of graph names.
      */
     getSelectableGraphs () {
@@ -114,6 +121,7 @@ export class DALEngine {
 
     /**
      * Creates a participant with the provided args and returns it.
+     *
      * @param {Object} args Arguments to create the participant with.
      * @throws {MissingAttributes} Raised when required attributes are not
      * present in the args. See Participant class for required attributes.
@@ -125,6 +133,7 @@ export class DALEngine {
 
     /**
      * Creates a behavior with the provided args and returns it.
+     *
      * @param {Object} args Arguments to create the behavior with.
      * @throws {MissingAttributes} Raised when required attributes are not
      * present in the args. See Behavior class for required attributes.
@@ -136,6 +145,7 @@ export class DALEngine {
 
     /**
      * Creates an invariant with the provided args and returns it.
+     *
      * @param {Object} args Arguments to create the invariant with.
      * @throws {MissingAttributes} Raised when required attributes are not
      * present in the args. See Invariant class for required attributes.
@@ -147,6 +157,7 @@ export class DALEngine {
 
     /**
      * Returns the node in the graph with the given behavior name.
+     *
      * @param {String} behaviorId ID of the behavior.
      * @throws {UnknownBehaviorError} Raised when the provided behaviorId is not
      * a valid behavior in the graph.
@@ -159,6 +170,7 @@ export class DALEngine {
 
     /**
      * Adds a node to the graph with the given behaviorId and goToBehaviors.
+     *
      * @param {String} behaviorId ID of the behavior for the node.
      * @param {Array} goToBehaviorIds IDs of the behaviors that this node
      * transitions to.
@@ -182,6 +194,7 @@ export class DALEngine {
     /**
      * Deletes a node from the graph with the given behaviorId and
      * removes it from the goToBehavior list of all other nodes.
+     *
      * @param {String} behaviorId Behavior ID of the node to delete.
      * @throws {UnknownBehaviorError} Raised when the provided behaviorId is not
      * a valid behavior in the graph.
@@ -200,6 +213,7 @@ export class DALEngine {
     /**
      * Sets the current behavior in the graph. Since the behavior is not
      * being transitioned from another, it must be an atomic behavior.
+     *
      * @param {String} behaviorId ID of the behavior to set as current.
      * @throws {UnknownBehaviorError} Raised when the provided behavior is not
      * a valid behavior in the graph.
@@ -211,6 +225,7 @@ export class DALEngine {
     /**
      * For the current node in the graph, transitions to the node with the given
      * behaviorId if it is a valid transition.
+     *
      * @throws {UnknownBehaviorError} Raised when the provided behavior is not
      * a valid behavior in the graph.
      * @throws {InvalidTransitionError} Raised when the provided behavior is not
