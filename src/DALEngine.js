@@ -112,7 +112,6 @@ export class DALEngine {
         return new Invariant(args);
     }
 
-
     /**
      * Returns the node in the graph with the given behavior name.
      * @param {String} behaviorId
