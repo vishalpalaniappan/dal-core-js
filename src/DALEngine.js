@@ -202,6 +202,8 @@ export class DALEngine {
      * a valid behavior in the graph.
      */
     removeNode (behaviorId) {
+        // TODO: Move this to graph class, this class shouldn't
+        // modifiy the graph structure directly.
         const node = this.graph.findNode(behaviorId);
         const nodeIndex = this.graph.nodes.indexOf(node);
         const removedNode = this.graph.nodes.splice(nodeIndex, 1);
