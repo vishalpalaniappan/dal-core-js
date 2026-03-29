@@ -24,6 +24,7 @@ class Graphs {
     addGraph (graphId) {
         this._graphs[graphId] = new BehavioralControlGraph();
         this._activeGraph = this._graphs[graphId];
+        return this._activeGraph
     }
 
     /**
@@ -63,6 +64,7 @@ class Graphs {
      * @param {String} graphId ID of the graph to set as active.
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
+     * @returns {BehavioralControlGraph} The graph that was set as active.
      */
     setActiveGraph (graphId) {
         if (graphId in this._graphs) {
@@ -70,6 +72,7 @@ class Graphs {
         } else {
             throw new UnknownGraph(graphId);
         }
+        return this._activeGraph;
     }
 
     /**
