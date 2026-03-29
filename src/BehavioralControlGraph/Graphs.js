@@ -57,12 +57,12 @@ class Graphs {
     }
 
     /**
-     * Deletes a graph from the collection of graphs.
-     * @param {String} graphId ID of the graph to delete.
+     * Removes a graph from the collection of graphs.
+     * @param {String} graphId ID of the graph to remove.
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
      */
-    deleteGraph (graphId) {
+    removeGraph (graphId) {
         if (graphId in this._graphs) {
             delete this._graphs[graphId];
         } else {

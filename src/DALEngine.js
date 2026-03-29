@@ -101,14 +101,14 @@ export class DALEngine {
     }
 
     /**
-     * Deletes the graph with the given graphId
+     * Removes the graph with the given graphId
      *
-     * @param {String} graphId Id of graph to delete.
+     * @param {String} graphId Id of graph to remove.
      * @throws {UnknownGraph} Thrown when the provided graphId does not
      * exist in the collection of graphs.
      */
-    deleteGraph (graphId) {
-        this.graphs.deleteGraph(graphId);
+    removeGraph (graphId) {
+        this.graphs.removeGraph(graphId);
         this.graph = this.graphs.getActiveGraph();
     }
 
