@@ -150,6 +150,8 @@ export class DALEngine {
      * atomic behavior.
      * @param {Boolean} isDesignFork Flag to indicate if this node
      * is a fork in the design.
+     * @throws {BehaviorAlreadyExistsError} Raised when a node with the provided
+     * behaviorId already exists in the graph.
      * @returns {GraphNode} Returns the created graph node.
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
