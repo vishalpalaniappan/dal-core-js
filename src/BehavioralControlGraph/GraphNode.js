@@ -3,14 +3,15 @@ import MissingAttributes from "../Errors/MissingAttributes";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import Behavior from "../Members/Behavior";
 import ENGINE_TYPES from "../TYPES";
-/**
- * Class representing a behavioral control graph node.
- */
+
 class GraphNode extends Base {
     /**
-     * Initialize the node.
-     * @param {String} name
-     * @param args
+     * Class representing a behavioral control graph node. Each node has a
+     * behavior and a list of behaviors it can transition to. The node also
+     * has flags to indicate if the behavior is atomic or if the node is a
+     * design fork.
+     *
+     * @param {Object} args The args to initialize the graph node.
      */
     constructor (args) {
         super();
@@ -24,8 +25,8 @@ class GraphNode extends Base {
 
     /**
      * Loads the provided arguments.
+     * @param {Object} args Arguments to initialize the graph node with.
      * @throws {MissingAttributes} Thrown when required attr is not present.
-     * @param {Object} args
      */
     _loadArgs (args) {
         const expectedAttributes = ["behavior", "goToBehaviorIds", "isAtomic", "isDesignFork"];
@@ -42,17 +43,17 @@ class GraphNode extends Base {
     }
 
     /**
-     * Loads the nodes from a JSON object.
-     * @param {Object} nodesJSON
+     * Loads the node from file.
+     * @param {Object} nodeJSON The JSON object read from file.
      */
-    _loadFromFile (nodesJSON) {
-        for (const [key, value] of Object.entries(nodesJSON)) {
+    _loadFromFile (nodeJSON) {
+        for (const [key, value] of Object.entries(nodeJSON)) {
             if (key === "behavior") {
                 this._behavior = new Behavior(value);
             } else if (key === "goToBehaviorIds") {
                 value.forEach(behaviorId => this._goToBehaviorIds.push(behaviorId));
             } else {
-                this[key] = nodesJSON[key];
+                this[key] = nodeJSON[key];
             }
         };
     }
@@ -67,15 +68,14 @@ class GraphNode extends Base {
 
     /**
      * Returns the list of behavior names that this node transitions to.
-     * @returns {Array}
+     * @returns {Array} List of behavior names that this node transitions to.
      */
     getGoToBehaviors () {
         return this._goToBehaviorIds;
     }
 
     /**
-     * Adds a behavior name to the list of behaviors that this
-     * node transitions to.
+     * Adds a behavior to the transitions from this node.
      * @param {String} behaviorId ID of behavior.
      */
     addGoToBehavior (behaviorId) {
@@ -83,8 +83,7 @@ class GraphNode extends Base {
     }
 
     /**
-     * Adds a behavior name to the list of behaviors that this
-     * node transitions to.
+     * Adds list of behaviors to the transitions from this node.
      * @param {Array} behaviorIds IDs of behaviors.
      */
     addGoToBehaviors (behaviorIds) {
