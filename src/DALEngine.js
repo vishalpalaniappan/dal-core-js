@@ -105,8 +105,8 @@ export class DALEngine {
     }
 
     /**
-     * Creates a participant.
-     * @param {Object} args
+     * Creates a participant with the provided args and returns it.
+     * @param {Object} args Arguments to create the participant with.
      * @returns {Participant}
      */
     createParticipant (args) {
@@ -114,8 +114,8 @@ export class DALEngine {
     }
 
     /**
-     * Creates a behavior.
-     * @param {Object} args
+     * Creates a behavior with the provided args and returns it.
+     * @param {Object} args Arguments to create the behavior with.
      * @returns {Behavior}
      */
     createBehavior (args) {
@@ -123,8 +123,8 @@ export class DALEngine {
     }
 
     /**
-     * Creates an invariant.
-     * @param {Object} args
+     * Creates an invariant with the provided args and returns it.
+     * @param {Object} args Arguments to create the invariant with.
      * @returns {Invariant}
      */
     createInvariant (args) {
