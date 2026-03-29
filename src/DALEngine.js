@@ -56,8 +56,7 @@ export class DALEngine {
     /**
      * Serializes the behavioral control graphs and returns the JSON text.
      *
-     * @returns {String} Returns JSON text representing the behavioral control
-     * graphs.
+     * @returns {String} Returns JSON string representing the control graphs.
      */
     serialize () {
         return JSON.stringify(this.graphs);
