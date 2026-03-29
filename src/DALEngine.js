@@ -5,13 +5,13 @@ import Invariant from "./Members/Invariant";
 import Participant from "./Members/Participant";
 
 /**
- * This engine can be used to define and execute designs defined
- * in a Design Abstraction Language (DAL).
+ * This engine can be used to define and execute designs defined in a
+ * Design Abstraction Language (DAL).
  *
- * This class is the main interface for users to interact with
- * the engine. It exposes functions to configure the engine and to
- * execute the design. It also exposes functions to serialize
- * and deserialize the engine to and from JSON text.
+ * This class is the main interface for users to interact with the
+ * engine. It exposes functions to configure the engine and to execute
+ * the design. It also exposes functions to serialize and deserialize
+ * the engine to and from JSON text.
  *
  * A design can consist of multiple atomic behavioral control graphs and
  * this class allows users to create, select, and delete graphs. It also
@@ -20,8 +20,8 @@ import Participant from "./Members/Participant";
  * behaviors, and invariants and assign them to nodes in the graph.
  *
  * The selected graph is determined by the atomic behavior that is observed.
- * The design is executed by transitioning between behaviors in the graph. The
- * values of the participants are set from the observed values and the
+ * The design is executed by transitioning between behaviors in the graph.
+ * The values of the participants are set from the observed values and the
  * invariants are checked at each transition to recognize if the design has
  * entered a semantically invalid state.
  */
@@ -81,7 +81,7 @@ export class DALEngine {
     /**
      * Creates a graph with the given name and sets it as the active graph.
      *
-     * @param {String} name Name of the graph to create.     *
+     * @param {String} name Name of the graph to create.
      * @throws {GraphWithNameExistsError} Thrown when a graph with the
      * provided name already exists.
      */
