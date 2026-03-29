@@ -103,7 +103,7 @@ export class DALEngine {
      * @returns {GraphNode}
      */
     getNode (behaviorId) {
-        return this.graph._findNode(behaviorId);
+        return this.graph.findNode(behaviorId);
     }
 
     /**
@@ -115,7 +115,7 @@ export class DALEngine {
      * @returns {GraphNode}
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
-        return this.graph._addNode(
+        return this.graph.addNode(
             behaviorId,
             goToBehaviorIds,
             isAtomic,
@@ -129,7 +129,7 @@ export class DALEngine {
      * @param {String} behaviorId
      */
     removeNode (behaviorId) {
-        const node = this.graph._findNode(behaviorId);
+        const node = this.graph.findNode(behaviorId);
         const nodeIndex = this.graph.nodes.indexOf(node);
         this.graph.nodes.splice(nodeIndex, 1);
         for (const node of this.graph.nodes) {

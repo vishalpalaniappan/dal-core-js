@@ -72,7 +72,7 @@ class BehavioralControlGraph extends Base {
      * @param {Boolean} isDesignFork
      * @returns
      */
-    _addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
+    addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
         const node = new GraphNode({
             behavior: new Behavior({name: behaviorId}),
             goToBehaviorIds: goToBehaviorIds?goToBehaviorIds:[],
@@ -91,7 +91,7 @@ class BehavioralControlGraph extends Base {
      * does not exist in the graph.
      * @returns
      */
-    _findNode (behaviorName) {
+    findNode (behaviorName) {
         for (let i = 0; i < this.nodes.length; i++) {
             const behavior = this.nodes[i].getBehavior();
             if (behavior.name === behaviorName) {
@@ -111,7 +111,7 @@ class BehavioralControlGraph extends Base {
      * @param {String} behaviorName
      */
     _setCurrentBehavior (behaviorName) {
-        const node = this._findNode(behaviorName);
+        const node = this.findNode(behaviorName);
         /**
          * TODO: Ensure it is atomic because the execution
          * will only set a behavior when its the first one.
@@ -129,7 +129,7 @@ class BehavioralControlGraph extends Base {
      */
     _goToBehavior (nextBehaviorName) {
         if (this.currentNode.isValidTransition(nextBehaviorName)) {
-            this.currentNode = this._findNode(nextBehaviorName);
+            this.currentNode = this.findNode(nextBehaviorName);
         } else {
             throw new InvalidTransitionError(this.currentNode.getBehavior().name, nextBehaviorName);
         }
