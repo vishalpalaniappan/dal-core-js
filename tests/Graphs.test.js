@@ -24,4 +24,20 @@ describe("multiple graphs test", () => {
         expect(() => d.getNode("graph1behavior")).toThrow();
         await writeFile(resolve(__dirname, "./temp/graph2.json"), d.serialize())
     });
+
+
+    it("get list of graphs", async () => {
+        const d = new DALEngine({name: "Library Manager"});
+        d.createGraph("graph 1");
+        d.addNode("graph1behavior", []);
+
+        d.createGraph("graph 2");
+        d.addNode("graph2behavior", []);
+
+        expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 1", "graph 2"]);
+
+        d.selectGraph("graph 1");
+        expect(d.getNode("graph1behavior")).toBeTruthy();
+        expect(() => d.getNode("graph2behavior")).toThrow();
+    });
 });
