@@ -5,10 +5,12 @@ import BehavioralControlGraph from "./BehavioralControlGraph";
 /**
  * Class representing a collection of atomic graphs.
  *
- * These graphs together represent the design. I chose to separate
- * them into their graphs because as the design grows larger, it will
- * be easier to manage the design if it is separated into smaller graphs.
- * It is also easier to visualize in the UI in managable way.
+ * These graphs together represent the design. Within each graph, every node
+ * must be part of the same tree. There cannot be multiple disconnected trees,
+ * if there are, then it is a separate graph in this collection. Each graph
+ * is identified by a unique name and is selected as the active graph when the
+ * atomic behavior is observed. The atomic behavior is not transitioned to from
+ * any other behavior, it is the root of the tree.
  */
 class Graphs {
 
