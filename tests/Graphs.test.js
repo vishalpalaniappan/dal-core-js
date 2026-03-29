@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import {readFile, unlink, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";

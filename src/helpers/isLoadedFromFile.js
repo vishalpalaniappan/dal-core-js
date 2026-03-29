@@ -1,7 +1,7 @@
 /**
  * Checks if the provided object was loaded from a file. This is determind by
  * checking if the argument is an object and has a "dal_engine_uid" attribute,
- * which is added to all objects when they are created and is written to file 
+ * which is added to all objects when they are created and is written to file
  * when the object is serialized.
  *
  * @param {*} obj The object to check.
