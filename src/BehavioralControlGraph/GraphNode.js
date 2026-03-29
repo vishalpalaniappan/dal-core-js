@@ -110,7 +110,7 @@ class GraphNode extends Base {
      * Raises a flag to indicate if the behavior is atomic or not.
      * @param {Boolean} isAtomic Flag indicates if the behavior is atomic.
      */
-    setAtomic (isAtomic) {
+    setIsAtomic (isAtomic) {
         this._isAtomic = isAtomic;
     }
 
