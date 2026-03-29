@@ -1,3 +1,4 @@
+import GraphWithNameExistsError from "../Errors/GraphWithNameExistsError";
 import UnknownGraph from "../Errors/UnknownGraph";
 import BehavioralControlGraph from "./BehavioralControlGraph";
 
@@ -22,6 +23,9 @@ class Graphs {
      * @returns {BehavioralControlGraph} The graph that was added.
      */
     addGraph (graphId) {
+        if (graphId in this._graphs) {
+            throw new GraphWithNameExistsError(graphId);
+        }
         this._graphs[graphId] = new BehavioralControlGraph();
         this._activeGraph = this._graphs[graphId];
         return this._activeGraph

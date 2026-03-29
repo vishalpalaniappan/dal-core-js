@@ -2,6 +2,8 @@ import {readFile, unlink, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
+import GraphWithNameExistsError from "../src/Errors/GraphWithNameExistsError";
+
 import {DALEngine} from "../src/DALEngine.js";
 
 describe("multiple graphs test", () => {
@@ -39,5 +41,11 @@ describe("multiple graphs test", () => {
         d.selectGraph("graph 1");
         expect(d.getNode("graph1behavior")).toBeTruthy();
         expect(() => d.getNode("graph2behavior")).toThrow();
+    });
+
+    it("create graph with existing name", async () => {
+        const d = new DALEngine({name: "Library Manager"});
+        d.createGraph("graph 1");
+        expect(() => d.createGraph("graph 1")).toThrow(GraphWithNameExistsError);
     });
 });
