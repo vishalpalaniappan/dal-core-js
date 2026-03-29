@@ -3,9 +3,8 @@ import MissingAttributes from "../Errors/MissingAttributes";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 import Participant from "./Participant";
-/**
- * Class representing a Behavior in the design.
- */
+
+
 class Behavior extends Base {
     /**
      * Initialize the Behavior.
@@ -79,10 +78,16 @@ class Behavior extends Base {
     }
 
     /**
-     * Maps the abstraction id from execution to the behavior.
-     * @param {String} abstractionId
+     * Maps the abstraction id from implementation to the behavior.
+     * @param {String} abstractionId ID of mapped abstraction.
      */
     addMapping (abstractionId) {
+        /**
+         * TODO: After some more thinking, it seems to me that the
+         * uniqe identifier should be a file name and line number.
+         * It doesn't make sense to create a new abstraction id,
+         * however, I will resolve this soon and remove this TODO.
+         */
         this.abstractionIds.push(abstractionId);
     }
 }
