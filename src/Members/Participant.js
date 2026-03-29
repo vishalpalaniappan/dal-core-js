@@ -4,14 +4,17 @@ import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 import Invariant from "./Invariant";
 
-/**
- * Class representing a participant in the design.
- */
 class Participant extends Base {
     /**
-     * Initialize the semantic participant.
-     * @param {String} name
-     * @param args
+     * Class representing a participant in the design. The participants are
+     * entites in deisgn that participate in the behavior. They are mapped onto
+     * the implementation and their value is loaded from the execution. The
+     * participants define a valid world state for the behavior to happen in
+     * through invariants. When the value of the participant violates an
+     * invariant, the design has entered a semantically invalid state and is
+     * the root cause of downstream failure(s).
+     *
+     * @param {Object} args The arguments to initialize the participant.
      */
     constructor (args) {
         super();
@@ -43,7 +46,7 @@ class Participant extends Base {
 
     /**
      * Loads the participant from a JSON object.
-     * @param {Object} participantJSON
+     * @param {Object} participantJSON The JSON object read from file.
      */
     _loadFromFile (participantJSON) {
         for (const [key, value] of Object.entries(participantJSON)) {
@@ -57,8 +60,8 @@ class Participant extends Base {
 
     /**
      * Adds an invariant to the participant.
-     * @param {Invariant} invariant
-     * @returns
+     * @param {Invariant} invariant The invariant to add.
+     * @returns {Invariant} The invariant that was added.
      */
     addInvariant (invariant) {
         this.invariants.push(invariant);
@@ -66,16 +69,18 @@ class Participant extends Base {
     }
 
     /**
-     * Sets the value of the participant.
-     * @param {*} value
+     * Sets the value of this participant.
+     * @param {*} value The value to set for the participant.
      */
     setValue (value) {
         this.value = value;
     }
 
     /**
-     * Enforces the particiants invariants.
-     * @returns {Boolean}
+     * Enforces the participant's invariants. Raises a flag indicating if an
+     * invariant was violated and counts the number of invariant violations.
+     *
+     * @returns {Boolean} Returns flag indicating if any invariant was violated.
      */
     enforceInvariants () {
         this.invariantViolated = false
@@ -95,9 +100,15 @@ class Participant extends Base {
      * This abstraction id will be used to assign a value to the
      * participant from the execution using the logged abstraction id.
      *
-     * @param {String} abstractionId
+     * @param {String} abstractionId The abstraction ID to map to the
+     * participant.
      */
     mapAbstraction (abstractionId) {
+        /**
+         * TODO: Much like the behavior, I am settling on a clean way to map
+         * the participant onto the implementation without introducing new
+         * unncessary layers.
+         */
         this.abstractionId = abstractionId;
     }
 }
