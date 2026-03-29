@@ -3,14 +3,28 @@ import MissingAttributes from "../Errors/MissingAttributes";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 
-/**
- * Class representing a Invariant in the design.
- */
 class Invariant extends Base {
     /**
-     * Initialize the Invariant.
-     * @param {String} name
-     * @param args
+     * Class representing a Invariant in the design.
+     *
+     * The expected attributes in args are:
+     * - name: Name of the invariant.
+     * - rule: The rule that defines the how to enforce the invariant. This
+     * will be formally defined in a collection of invariant rules that can
+     * be chosen from when creating an invariant.
+     *
+     * Currently, the only supported invariant rule is the string min length
+     * rule, which is defined as follows:
+     * {
+     *     "name": "MinLengthConstraint",
+     *     "rule": {
+     *         "type": "minLength",
+     *         "keys": ["value", "name"],
+     *         "value": 1,
+     *     },
+     * }
+     *
+     * @param {Object} args The arguments to initialize the invariant with.
      */
     constructor (args) {
         super();
