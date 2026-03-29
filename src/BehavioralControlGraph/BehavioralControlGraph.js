@@ -22,9 +22,28 @@ class BehavioralControlGraph extends Base {
             if (Object.hasOwn(args, "uid")) {
                 this._loadGraphFromJSON(args);
             } else {
-                this.name = args.name;
+                this._loadArgs(args);
             }
         }
+    }
+
+    /**
+     * Loads the provided arguments.
+     * @throws {MissingAttributes} Thrown when required attr is not present.
+     * @param {Object} args
+     */
+    _loadArgs (args) {
+        const expectedAttributes = ["name"];
+        if (typeof args !== "object" || args === null || Array.isArray(args)) {
+            // Not an object, so all attributes are missing.
+            throw new MissingAttributes("BehavioralControlGraph", expectedAttributes);
+        }
+        expectedAttributes.forEach((attr) => {
+            if (!(attr in args)) {
+                throw new MissingAttributes("BehavioralControlGraph", attr);
+            }
+            this[attr] = args[attr];
+        });
     }
 
     /**
@@ -44,15 +63,15 @@ class BehavioralControlGraph extends Base {
     /**
      * Adds a node to the graph.
      * @param {Behavior} behaviorId
-     * @param {Array} goToBehaviorsIds
+     * @param {Array} goToBehaviorIds
      * @param {Boolean} isAtomic
      * @param {Boolean} isDesignFork
      * @returns
      */
-    _addNode (behaviorId, goToBehaviorsIds, isAtomic, isDesignFork) {
+    _addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
         const node = new GraphNode({
             behavior: new Behavior({name: behaviorId}),
-            goToBehaviorsIds: goToBehaviorsIds?goToBehaviorsIds:[],
+            goToBehaviorIds: goToBehaviorIds?goToBehaviorIds:[],
             isAtomic: isAtomic?isAtomic:false,
             isDesignFork: isDesignFork?isDesignFork:false,
         });

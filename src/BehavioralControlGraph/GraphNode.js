@@ -21,17 +21,28 @@ class GraphNode extends Base {
             if (Object.hasOwn(args, "uid")) {
                 this._loadNodeFromJSON(args);
             } else {
-                /**
-                 * TODO: Add required attributes and error handling
-                 * for missing attributes as done in Member classes.
-                 * Repeat same for BehavioralControlGraph.
-                 */
-                this._behavior = args.behavior;
-                this._goToBehaviorIds = args.goToBehaviorsIds;
-                this._isAtomic = args.isAtomic;
-                this._isDesignFork = args.isDesignFork;
+                this._loadArgs(args);
             }
         }
+    }
+
+    /**
+     * Loads the provided arguments.
+     * @throws {MissingAttributes} Thrown when required attr is not present.
+     * @param {Object} args
+     */
+    _loadArgs (args) {
+        const expectedAttributes = ["behavior", "goToBehaviorIds", "isAtomic", "isDesignFork"];
+        if (typeof args !== "object" || args === null || Array.isArray(args)) {
+            // Not an object, so all attributes are missing.
+            throw new MissingAttributes("GraphNode", expectedAttributes);
+        }
+        expectedAttributes.forEach((attr) => {
+            if (!(attr in args)) {
+                throw new MissingAttributes("GraphNode", attr);
+            }
+            this["_" + attr] = args[attr];
+        });
     }
 
     /**

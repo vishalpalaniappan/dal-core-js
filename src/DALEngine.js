@@ -99,15 +99,15 @@ export class DALEngine {
     /**
      * Adds a node to the graph with the given behaviorId and goToBehaviors.
      * @param {String} behaviorId
-     * @param {Array} goToBehaviorsIds
+     * @param {Array} goToBehaviorIds
      * @param {Boolean} isAtomic
      * @param {Boolean} isDesignFork
      * @returns {GraphNode}
      */
-    addNode (behaviorId, goToBehaviorsIds, isAtomic, isDesignFork) {
+    addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
         return this.graph._addNode(
             behaviorId,
-            goToBehaviorsIds,
+            goToBehaviorIds,
             isAtomic,
             isDesignFork
         );
