@@ -16,12 +16,20 @@ class GraphNode extends Base {
         this._behavior = null;
         this._goToBehaviorIds = [];
         this._isAtomic = false;
+        this._isDesignFork = false;
         if (typeof args === "object" && args !== null) {
             if (Object.hasOwn(args, "uid")) {
                 this._loadNodeFromJSON(args);
             } else {
+                /**
+                 * TODO: Add required attributes and error handling
+                 * for missing attributes as done in Member classes.
+                 * Repeat same for BehavioralControlGraph.
+                 */
                 this._behavior = args.behavior;
                 this._goToBehaviorIds = args.goToBehaviorsIds;
+                this._isAtomic = args.isAtomic;
+                this._isDesignFork = args.isDesignFork;
             }
         }
     }
@@ -101,6 +109,22 @@ class GraphNode extends Base {
      */
     isAtomic () {
         return this._isAtomic;
+    }
+
+    /**
+     * Raises a flag to indicate if this node is a fork in the design.
+     * @param {Boolean} forks Flag indicates if the node is a fork.
+     */
+    setDesignFork (forks) {
+        this._isDesignFork = forks;
+    }
+
+    /**
+     * Returns whether the node is a fork in the design or not.
+     * @returns {Boolean}
+     */
+    isDesignFork () {
+        return this._isDesignFork;
     }
 
     /**

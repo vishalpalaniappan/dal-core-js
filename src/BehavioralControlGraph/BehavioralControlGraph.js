@@ -46,13 +46,15 @@ class BehavioralControlGraph extends Base {
      * @param {Behavior} behaviorId
      * @param {Array} goToBehaviorsIds
      * @param {Boolean} isAtomic
+     * @param {Boolean} isDesignFork
      * @returns
      */
-    _addNode (behaviorId, goToBehaviorsIds, isAtomic) {
+    _addNode (behaviorId, goToBehaviorsIds, isAtomic, isDesignFork) {
         const node = new GraphNode({
             behavior: new Behavior({name: behaviorId}),
             goToBehaviorsIds: goToBehaviorsIds?goToBehaviorsIds:[],
             isAtomic: isAtomic?isAtomic:false,
+            isDesignFork: isDesignFork?isDesignFork:false,
         });
         this.nodes.push(node);
         return node;

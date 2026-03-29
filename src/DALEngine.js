@@ -101,10 +101,16 @@ export class DALEngine {
      * @param {String} behaviorId
      * @param {Array} goToBehaviorsIds
      * @param {Boolean} isAtomic
+     * @param {Boolean} isDesignFork
      * @returns {GraphNode}
      */
-    addNode (behaviorId, goToBehaviorsIds, isAtomic) {
-        return this.graph._addNode(behaviorId, goToBehaviorsIds, isAtomic);
+    addNode (behaviorId, goToBehaviorsIds, isAtomic, isDesignFork) {
+        return this.graph._addNode(
+            behaviorId,
+            goToBehaviorsIds,
+            isAtomic,
+            isDesignFork
+        );
     }
 
     /**
