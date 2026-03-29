@@ -7,6 +7,7 @@ import {DALEngine} from "../src/DALEngine.js";
 import BehaviorAlreadyExistsError from "../src/Errors/BehaviorAlreadyExistsError.js";
 import InvalidTransitionError from "../src/Errors/InvalidTransitionError.js";
 import MissingAttributes from "../src/Errors/MissingAttributes.js";
+import TransitionAlreadyExistsError from "../src/Errors/TransitionAlreadyExistsError.js";
 import UnknownBehaviorError from "../src/Errors/UnknownBehaviorError.js";
 import ENGINE_TYPES from "../src/TYPES.js";
 
@@ -126,6 +127,16 @@ describe("DALEngine", () => {
 
         const lastInvariant = book.invariants[book.invariants.length - 1];
         expect(lastInvariant).toBe(invariant);
+    });
+
+    it ("add duplicate transition and check error is raised", () => {
+        const d = new DALEngine({name: "Library Manager"});
+        const node1 = d.addNode("AcceptBookFromUser", []);
+        const node2 = d.addNode("AddBookToBasket", []);
+        node1.addGoToBehavior("AddBookToBasket");
+        expect(() => {
+            node1.addGoToBehavior("AddBookToBasket");
+        }).toThrow(TransitionAlreadyExistsError);
     });
 
     it("serialize to file and deseralize from file", async () => {

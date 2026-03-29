@@ -1,5 +1,6 @@
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
+import TransitionAlreadyExistsError from "../Errors/TransitionAlreadyExistsError";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import Behavior from "../Members/Behavior";
 import ENGINE_TYPES from "../TYPES";
@@ -77,8 +78,13 @@ class GraphNode extends Base {
     /**
      * Adds a behavior to the transitions from this node.
      * @param {String} behaviorId ID of behavior.
+     * @throws {TransitionAlreadyExistsError} Raised when a transition to the
+     * provided behavior already exists.
      */
     addGoToBehavior (behaviorId) {
+        if (this._goToBehaviorIds.includes(behaviorId)) {
+            throw new TransitionAlreadyExistsError(this.behaviorName, behaviorId);
+        }
         this._goToBehaviorIds.push(behaviorId);
     }
 
