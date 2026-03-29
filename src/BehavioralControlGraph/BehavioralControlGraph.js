@@ -1,4 +1,5 @@
 import Base from "../Base";
+import BehaviorAlreadyExistsError from "../Errors/BehaviorAlreadyExistsError";
 import InvalidTransitionError from "../Errors/InvalidTransitionError";
 import UnknownBehaviorError from "../Errors/UnknownBehaviorError";
 import Behavior from "../Members/Behavior";
@@ -70,10 +71,13 @@ class BehavioralControlGraph extends Base {
      * @param {Array} goToBehaviorIds
      * @param {Boolean} isAtomic
      * @param {Boolean} isDesignFork
+     * @throws {BehaviorAlreadyExistsError} Raised when a node with the provided
      * @returns
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
-        // TODO: Check if behavior already exists and throw error if it does.
+        if (this.nodes.some((node) => node.getBehavior().name === behaviorId)) {
+            throw new BehaviorAlreadyExistsError(behaviorId);
+        }
         const node = new GraphNode({
             behavior: new Behavior({name: behaviorId}),
             goToBehaviorIds: goToBehaviorIds?goToBehaviorIds:[],

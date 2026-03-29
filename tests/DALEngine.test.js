@@ -3,6 +3,7 @@ import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
 import {DALEngine} from "../src/DALEngine.js";
+import BehaviorAlreadyExistsError from "../src/Errors/BehaviorAlreadyExistsError.js";
 import InvalidTransitionError from "../src/Errors/InvalidTransitionError.js";
 import MissingAttributes from "../src/Errors/MissingAttributes.js";
 import UnknownBehaviorError from "../src/Errors/UnknownBehaviorError.js";
@@ -34,6 +35,12 @@ describe("DALEngine", () => {
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
         expect(node.getBehavior().name).toStrictEqual("AcceptBookFromUser");
         expect(node.getGoToBehaviors()).toStrictEqual(goToBehaviorIds);
+    });
+
+    it("throws when a behavior with same name is added to graph", () => {
+        const d = new DALEngine({name: "Library Manager"});
+        d.addNode("AcceptBookFromUser", []);
+        expect(() => {d.addNode("AcceptBookFromUser", [])}).toThrow(BehaviorAlreadyExistsError);
     });
 
     it("find node that was added using behavior name", () => {
