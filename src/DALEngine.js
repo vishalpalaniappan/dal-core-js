@@ -157,7 +157,7 @@ export class DALEngine {
      * @param {String} behaviorId
      */
     setCurrentBehavior (behaviorId) {
-        this.graph._setCurrentBehavior(behaviorId);
+        this.graph.setCurrentBehavior(behaviorId);
     }
 
     /**
@@ -166,6 +166,6 @@ export class DALEngine {
      * @param {String} nextBehaviorId ID of the next behavior.
      */
     goToBehavior (nextBehaviorId) {
-        this.graph._goToBehavior(nextBehaviorId);
+        this.graph.goToBehavior(nextBehaviorId);
     }
 }

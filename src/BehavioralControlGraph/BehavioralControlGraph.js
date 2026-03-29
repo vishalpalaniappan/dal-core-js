@@ -110,7 +110,7 @@ class BehavioralControlGraph extends Base {
      *
      * @param {String} behaviorName
      */
-    _setCurrentBehavior (behaviorName) {
+    setCurrentBehavior (behaviorName) {
         const node = this.findNode(behaviorName);
         /**
          * TODO: Ensure it is atomic because the execution
@@ -127,7 +127,7 @@ class BehavioralControlGraph extends Base {
      * @throws {InvalidTransitionError} Raised when the provided
      * behavior is not a valid transition.
      */
-    _goToBehavior (nextBehaviorName) {
+    goToBehavior (nextBehaviorName) {
         if (this.currentNode.isValidTransition(nextBehaviorName)) {
             this.currentNode = this.findNode(nextBehaviorName);
         } else {
