@@ -52,7 +52,7 @@ export class DALEngine {
     }
 
     /**
-     * Exports the behavioral control graph to JSON text.
+     * Serializes the behavioral control graphs and returns the JSON text.
      * @returns {String} Returns JSON text representing the
      * behavioral control graphs.
      */
