@@ -133,8 +133,9 @@ export class DALEngine {
 
     /**
      * Returns the node in the graph with the given behavior name.
-     * @param {String} behaviorId
-     * @returns {GraphNode}
+     * @param {String} behaviorId ID of the behavior.
+     * @returns {GraphNode} Returns the node in the graph with the
+     * given behavior name.
      */
     getNode (behaviorId) {
         return this.graph.findNode(behaviorId);
@@ -142,11 +143,14 @@ export class DALEngine {
 
     /**
      * Adds a node to the graph with the given behaviorId and goToBehaviors.
-     * @param {String} behaviorId
-     * @param {Array} goToBehaviorIds
-     * @param {Boolean} isAtomic
-     * @param {Boolean} isDesignFork
-     * @returns {GraphNode}
+     * @param {String} behaviorId ID of the behavior for the node.
+     * @param {Array} goToBehaviorIds IDs of the behaviors that this node
+     * transitions to.
+     * @param {Boolean} isAtomic Flag to indicate if this node contains an
+     * atomic behavior.
+     * @param {Boolean} isDesignFork Flag to indicate if this node
+     * is a fork in the design.
+     * @returns {GraphNode} Returns the created graph node.
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
         return this.graph.addNode(
