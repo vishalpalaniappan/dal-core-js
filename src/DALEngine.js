@@ -72,7 +72,7 @@ export class DALEngine {
     }
 
     /**
-     * Create a graph with the given name and set it as the active graph.
+     * Creates a graph with the given name and sets it as the active graph.
      * @param {String} name Name of the graph to create.
      */
     createGraph (name) {
