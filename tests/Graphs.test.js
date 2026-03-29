@@ -2,9 +2,8 @@ import {readFile, unlink, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
-import GraphWithNameExistsError from "../src/Errors/GraphWithNameExistsError";
-
 import {DALEngine} from "../src/DALEngine.js";
+import GraphWithNameExistsError from "../src/Errors/GraphWithNameExistsError";
 
 describe("multiple graphs test", () => {
 
