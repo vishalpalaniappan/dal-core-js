@@ -48,6 +48,22 @@ describe("multiple graphs test", () => {
         expect(() => d.createGraph("graph 1")).toThrow(GraphWithNameExistsError);
     });
 
+    it("test that graph is removed", async () => {
+        const d = new DALEngine({name: "Library Manager"});
+        d.createGraph("graph 1");
+        d.addNode("graph1behavior", []);
+        d.createGraph("graph 2");
+        d.addNode("graph2behavior", []);
+        expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 1", "graph 2"]);
+        d.removeGraph("graph 1");
+
+        // After removing a graph, the first graph in the list is active.
+        // If there are no graphs, a default graph is created and set as active.
+        expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 2"]);
+        expect(d.graph.name).toBe("default graph");
+        console.log(d.graph);
+    });
+
     it("serialize and deserialize", async () => {
         const d = new DALEngine({name: "Library Manager"});
         d.createGraph("graph 1");
