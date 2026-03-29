@@ -6,7 +6,7 @@ import {DALEngine} from "../src/DALEngine.js";
 
 describe("multiple graphs test", () => {
 
-    it("create multiple graphs and switch between them", async () => {
+    it("create multiple graphs and switch", async () => {
         const d = new DALEngine({name: "Library Manager"});
         d.createGraph("graph 1");
         d.addNode("graph1behavior", []);
