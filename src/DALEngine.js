@@ -35,7 +35,7 @@ export class DALEngine {
     /**
      * Loads the provided arguments.
      * @throws {MissingAttributes} Thrown when required attr is not present.
-     * @param {Object} args
+     * @param {Object} args Arguments to load.
      */
     _loadArgs (args) {
         const expectedAttributes = ["name"];
@@ -70,8 +70,8 @@ export class DALEngine {
     }
 
     /**
-     * Create a graph.
-     * @param {String} name
+     * Create a graph with the given name and set it as the active graph.
+     * @param {String} name Name of the graph to create.
      */
     createGraph (name) {
         this.graph = this.graphs.addGraph(name);
