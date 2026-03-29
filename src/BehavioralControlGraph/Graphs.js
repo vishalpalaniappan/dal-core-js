@@ -13,14 +13,14 @@ import BehavioralControlGraph from "./BehavioralControlGraph";
  * any other behavior, it is the root of the tree.
  */
 class Graphs {
-
     constructor () {
         this._graphs = {};
         this.addGraph("default graph");
     }
 
     /**
-     * Load the graphs from JSON text.
+     * Load the graphs from file.
+     *
      * @param {String} jsonText JSON text representing the collection of graphs.
      */
     loadFromJson (jsonText) {
@@ -32,9 +32,12 @@ class Graphs {
     }
 
     /**
-     * Adds a graph to the collection of graphs.
+     * Given a graph ID, creates the graph and adds it to the collection.
+     *
      * @param {String} graphId ID of the graph.
      * @returns {BehavioralControlGraph} The graph that was added.
+     * @throws {GraphWithNameExistsError} Raised when a graph with the provided
+     * name already exists in the collection of graphs.
      */
     addGraph (graphId) {
         if (graphId in this._graphs) {
@@ -42,13 +45,16 @@ class Graphs {
         }
         this._graphs[graphId] = new BehavioralControlGraph({name: graphId});
         this._activeGraph = this._graphs[graphId];
-        return this._activeGraph
+        return this._activeGraph;
     }
 
     /**
-     * Returns the graph with the given graphId.
+     * Returns the graph with the given graphID from the collection.
+     *
      * @param {String} graphId ID of the graph to return.
      * @returns {BehavioralControlGraph} The graph with the given graphId.
+     * @throws {UnknownGraph} Raised when a graph with the provided graphId does
+     * not exist in the collection of graphs.
      */
     getGraph (graphId) {
         if (graphId in this._graphs) {
@@ -59,7 +65,11 @@ class Graphs {
     }
 
     /**
-     * Removes a graph from the collection of graphs.
+     * Removes a graph with the given id from the collection of graphs. After
+     * the graph is removed, it selects the first graph in the collection of
+     * graphs. If there are no graphs left in the collection, it creates a new
+     * graph with the name "default graph" and selects it as the active graph.
+     *
      * @param {String} graphId ID of the graph to remove.
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
@@ -70,6 +80,8 @@ class Graphs {
         } else {
             throw new UnknownGraph(graphId);
         }
+        // TODO: Is there a better policy for which graph to select
+        // after the current graph is removed?
         if (Object.keys(this._graphs).length === 0) {
             this.addGraph("default graph");
         } else {
@@ -78,11 +90,12 @@ class Graphs {
     }
 
     /**
-     * Sets the active graph.
-     * @param {String} graphId ID of the graph to set as active.
+     * Finds the graph with the given graphId and sets it as the active graph.
+     *
+     * @param {String} graphId Id of the graph to set as active.
      * @throws {UnknownGraph} Raised when the provided graphId does not exist
      * in the collection of graphs.
-     * @returns {BehavioralControlGraph} The graph that was set as active.
+     * @returns {BehavioralControlGraph} The currently active graph.
      */
     setActiveGraph (graphId) {
         if (graphId in this._graphs) {
@@ -95,7 +108,8 @@ class Graphs {
 
     /**
      * Returns the active graph.
-     * @returns {BehavioralControlGraph}
+     *
+     * @returns {BehavioralControlGraph} The currently active graph.
      */
     getActiveGraph () {
         return this._activeGraph;
@@ -103,7 +117,8 @@ class Graphs {
 
     /**
      * Returns a collection of all the graphs in the design.
-     * @returns {Object}
+     *
+     * @returns {Object} The collection of all graphs in the design.
      */
     getGraphs () {
         return this._graphs;
@@ -111,7 +126,8 @@ class Graphs {
 
     /**
      * Returns a list of all the graph names in the design.
-     * @returns {Array}
+     *
+     * @returns {Array} A list of all graph names in the design.
      */
     getGraphNames () {
         return Object.keys(this._graphs);
