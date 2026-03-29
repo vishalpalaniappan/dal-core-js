@@ -5,7 +5,10 @@ import ENGINE_TYPES from "../TYPES";
 
 class Invariant extends Base {
     /**
-     * Class representing a Invariant in the design.
+     * Class representing a Invariant in the design. Invariants are rules that
+     * define a valid world state for participants in behaviors. The invariants
+     * are used to check if the design has entered a semantically invalid state
+     * during execution.
      *
      * The expected attributes in args are:
      * - name: Name of the invariant.
