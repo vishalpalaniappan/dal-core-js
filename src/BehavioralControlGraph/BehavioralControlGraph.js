@@ -1,6 +1,7 @@
 import Base from "../Base";
 import BehaviorAlreadyExistsError from "../Errors/BehaviorAlreadyExistsError";
 import InvalidTransitionError from "../Errors/InvalidTransitionError";
+import MissingAttributes from "../Errors/MissingAttributes";
 import UnknownBehaviorError from "../Errors/UnknownBehaviorError";
 import Behavior from "../Members/Behavior";
 import ENGINE_TYPES from "../TYPES";
@@ -17,15 +18,20 @@ class BehavioralControlGraph extends Base {
      */
     constructor (args) {
         super();
+
+        // Object attributes with default values.
         this.type = ENGINE_TYPES.BEHAVIORAL_CONTROL_GRAPH;
         this.nodes = [];
-        if (typeof args === "object" && args !== null) {
+
+        // Load from JSON if read from file (has uid attribute).
+        if (typeof args === "object" && args !== null && !Array.isArray(args)) {
             if (Object.hasOwn(args, "uid")) {
                 this._loadGraphFromJSON(args);
-            } else {
-                this._loadArgs(args);
+                return;
             }
         }
+        // Load from args if creating new graph.
+        this._loadArgs(args);
     }
 
     /**
