@@ -20,8 +20,11 @@ import Participant from "./Members/Participant";
  * It also allows users to create participants, behaviors, and invariants
  * and assign them to nodes in the graph.
  *
- * The design is executed by transitioning between behaviors in the graph.
  * The selected graph is determined by the atomic behavior that is observed.
+ * The design is executed by transitioning between behaviors in the graph. The
+ * values of the participants are set from the observed values and the
+ * invariants are checked at each transition to recognize if the design has
+ * entered a semantically invalid state.
  */
 export class DALEngine {
     constructor (args) {
