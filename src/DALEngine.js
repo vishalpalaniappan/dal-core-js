@@ -22,7 +22,7 @@ export class DALEngine {
     constructor (args) {
         this.graphs = new Graphs();
         this.graph = this.graphs.getActiveGraph();
-        this.loadArgs(args);
+        this._loadArgs(args);
     }
 
     /**
@@ -30,7 +30,7 @@ export class DALEngine {
      * @throws {MissingAttributes} Thrown when required attr is not present.
      * @param {Object} args
      */
-    loadArgs (args) {
+    _loadArgs (args) {
         const expectedAttributes = ["name"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
