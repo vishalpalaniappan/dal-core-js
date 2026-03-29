@@ -9,7 +9,7 @@
  */
 const isLoadedFromFile = (obj) => {
     return typeof obj === "object" && obj !== null
-        && !Array.isArray(obj) && Object.hasOwn(obj, "uid");
+        && !Array.isArray(obj) && Object.hasOwn(obj, "dal_engine_uid");
 };
 
 export default isLoadedFromFile;
