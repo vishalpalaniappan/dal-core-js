@@ -3,6 +3,7 @@ import BehaviorAlreadyExistsError from "../Errors/BehaviorAlreadyExistsError";
 import InvalidTransitionError from "../Errors/InvalidTransitionError";
 import MissingAttributes from "../Errors/MissingAttributes";
 import UnknownBehaviorError from "../Errors/UnknownBehaviorError";
+import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import Behavior from "../Members/Behavior";
 import ENGINE_TYPES from "../TYPES";
 import GraphNode from "./GraphNode";
@@ -22,16 +23,7 @@ class BehavioralControlGraph extends Base {
         // Object attributes with default values.
         this.type = ENGINE_TYPES.BEHAVIORAL_CONTROL_GRAPH;
         this.nodes = [];
-
-        // Load from JSON if read from file (has uid attribute).
-        if (typeof args === "object" && args !== null && !Array.isArray(args)) {
-            if (Object.hasOwn(args, "uid")) {
-                this._loadGraphFromJSON(args);
-                return;
-            }
-        }
-        // Load from args if creating new graph.
-        this._loadArgs(args);
+        (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
     /**
@@ -61,7 +53,7 @@ class BehavioralControlGraph extends Base {
      * Loads the graph from a JSON object..
      * @param {Object} graphJson
      */
-    _loadGraphFromJSON (graphJson) {
+    _loadFromFile (graphJson) {
         for (const [key, value] of Object.entries(graphJson)) {
             if (key === "nodes") {
                 value.forEach(node => this.nodes.push(new GraphNode(node)));

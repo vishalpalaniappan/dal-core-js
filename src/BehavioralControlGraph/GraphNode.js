@@ -1,5 +1,6 @@
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
+import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import Behavior from "../Members/Behavior";
 import ENGINE_TYPES from "../TYPES";
 /**
@@ -21,15 +22,7 @@ class GraphNode extends Base {
         this._isAtomic = false;
         this._isDesignFork = false;
 
-        // Load from JSON if read from file (has uid attribute).
-        if (typeof args === "object" && args !== null && !Array.isArray(args)) {
-            if (Object.hasOwn(args, "uid")) {
-                this._loadNodeFromJSON(args);
-                return;
-            }
-        }
-        // Load from args if creating new node.
-        this._loadArgs(args);
+        (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
     /**
@@ -39,7 +32,6 @@ class GraphNode extends Base {
      */
     _loadArgs (args) {
         const expectedAttributes = ["behavior", "goToBehaviorIds", "isAtomic", "isDesignFork"];
-        console.log(Object.keys(args));
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
             throw new MissingAttributes("GraphNode", expectedAttributes);
@@ -56,7 +48,7 @@ class GraphNode extends Base {
      * Loads the nodes from a JSON object.
      * @param {Object} nodesJSON
      */
-    _loadNodeFromJSON (nodesJSON) {
+    _loadFromFile (nodesJSON) {
         for (const [key, value] of Object.entries(nodesJSON)) {
             if (key === "behavior") {
                 this._behavior = new Behavior(value);

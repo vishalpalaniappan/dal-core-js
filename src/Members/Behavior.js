@@ -1,5 +1,6 @@
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
+import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 import Participant from "./Participant";
 /**
@@ -17,11 +18,7 @@ class Behavior extends Base {
         this.participants = [];
         this.abstractionIds = [];
         this.invalidWorldState = false;
-        if (typeof args === "object" && Object.hasOwn(args, "uid")) {
-            this._loadBehaviorFromJSON(args);
-        } else {
-            this._loadArgs(args);
-        }
+        (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
     /**
@@ -47,7 +44,7 @@ class Behavior extends Base {
      * Loads the behavior from a JSON object.
      * @param {Object} behaviorJSON
      */
-    _loadBehaviorFromJSON (behaviorJSON) {
+    _loadFromFile (behaviorJSON) {
         for (const [key, value] of Object.entries(behaviorJSON)) {
             if (key === "participants") {
                 value.forEach(node => this.participants.push(new Participant(node)));

@@ -1,5 +1,6 @@
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
+import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 import Invariant from "./Invariant";
 
@@ -14,15 +15,13 @@ class Participant extends Base {
      */
     constructor (args) {
         super();
+        // Default values for object attributes.
         this.type = ENGINE_TYPES.PARTICIPANT;
         this.invariants = [];
         this.abstractionId = null;
         this.invariantViolated = false;
-        if (typeof args === "object" && Object.hasOwn(args, "uid")) {
-            this._loadParticipantFromJSON(args);
-        } else {
-            this._loadArgs(args);
-        }
+        // Load arguments.
+        (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
     /**
@@ -48,7 +47,7 @@ class Participant extends Base {
      * Loads the participant from a JSON object.
      * @param {Object} participantJSON
      */
-    _loadParticipantFromJSON (participantJSON) {
+    _loadFromFile (participantJSON) {
         for (const [key, value] of Object.entries(participantJSON)) {
             if (key === "invariants") {
                 value.forEach(node => this.invariants.push(new Invariant(node)));
