@@ -5,19 +5,19 @@ import Invariant from "./Members/Invariant";
 import Participant from "./Members/Participant";
 
 /**
- * An object representing an engine written in Design
- * abstraction language.
+ * This engine can be used to define and execute designs defined
+ * in a Design Abstraction Language (DAL).
  *
  * This class is the main interface for users to interact with
  * the engine. It exposes functions to configure the engine and to
  * execute the design. It also exposes functions to serialize
  * and deserialize the engine to and from JSON text.
  *
- * A design can consist of multiple atomic graphs and this class allows
- * users to create, select, and delete graphs. It also allows users to add
- * nodes to the graph and to transition between behaviors in the graph.
- * It also allows users to create participants, behaviors, and invariants
- * and assign them to nodes in the graph.
+ * A design can consist of multiple atomic behavioral control graphs and
+ * this class allows users to create, select, and delete graphs. It also
+ * allows users to add nodes to the graph and to transition between
+ * behaviors in the graph. It also allows users to create participants,
+ * behaviors, and invariants and assign them to nodes in the graph.
  *
  * The selected graph is determined by the atomic behavior that is observed.
  * The design is executed by transitioning between behaviors in the graph. The
