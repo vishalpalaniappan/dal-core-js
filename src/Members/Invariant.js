@@ -14,7 +14,7 @@ class Invariant extends Base {
      * be chosen from when creating an invariant.
      *
      * Currently, the only supported invariant rule is the string min length
-     * rule, which is defined as follows:
+     * rule, which can be specified as follows:
      * {
      *     "name": "MinLengthConstraint",
      *     "rule": {
@@ -36,9 +36,9 @@ class Invariant extends Base {
     }
 
     /**
-     * Loads the provided arguments.
+     * Loads the invariant from the provided arguments.
      * @throws {MissingAttributes} Thrown when required attr is not present.
-     * @param {Object} args
+     * @param {Object} args The arguments to initialize the invariant with.
      */
     _loadArgs (args) {
         const expectedAttributes = ["name", "rule"];
@@ -55,8 +55,8 @@ class Invariant extends Base {
     }
 
     /**
-     * Loads the invariant from a JSON object.
-     * @param {Object} invariantJSON
+     * Loads the invariant from file.
+     * @param {Object} invariantJSON The JSON object to load the invariant from.
      */
     _loadFromFile (invariantJSON) {
         for (const [key, value] of Object.entries(invariantJSON)) {
@@ -68,9 +68,10 @@ class Invariant extends Base {
     }
 
     /**
-     * Evaluate the invariant.
-     * @param {*} value
-     * @returns {Boolean}
+     * Evaluate the invariant by applying the invariant rule to the provided
+     * value. Returns a flag indicating whether the invariant was violated.
+     * @param {*} value The value to evaluate the invariant on.
+     * @returns {Boolean} Returns flag indicating if invariant was violated.
      */
     evaluate (value) {
         this.invariantViolated = false;
@@ -81,8 +82,8 @@ class Invariant extends Base {
     }
 
     /**
-     * Enforce the string min length invariant
-     * @param value
+     * Enforce the string min length invariant.
+     * @param {*} value The value to enforce the invariant on.
      */
     enforceMinLength (value) {
         if ("keys" in this.rule) {
@@ -119,7 +120,7 @@ class Invariant extends Base {
      * automated testing.
      *
      * Substrate invariants correspond to a trace that represents
-     * an environment that reveals a limitation of the substrate,
+     * an environment which reveals a limitation of the substrate,
      * thus motivating the invariant. It is also the environment
      * in which an implementation can prove that it respects this
      * invariant.
