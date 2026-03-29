@@ -115,7 +115,7 @@ class GraphNode extends Base {
      * Raises a flag to indicate if this node is a fork in the design.
      * @param {Boolean} forks Flag indicates if the node is a fork.
      */
-    setDesignFork (forks) {
+    setIsDesignFork (forks) {
         this._isDesignFork = forks;
     }
 
