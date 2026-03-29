@@ -73,6 +73,7 @@ class BehavioralControlGraph extends Base {
      * @returns
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
+        // TODO: Check if behavior already exists and throw error if it does.
         const node = new GraphNode({
             behavior: new Behavior({name: behaviorId}),
             goToBehaviorIds: goToBehaviorIds?goToBehaviorIds:[],
