@@ -33,6 +33,10 @@ class BehavioralControlGraph extends Base {
      * @param {Object} args
      */
     _loadArgs (args) {
+        /**
+         * TODO: Move the attributes to private and use getters and setters
+         * for them. Repeat for all the other classes.
+         */
         const expectedAttributes = ["name"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
