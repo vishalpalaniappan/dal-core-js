@@ -8,14 +8,27 @@ import Behavior from "../Members/Behavior";
 import ENGINE_TYPES from "../TYPES";
 import GraphNode from "./GraphNode";
 
-/**
- * Class representing the behavioral control graph.
- */
+
 class BehavioralControlGraph extends Base {
     /**
-     * Initialize the behavioral control graph.
-     * @param {String} name
-     * @param args
+     * Class representing the behavioral control graph. The behavioral control
+     * graph is a directed graph where nodes represent behaviors and edges
+     * represent valid transitions between behaviors. The graph also includes
+     * information about which behaviors are atomic and which nodes are forks in
+     * the design.
+     *
+     * The graph can be used to execute the design by starting at the atomic
+     * node and transitioning to observed behaviors. As the design is executed,
+     * the values of the participants are set from the observed values and the
+     * invariants are checked at each transition to recognize if the design has
+     * entered a semantically invalid state.
+     *
+     * Currently, it only has to be initialized with a name and the remaining
+     * attributes can be added using the provided methods. If the graph is being
+     * loaded from a file, then the presence of a UID in the args will select
+     * the relevant method to load the graph from a JSON object.
+     *
+     * @param {Object} args The args to initialize the behavioral control graph.
      */
     constructor (args) {
         super();
@@ -62,13 +75,17 @@ class BehavioralControlGraph extends Base {
     }
 
     /**
-     * Adds a node to the graph.
-     * @param {Behavior} behaviorId
-     * @param {Array} goToBehaviorIds
-     * @param {Boolean} isAtomic
-     * @param {Boolean} isDesignFork
+     * Adds a node to the graph with the provided arguments.
+     *
+     * @param {Behavior} behaviorId ID of the behavior represented by the node.
+     * @param {Array} goToBehaviorIds IDs of the behaviors that are valid
+     * transitions from this node.
+     * @param {Boolean} isAtomic Flag indicating if the behavior represented by
+     * the node is atomic.
+     * @param {Boolean} isDesignFork Flag indicating if the node is a
+     * design fork.
      * @throws {BehaviorAlreadyExistsError} Raised when a node with the provided
-     * @returns
+     * @returns {GraphNode} The created graph node.
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
         if (this.nodes.some((node) => node.getBehavior().name === behaviorId)) {
@@ -90,24 +107,20 @@ class BehavioralControlGraph extends Base {
      * @param {String} behaviorName
      * @throws {UnknownBehaviorError} Raised when the provided behavior
      * does not exist in the graph.
-     * @returns
+     * @returns {GraphNode} The found graph node.
      */
     findNode (behaviorName) {
-        for (let i = 0; i < this.nodes.length; i++) {
-            const behavior = this.nodes[i].getBehavior();
-            if (behavior.name === behaviorName) {
-                return this.nodes[i];
-            }
+        const node = this.nodes.find(
+            (node) => node.getBehavior().name === behaviorName
+        );
+        if (!node) {
+            throw new UnknownBehaviorError(behaviorName);
         }
-        throw new UnknownBehaviorError(behaviorName);
+        return node;
     }
 
     /**
      * Sets the active node given the behavior name.
-     * The execution provides the next observed
-     * behavior and the active node indicates if
-     * if it is a valid transition.
-     *
      *
      * @param {String} behaviorName
      */
@@ -124,7 +137,9 @@ class BehavioralControlGraph extends Base {
     /**
      * Check if the observed behavior is a valid transition
      * given the current node.
-     * @param {String} nextBehaviorName
+     *
+     * @param {String} nextBehaviorName Name of the next behavior to
+     * transition to.
      * @throws {InvalidTransitionError} Raised when the provided
      * behavior is not a valid transition.
      */
