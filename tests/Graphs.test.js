@@ -61,7 +61,6 @@ describe("multiple graphs test", () => {
         // If there are no graphs, a default graph is created and set as active.
         expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 2"]);
         expect(d.graph.name).toBe("default graph");
-        console.log(d.graph);
     });
 
     it("serialize and deserialize", async () => {
