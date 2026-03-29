@@ -1,4 +1,3 @@
-import BehavioralControlGraph from "./BehavioralControlGraph/BehavioralControlGraph";
 import Graphs from "./BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
 import Behavior from "./Members/Behavior";
@@ -54,18 +53,20 @@ export class DALEngine {
 
     /**
      * Exports the behavioral control graph to JSON text.
-     * @returns {String}
+     * @returns {String} JSON text representing the behavioral control graph.
      */
     serialize () {
-        return JSON.stringify(this.graph);
+        return JSON.stringify(this.graphs);
     }
 
     /**
      * Import the behavioral control graph from JSON text.
-     * @param {String} jsonText
+     * @param {String} jsonText JSON text representing the control graphs.
      */
     deserialize (jsonText) {
-        this.graph = new BehavioralControlGraph(JSON.parse(jsonText));
+        this.graphs = new Graphs();
+        this.graphs.loadFromJson(jsonText);
+        this.graph = this.graphs.getActiveGraph();
     }
 
     /**

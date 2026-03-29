@@ -47,4 +47,18 @@ describe("multiple graphs test", () => {
         d.createGraph("graph 1");
         expect(() => d.createGraph("graph 1")).toThrow(GraphWithNameExistsError);
     });
+
+    it("serialize and deserialize", async () => {
+        const d = new DALEngine({name: "Library Manager"});
+        d.createGraph("graph 1");
+        d.addNode("graph1behavior", []);
+
+        d.createGraph("graph 2");
+        d.addNode("graph2behavior", []);
+
+        await writeFile(resolve(__dirname, "./temp/graphs.json"), d.serialize());
+
+        d.deserialize(await readFile(resolve(__dirname, "./temp/graphs.json"), "utf-8"));
+        expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 1", "graph 2"]);
+    });
 });

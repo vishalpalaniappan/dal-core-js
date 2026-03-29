@@ -18,6 +18,18 @@ class Graphs {
     }
 
     /**
+     * Load the graphs from JSON text.
+     * @param {String} jsonText JSON text representing the collection of graphs.
+     */
+    loadFromJson (jsonText) {
+        const parsed = JSON.parse(jsonText);
+        Object.keys(parsed._graphs).forEach(graphId => {
+            this._graphs[graphId] = new BehavioralControlGraph(parsed._graphs[graphId]);
+        });
+        this._activeGraph = this._graphs[Object.keys(this._graphs)[0]];
+    }
+
+    /**
      * Adds a graph to the collection of graphs.
      * @param {String} graphId ID of the graph.
      * @returns {BehavioralControlGraph} The graph that was added.
