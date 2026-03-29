@@ -14,12 +14,10 @@ class Invariant extends Base {
      */
     constructor (args) {
         super();
-        // Object attributes with default values.
         this.type = ENGINE_TYPES.INVARIANT;
         this.invariantViolated = false;
         this.invariantType = null;
         this.traceId = null;
-        // Load arguments.
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 

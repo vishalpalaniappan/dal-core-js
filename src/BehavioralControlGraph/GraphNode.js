@@ -14,14 +14,11 @@ class GraphNode extends Base {
      */
     constructor (args) {
         super();
-
-        // Object attributes with default values.
         this.type = ENGINE_TYPES.GRAPH_NODE;
         this._behavior = null;
         this._goToBehaviorIds = [];
         this._isAtomic = false;
         this._isDesignFork = false;
-
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 

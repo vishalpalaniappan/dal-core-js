@@ -19,8 +19,6 @@ class BehavioralControlGraph extends Base {
      */
     constructor (args) {
         super();
-
-        // Object attributes with default values.
         this.type = ENGINE_TYPES.BEHAVIORAL_CONTROL_GRAPH;
         this.nodes = [];
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));

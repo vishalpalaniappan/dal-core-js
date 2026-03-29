@@ -15,12 +15,10 @@ class Participant extends Base {
      */
     constructor (args) {
         super();
-        // Default values for object attributes.
         this.type = ENGINE_TYPES.PARTICIPANT;
         this.invariants = [];
         this.abstractionId = null;
         this.invariantViolated = false;
-        // Load arguments.
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
