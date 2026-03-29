@@ -80,7 +80,9 @@ export class DALEngine {
     }
 
     /**
-     * Sets the active graph.
+     * Sets the active graph to the graph with the given graphId.
+     * @throws {UnknownGraph} Raised when the provided graphId does not exist
+     * in the collection of graphs.
      * @param {String} graphId ID of the graph to set as active.
      */
     selectGraph (graphId) {
@@ -89,6 +91,8 @@ export class DALEngine {
 
     /**
      * Deletes the graph with the given graphId
+     * @throws {UnknownGraph} Raised when the provided graphId does not exist
+     * in the collection of graphs.
      * @param {String} graphId Id of graph to delete.
      */
     deleteGraph (graphId) {
