@@ -7,16 +7,21 @@ import Participant from "./Members/Participant";
 
 /**
  * An object representing an engine written in Design
- * abstraction language. It exposes functions
- * configure the engine through the DAL specification.
+ * abstraction language.
  *
- * The design specified in this engine is mapped onto
- * the implementation using abstraction ids. The
- * implementation is then instrumented and the resulting
- * execution trace is fed back into the engine and is
- * automatically debugged by transforming the execution
- * into the behavior of the design and enforcing the
- * invariants.
+ * This class is the main interface for users to interact with
+ * the engine. It exposes functions to configure the engine and to
+ * execute the design. It also exposes functions to serialize
+ * and deserialize the engine to and from JSON text.
+ *
+ * A design can consist of multiple atomic graphs and this class allows
+ * users to create, select, and delete graphs. It also allows users to add
+ * nodes to the graph and to transition between behaviors in the graph.
+ * It also allows users to create participants, behaviors, and invariants
+ * and assign them to nodes in the graph.
+ *
+ * The design is executed by transitioning between behaviors in the graph.
+ * The selected graph is determined by the atomic behavior that is observed.
  */
 export class DALEngine {
     constructor (args) {
