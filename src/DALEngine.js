@@ -65,9 +65,25 @@ export class DALEngine {
      * @param {String} name
      */
     createGraph (name) {
-
+        this.graph = this.graphs.addGraph(name);
     }
 
+    /**
+     * Sets the active graph.
+     * @param {String} graphId ID of the graph to set as active.
+     */
+    selectGraph (graphId) {
+        this.graph = this.graphs.setActiveGraph(graphId);
+    }
+
+    /**
+     * Deletes the graph with the given graphId
+     * @param {String} graphId Id of graph to delete.
+     */
+    deleteGraph (graphId) {
+        this.graphs.deleteGraph(graphId);
+        this.graph = this.graphs.getActiveGraph();
+    }
 
     /**
      * Creates a participant.
