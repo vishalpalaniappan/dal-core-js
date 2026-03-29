@@ -178,16 +178,21 @@ export class DALEngine {
     }
 
     /**
-     * Sets the current behavior in the graph.
-     * @param {String} behaviorId
+     * Sets the current behavior in the graph. Since the behavior is not
+     * being transitioned from another, it must be an atomic behavior.
+     * @param {String} behaviorId ID of the behavior to set as current.
      */
     setCurrentBehavior (behaviorId) {
         this.graph.setCurrentBehavior(behaviorId);
     }
 
     /**
-     * Transitions the graph to the given behavior if it
-     *  is a valid transition from the current behavior.
+     * For the current node in the graph, transitions to the node with the given
+     * behaviorId if it is a valid transition.
+     * @throws {UnknownBehaviorError} Raised when the provided behavior is not
+     * a valid behavior in the graph.
+     * @throws {InvalidTransitionError} Raised when the provided behavior is not
+     * a valid transition from the current node.
      * @param {String} nextBehaviorId ID of the next behavior.
      */
     goToBehavior (nextBehaviorId) {
