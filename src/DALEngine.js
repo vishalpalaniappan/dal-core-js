@@ -164,15 +164,17 @@ export class DALEngine {
     /**
      * Deletes a node from the graph with the given behaviorId and
      * removes it from the goToBehavior list of all other nodes.
-     * @param {String} behaviorId
+     * @param {String} behaviorId Behavior ID of the node to delete.
+     * @returns {GraphNode} Returns the deleted graph node.
      */
     removeNode (behaviorId) {
         const node = this.graph.findNode(behaviorId);
         const nodeIndex = this.graph.nodes.indexOf(node);
-        this.graph.nodes.splice(nodeIndex, 1);
+        const removedNode = this.graph.nodes.splice(nodeIndex, 1);
         for (const node of this.graph.nodes) {
             node.removeGoToBehavior(behaviorId);
         }
+        return removedNode[0];
     }
 
     /**
