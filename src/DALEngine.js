@@ -53,8 +53,8 @@ export class DALEngine {
 
     /**
      * Serializes the behavioral control graphs and returns the JSON text.
-     * @returns {String} Returns JSON text representing the
-     * behavioral control graphs.
+     * @returns {String} Returns JSON text representing the behavioral
+     * control graphs.
      */
     serialize () {
         return JSON.stringify(this.graphs);
@@ -63,16 +63,20 @@ export class DALEngine {
     /**
      * Loads the behavioral control graphs from JSON text and sets
      * the active graph to the first graph in the collection of graphs.
-     * @param {String} jsonText JSON text representing the control graphs.
+     * @throws {SyntaxError|TypeError} Raised when the JSON text is invalid.
+     * @param {String} serializedText JSON text representing the control graphs.
      */
-    deserialize (jsonText) {
+    deserialize (serializedText) {
+        // TODO: Improve validation to throw specific error.
         this.graphs = new Graphs();
-        this.graphs.loadFromJson(jsonText);
+        this.graphs.loadFromJson(serializedText);
         this.graph = this.graphs.getActiveGraph();
     }
 
     /**
      * Creates a graph with the given name and sets it as the active graph.
+     * @throws {GraphWithNameExistsError} Raised when a graph with the provided
+     * name already exists.
      * @param {String} name Name of the graph to create.
      */
     createGraph (name) {
