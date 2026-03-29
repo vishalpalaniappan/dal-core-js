@@ -94,6 +94,14 @@ export class DALEngine {
     }
 
     /**
+     * Returns the name of all the graphs in the design.
+     * @returns {Array}
+     */
+    getSelectableGraphs () {
+        return this.graphs.getGraphNames();
+    }
+
+    /**
      * Creates a participant.
      * @param {Object} args
      * @returns {Participant}

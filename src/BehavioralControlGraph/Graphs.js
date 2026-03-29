@@ -82,6 +82,22 @@ class Graphs {
     getActiveGraph () {
         return this._activeGraph;
     }
+
+    /**
+     * Returns a collection of all the graphs in the design.
+     * @returns {Object}
+     */
+    getGraphs () {
+        return this._graphs;
+    }
+
+    /**
+     * Returns a list of all the graph names in the design.
+     * @returns {Array}
+     */
+    getGraphNames () {
+        return Object.keys(this._graphs);
+    }
 }
 
 export default Graphs;
