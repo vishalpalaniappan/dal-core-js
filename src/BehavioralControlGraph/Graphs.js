@@ -1,3 +1,4 @@
+import UnknownGraph from "../Errors/UnknownGraph";
 import BehavioralControlGraph from "./BehavioralControlGraph";
 
 /**
@@ -8,10 +9,11 @@ import BehavioralControlGraph from "./BehavioralControlGraph";
  * be easier to manage the design if it is separated into smaller graphs.
  * It is also easier to visualize in the UI in managable way.
  */
-export class Graphs {
+class Graphs {
 
     constructor () {
         this._graphs = {};
+        this.addGraph("default graph");
     }
 
     /**
@@ -21,7 +23,7 @@ export class Graphs {
      */
     addGraph (graphId) {
         this._graphs[graphId] = new BehavioralControlGraph();
-        return this._graphs[graphId];
+        this.activeGraph = this._graphs[graphId];
     }
 
     /**
@@ -30,6 +32,41 @@ export class Graphs {
      * @returns {BehavioralControlGraph} The graph with the given graphId.
      */
     getGraph (graphId) {
-        return this._graphs[graphId];
+        if (graphId in this._graphs) {
+            return this._graphs[graphId];
+        } else {
+            throw new UnknownGraph(graphId);
+        }
+    }
+
+    /**
+     * Deletes a graph from the collection of graphs.
+     * @param {String} graphId ID of the graph to delete.
+     */
+    deleteGraph (graphId) {
+        if (graphId in this._graphs) {
+            delete this._graphs[graphId];
+        } else {
+            throw new UnknownGraph(graphId);
+        }
+        if (Object.keys(this._graphs).length === 0) {
+            this.addGraph("default graph");
+        } else {
+            this.activeGraph = this._graphs[Object.keys(this._graphs)[0]];
+        }
+    }
+
+    /**
+     * Sets the active graph.
+     * @param {String} graphId ID of the graph to set as active.
+     */
+    setActiveGraph (graphId) {
+        if (graphId in this._graphs) {
+            this.activeGraph = this._graphs[graphId];
+        } else {
+            throw new UnknownGraph(graphId);
+        }
     }
 }
+
+export default Graphs;
