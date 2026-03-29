@@ -13,9 +13,7 @@ class BehavioralControlGraph extends Base {
     /**
      * Class representing the behavioral control graph. The behavioral control
      * graph is a directed graph where nodes represent behaviors and edges
-     * represent valid transitions between behaviors. The graph also includes
-     * information about which behaviors are atomic and which nodes are forks in
-     * the design.
+     * represent valid transitions between behaviors.
      *
      * The graph can be used to execute the design by starting at the atomic
      * node and transitioning to observed behaviors. As the design is executed,
