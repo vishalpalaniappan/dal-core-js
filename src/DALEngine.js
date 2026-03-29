@@ -107,6 +107,8 @@ export class DALEngine {
     /**
      * Creates a participant with the provided args and returns it.
      * @param {Object} args Arguments to create the participant with.
+     * @throws {MissingAttributes} Raised when required attributes are not
+     * present in the args. See Participant class for required attributes.
      * @returns {Participant} Returns the created participant.
      */
     createParticipant (args) {
@@ -116,6 +118,8 @@ export class DALEngine {
     /**
      * Creates a behavior with the provided args and returns it.
      * @param {Object} args Arguments to create the behavior with.
+     * @throws {MissingAttributes} Raised when required attributes are not
+     * present in the args. See Behavior class for required attributes.
      * @returns {Behavior} Returns the created behavior.
      */
     createBehavior (args) {
@@ -125,6 +129,8 @@ export class DALEngine {
     /**
      * Creates an invariant with the provided args and returns it.
      * @param {Object} args Arguments to create the invariant with.
+     * @throws {MissingAttributes} Raised when required attributes are not
+     * present in the args. See Invariant class for required attributes.
      * @returns {Invariant} Returns the created invariant.
      */
     createInvariant (args) {
@@ -134,6 +140,8 @@ export class DALEngine {
     /**
      * Returns the node in the graph with the given behavior name.
      * @param {String} behaviorId ID of the behavior.
+     * @throws {UnknownBehaviorError} Raised when the provided behaviorId is not
+     * a valid behavior in the graph.
      * @returns {GraphNode} Returns the node in the graph with the
      * given behavior name.
      */
