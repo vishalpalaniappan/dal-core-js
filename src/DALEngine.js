@@ -165,6 +165,8 @@ export class DALEngine {
      * Deletes a node from the graph with the given behaviorId and
      * removes it from the goToBehavior list of all other nodes.
      * @param {String} behaviorId Behavior ID of the node to delete.
+     * @throws {UnknownBehaviorError} Raised when the provided behaviorId is not
+     * a valid behavior in the graph.
      * @returns {GraphNode} Returns the deleted graph node.
      */
     removeNode (behaviorId) {
@@ -181,6 +183,8 @@ export class DALEngine {
      * Sets the current behavior in the graph. Since the behavior is not
      * being transitioned from another, it must be an atomic behavior.
      * @param {String} behaviorId ID of the behavior to set as current.
+     * @throws {UnknownBehaviorError} Raised when the provided behavior is not
+     * a valid behavior in the graph.
      */
     setCurrentBehavior (behaviorId) {
         this.graph.setCurrentBehavior(behaviorId);
