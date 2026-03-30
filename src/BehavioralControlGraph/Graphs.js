@@ -24,6 +24,7 @@ class Graphs {
      * @param {String} jsonText JSON text representing the collection of graphs.
      */
     loadFromJson (jsonText) {
+        this._graphs = {};
         const parsed = JSON.parse(jsonText);
         Object.keys(parsed._graphs).forEach(graphId => {
             this._graphs[graphId] = new BehavioralControlGraph(parsed._graphs[graphId]);
