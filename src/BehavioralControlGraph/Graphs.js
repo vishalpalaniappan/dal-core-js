@@ -2,17 +2,22 @@ import GraphWithNameExistsError from "../Errors/GraphWithNameExistsError";
 import UnknownGraph from "../Errors/UnknownGraph";
 import BehavioralControlGraph from "./BehavioralControlGraph";
 
-/**
- * Class representing a collection of atomic graphs.
- *
- * These graphs together represent the design. Within each graph, every node
- * must be part of the same tree. There cannot be multiple disconnected trees,
- * if there are, then it is a separate graph in this collection. Each graph
- * is identified by a unique name and is selected as the active graph when the
- * atomic behavior is observed. The atomic behavior is not transitioned to from
- * any other behavior, it is the root of the tree.
- */
+
 class Graphs {
+    /**
+    * Class representing a collection of atomic graphs.
+    *
+    * These graphs together represent the design. Within each graph, every node
+    * must be part of the same tree. There cannot be multiple disconnected
+    * trees, if there are, then it is a separate graph in this collection. Each
+    * graph is identified by a unique name and is selected as the active graph
+    * when the atomic behavior is observed. The atomic behavior is not
+    * transitioned to from any other behavior, it is the root of the tree.
+    *
+    * The current functionality always makes sure that one graph exists. When
+    * the last graph is removed or the class is initialized, it ensures that
+    * a graph named "default graph" is created and that it is the active graph.
+    */
     constructor () {
         this._graphs = {};
         this.addGraph("default graph");
