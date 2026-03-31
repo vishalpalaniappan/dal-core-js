@@ -84,21 +84,6 @@ class Invariant extends Base {
         return this.invariantViolated;
     }
 
-    /**
-     * Enforce the string min length invariant.
-     * @param {*} value The value to enforce the invariant on.
-     */
-    enforceMinLength (value) {
-        if ("keys" in this.rule) {
-            for (let i = 0; i < this.rule["keys"].length; i++) {
-                value = value[this.rule["keys"][i]];
-            }
-        };
-        if (value === null || typeof value !== "string" || value.length < this.rule.value) {
-            this.invariantViolated = true;
-        }
-    }
-
 
     /**
      * Sets the invariant source.
