@@ -3,10 +3,10 @@ import { InvariantType } from "./InvariantType"
 export class RangeInvariant extends InvariantType {
 
     /**
-     * Initializes the min length invariant type with the expected properties:
-     * - key: The key of the value in the participant's state to which the
-     * invariant should be applied.
-     * - value: The minimum length that the value should have.
+     * Initializes the range invariant. Verifies that the numeric value
+     * falls within the specified range. The range can be inclusive or
+     * exclusive, which is determined by the inclusiveMin and inclusiveMax
+     * properties.
      */
     constructor() {
         super(
@@ -51,7 +51,7 @@ export class RangeInvariant extends InvariantType {
      * This function evaluates the invariant based on the provided state and
      * configuration. The configuration will include the properties of the
      * invariant type (e.g. key and value for the min length invariant type).
-     * 
+     *
      * Returns true if violated, false if not violated.
      *
      * @param {Number} state The state of the participant to evaluate the
