@@ -101,9 +101,9 @@ class Invariant extends Base {
 
 
     /**
-     * Sets the invariant type.
+     * Sets the invariant source.
      *
-     * The two types of invariants are: Intrinsic and Substrate
+     * The two sources of invariants are: Intrinsic and Substrate
      *
      * Substrate invariants are learnt by the design from the
      * environment.
@@ -111,11 +111,11 @@ class Invariant extends Base {
      * Intrinsic invariants are arrived at naturally from the
      * designs control flow, data dependencies and semantic assumptions.
      *
-     * @param {String} invariantType
+     * @param {String} invariantSource
      */
-    setInvariantType (invariantType) {
-        // TODO: Add validation for invariantType.
-        this.invariantType = invariantType;
+    setInvariantSource (invariantSource) {
+        // TODO: Add validation for invariantSource.
+        this.invariantSource = invariantSource;
     }
 
     /**
