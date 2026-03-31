@@ -18,10 +18,10 @@ class Participant extends Base {
      */
     constructor (args) {
         super();
-        this.type = ENGINE_TYPES.PARTICIPANT;
-        this.invariants = [];
-        this.abstractionId = null;
-        this.invariantViolated = false;
+        this._type = ENGINE_TYPES.PARTICIPANT;
+        this._invariants = [];
+        this._abstractionId = null;
+        this._invariantViolated = false;
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -50,8 +50,8 @@ class Participant extends Base {
      */
     _loadFromFile (participantJSON) {
         for (const [key, value] of Object.entries(participantJSON)) {
-            if (key === "invariants") {
-                value.forEach(node => this.invariants.push(new Invariant(node)));
+            if (key === "_invariants") {
+                value.forEach(node => this._invariants.push(new Invariant(node)));
             } else {
                 this[key] = participantJSON[key];
             }
@@ -59,39 +59,19 @@ class Participant extends Base {
     }
 
     /**
-     * Adds an invariant to the participant.
-     * @param {Invariant} invariant The invariant to add.
-     * @returns {Invariant} The invariant that was added.
-     */
-    addInvariant (invariant) {
-        this.invariants.push(invariant);
-        return invariant;
-    }
-
-    /**
      * Sets the value of this participant.
      * @param {*} value The value to set for the participant.
      */
     setValue (value) {
-        this.value = value;
+        this._value = value;
     }
 
     /**
-     * Enforces the participant's invariants. Raises a flag indicating if an
-     * invariant was violated and counts the number of invariant violations.
-     *
-     * @returns {Boolean} Returns flag indicating if any invariant was violated.
+     * Returns the value of this participant.
+     * @returns {*} Value of participant.
      */
-    enforceInvariants () {
-        this.invariantViolated = false
-        this.invariantViolationCount = 0;
-        for (let i = 0; i < this.invariants.length; i++) {
-            if (this.invariants[i].evaluate(this.value)) {
-                this.invariantViolated = true;
-                this.invariantViolationCount++;
-            }
-        }
-        return this.invariantViolated;
+    getValue () {
+        return this._value;
     }
 
     /**
@@ -109,7 +89,7 @@ class Participant extends Base {
          * the participant onto the implementation without introducing new
          * unncessary layers.
          */
-        this.abstractionId = abstractionId;
+        this._abstractionId = abstractionId;
     }
 }
 
