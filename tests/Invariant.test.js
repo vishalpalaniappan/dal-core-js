@@ -22,8 +22,8 @@ describe("invariantTests", () => {
         minLengthInvariant.properties.minLength.value = 1;
         const state1 = {title: "Harry Potter"};
         const state2 = {title: ""};
-        expect(minLengthInvariant.evaluate(state1)).toBe(true);
-        expect(minLengthInvariant.evaluate(state2)).toBe(false);
+        expect(minLengthInvariant.evaluate(state1)).toBe(false);
+        expect(minLengthInvariant.evaluate(state2)).toBe(true);
     });
 
 

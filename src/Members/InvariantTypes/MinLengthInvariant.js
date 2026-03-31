@@ -35,10 +35,12 @@ export class MinLengthInvariant extends InvariantType {
      * This function evaluates the invariant based on the provided state and
      * configuration. The configuration will include the properties of the
      * invariant type (e.g. key and value for the min length invariant type).
+     * 
+     * Returns true if violated, false if not violated.
      *
      * @param {Object} state The state of the participant to evaluate the
      * invariant on.
-     * @returns {Boolean} Whether the invariant is satisfied or not.
+     * @returns {Boolean} Whether the invariant is violated or not.
      */
     evaluate (state) {
 
@@ -52,6 +54,11 @@ export class MinLengthInvariant extends InvariantType {
             }
             value = value[key];
         }
-        return typeof value === "string" && value.length >= this.properties.minLength.value;
+
+        // True means that the invariant is violated.
+        this.invariantViolated = !(
+            typeof value === "string" && value.length >= this.properties.minLength.value
+        );
+        return this.invariantViolated
     };
 }

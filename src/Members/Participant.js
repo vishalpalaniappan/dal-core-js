@@ -121,8 +121,7 @@ class Participant extends Base {
     evaluateInvariants () {
         this._invariantViolated = false;
         this._invariants.forEach((invariant) => {
-            // False means invariant violated.
-            if (!invariant.evaluate(this._value)) {
+            if (invariant.evaluate(this._value)) {
                 this._invariantViolated = true;
             }
         });
