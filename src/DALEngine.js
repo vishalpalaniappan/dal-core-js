@@ -2,6 +2,7 @@ import Graphs from "./BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
 import Behavior from "./Members/Behavior";
 import Invariant from "./Members/Invariant";
+import INVARIANT_TYPES from "./Members/InvariantTypes/InvariantTypes";
 import Participant from "./Members/Participant";
 
 /**
@@ -29,6 +30,7 @@ export class DALEngine {
     constructor (args) {
         this.graphs = new Graphs();
         this.graph = this.graphs.getActiveGraph();
+        this.invariant_types = INVARIANT_TYPES;
         this._loadArgs(args);
     }
 
