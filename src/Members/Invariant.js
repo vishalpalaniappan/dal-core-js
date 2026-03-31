@@ -63,11 +63,11 @@ class Invariant extends Base {
      * keys of the value that is being evaluated and the minimum length
      * that is being enforced. Then given a value, it can enforce the invariant
      * and identify a semantically invalid state.
-     * 
+     *
      * Each invariant type is contained in its own class and has its own
      * internal logic for enforcing it. This also allows for modular testing
      * and extensibility.
-     * 
+     *
      * @param {Class} invariantType Type of invariant (see InvariantTypes.js).
      */
     assignInvariantType (invariantType) {
