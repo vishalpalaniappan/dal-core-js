@@ -49,9 +49,9 @@ class GraphNode extends Base {
      */
     _loadFromFile (nodeJSON) {
         for (const [key, value] of Object.entries(nodeJSON)) {
-            if (key === "behavior") {
+            if (key === "_behavior") {
                 this._behavior = new Behavior(value);
-            } else if (key === "goToBehaviorIds") {
+            } else if (key === "_goToBehaviorIds") {
                 value.forEach(behaviorId => this._goToBehaviorIds.push(behaviorId));
             } else {
                 this[key] = nodeJSON[key];
