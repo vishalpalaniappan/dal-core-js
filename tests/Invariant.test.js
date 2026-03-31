@@ -16,13 +16,27 @@ describe("invariantTests", () => {
     });
 
     it("tests min length invariant", () => {
-        let d = new DALEngine({ name: "Library Manager" });
+        let d = new DALEngine({name: "Library Manager"});
         const minLengthInvariant = new d.invariant_types.MIN_LENGTH();
-        minLengthInvariant.properties.keys = ["title"];
-        minLengthInvariant.properties.value = 1;
+        minLengthInvariant.properties.keys.value = ["title"];
+        minLengthInvariant.properties.minLength.value = 1;
         const state1 = {title: "Harry Potter"};
         const state2 = {title: ""};
         expect(minLengthInvariant.evaluate(state1)).toBe(true);
         expect(minLengthInvariant.evaluate(state2)).toBe(false);
+    });
+
+
+    it ("tests invariants assigned to participant", () => {
+        let d = new DALEngine({name: "Library Manager"});
+        const minLengthInvariant = new d.invariant_types.MIN_LENGTH();
+        minLengthInvariant.properties.keys.value = ["title"];
+        minLengthInvariant.properties.minLength.value = 1;
+
+        const participant = d.createParticipant({name: "Book"});
+        participant.setValue({title: "Harry Potter"});
+        participant.addInvariant(minLengthInvariant);
+        participant.evaluateInvariants();
+        expect(participant._invariantViolated).toBe(false);
     });
 })

@@ -21,7 +21,7 @@ export class MinLengthInvariant extends InvariantType {
                         type: "Array",
                         required: true,
                     },
-                    value: {
+                    minLength: {
                         label: "Minimum Length",
                         type: "string",
                         required: true,
@@ -43,15 +43,15 @@ export class MinLengthInvariant extends InvariantType {
     evaluate (state) {
 
         let value = state;
-        for (const key of this.properties.keys) {
+        for (const key of this.properties.keys.value) {
             if (!(key in state)) {
-                // If the key is not in the state, 
+                // If the key is not in the state,
                 // we consider the invariant to be violated.
                 // TODO: Needs some more thought.
                 return false;
             }
             value = value[key];
         }
-        return typeof value === "string" && value.length >= this.properties.value;
+        return typeof value === "string" && value.length >= this.properties.minLength.value;
     };
 }
