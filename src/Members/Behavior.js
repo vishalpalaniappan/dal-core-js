@@ -80,6 +80,20 @@ class Behavior extends Base {
     }
 
     /**
+     * Removes a participant from the behavior.
+     * @param {String} participantName
+     * @throws {UnknownParticipantError} Thrown when a participant with the
+     * provided name does not exist in the behavior.
+     */
+    removeParticipant (participantName) {
+        const index = this.participants.findIndex(p => p.name === participantName);
+        if (index === -1) {
+            throw new UnknownParticipantError(participantName);
+        }
+        this.participants.splice(index, 1);
+    }
+
+    /**
      * Sets the value of a participant and checks for invariant violations.
      * If any invariant is violated, the world state for this behavior is
      * marked as invalid.
