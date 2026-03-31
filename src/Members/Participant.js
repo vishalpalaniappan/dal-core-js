@@ -83,6 +83,37 @@ class Participant extends Base {
     }
 
     /**
+     * Adds an invariant to this participant.
+     * @param {Invariant} invariant The invariant to add.
+     */
+    addInvariant (invariant) {
+        this._invariants.push(invariant);
+    }
+
+    /**
+     * Get the invariant with the given name from this participant.
+     * @param {String} invariantName 
+     * @returns {Invariant} The invariant with the given name.
+     */
+    getInvariant (invariantName) {
+        const foundInvariant = this._invariants.find(
+            invariant => invariant.getName() === invariantName
+        );
+        if (!foundInvariant) {
+            //throw error
+        }
+        return foundInvariant;
+    }
+
+    /**
+     * Returns all the invariants for this participant.
+     * @returns {Array} All the invariants for this participant.
+     */
+    getInvariants () {
+        return this._invariants;
+    }
+
+    /**
      * Map the abstraction ID from the execution to the participant.
      *
      * This abstraction id will be used to assign a value to the
