@@ -134,10 +134,7 @@ class Behavior extends Base {
         if (!participant) {
             throw new UnknownParticipantError(name);
         }
-        participant.value = value;
-        if (participant.enforceInvariants()) {
-            this._invalidWorldState = true;
-        }
+        participant.setValue(value);
     }
 
     /**
