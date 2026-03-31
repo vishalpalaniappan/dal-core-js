@@ -15,20 +15,18 @@ export class MinLengthInvariant extends InvariantType {
                 label: "Minimum Length",
                 description: "Ensures a string has a minimum length. If the string is a value\
                  in an object, the key of the value in the object should be specified.",
-                properties: [
-                    {
-                        key: "key",
-                        label: "Key of value in object",
+                properties: {
+                    keys: {
+                        label: "Key(s) of value in object",
                         type: "Array",
                         required: true,
                     },
-                    {
-                        key: "value",
+                    value: {
                         label: "Minimum Length",
                         type: "string",
                         required: true,
                     },
-                ],
+                },
             }
         )
     }
@@ -40,12 +38,20 @@ export class MinLengthInvariant extends InvariantType {
      *
      * @param {Object} state The state of the participant to evaluate the
      * invariant on.
-     * @param {Object} config The configuration for the invariant evaluation.
-     * This will include the properties of the invariant type (e.g. key and
-     * value for the min length invariant type).
      * @returns {Boolean} Whether the invariant is satisfied or not.
      */
-    evaluate (state, config) {
+    evaluate (state) {
 
+        let value = state;
+        for (const key of this.properties.keys) {
+            if (!(key in state)) {
+                // If the key is not in the state, 
+                // we consider the invariant to be violated.
+                // TODO: Needs some more thought.
+                return false;
+            }
+            value = value[key];
+        }
+        return typeof value === "string" && value.length >= this.properties.value;
     };
 }
