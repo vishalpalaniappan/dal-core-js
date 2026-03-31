@@ -10,23 +10,6 @@ class Invariant extends Base {
      * are used to check if the design has entered a semantically invalid state
      * during execution.
      *
-     * The expected attributes in args are:
-     * - name: Name of the invariant.
-     * - rule: The rule that defines the how to enforce the invariant. This
-     * will be formally defined in a collection of invariant rules that can
-     * be chosen from when creating an invariant.
-     *
-     * Currently, the only supported invariant rule is the string min length
-     * rule, which can be specified as follows:
-     * {
-     *     "name": "MinLengthConstraint",
-     *     "rule": {
-     *         "type": "minLength",
-     *         "keys": ["value", "name"],
-     *         "value": 1,
-     *     },
-     * }
-     *
      * @param {Object} args The arguments to initialize the invariant with.
      */
     constructor (args) {
@@ -68,6 +51,40 @@ class Invariant extends Base {
         // Reset these because they are set by the execution
         this.invariantViolated = null;
         this.value = null;
+    }
+
+    /**
+     * Records that this invariant violation predicts a downstream
+     * semantically invalid state at the specified behavior.
+     *
+     * This invalid state first becomes identifiable at the invariant
+     * violation itself and then becomes identifiable when it manifests as
+     * an observable condition, such as another invariant violation or a
+     * failure. By mapping these manifestations to this invariant violation,
+     * the root cause of the invalid state can be precisely identified.
+     *
+     * For example, if a design uses the first letter of a books name to
+     * determine which shelf to place the book on. Then a min length invariant
+     * violation when accepting the books name will result in a predicted
+     * invalid state at the behavior when the design tries to determine
+     * which slot to place the book in. There is also a specific implementation
+     * error which manifests at that behavior, for example, an index out of
+     * bounds error when trying to access the first letter of the book's name.
+     * In this case, when the failure is observed, the root cause can be
+     * unambiguously identified as the min length invariant violation at the
+     * behavior which accepted the book.
+     *
+     * If a failure is observed, but the root cause can't be unambiguously ,
+     * identified then the engine enters learning mode, where it learns
+     * about the root cause of this failure.
+     *
+     * @param {String} behavior The downstream behavior predicted to enter an
+     * invalid semantic state due to this invariant violation..
+     * @param {Object} manifestation Details about the manifestation of this
+     * invariant violation in the design.
+     */
+    assignPredictedInvalidState(behavior, manifestation) {
+
     }
 
     /**

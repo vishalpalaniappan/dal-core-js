@@ -18,38 +18,4 @@ export class InvariantType {
         this.label = label;
         this.properties = properties;
     }
-
-    /**
-     * Records that this invariant violation predicts a downstream
-     * semantically invalid state at the specified behavior.
-     *
-     * This invalid state first becomes identifiable at the invariant
-     * violation itself and then becomes identifiable when it manifests as
-     * an observable condition, such as another invariant violation or a
-     * failure. By mapping these manifestations to this invariant violation,
-     * the root cause of the invalid state can be precisely identified.
-     *
-     * For example, if a design uses the first letter of a books name to
-     * determine which shelf to place the book on. Then a min length invariant
-     * violation when accepting the books name will result in a predicted
-     * invalid state at the behavior when the design tries to determine
-     * which slot to place the book in. There is also a specific implementation
-     * error which manifests at that behavior, for example, an index out of
-     * bounds error when trying to access the first letter of the book's name.
-     * In this case, when the failure is observed, the root cause can be
-     * unambiguously identified as the min length invariant violation at the
-     * behavior which accepted the book.
-     *
-     * If a failure is observed, but the root cause can't be unambiguously ,
-     * identified then the engine enters learning mode, where it learns
-     * about the root cause of this failure.
-     *
-     * @param {String} behavior The downstream behavior predicted to enter an
-     * invalid semantic state due to this invariant violation..
-     * @param {Object} manifestation Details about the manifestation of this
-     * invariant violation in the design.
-     */
-    assignPredictedInvalidState(behavior, manifestation) {
-
-    }
 }
