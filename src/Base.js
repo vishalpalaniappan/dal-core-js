@@ -16,7 +16,7 @@ class Base {
      * @returns {Number} The type of node.
      */
     getType () {
-        return this.type;
+        return this._type;
     }
 }
 

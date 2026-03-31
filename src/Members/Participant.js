@@ -40,7 +40,7 @@ class Participant extends Base {
             if (!(attr in args)) {
                 throw new MissingAttributes("Participant", attr);
             }
-            this[attr] = args[attr];
+            this["_" + attr] = args[attr];
         });
     }
 
@@ -72,6 +72,14 @@ class Participant extends Base {
      */
     getValue () {
         return this._value;
+    }
+
+    /**
+     * Returns the name of this participant.
+     * @returns {String} Name of participant.
+     */
+    getName () {
+        return this._name;
     }
 
     /**

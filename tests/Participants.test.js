@@ -13,19 +13,26 @@ describe("participantTests", () => {
         d.addNode("AcceptBookFromUser", []);
         const node = d.getNode("AcceptBookFromUser");
         const behavior = node.getBehavior();
-        behavior.addParticipant("User");
-        expect(behavior.getParticipants()[0].name).toBe("User");
-        behavior.removeParticipant("User");
-        expect(behavior.getParticipants().length).toBe(0);
+
+        // Create and Add Participant
+        const participant = d.createParticipant({name: "User"});
+        behavior.addParticipant(participant);
+        expect(behavior.getParticipants()[0].getName()).toBe("User");
     });
 
-    it("removes a participant", () => {
+    it("add and remove participant", () => {
         let d = new DALEngine({name: "Library Manager"});
         d.addNode("AcceptBookFromUser", []);
         const node = d.getNode("AcceptBookFromUser");
         const behavior = node.getBehavior();
-        behavior.addParticipant("User");
-        behavior.removeParticipant("User");
+
+        // Create and Add Participant
+        const participant = d.createParticipant({name: "User"});
+        behavior.addParticipant(participant);
+        expect(behavior.getParticipants()[0].getName()).toBe("User");
+
+        // Remove participant
+        behavior.removeParticipant(participant);
         expect(behavior.getParticipants().length).toBe(0);
     });
 })

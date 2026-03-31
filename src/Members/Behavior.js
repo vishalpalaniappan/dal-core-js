@@ -69,15 +69,19 @@ class Behavior extends Base {
 
     /**
      * Returns the list of participants in the behavior.
-     * @param participantName Name of the participant to return.
+     * @param {Participant|String} participant Name of the participant 
+     * or participant object to get.
      * @returns {Participant} The participant with the provided name.
      * @throws {UnknownParticipantError} Thrown when a participant with the
      * provided name does not exist in the behavior.
      */
-    getParticipant (participantName) {
-        const index = this._participants.findIndex(p => p.name === participantName);
+    getParticipant (participant) {
+        const p = participant;
+        const index = this._participants.findIndex(
+            entry => entry.getName() === (p instanceof Participant ? p.getName() : p)
+        );
         if (index === -1) {
-            throw new UnknownParticipantError(participantName);
+            throw new UnknownParticipantError(p instanceof Participant ? p.getName() : p);
         }
         return this._participants[index];
     }
@@ -85,33 +89,32 @@ class Behavior extends Base {
     /**
      * Adds a participant to the behavior.
      *
-     * @param {String} participantName The name of the participant to add.
-     * @returns {String} The name of the added participant.
+     * @param {Participant} participant The participant to add.
+     * @returns {Participant} The participant that was added.
      * @throws {ParticipantAlreadyExistsError} Thrown when a participant with
      * the same name already exists in the behavior.
      */
-    addParticipant (participantName) {
-        if (this._participants.some(p => p.name === participantName)) {
-            throw new ParticipantAlreadyExistsError(participantName);
+    addParticipant (participant) {
+        if (this._participants.some(p => p.getName() === participant.getName())) {
+            throw new ParticipantAlreadyExistsError(participant.getName());
         }
-        this._participants.push(
-            new Participant (
-                {name: participantName}
-            )
-        );
-        return participantName;
+        this._participants.push(participant);
+        return participant;
     }
 
     /**
      * Removes a participant from the behavior.
-     * @param {String} participantName
+     * @param {Participant|String} participant The participant to remove.
      * @throws {UnknownParticipantError} Thrown when a participant with the
      * provided name does not exist in the behavior.
      */
-    removeParticipant (participantName) {
-        const index = this._participants.findIndex(p => p.name === participantName);
+    removeParticipant (participant) {
+        const p = participant;
+        const index = this._participants.findIndex(
+            entry => entry.getName() === (p instanceof Participant ? p.getName() : p)
+        );
         if (index === -1) {
-            throw new UnknownParticipantError(participantName);
+            throw new UnknownParticipantError(p instanceof Participant ? p.getName() : p);
         }
         this._participants.splice(index, 1);
     }
@@ -127,7 +130,7 @@ class Behavior extends Base {
      * provided name does not exist in the behavior.
      */
     setParticipantValue (name, value) {
-        const participant = this._participants.find(obj => obj.name === name);
+        const participant = this._participants.find(obj => obj.getName() === name);
         if (!participant) {
             throw new UnknownParticipantError(name);
         }
