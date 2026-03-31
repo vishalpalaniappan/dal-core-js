@@ -34,5 +34,23 @@ describe("participantTests", () => {
         // Remove participant
         behavior.removeParticipant(participant);
         expect(behavior.getParticipants().length).toBe(0);
+
+        // Create and Add 2 Participant
+        const participant1 = d.createParticipant({name: "User"});
+        const participant2 = d.createParticipant({name: "User2"});
+        behavior.addParticipant(participant1);
+        behavior.addParticipant(participant2);
+        expect(behavior.getParticipants()[0].getName()).toBe("User");
+        expect(behavior.getParticipants()[1].getName()).toBe("User2");
+        expect(behavior.getParticipants().length).toBe(2);
+
+        // Remove participant using name
+        behavior.removeParticipant("User");
+        expect(behavior.getParticipants()[0].getName()).toBe("User2");
+        expect(behavior.getParticipants().length).toBe(1);
+
+        // Remove participant using instance
+        behavior.removeParticipant(participant2);
+        expect(behavior.getParticipants().length).toBe(0);
     });
 })
