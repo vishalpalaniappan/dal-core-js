@@ -1,7 +1,9 @@
-import { MinLengthInvariant } from "./MinLengthInvariant";
+import {MinLengthInvariant} from "./MinLengthInvariant";
+import {RangeInvariant} from "./RangeInvariant";
 
 let INVARIANT_TYPES = {
     MIN_LENGTH: MinLengthInvariant,
+    RANGE: RangeInvariant,
 };
 INVARIANT_TYPES = Object.freeze(INVARIANT_TYPES);
 
