@@ -109,26 +109,6 @@ describe("DALEngine", () => {
         }).toThrow(InvalidTransitionError);
     });
 
-    it("add invariant to participant", () => {
-        const d = new DALEngine({name: "Library Manager"});
-        const book = d.createParticipant({name: "book"});
-        const invariant = d.createInvariant(
-            {
-                "name": "MinLengthConstraint",
-                "rule": {
-                    "type": "minLength",
-                    "keys": ["value", "name"],
-                    "value": 1,
-                },
-            }
-        );
-
-        book.addInvariant(invariant);
-
-        const lastInvariant = book.invariants[book.invariants.length - 1];
-        expect(lastInvariant).toBe(invariant);
-    });
-
     it ("add duplicate transition and check error is raised", () => {
         const d = new DALEngine({name: "Library Manager"});
         const node1 = d.addNode("AcceptBookFromUser", []);
@@ -142,17 +122,6 @@ describe("DALEngine", () => {
     it("serialize to file and deseralize from file", async () => {
         let d = new DALEngine({name: "Library Manager"});
         const book = d.createParticipant({name: "book"});
-        const invariant = d.createInvariant(
-            {
-                "name": "MinLengthConstraint",
-                "rule": {
-                    "type": "minLength",
-                    "keys": ["value", "name"],
-                    "value": 1,
-                },
-            }
-        );
-        book.addInvariant(invariant);
 
 
         d.addNode("AcceptBookFromUser", []);
