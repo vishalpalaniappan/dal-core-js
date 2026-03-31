@@ -17,6 +17,23 @@ export class InvariantType {
         this.type = type;
         this.label = label;
         this.properties = properties;
+        this.invariantViolated = null;
+    }
+
+    /**
+     * Indicates if the invariant has been evaluated to be violated or not.
+     * This should only called after the invariant has been evaluated,
+     * otherwise it will throw an error.
+     * @returns {Boolean} Whether the invariant is violated or not.
+     * @throws {Error} Thrown when the invariant has not been evaluated yet.
+     * In this case, the invariant violation status is unknown, so an error
+     * will be thrown.
+     */
+    isViolated () {
+        if (this.invariantViolated === null) {
+            throw new Error("Invariant has not been evaluated yet.");
+        }
+        return this.invariantViolated;
     }
 
     /**
