@@ -10,5 +10,8 @@ describe("invariantTests", () => {
 
     it("invariant throws on missing attributes", () => {
         let d = new DALEngine({name: "Library Manager"});
+        const invariant =d.createInvariant({name: "Book Title Length", "rule": ""});
+        invariant.assignInvariantType(d.invariant_types.MIN_LENGTH);
+        expect(invariant.invariantType.label).toBe("Minimum Length");
     });
 })
