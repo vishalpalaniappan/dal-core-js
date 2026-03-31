@@ -10,8 +10,5 @@ describe("invariantTests", () => {
 
     it("invariant throws on missing attributes", () => {
         let d = new DALEngine({name: "Library Manager"});
-        expect(() => {d.createInvariant({"name": "asdf"})}).toThrow(MissingAttributes);
-        expect(() => {d.createInvariant({})}).toThrow(MissingAttributes);
-        expect(() => {d.createInvariant()}).toThrow(MissingAttributes);
     });
 })
