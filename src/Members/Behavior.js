@@ -62,17 +62,21 @@ class Behavior extends Base {
     /**
      * Adds a participant to the behavior.
      *
-     * @param {Participant} participant The participant to add.
-     * @returns {Participant} The added participant.
+     * @param {String} participantName The name of the participant to add.
+     * @returns {String} The name of the added participant.
      * @throws {ParticipantAlreadyExistsError} Thrown when a participant with
      * the same name already exists in the behavior.
      */
-    addParticipant (participant) {
-        if (this.participants.some(p => p.name === participant.name)) {
-            throw new ParticipantAlreadyExistsError(participant.name);
+    addParticipant (participantName) {
+        if (this.participants.some(p => p.name === participantName)) {
+            throw new ParticipantAlreadyExistsError(participantName);
         }
-        this.participants.push(participant);
-        return participant;
+        this.participants.push(
+            new Participant (
+                {name: participantName}
+            )
+        );
+        return participantName;
     }
 
     /**
