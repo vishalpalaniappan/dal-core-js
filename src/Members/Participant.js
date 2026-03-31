@@ -115,6 +115,19 @@ class Participant extends Base {
     }
 
     /**
+     * Evaluates all the invariants for this participant.
+     * Sets the _invariantViolated flag to true if any invariant is violated.
+     */
+    evaluateInvariants () {
+        this._invariantViolated = false;
+        this._invariants.forEach((invariant) => {
+            if (invariant.evaluate(this._value)) {
+                this._invariantViolated = true;
+            }
+        });
+    };
+
+    /**
      * Map the abstraction ID from the execution to the participant.
      *
      * This abstraction id will be used to assign a value to the

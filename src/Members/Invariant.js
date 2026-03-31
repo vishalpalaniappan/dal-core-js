@@ -81,11 +81,21 @@ class Invariant extends Base {
      * @returns {Boolean} Returns flag indicating if invariant was violated.
      */
     evaluate (value) {
-        this.invariantViolated = false;
-        if (this.rule.type === "minLength") {
-            this.enforceMinLength(value);
+        if (!this.invariantType) {
+            // TODO: Make into custom error.
+            throw new Error("Invariant type not assigned.");
         }
-        return this.invariantViolated;
+        for (const key in this.invariantType.properties) {
+            const property = this.invariantType.properties[key];
+            if (!("value" in property)) {
+                // TODO: Make into custom error.
+                // Also verify type (but do it in invariant type when the value
+                // of the property is being set).
+                throw new Error(`Invariant type property ${key} not configured.`);
+            }
+        }
+        this.value = value;
+        return this.invariantType.enforce(value)
     }
 
 
