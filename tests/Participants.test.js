@@ -14,9 +14,9 @@ describe("participantTests", () => {
         const node = d.getNode("AcceptBookFromUser");
         const behavior = node.getBehavior();
         behavior.addParticipant("User");
-        expect(behavior.participants[0].name).toBe("User");
+        expect(behavior.getParticipants()[0].name).toBe("User");
         behavior.removeParticipant("User");
-        expect(behavior.participants.length).toBe(0);
+        expect(behavior.getParticipants().length).toBe(0);
     });
 
     it("removes a participant", () => {
@@ -26,6 +26,6 @@ describe("participantTests", () => {
         const behavior = node.getBehavior();
         behavior.addParticipant("User");
         behavior.removeParticipant("User");
-        expect(behavior.participants.length).toBe(0);
+        expect(behavior.getParticipants().length).toBe(0);
     });
 })

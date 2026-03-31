@@ -16,10 +16,10 @@ class Behavior extends Base {
      */
     constructor (args) {
         super();
-        this.type = ENGINE_TYPES.BEHAVIOR;
-        this.participants = [];
-        this.abstractionIds = [];
-        this.invalidWorldState = false;
+        this._type = ENGINE_TYPES.BEHAVIOR;
+        this._participants = [];
+        this._abstractionIds = [];
+        this._invalidWorldState = false;
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -51,12 +51,35 @@ class Behavior extends Base {
      */
     _loadFromFile (behaviorJSON) {
         for (const [key, value] of Object.entries(behaviorJSON)) {
-            if (key === "participants") {
-                value.forEach(node => this.participants.push(new Participant(node)));
+            if (key === "_participants") {
+                value.forEach(node => this._participants.push(new Participant(node)));
             } else {
                 this[key] = behaviorJSON[key];
             }
         };
+    }
+
+    /**
+     * Returns the list of participants in the behavior.
+     * @returns {Array} List of participants in the behavior.
+     */
+    getParticipants () {
+        return this._participants;
+    }
+
+    /**
+     * Returns the list of participants in the behavior.
+     * @param participantName Name of the participant to return.
+     * @returns {Participant} The participant with the provided name.
+     * @throws {UnknownParticipantError} Thrown when a participant with the
+     * provided name does not exist in the behavior.
+     */
+    getParticipant (participantName) {
+        const index = this._participants.findIndex(p => p.name === participantName);
+        if (index === -1) {
+            throw new UnknownParticipantError(participantName);
+        }
+        return this._participants[index];
     }
 
     /**
@@ -68,10 +91,10 @@ class Behavior extends Base {
      * the same name already exists in the behavior.
      */
     addParticipant (participantName) {
-        if (this.participants.some(p => p.name === participantName)) {
+        if (this._participants.some(p => p.name === participantName)) {
             throw new ParticipantAlreadyExistsError(participantName);
         }
-        this.participants.push(
+        this._participants.push(
             new Participant (
                 {name: participantName}
             )
@@ -86,11 +109,11 @@ class Behavior extends Base {
      * provided name does not exist in the behavior.
      */
     removeParticipant (participantName) {
-        const index = this.participants.findIndex(p => p.name === participantName);
+        const index = this._participants.findIndex(p => p.name === participantName);
         if (index === -1) {
             throw new UnknownParticipantError(participantName);
         }
-        this.participants.splice(index, 1);
+        this._participants.splice(index, 1);
     }
 
     /**
@@ -104,13 +127,13 @@ class Behavior extends Base {
      * provided name does not exist in the behavior.
      */
     setParticipantValue (name, value) {
-        const participant = this.participants.find(obj => obj.name === name);
+        const participant = this._participants.find(obj => obj.name === name);
         if (!participant) {
             throw new UnknownParticipantError(name);
         }
         participant.value = value;
         if (participant.enforceInvariants()) {
-            this.invalidWorldState = true;
+            this._invalidWorldState = true;
         }
     }
 
@@ -126,7 +149,7 @@ class Behavior extends Base {
          * It doesn't make sense to create a new abstraction id,
          * however, I will resolve this soon and remove this TODO.
          */
-        this.abstractionIds.push(abstractionId);
+        this._abstractionIds.push(abstractionId);
     }
 }
 
