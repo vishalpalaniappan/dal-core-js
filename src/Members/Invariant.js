@@ -71,6 +71,27 @@ class Invariant extends Base {
     }
 
     /**
+     * Accepts an invariant type class that is initialized and assigned
+     * to this invariant. This is one of the invariant types listed in 
+     * InvariantTypes.js.
+     *
+     * Once the invariant type is assigned, it can be configured using the
+     * properties that it requires. For example, min length requires the
+     * keys of the value that is being evaluated and the minimum length
+     * that is being enforced. Then given a value, it can enforce the invariant
+     * and identify a semantically invalid state.
+     * 
+     * Each invariant type is contained in its own class and has its own
+     * internal logic for enforcing it. This also allows for modular testing
+     * and extensibility.
+     * 
+     * @param {Class} invariantType Type of invariant (see InvariantTypes.js).
+     */
+    assignInvariantType (invariantType) {
+        this.invariantType = new invariantType();
+    }
+
+    /**
      * Evaluate the invariant by applying the invariant rule to the provided
      * value. Returns a flag indicating whether the invariant was violated.
      * @param {*} value The value to evaluate the invariant on.
