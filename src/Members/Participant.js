@@ -1,5 +1,6 @@
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
+import UnknownInvariantError from "../Errors/UnknownInvariantError";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 import Invariant from "./Invariant";
@@ -92,7 +93,7 @@ class Participant extends Base {
 
     /**
      * Get the invariant with the given name from this participant.
-     * @param {String} invariantName 
+     * @param {String} invariantName
      * @returns {Invariant} The invariant with the given name.
      */
     getInvariant (invariantName) {
@@ -100,7 +101,7 @@ class Participant extends Base {
             invariant => invariant.getName() === invariantName
         );
         if (!foundInvariant) {
-            //throw error
+            throw new UnknownInvariantError(invariantName);
         }
         return foundInvariant;
     }
