@@ -39,7 +39,7 @@ class Behavior extends Base {
             if (!(attr in args)) {
                 throw new MissingAttributes("Behavior", attr);
             }
-            this[attr] = args[attr];
+            this["_" + attr] = args[attr];
         });
     }
 
@@ -54,9 +54,17 @@ class Behavior extends Base {
             if (key === "_participants") {
                 value.forEach(node => this._participants.push(new Participant(node)));
             } else {
-                this[key] = behaviorJSON[key];
+                this["_" + key] = behaviorJSON[key];
             }
         };
+    }
+
+    /**
+     * Get name of behavior.
+     * @returns {String} Name of behavior.
+     */
+    getName () {
+        return this._name;
     }
 
     /**
