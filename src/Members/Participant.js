@@ -92,6 +92,29 @@ class Participant extends Base {
     }
 
     /**
+     * Removes the invariant from the participant.
+     * @param {String|Invariant} invariant The invariant or name of the
+     * invariant to remove.
+     */
+    removeInvariant (invariant) {
+        if (typeof invariant === "string") {
+            const foundInv = this._invariants.find((inv) => inv.getName() === invariant);
+            if (foundInv) {
+                this._invariants = this._invariants.filter((inv) => inv.getName() !== invariant);
+            } else {
+                throw new UnknownInvariantError(invariant);
+            }
+        } else {
+            console.log(this._invariants)
+            const foundInv = this._invariants.find((inv) => inv.getName() === invariant.getName());
+            if (!foundInv) {
+                throw new UnknownInvariantError(invariant.getName());
+            }
+            this._invariants = this._invariants.filter((inv) => inv !== invariant);
+        }
+    }
+
+    /**
      * Get the invariant with the given name from this participant.
      * @param {String} invariantName
      * @returns {Invariant} The invariant with the given name.

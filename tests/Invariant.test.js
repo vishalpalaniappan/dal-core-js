@@ -11,7 +11,7 @@ describe("invariantTests", () => {
     it("invariant throws on missing attributes", () => {
         let d = new DALEngine({ name: "Library Manager" });
         const invariant = d.createInvariant({ name: "Book Title Length", "rule": "" });
-        invariant.assignInvariantType(d.invariant_types.MIN_LENGTH);
+        invariant.assignInvariantType(new d.invariant_types.MIN_LENGTH());
         expect(invariant.invariantType.label).toBe("Minimum Length");
     });
 
@@ -39,5 +39,25 @@ describe("invariantTests", () => {
         participant.addInvariant(minLengthInvariant);
         participant.evaluateInvariants();
         expect(participant._invariantViolated).toBe(false);
+    });
+
+    
+    it ("tests invariants being removed", () => {
+        let d = new DALEngine({name: "Library Manager"});
+        const minLengthInvariant = new d.invariant_types.MIN_LENGTH();
+        minLengthInvariant.properties.keys.value = ["title"];
+        minLengthInvariant.properties.minLength.value = 1;
+
+        const invariant = d.createInvariant({name: "Book Title Length"});
+        invariant.assignInvariantType(minLengthInvariant);
+
+        const participant = d.createParticipant({name: "Book"});
+        participant.setValue({title: "Harry Potter"});
+        participant.addInvariant(invariant);
+        participant.evaluateInvariants();
+        expect(participant._invariantViolated).toBe(false);
+        expect(participant.getInvariants().length).toBe(1);
+        participant.removeInvariant(invariant);
+        expect(participant.getInvariants().length).toBe(0);
     });
 })

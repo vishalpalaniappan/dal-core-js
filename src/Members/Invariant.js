@@ -36,7 +36,7 @@ class Invariant extends Base {
             if (!(attr in args)) {
                 throw new MissingAttributes("Invariant", attr);
             }
-            this[attr] = args[attr];
+            this["_" + attr] = args[attr];
         });
     }
 
@@ -54,6 +54,14 @@ class Invariant extends Base {
     }
 
     /**
+     * Returns the name of the invariant.
+     * @returns {String} The name of the invariant.
+     */
+    getName () {
+        return this._name;
+    }
+
+    /**
      * Accepts an invariant type class that is initialized and assigned
      * to this invariant. This is one of the invariant types listed in 
      * InvariantTypes.js.
@@ -68,10 +76,10 @@ class Invariant extends Base {
      * internal logic for enforcing it. This also allows for modular testing
      * and extensibility.
      *
-     * @param {Class} invariantType Type of invariant (see InvariantTypes.js).
+     * @param {Object} invariantType Instance of an invariant type.
      */
     assignInvariantType (invariantType) {
-        this.invariantType = new invariantType();
+        this.invariantType = invariantType;
     }
 
     /**
@@ -95,7 +103,7 @@ class Invariant extends Base {
             }
         }
         this.value = value;
-        return this.invariantType.enforce(value)
+        return this.invariantType.evaluate(value)
     }
 
 
@@ -127,7 +135,7 @@ class Invariant extends Base {
      * in which an implementation can prove that it respects this
      * invariant.
      *
-     * Intrisinc invariants correspond to a trace that represents
+     * Intrinsic invariants correspond to a trace that represents
      * a factory default environment that enables the implementation
      * to prove that it respects the invariant.
      *
