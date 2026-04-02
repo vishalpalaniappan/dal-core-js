@@ -9,25 +9,31 @@ import MissingAttributes from "../src/Errors/MissingAttributes.js";
 describe("participantTests", () => {
 
     it("add a participant", () => {
-        let d = new DALEngine({name: "Library Manager"});
+        let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.addNode("AcceptBookFromUser", []);
         const node = d.getNode("AcceptBookFromUser");
         const behavior = node.getBehavior();
 
         // Create and Add Participant
-        const participant = d.createParticipant({name: "User"});
+        const participant = d.createParticipant({
+            name: "User",
+            description: "Represents a user in the library"
+        });
         behavior.addParticipant(participant);
         expect(behavior.getParticipants()[0].getName()).toBe("User");
     });
 
     it("add and remove participant", () => {
-        let d = new DALEngine({name: "Library Manager"});
+        let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.addNode("AcceptBookFromUser", []);
         const node = d.getNode("AcceptBookFromUser");
         const behavior = node.getBehavior();
 
         // Create and Add Participant
-        const participant = d.createParticipant({name: "User"});
+        const participant = d.createParticipant({
+            name: "User",
+            description: "Represents a user in the library"
+        });
         behavior.addParticipant(participant);
         expect(behavior.getParticipants()[0].getName()).toBe("User");
 
@@ -36,8 +42,14 @@ describe("participantTests", () => {
         expect(behavior.getParticipants().length).toBe(0);
 
         // Create and Add 2 Participant
-        const participant1 = d.createParticipant({name: "User"});
-        const participant2 = d.createParticipant({name: "User2"});
+        const participant1 = d.createParticipant({
+            name: "User",
+            description: "Represents a user in the library"
+        });
+        const participant2 = d.createParticipant({
+            name: "User2",
+            description: "Represents another user in the library"
+        });
         behavior.addParticipant(participant1);
         behavior.addParticipant(participant2);
         expect(behavior.getParticipants()[0].getName()).toBe("User");

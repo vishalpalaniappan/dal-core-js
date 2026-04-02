@@ -45,7 +45,7 @@ class BehavioralControlGraph extends Base {
          * TODO: Move the attributes to private and use getters and setters
          * for them. Repeat for all the other classes.
          */
-        const expectedAttributes = ["name"];
+        const expectedAttributes = ["name", "description"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
             throw new MissingAttributes("BehavioralControlGraph", expectedAttributes);
@@ -73,9 +73,19 @@ class BehavioralControlGraph extends Base {
     }
 
     /**
+     * Returns the description of the design.
+     * @returns {String} Description.
+     */
+    getDescription () {
+        return this._description;
+    }
+
+    /**
      * Adds a node to the graph with the provided arguments.
      *
      * @param {Behavior} behaviorId ID of the behavior represented by the node.
+     * @param {String} description Description of the behavior represented by
+     * the node.
      * @param {Array} goToBehaviorIds IDs of the behaviors that are valid
      * transitions from this node.
      * @param {Boolean} isAtomic Flag indicating if the behavior represented by
@@ -85,12 +95,12 @@ class BehavioralControlGraph extends Base {
      * @throws {BehaviorAlreadyExistsError} Raised when a node with the provided
      * @returns {GraphNode} The created graph node.
      */
-    addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
+    addNode (behaviorId, description, goToBehaviorIds, isAtomic, isDesignFork) {
         if (this.nodes.some((node) => node.getBehavior().getName() === behaviorId)) {
             throw new BehaviorAlreadyExistsError(behaviorId);
         }
         const node = new GraphNode({
-            behavior: new Behavior({name: behaviorId}),
+            behavior: new Behavior({name: behaviorId, description: description}),
             goToBehaviorIds: goToBehaviorIds?goToBehaviorIds:[],
             isAtomic: isAtomic?isAtomic:false,
             isDesignFork: isDesignFork?isDesignFork:false,

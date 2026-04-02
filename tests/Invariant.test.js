@@ -9,14 +9,17 @@ import MissingAttributes from "../src/Errors/MissingAttributes.js";
 describe("invariantTests", () => {
 
     it("invariant throws on missing attributes", () => {
-        let d = new DALEngine({ name: "Library Manager" });
-        const invariant = d.createInvariant({ name: "Book Title Length", "rule": "" });
+        let d = new DALEngine({ name: "Library Manager", description: "Manages the library"});
+        const invariant = d.createInvariant({
+            name: "Book Title Length", 
+            description: "Ensures that the book title has at least a certain number of characters" 
+        });
         invariant.assignInvariantType(new d.invariant_types.MIN_LENGTH());
         expect(invariant.invariantType.label).toBe("Minimum Length");
     });
 
     it("tests min length invariant", () => {
-        let d = new DALEngine({name: "Library Manager"});
+        let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const minLengthInvariant = new d.invariant_types.MIN_LENGTH();
         minLengthInvariant.properties.keys.value = ["title"];
         minLengthInvariant.properties.minLength.value = 1;
@@ -29,29 +32,37 @@ describe("invariantTests", () => {
 
 
     it ("tests invariants assigned to participant", () => {
-        let d = new DALEngine({name: "Library Manager"});
+        let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const minLengthInvariant = new d.invariant_types.MIN_LENGTH();
         minLengthInvariant.properties.keys.value = ["title"];
         minLengthInvariant.properties.minLength.value = 1;
 
-        const participant = d.createParticipant({name: "Book"});
+        const participant = d.createParticipant({
+            name: "Book",
+            description: "Represents a book in the library"
+        });
         participant.setValue({title: "Harry Potter"});
         participant.addInvariant(minLengthInvariant);
         participant.evaluateInvariants();
         expect(participant._invariantViolated).toBe(false);
     });
 
-    
     it ("tests invariants being removed", () => {
-        let d = new DALEngine({name: "Library Manager"});
+        let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const minLengthInvariant = new d.invariant_types.MIN_LENGTH();
         minLengthInvariant.properties.keys.value = ["title"];
         minLengthInvariant.properties.minLength.value = 1;
 
-        const invariant = d.createInvariant({name: "Book Title Length"});
+        const invariant = d.createInvariant({
+            name: "Book Title Length",
+            description: "Ensures that the book title has at least a certain number of characters",
+        });
         invariant.assignInvariantType(minLengthInvariant);
 
-        const participant = d.createParticipant({name: "Book"});
+        const participant = d.createParticipant({
+            name: "Book",
+            description: "Represents a book in the library"
+        });
         participant.setValue({title: "Harry Potter"});
         participant.addInvariant(invariant);
         participant.evaluateInvariants();

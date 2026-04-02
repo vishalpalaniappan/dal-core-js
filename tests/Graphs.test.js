@@ -9,12 +9,12 @@ import GraphWithNameExistsError from "../src/Errors/GraphWithNameExistsError";
 describe("multiple graphs test", () => {
 
     it("create multiple graphs and switch", async () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.createGraph("graph 1");
-        d.addNode("graph1behavior", []);
+        d.addNode("graph1behavior", "Graph 1 behavior", []);
 
         d.createGraph("graph 2");
-        d.addNode("graph2behavior", []);
+        d.addNode("graph2behavior", "Graph 2 behavior", []);
 
         d.selectGraph("graph 1");
         expect(d.getNode("graph1behavior")).toBeTruthy();
@@ -29,12 +29,12 @@ describe("multiple graphs test", () => {
 
 
     it("get list of graphs", async () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.createGraph("graph 1");
-        d.addNode("graph1behavior", []);
+        d.addNode("graph1behavior", "Graph 1 behavior", []);
 
         d.createGraph("graph 2");
-        d.addNode("graph2behavior", []);
+        d.addNode("graph2behavior", "Graph 2 behavior", []);
 
         expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 1", "graph 2"]);
 
@@ -44,17 +44,17 @@ describe("multiple graphs test", () => {
     });
 
     it("create graph with existing name", async () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.createGraph("graph 1");
         expect(() => d.createGraph("graph 1")).toThrow(GraphWithNameExistsError);
     });
 
     it("test that graph is removed", async () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.createGraph("graph 1");
-        d.addNode("graph1behavior", []);
+        d.addNode("graph1behavior", "Graph 1 behavior", []);
         d.createGraph("graph 2");
-        d.addNode("graph2behavior", []);
+        d.addNode("graph2behavior", "Graph 2 behavior", []);
         expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 1", "graph 2"]);
         d.removeGraph("graph 1");
 
@@ -65,12 +65,12 @@ describe("multiple graphs test", () => {
     });
 
     it("serialize and deserialize", async () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.createGraph("graph 1");
-        d.addNode("graph1behavior", []);
+        d.addNode("graph1behavior", "Graph 1 behavior", []);
 
         d.createGraph("graph 2");
-        d.addNode("graph2behavior", []);
+        d.addNode("graph2behavior", "Graph 2 behavior", []);
 
         await writeFile(resolve(__dirname, "./temp/graphs.json"), d.serialize());
 

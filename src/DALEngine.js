@@ -42,7 +42,7 @@ export class DALEngine {
      * @param {Object} args Arguments to load.
      */
     _loadArgs (args) {
-        const expectedAttributes = ["name"];
+        const expectedAttributes = ["name", "description"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
             throw new MissingAttributes("Engine", expectedAttributes);
@@ -175,6 +175,7 @@ export class DALEngine {
      * Adds a node to the graph with the given behaviorId and goToBehaviors.
      *
      * @param {String} behaviorId ID of the behavior for the node.
+     * @param {String} description Description of the behavior for the node.
      * @param {Array} goToBehaviorIds IDs of the behaviors that this node
      * transitions to.
      * @param {Boolean} isAtomic Flag to indicate if this node contains an
@@ -185,9 +186,10 @@ export class DALEngine {
      * @throws {BehaviorAlreadyExistsError} Raised when a node with the provided
      * behaviorId already exists in the graph.
      */
-    addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
+    addNode (behaviorId, description, goToBehaviorIds, isAtomic, isDesignFork) {
         return this.graph.addNode(
             behaviorId,
+            description,
             goToBehaviorIds,
             isAtomic,
             isDesignFork

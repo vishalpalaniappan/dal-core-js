@@ -27,7 +27,7 @@ class Invariant extends Base {
      * @param {Object} args The arguments to initialize the invariant with.
      */
     _loadArgs (args) {
-        const expectedAttributes = ["name"];
+        const expectedAttributes = ["name", "description"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
             throw new MissingAttributes("Invariant", expectedAttributes);
@@ -51,6 +51,14 @@ class Invariant extends Base {
         // Reset these because they are set by the execution
         this.invariantViolated = null;
         this.value = null;
+    }
+
+    /**
+     * Returns the description of the design.
+     * @returns {String} Description.
+     */
+    getDescription () {
+        return this._description;
     }
 
     /**

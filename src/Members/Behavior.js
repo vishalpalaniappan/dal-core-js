@@ -30,7 +30,7 @@ class Behavior extends Base {
      * @param {Object} args
      */
     _loadArgs (args) {
-        const expectedAttributes = ["name"];
+        const expectedAttributes = ["name", "description"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
             throw new MissingAttributes("Behavior", expectedAttributes);
@@ -57,6 +57,14 @@ class Behavior extends Base {
                 this[key] = behaviorJSON[key];
             }
         };
+    }
+
+    /**
+     * Returns the description of the design.
+     * @returns {String} Description.
+     */
+    getDescription () {
+        return this._description;
     }
 
     /**

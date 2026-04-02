@@ -32,7 +32,7 @@ class Participant extends Base {
      * @param {Object} args
      */
     _loadArgs (args) {
-        const expectedAttributes = ["name"];
+        const expectedAttributes = ["name", "description"];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
             throw new MissingAttributes("Participant", expectedAttributes);
@@ -57,6 +57,14 @@ class Participant extends Base {
                 this[key] = participantJSON[key];
             }
         };
+    }
+
+    /**
+     * Returns the description of the design.
+     * @returns {String} Description.
+     */
+    getDescription () {
+        return this._description;
     }
 
     /**
@@ -105,7 +113,6 @@ class Participant extends Base {
                 throw new UnknownInvariantError(invariant);
             }
         } else {
-            console.log(this._invariants)
             const foundInv = this._invariants.find((inv) => inv.getName() === invariant.getName());
             if (!foundInv) {
                 throw new UnknownInvariantError(invariant.getName());

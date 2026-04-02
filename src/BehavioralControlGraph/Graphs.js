@@ -41,15 +41,18 @@ class Graphs {
      * Given a graph ID, creates the graph and adds it to the collection.
      *
      * @param {String} graphId ID of the graph.
+     * @param {String} description Description of the graph.
      * @returns {BehavioralControlGraph} The graph that was added.
      * @throws {GraphWithNameExistsError} Raised when a graph with the provided
      * name already exists in the collection of graphs.
      */
-    addGraph (graphId) {
+    addGraph (graphId, description) {
         if (graphId in this._graphs) {
             throw new GraphWithNameExistsError(graphId);
         }
-        this._graphs[graphId] = new BehavioralControlGraph({name: graphId});
+        this._graphs[graphId] = new BehavioralControlGraph(
+            {name: graphId, description: description?description:""}
+        );
         this._activeGraph = this._graphs[graphId];
         return this._activeGraph;
     }

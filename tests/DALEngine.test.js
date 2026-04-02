@@ -13,13 +13,13 @@ import ENGINE_TYPES from "../src/TYPES.js";
 
 describe("DALEngine", () => {
     it("sets the name correctly", () => {
-        const dalInstance = new DALEngine({name: "Library Manager"});
+        const dalInstance = new DALEngine({name: "Library Manager", description: "Manages the library"});
         expect(dalInstance.name).toBe("Library Manager");
     });
 
     it(" throws on missing attributes", () => {
         expect(() => {new DALEngine()}).toThrow(MissingAttributes);
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         expect(() => {d.createBehavior()}).toThrow(MissingAttributes);
         expect(() => {d.createBehavior({})}).toThrow(MissingAttributes);
         expect(() => {d.createBehavior({"rule": "adsf"})}).toThrow(MissingAttributes);
@@ -28,9 +28,9 @@ describe("DALEngine", () => {
     });
 
     it("adds node to graph", () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const goToBehaviorIds = ["AddBookToBasket"];
-        const node = d.addNode("AcceptBookFromUser", goToBehaviorIds);
+        const node = d.addNode("AcceptBookFromUser", "Accepts a book from the user", goToBehaviorIds);
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
@@ -39,13 +39,13 @@ describe("DALEngine", () => {
     });
 
     it("throws when a behavior with same name is added to graph", () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.addNode("AcceptBookFromUser", []);
         expect(() => {d.addNode("AcceptBookFromUser", [])}).toThrow(BehaviorAlreadyExistsError);
     });
 
     it("find node that was added using behavior name", () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const node = d.addNode("AcceptBookFromUser", []);
 
         expect(() => {d.getNode("AcceptBookFrmUser")}).toThrow(UnknownBehaviorError);
@@ -55,7 +55,7 @@ describe("DALEngine", () => {
     });
 
     it("adds node to graph and removes it", () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.addNode("AcceptBookFromUser", []);
         d.addNode("AddBookToBasket", []);
 
@@ -70,7 +70,7 @@ describe("DALEngine", () => {
     });
 
     it("find node and check if observed behavior is valid transition", () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const node1 = d.addNode("AcceptBookFromUser", []);
         const node2 = d.addNode("AddBookToBasket", []);
         d.addNode("AnotherBehavior", []);
@@ -109,7 +109,7 @@ describe("DALEngine", () => {
     });
 
     it ("add duplicate transition and check error is raised", () => {
-        const d = new DALEngine({name: "Library Manager"});
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const node1 = d.addNode("AcceptBookFromUser", []);
         const node2 = d.addNode("AddBookToBasket", []);
         node1.addGoToBehavior("AddBookToBasket");
@@ -119,8 +119,8 @@ describe("DALEngine", () => {
     });
 
     it("serialize to file and deseralize from file", async () => {
-        let d = new DALEngine({name: "Library Manager"});
-        const book = d.createParticipant({name: "book"});
+        let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
+        const book = d.createParticipant({name: "book", description: "A book participant"});
 
 
         d.addNode("AcceptBookFromUser", []);
@@ -135,7 +135,7 @@ describe("DALEngine", () => {
         const filePath = resolve(__dirname, "./temp/inspectSerializeTemp.json")
         await writeFile(filePath, d.serialize())
 
-        d = new DALEngine({name: "Library Manager"});
+        d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.deserialize(await readFile(filePath, "utf-8"));
         expect(d.graph.nodes.length).toBe(3);
 
