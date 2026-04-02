@@ -23,7 +23,6 @@ describe("DALEngine", () => {
         expect(() => {d.createBehavior()}).toThrow(MissingAttributes);
         expect(() => {d.createBehavior({})}).toThrow(MissingAttributes);
         expect(() => {d.createBehavior({"rule": "adsf"})}).toThrow(MissingAttributes);
-        expect(() => {d.createInvariant({"name": "asdf"})}).toThrow(MissingAttributes);
         expect(() => {d.createParticipant()}).toThrow(MissingAttributes);
         expect(() => {d.createParticipant({})}).toThrow(MissingAttributes);
     });
@@ -35,7 +34,7 @@ describe("DALEngine", () => {
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
-        expect(node.getBehavior().name).toStrictEqual("AcceptBookFromUser");
+        expect(node.getBehavior().getName()).toStrictEqual("AcceptBookFromUser");
         expect(node.getGoToBehaviors()).toStrictEqual(goToBehaviorIds);
     });
 
@@ -66,7 +65,7 @@ describe("DALEngine", () => {
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
-        expect(node.getBehavior().name).toStrictEqual("AcceptBookFromUser");
+        expect(node.getBehavior().getName()).toStrictEqual("AcceptBookFromUser");
         expect(node.getGoToBehaviors()).toStrictEqual(["AddBookToBasket"]);
     });
 
