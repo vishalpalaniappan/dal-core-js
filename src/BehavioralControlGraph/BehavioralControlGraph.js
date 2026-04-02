@@ -86,7 +86,7 @@ class BehavioralControlGraph extends Base {
      * @returns {GraphNode} The created graph node.
      */
     addNode (behaviorId, goToBehaviorIds, isAtomic, isDesignFork) {
-        if (this.nodes.some((node) => node.getBehavior().name === behaviorId)) {
+        if (this.nodes.some((node) => node.getBehavior().getName() === behaviorId)) {
             throw new BehaviorAlreadyExistsError(behaviorId);
         }
         const node = new GraphNode({
@@ -109,7 +109,7 @@ class BehavioralControlGraph extends Base {
      */
     findNode (behaviorName) {
         const node = this.nodes.find(
-            (node) => node.getBehavior().name === behaviorName
+            (node) => node.getBehavior().getName() === behaviorName
         );
         if (!node) {
             throw new UnknownBehaviorError(behaviorName);
@@ -145,7 +145,9 @@ class BehavioralControlGraph extends Base {
         if (this.currentNode.isValidTransition(nextBehaviorName)) {
             this.currentNode = this.findNode(nextBehaviorName);
         } else {
-            throw new InvalidTransitionError(this.currentNode.getBehavior().name, nextBehaviorName);
+            throw new InvalidTransitionError(
+                this.currentNode.getBehavior().getName(), nextBehaviorName
+            );
         }
     }
 
@@ -157,7 +159,7 @@ class BehavioralControlGraph extends Base {
         let mermaid = "flowchart TD\n";
         this.nodes.forEach((node) => {
             node.getGoToBehaviors().forEach((behaviorId) => {
-                mermaid += `  ${node.getBehavior().name} --> ${behaviorId}\n`;
+                mermaid += `  ${node.getBehavior().getName()} --> ${behaviorId}\n`;
             });
         });
         return mermaid;

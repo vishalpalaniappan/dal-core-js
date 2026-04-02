@@ -83,7 +83,7 @@ class GraphNode extends Base {
      */
     addGoToBehavior (behaviorId) {
         if (this._goToBehaviorIds.includes(behaviorId)) {
-            throw new TransitionAlreadyExistsError(this._behavior.name, behaviorId);
+            throw new TransitionAlreadyExistsError(this._behavior.getName(), behaviorId);
         }
         this._goToBehaviorIds.push(behaviorId);
     }
