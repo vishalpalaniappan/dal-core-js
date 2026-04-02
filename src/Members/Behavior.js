@@ -54,7 +54,7 @@ class Behavior extends Base {
             if (key === "_participants") {
                 value.forEach(node => this._participants.push(new Participant(node)));
             } else {
-                this["_" + key] = behaviorJSON[key];
+                this[key] = behaviorJSON[key];
             }
         };
     }
