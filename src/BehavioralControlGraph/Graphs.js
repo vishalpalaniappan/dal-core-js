@@ -26,13 +26,12 @@ class Graphs {
     /**
      * Load the graphs from file.
      *
-     * @param {String} jsonText JSON text representing the collection of graphs.
+     * @param {Object} json JSON object representing the collection of graphs.
      */
-    loadFromJson (jsonText) {
+    loadFromJson (json) {
         this._graphs = {};
-        const parsed = JSON.parse(jsonText);
-        Object.keys(parsed._graphs).forEach(graphId => {
-            this._graphs[graphId] = new BehavioralControlGraph(parsed._graphs[graphId]);
+        Object.keys(json._graphs).forEach(graphId => {
+            this._graphs[graphId] = new BehavioralControlGraph(json._graphs[graphId]);
         });
         this._activeGraph = this._graphs[Object.keys(this._graphs)[0]];
     }
