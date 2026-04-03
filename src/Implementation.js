@@ -1,4 +1,4 @@
-export class Implementation {
+export default class Implementation {
 
     /**
      * This class contains the implementation of a design. It contains the
