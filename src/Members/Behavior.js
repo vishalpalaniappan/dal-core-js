@@ -161,6 +161,14 @@ class Behavior extends Base {
     addMapping (abstractionId) {
         this._abstractionIds.push(abstractionId);
     }
+
+    /**
+     * Removes a mapping from the behavior.
+     * @param {String} abstractionId ID of the mapped abstraction to remove.
+     */
+    removeMapping (abstractionId) {
+        this._abstractionIds = this._abstractionIds.filter(id => id !== abstractionId);
+    }
 }
 
 export default Behavior;
