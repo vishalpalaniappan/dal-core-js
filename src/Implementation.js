@@ -16,6 +16,20 @@ export default class Implementation {
     }
 
     /**
+     * Loads the implementation from a JSON object read from file.
+     * @param {Object} json JSON object representing the implementation.
+     */
+    loadFromJson (json) {
+        for (const [key, value] of Object.entries(json)) {
+            if (key === "_sourceFiles") {
+                value.forEach(file => this._sourceFiles.push(file));
+            } else {
+                this[key] = json[key];
+            }
+        };
+    }
+
+    /**
      * Adds a source file to the implementation.
      * @param {String} name Name of the source file.
      * @param {String} key Key of the source file.

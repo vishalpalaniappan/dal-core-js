@@ -63,7 +63,10 @@ export class DALEngine {
      * @returns {String} Returns JSON string representing the control graphs.
      */
     serialize () {
-        return JSON.stringify(this.graphs);
+        return JSON.stringify({
+            graphs: this.graphs,
+            implementation: this.implementation,
+        });
     }
 
     /**
@@ -75,9 +78,14 @@ export class DALEngine {
      */
     deserialize (serializedText) {
         // TODO: Improve validation to throw specific error.
+        const parsed = JSON.parse(serializedText);
+
         this.graphs = new Graphs();
-        this.graphs.loadFromJson(serializedText);
+        this.graphs.loadFromJson(parsed.graphs);
         this.graph = this.graphs.getActiveGraph();
+
+        this.implementation = new Implementation();
+        this.implementation.loadFromJson(parsed.implementation);
     }
 
     /**
