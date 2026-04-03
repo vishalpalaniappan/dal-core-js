@@ -65,6 +65,20 @@ export default class Implementation {
     }
 
     /**
+     * Removes a source file from the implementation.
+     * @param {String} key Key of the source file to remove.
+     * @throws {Error} Throws an error if a source file with the given key
+     * does not exist in the implementation.
+     */
+    removeSourceFile (key) {
+        const index = this._sourceFiles.findIndex(file => file.key === key);
+        if (index === -1) {
+            throw new Error(`Source file with key ${key} does not exist in the implementation.`);
+        }
+        this._sourceFiles.splice(index, 1);
+    }
+
+    /**
      * Sets the statement index for a source file.
      * @param {String} key Key of the source file.
      * @param {Object} statementIndex Statement index to set for source file.
