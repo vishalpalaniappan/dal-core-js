@@ -18,30 +18,30 @@ export default class Implementation {
     /**
      * Adds a source file to the implementation.
      * @param {String} name Name of the source file.
-     * @param {String} path Path of the source file.
+     * @param {String} key Key of the source file.
      * @param {String} content Content of the source file.
-     * @throws {Error} Throws an error if a source file with the given path
+     * @throws {Error} Throws an error if a source file with the given key
      * already exists in the implementation.
      */
-    addSourceFile (name, path, content) {
-        const existingFile = this.getSourceFile(path);
+    addSourceFile (name, key, content) {
+        const existingFile = this.getSourceFile(key);
         if (existingFile) {
-            throw new Error(`Source file with path ${path} already exists in the implementation.`);
+            throw new Error(`Source file with key ${key} already exists in the implementation.`);
         }
         this._sourceFiles.push({
             name: name,
-            path: path,
+            key: key,
             content: content,
         });
     }
 
     /**
-     * Gets the source file given a path.
-     * @param {String} path Path of the source file to get.
-     * @returns {Object} The source file with the given path.
+     * Gets the source file given a key.
+     * @param {String} key Key of the source file to get.
+     * @returns {Object} The source file with the given key.
      */
-    getSourceFile (path) {
-        return this._sourceFiles.find(file => file.path === path);
+    getSourceFile (key) {
+        return this._sourceFiles.find(file => file.key === key);
     }
 
     /**
@@ -54,30 +54,30 @@ export default class Implementation {
 
     /**
      * Sets the statement index for a source file.
-     * @param {String} path Path of the source file.
+     * @param {String} key Key of the source file.
      * @param {Object} statementIndex Statement index to set for source file.
      * @throws {Error} Throws an error if the source file with the
-     * given path does not exist in the implementation.
+     * given key does not exist in the implementation.
      */
-    setStatementIndex (path, statementIndex) {
-        const sourceFile = this.getSourceFile(path);
+    setStatementIndex (key, statementIndex) {
+        const sourceFile = this.getSourceFile(key);
         if (!sourceFile) {
-            throw new Error(`Source file with path ${path} does not exist in the implementation.`);
+            throw new Error(`Source file with key ${key} does not exist in the implementation.`);
         }
         sourceFile.statementIndex = statementIndex;
     }
 
     /**
      * Gets the statement index for a source file.
-     * @param {String} path Path of the source file.
+     * @param {String} key Key of the source file.
      * @returns {Object} The statement index of the source file.
      * @throws {Error} Throws an error if the source file with the
-     * given path does not exist in the implementation.
+     * given key does not exist in the implementation.
      */
-    getStatementIndex (path) {
-        const sourceFile = this.getSourceFile(path);
+    getStatementIndex (key) {
+        const sourceFile = this.getSourceFile(key);
         if (!sourceFile) {
-            throw new Error(`Source file with path ${path} does not exist in the implementation.`);
+            throw new Error(`Source file with key ${key} does not exist in the implementation.`);
         }
         return sourceFile.statementIndex;
     }
