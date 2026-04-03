@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { DALEngine } from "../src/DALEngine.js";
 
-describe("Workspace tests", () => {
+describe("Implementation tests", () => {
 
-    it("add file to workspace", async () => {
+    it("add file to implementation", async () => {
         const d = new DALEngine({ name: "Library Manager", description: "Manages the library" });
         d.addFile("testFile", "Test File", "This is a test file.");
         const file = d.getFile("testFile");
