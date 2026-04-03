@@ -1,0 +1,29 @@
+import { describe, expect, it } from "vitest";
+
+import { DALEngine } from "../src/DALEngine.js";
+
+describe("Workspace tests", () => {
+
+    it("Add file to workspace", async () => {
+        const d = new DALEngine({ name: "Library Manager", description: "Manages the library" });
+        d.addFile("testFile", "Test File", "This is a test file.");
+        const file = d.getFile("testFile");
+        expect(file).toBeDefined();
+        expect(file.name).toBe("Test File");
+        expect(file.content).toBe("This is a test file.");
+
+        d.addFile("testFile2", "Test File 2", "This is another test file.");
+        const file2 = d.getFile("testFile2");
+        expect(file2).toBeDefined();
+        expect(file2.name).toBe("Test File 2");
+        expect(file2.content).toBe("This is another test file.");
+
+        d.getFiles().forEach(file => {
+            expect(file).toBeDefined();
+            expect(file.name).toBeDefined();
+            expect(file.content).toBeDefined();
+        });
+
+        expect(d.getFiles().length).toBe(2);
+    });
+});
