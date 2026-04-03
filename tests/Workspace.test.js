@@ -32,4 +32,13 @@ describe("Workspace tests", () => {
         expect(() => d.addFile("", "Test File", "This is a test file.")).toThrow(Error);
         expect(() => d.addFile("testFile", "", "This is a test file.")).toThrow(Error);
     });
+
+    it("adds and removes source files", () => {
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
+        d.addFile("A", "Test File", "This is a test file.");
+        expect(d.getFiles().length).toBe(1);
+        d.removeFile("A");
+        expect(() => d.getFile("A")).toThrow(Error);
+        expect(d.getFiles().length).toBe(0);
+    });
 });
