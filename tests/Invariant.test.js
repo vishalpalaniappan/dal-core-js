@@ -42,7 +42,12 @@ describe("invariantTests", () => {
             description: "Represents a book in the library"
         });
         participant.setValue({title: "Harry Potter"});
-        participant.addInvariant(minLengthInvariant);
+        const inv = d.createInvariant({
+            name: "Book Title Length",
+            description: "Ensures that the book title has at least a certain number of characters",
+        });
+        inv.assignInvariantType(minLengthInvariant);
+        participant.addInvariant(inv);
         participant.evaluateInvariants();
         expect(participant._invariantViolated).toBe(false);
     });
@@ -70,5 +75,22 @@ describe("invariantTests", () => {
         expect(participant.getInvariants().length).toBe(1);
         participant.removeInvariant(invariant);
         expect(participant.getInvariants().length).toBe(0);
+    });
+
+    it ("throws error if invariant already eixsts", () => {
+        let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
+        const invariant = d.createInvariant({
+            name: "Book Title Length",
+            description: "Ensures that the book title has at least a certain number of characters",
+        });
+        invariant.assignInvariantType(new d.invariant_types.MIN_LENGTH());
+
+        const participant = d.createParticipant({
+            name: "Book",
+            description: "Represents a book in the library"
+        });
+        participant.setValue({title: "Harry Potter"});
+        participant.addInvariant(invariant);
+        expect(() => participant.addInvariant(invariant)).toThrow();
     });
 })
