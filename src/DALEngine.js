@@ -114,6 +114,17 @@ export class DALEngine {
         return this.implementation.getSourceFiles();
     }
 
+
+    /**
+     * Removes the file from the implementation with the given key.
+     * @param {String} key Key of source file.
+     * @throws {Error} Throws an error if the source file with the given key
+     * does not exist in the implementation.
+     */
+    removeFile (key) {
+        this.implementation.removeSourceFile(key);
+    }
+
     /**
      * Creates a graph with the given name and sets it as the active graph.
      *
