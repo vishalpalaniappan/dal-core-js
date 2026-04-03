@@ -77,7 +77,7 @@ describe("invariantTests", () => {
         expect(participant.getInvariants().length).toBe(0);
     });
 
-    it ("throws error if invariant already eixsts", () => {
+    it ("throws error if invariant already exists", () => {
         let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const invariant = d.createInvariant({
             name: "Book Title Length",
