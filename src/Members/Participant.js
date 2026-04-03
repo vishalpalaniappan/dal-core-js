@@ -94,8 +94,17 @@ class Participant extends Base {
     /**
      * Adds an invariant to this participant.
      * @param {Invariant} invariant The invariant to add.
+     * @throws {Error} Throws an error if invariant is not instance of Invariant
+     * @throws {Error} Throws an error if an invariant with same name exists.
      */
     addInvariant (invariant) {
+        if (!(invariant instanceof Invariant)) {
+            throw new Error("Invalid invariant");
+        }
+        if (this._invariants.some((inv) => inv.getName() === invariant.getName())) {
+            throw new Error(`Invariant with name ${invariant.getName()} already\
+             exists for participant ${this._name}`);
+        }
         this._invariants.push(invariant);
     }
 
