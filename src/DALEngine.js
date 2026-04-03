@@ -70,8 +70,7 @@ export class DALEngine {
      * Loads the behavioral control graphs from JSON text and sets
      * the active graph to the first graph in the collection of graphs.
      *
-     * @param {String} serializedText JSON text representing the control
-     * graphs.
+     * @param {String} serializedText JSON txt representing the control graphs.
      * @throws {SyntaxError|TypeError} Thrown when the JSON text is invalid.
      */
     deserialize (serializedText) {
@@ -79,6 +78,40 @@ export class DALEngine {
         this.graphs = new Graphs();
         this.graphs.loadFromJson(serializedText);
         this.graph = this.graphs.getActiveGraph();
+    }
+
+    /**
+     * Add a file to the implementation with the given key, name, and content.
+     *
+     * @param {String} key Key of file in implementation.
+     * @param {String} name Name of file to add to implementation.
+     * @param {String} content Content of file to add to implementation.
+     * @throws {Error} Throws an error if a source file with the given key
+     * already exists in the implementation.
+     */
+    addFile (key, name, content) {
+        this.implementation.addSourceFile(name, key, content);
+    }
+
+    /**
+     * Gets the file from the implementation with the given key.
+     *
+     * @param {String} key Key of file to get.
+     * @returns {Object} The file in the implementation with the given key.
+     * @throws {Error} Throws an error if the source file with the given key
+     * does not exist in the implementation.
+     */
+    getFile (key) {
+        return this.implementation.getSourceFile(key);
+    }
+
+    /**
+     * Gets all the files from the implementation.
+     *
+     * @returns {Array} An array of all files in the implementation.
+     */
+    getFiles () {
+        return this.implementation.getSourceFiles();
     }
 
     /**
