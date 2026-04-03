@@ -53,34 +53,33 @@ export class Implementation {
     }
 
     /**
-     * Sets the mapping for a source file.
+     * Sets the statement index for a source file.
      * @param {String} path Path of the source file.
-     * @param {Object} mapping Mapping to set for the source file.
+     * @param {Object} statementIndex Statement index to set for source file.
      * @throws {Error} Throws an error if the source file with the
      * given path does not exist in the implementation.
      */
-    setMapping (path, mapping) {
+    setStatementIndex (path, statementIndex) {
         const sourceFile = this.getSourceFile(path);
         if (!sourceFile) {
             throw new Error(`Source file with path ${path} does not exist in the implementation.`);
         }
-        sourceFile.mapping = mapping;
+        sourceFile.statementIndex = statementIndex;
     }
 
-
     /**
-     * Gets the mapping for a source file.
+     * Gets the statement index for a source file.
      * @param {String} path Path of the source file.
-     * @returns {Object} The mapping of the source file.
+     * @returns {Object} The statement index of the source file.
      * @throws {Error} Throws an error if the source file with the
      * given path does not exist in the implementation.
      */
-    getMapping (path) {
+    getStatementIndex (path) {
         const sourceFile = this.getSourceFile(path);
         if (!sourceFile) {
             throw new Error(`Source file with path ${path} does not exist in the implementation.`);
         }
-        return sourceFile.mapping;
+        return sourceFile.statementIndex;
     }
 
 }
