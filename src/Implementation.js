@@ -28,6 +28,12 @@ export default class Implementation {
         if (existingFile) {
             throw new Error(`Source file with key ${key} already exists in the implementation.`);
         }
+        if (name === "") {
+            throw new Error("Source file name cannot be empty.");
+        }
+        if (key === "") {
+            throw new Error("Source file key cannot be empty.");
+        }
         this._sourceFiles.push({
             name: name,
             key: key,
