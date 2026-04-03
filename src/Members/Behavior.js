@@ -159,12 +159,6 @@ class Behavior extends Base {
      * @param {String} abstractionId ID of mapped abstraction.
      */
     addMapping (abstractionId) {
-        /**
-         * TODO: After some more thinking, it seems to me that the
-         * uniqe identifier should be a file name and line number.
-         * It doesn't make sense to create a new abstraction id,
-         * however, I will resolve this soon and remove this TODO.
-         */
         this._abstractionIds.push(abstractionId);
     }
 }
