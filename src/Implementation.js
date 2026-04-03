@@ -24,8 +24,8 @@ export default class Implementation {
      * already exists in the implementation.
      */
     addSourceFile (name, key, content) {
-        const existingFile = this.getSourceFile(key);
-        if (existingFile) {
+        const found = this._sourceFiles.find(file => file.key === key);
+        if (found) {
             throw new Error(`Source file with key ${key} already exists in the implementation.`);
         }
         if (name === "") {
