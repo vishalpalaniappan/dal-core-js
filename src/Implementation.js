@@ -39,9 +39,15 @@ export default class Implementation {
      * Gets the source file given a key.
      * @param {String} key Key of the source file to get.
      * @returns {Object} The source file with the given key.
+     * @throws {Error} Throws an error if a source file with the given key
+     * does not exist in the implementation.
      */
     getSourceFile (key) {
-        return this._sourceFiles.find(file => file.key === key);
+        const found = this._sourceFiles.find(file => file.key === key);
+        if (!found) {
+            throw new Error(`Source file with key ${key} does not exist in the implementation.`);
+        }
+        return found;
     }
 
     /**
