@@ -4,7 +4,7 @@ import { DALEngine } from "../src/DALEngine.js";
 
 describe("Workspace tests", () => {
 
-    it("Add file to workspace", async () => {
+    it("add file to workspace", async () => {
         const d = new DALEngine({ name: "Library Manager", description: "Manages the library" });
         d.addFile("testFile", "Test File", "This is a test file.");
         const file = d.getFile("testFile");
@@ -25,5 +25,11 @@ describe("Workspace tests", () => {
         });
 
         expect(d.getFiles().length).toBe(2);
+    });
+
+    it("throws errors when adding file with empty key or name", () => {
+        const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
+        expect(() => d.addFile("", "Test File", "This is a test file.")).toThrow(Error);
+        expect(() => d.addFile("testFile", "", "This is a test file.")).toThrow(Error);
     });
 });
