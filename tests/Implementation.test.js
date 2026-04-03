@@ -45,7 +45,7 @@ describe("Implementation tests", () => {
         expect(d.getFiles().length).toBe(0);
     });
 
-    it("adds and removes source files", async () => {
+    it("implementation serialization and deserialization", async () => {
         let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.addFile("A", "Test File", "This is a test file.");
         expect(d.getFile("A")).toBeDefined();
