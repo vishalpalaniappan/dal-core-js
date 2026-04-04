@@ -94,11 +94,12 @@ export class DALEngine {
      * @param {String} key Key of file in implementation.
      * @param {String} name Name of file to add to implementation.
      * @param {String} content Content of file to add to implementation.
+     * @returns {Object} The file that was added to the implementation.
      * @throws {Error} Throws an error if a source file with the given key
      * already exists in the implementation.
      */
     addFile (key, name, content) {
-        this.implementation.addSourceFile(name, key, content);
+        return this.implementation.addSourceFile(name, key, content);
     }
 
     /**

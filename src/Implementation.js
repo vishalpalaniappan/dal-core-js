@@ -34,6 +34,7 @@ export default class Implementation {
      * @param {String} name Name of the source file.
      * @param {String} path Path of the source file.
      * @param {String} content Content of the source file.
+     * @returns {Object} The source file that was added to the implementation.
      * @throws {Error} Throws an error if a source file with the given path
      * already exists in the implementation.
      */
@@ -48,14 +49,16 @@ export default class Implementation {
         if (path === "") {
             throw new Error("Source file path cannot be empty.");
         }
-        this._sourceFiles.push({
+        const file = {
             name: name,
             path: path,
             content: content,
             updatedContent: null,
             type: "file",
             uid: crypto.randomUUID(),
-        });
+        }
+        this._sourceFiles.push(file);
+        return file;
     }
 
     /**
