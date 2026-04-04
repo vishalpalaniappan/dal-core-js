@@ -52,22 +52,23 @@ export default class Implementation {
             name: name,
             path: path,
             content: content,
+            updatedContent: null,
             type: "file",
             uid: crypto.randomUUID(),
         });
     }
 
     /**
-     * Gets the source file given a path.
-     * @param {String} path Path of the source file to get.
-     * @returns {Object} The source file with the given path.
-     * @throws {Error} Throws an error if a source file with the given path
+     * Gets the source file given a UID.
+     * @param {String} uid UID of the source file to get.
+     * @returns {Object} The source file with the given UID.
+     * @throws {Error} Throws an error if a source file with the given UID
      * does not exist in the implementation.
      */
-    getSourceFile (path) {
-        const found = this._sourceFiles.find(file => file.path === path);
+    getSourceFile (uid) {
+        const found = this._sourceFiles.find(file => file.uid === uid);
         if (!found) {
-            throw new Error(`Source file with path ${path} does not exist in the implementation.`);
+            throw new Error(`Source file with UID ${uid} does not exist in the implementation.`);
         }
         return found;
     }
@@ -82,44 +83,44 @@ export default class Implementation {
 
     /**
      * Removes a source file from the implementation.
-     * @param {String} path Path of the source file to remove.
-     * @throws {Error} Throws an error if a source file with the given path
+     * @param {String} uid UID of the source file to remove.
+     * @throws {Error} Throws an error if a source file with the given UID
      * does not exist in the implementation.
      */
-    removeSourceFile (path) {
-        const index = this._sourceFiles.findIndex(file => file.path === path);
+    removeSourceFile (uid) {
+        const index = this._sourceFiles.findIndex(file => file.uid === uid);
         if (index === -1) {
-            throw new Error(`Source file with path ${path} does not exist in the implementation.`);
+            throw new Error(`Source file with UID ${uid} does not exist in the implementation.`);
         }
         this._sourceFiles.splice(index, 1);
     }
 
     /**
      * Sets the statement index for a source file.
-     * @param {String} path Path of the source file.
+     * @param {String} uid UID of the source file.
      * @param {Object} statementIndex Statement index to set for source file.
      * @throws {Error} Throws an error if the source file with the
-     * given path does not exist in the implementation.
+     * given UID does not exist in the implementation.
      */
-    setStatementIndex (path, statementIndex) {
-        const sourceFile = this.getSourceFile(path);
+    setStatementIndex (uid, statementIndex) {
+        const sourceFile = this.getSourceFile(uid);
         if (!sourceFile) {
-            throw new Error(`Source file with path ${path} does not exist in the implementation.`);
+            throw new Error(`Source file with UID ${uid} does not exist in the implementation.`);
         }
         sourceFile.statementIndex = statementIndex;
     }
 
     /**
      * Gets the statement index for a source file.
-     * @param {String} path Path of the source file.
+     * @param {String} uid UID of the source file.
      * @returns {Object} The statement index of the source file.
      * @throws {Error} Throws an error if the source file with the
-     * given path does not exist in the implementation.
+     * given UID does not exist in the implementation.
      */
-    getStatementIndex (path) {
-        const sourceFile = this.getSourceFile(path);
+    getStatementIndex (uid) {
+        const sourceFile = this.getSourceFile(uid);
         if (!sourceFile) {
-            throw new Error(`Source file with path ${path} does not exist in the implementation.`);
+            throw new Error(`Source file with UID ${uid} does not exist in the implementation.`);
         }
         return sourceFile.statementIndex;
     }

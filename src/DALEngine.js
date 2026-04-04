@@ -102,15 +102,15 @@ export class DALEngine {
     }
 
     /**
-     * Gets the file from the implementation with the given key.
+     * Gets the file from the implementation with the given UID.
      *
-     * @param {String} key Key of file to get.
-     * @returns {Object} The file in the implementation with the given key.
-     * @throws {Error} Throws an error if the source file with the given key
+     * @param {String} uid UID of file to get.
+     * @returns {Object} The file in the implementation with the given UID.
+     * @throws {Error} Throws an error if the source file with the given UID
      * does not exist in the implementation.
      */
-    getFile (key) {
-        return this.implementation.getSourceFile(key);
+    getFile (uid) {
+        return this.implementation.getSourceFile(uid);
     }
 
     /**
