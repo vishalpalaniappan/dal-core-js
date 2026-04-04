@@ -52,6 +52,7 @@ export default class Implementation {
             name: name,
             path: path,
             content: content,
+            type: "file",
             uid: crypto.randomUUID(),
         });
     }
