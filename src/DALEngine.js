@@ -1,6 +1,6 @@
 import Graphs from "./BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
-import Implementation from "./Implementation";
+import Implementation from "./Implementation/Implementation";
 import Behavior from "./Members/Behavior";
 import Invariant from "./Members/Invariant";
 import INVARIANT_TYPES from "./Members/InvariantTypes/InvariantTypes";
