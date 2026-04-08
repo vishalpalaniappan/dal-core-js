@@ -1,13 +1,16 @@
 /**
  * [ImplementationClass]-Contains all the source files.
  *      |
- * [File Class]         -A single source file with its stmt index.
+ * [File Class]         -A file with all the versions of its source,
+ *      |                one for each save.
  *      |
- * [Source Class]     - Contains a version of the source for this file.
+ * [Source Class]       -Contains a version of the source with a
+ *      |                corresponding statement index.
  *      |
  * [StatementIndexClass]-A index with entries for each stmt in the source.
  *      |
- * [MapClass]        -A map for each entry in index to assign behavior/variable.
+ * [MapClass]           -A map for each entry in index to assign
+ *                       behavior/variable.
  *
  * So the implementation class will expose functions that will make it easy to
  * access the information deeper in the tree.
