@@ -1,3 +1,27 @@
+/**
+ * [ImplementationClass]-Contains all the source files.
+ *      |
+ * [File Class]         -A single source file with its stmt index.
+ *      |
+ * [StatementIndexClass]-A index with entries for each stmt in the source.
+ *      |
+ * [MapClass]        -A map for each entry in index to assign behavior/variable.
+ *
+ * So the implementation class will expose functions that will make it easy to
+ * access the information deeper in the tree.
+ *
+ * For example, the file class will have functions to assign behavior to stmts,
+ * so you can simply call the high level functions are allow the logic to be
+ * handled by the engine.
+ *
+ * For example, if you want to remove a variable from a stmt, the file class
+ * will provide a method that accepts a stmtid and variable Name or participant.
+ *
+ * Then the implementation class will have a method that will produce serialized
+ * output that will be accepted by the instrumentation tool. This module will
+ * produce the instrumented source.
+ */
+
 export default class Implementation {
 
     /**
