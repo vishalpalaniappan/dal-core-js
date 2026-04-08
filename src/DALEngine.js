@@ -53,7 +53,7 @@ export class DALEngine {
             if (!(attr in args)) {
                 throw new MissingAttributes("Engine", attr);
             }
-            this[attr] = args[attr];
+            this["_" + attr] = args[attr];
         });
     }
 
@@ -64,6 +64,8 @@ export class DALEngine {
      */
     serialize () {
         return JSON.stringify({
+            name: this._name,
+            description: this._description,
             graphs: this.graphs,
             implementation: this.implementation,
         });
@@ -86,6 +88,9 @@ export class DALEngine {
 
         this.implementation = new Implementation();
         this.implementation.loadFromJson(parsed.implementation);
+
+        this._name = parsed.name;
+        this._description = parsed.description;
     }
 
     /**
