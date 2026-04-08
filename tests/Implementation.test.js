@@ -9,14 +9,14 @@ describe("Implementation tests", () => {
 
     it("add file to implementation", async () => {
         const d = new DALEngine({ name: "Library Manager", description: "Manages the library" });
-        d.addFile("testFile", "Test File", "This is a test file.");
-        const file = d.getFile("testFile");
+        const f = d.addFile("testFile", "Test File", "This is a test file.");
+        const file = d.getFile(f.uid);
         expect(file).toBeDefined();
         expect(file.name).toBe("Test File");
         expect(file.content).toBe("This is a test file.");
 
-        d.addFile("testFile2", "Test File 2", "This is another test file.");
-        const file2 = d.getFile("testFile2");
+        const f2 =d.addFile("testFile2", "Test File 2", "This is another test file.");
+        const file2 = d.getFile(f2.uid);
         expect(file2).toBeDefined();
         expect(file2.name).toBe("Test File 2");
         expect(file2.content).toBe("This is another test file.");
@@ -38,19 +38,19 @@ describe("Implementation tests", () => {
 
     it("adds and removes source files", () => {
         const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
-        d.addFile("A", "Test File", "This is a test file.");
+        const f1 = d.addFile("A", "Test File", "This is a test file.");
         expect(d.getFiles().length).toBe(1);
-        d.removeFile("A");
-        expect(() => d.getFile("A")).toThrow(Error);
+        d.removeFile(f1.uid);
+        expect(() => d.getFile(f1.uid)).toThrow(Error);
         expect(d.getFiles().length).toBe(0);
     });
 
     it("implementation serialization and deserialization", async () => {
         let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
-        d.addFile("A", "Test File", "This is a test file.");
-        expect(d.getFile("A")).toBeDefined();
+        const f1 = d.addFile("A", "Test File", "This is a test file.");
+        expect(d.getFile(f1.uid)).toBeDefined();
         expect(d.getFiles().length).toBe(1);
-        expect(d.getFile("A").name).toBe("Test File");
+        expect(d.getFile(f1.uid).name).toBe("Test File");
 
 
         const filePath = resolve(__dirname, "./temp/implementationSerializeTest.json")
@@ -58,9 +58,9 @@ describe("Implementation tests", () => {
 
         d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.deserialize(await readFile(filePath, "utf-8"));
-        expect(d.getFile("A")).toBeDefined();
+        expect(d.getFile(f1.uid)).toBeDefined();
         expect(d.getFiles().length).toBe(1);
-        expect(d.getFile("A").name).toBe("Test File");
+        expect(d.getFile(f1.uid).name).toBe("Test File");
         expect(() => d.getFile("B")).toThrow(Error);
     });
 });

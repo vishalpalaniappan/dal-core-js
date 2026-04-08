@@ -13,8 +13,10 @@ import ENGINE_TYPES from "../src/TYPES.js";
 
 describe("DALEngine", () => {
     it("sets the name correctly", () => {
-        const dalInstance = new DALEngine({name: "Library Manager", description: "Manages the library"});
-        expect(dalInstance.name).toBe("Library Manager");
+        const dalInstance = new DALEngine(
+            {name: "Library Manager", description: "Manages the library"}
+        );
+        expect(dalInstance._name).toBe("Library Manager");
     });
 
     it(" throws on missing attributes", () => {
@@ -30,7 +32,9 @@ describe("DALEngine", () => {
     it("adds node to graph", () => {
         const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const goToBehaviorIds = ["AddBookToBasket"];
-        const node = d.addNode("AcceptBookFromUser", "Accepts a book from the user", goToBehaviorIds);
+        const node = d.addNode(
+            "AcceptBookFromUser", "Accepts a book from the user", goToBehaviorIds
+        );
 
         const nodeType = node.type;
         expect(nodeType).toBe(ENGINE_TYPES.GRAPH_NODE);
