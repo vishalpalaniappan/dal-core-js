@@ -128,4 +128,29 @@ export default class Implementation {
         return sourceFile.statementIndex;
     }
 
+
+    /**
+     * Sets the entry point script for the implementation.
+     *
+     * Currently, it is basic, for example:
+     * python3 library_manager.py <args>
+     *
+     * @param {String} script Path of the entry point script.
+     * @throws {Error} Throws an error if the script is not a non-empty string.
+     */
+    setEntryPoint (script) {
+        if (typeof script !== "string" || script === "") {
+            throw new Error("Entry point script must be a non-empty string.");
+        }
+        this._entryPoint = script;
+    }
+
+    /**
+     * Returns the entry point for this implementation.
+     * @returns {String} Entry point script for this implementation.
+     */
+    getEntryPoint () {
+        return this._entryPoint;
+    }
+
 }
