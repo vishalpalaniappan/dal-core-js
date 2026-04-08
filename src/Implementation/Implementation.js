@@ -3,6 +3,8 @@
  *      |
  * [File Class]         -A single source file with its stmt index.
  *      |
+ * [Source Class]     - Contains a version of the source for this file.
+ *      |
  * [StatementIndexClass]-A index with entries for each stmt in the source.
  *      |
  * [MapClass]        -A map for each entry in index to assign behavior/variable.
@@ -20,6 +22,12 @@
  * Then the implementation class will have a method that will produce serialized
  * output that will be accepted by the instrumentation tool. This module will
  * produce the instrumented source.
+ *
+ * I added a source class because I think we will need to support versions of
+ * the source for the given file. This means that each save will produce a new
+ * source and the mapping will be assigned to that version. Eventualy when the
+ * versioning system is developed, the two versions wil be compared to generate
+ * a new mapping that preserves the semantic identity of the statements.
  */
 
 export default class Implementation {
