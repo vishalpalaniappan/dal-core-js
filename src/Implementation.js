@@ -139,8 +139,8 @@ export default class Implementation {
      * @throws {Error} Throws an error if the script is not a non-empty string.
      */
     setEntryPoint (script) {
-        if (typeof script !== "string" || script === "") {
-            throw new Error("Entry point script must be a non-empty string.");
+        if (typeof script !== "string") {
+            throw new Error("Entry point script must be a string.");
         }
         this._entryPoint = script;
     }
