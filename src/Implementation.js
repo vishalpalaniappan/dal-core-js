@@ -136,7 +136,7 @@ export default class Implementation {
      * python3 library_manager.py <args>
      *
      * @param {String} script Path of the entry point script.
-     * @throws {Error} Throws an error if the script is not a non-empty string.
+     * @throws {Error} Throws an error if the script is not a string.
      */
     setEntryPoint (script) {
         if (typeof script !== "string") {
