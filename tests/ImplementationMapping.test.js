@@ -20,6 +20,20 @@ describe("Implementation Mapping Tests", () => {
         const imp = new Implementation();
         const filePath = resolve(__dirname, "./test_data/TransactionDB.py")
         const source = await readFile(filePath, "utf-8")
-        imp.addSourceFile("sample file", "sampleFile.py", source);
+        const f = imp.addSourceFile("sample file", "sampleFile.py", source);
+
+        const map = await readFile(
+            resolve(__dirname, "./test_data/TransactionDB_mapping.json"),
+            "utf-8"
+        );
+        const mapJson = JSON.parse(map);
+
+
+        imp.setStatementIndex(f.uid, mapJson);
+
+        const index = imp.getStatementIndex(f.uid);
+        expect(index).toBeDefined();
+        expect(index).toBeInstanceOf(Object);
+        expect(index).toEqual(mapJson);
     });
 });
