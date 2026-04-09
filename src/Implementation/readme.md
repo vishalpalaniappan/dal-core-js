@@ -10,7 +10,7 @@ The structure of the design is projected onto the implementation. As such, the i
 
 It can also be noted that the implementation must be able to generate the instrumentation and the design must be able to transform the generated trace.
 
-Note: Practically, I am doing the information in python because I like the AST library. However, it is clear that the implementation module of this engine has the necessary information to instrument the source. A javascript python parser could easily implement the instrumentation logic. There is a discuss to be had about where the actual instrumentation tools will live.
+Note: Practically, I am doing the instrumentation in python because I like the AST library. However, it is clear that the implementation module of this engine has the necessary information to instrument the source. A javascript python parser could easily implement the instrumentation logic. There is a discussion to be had about where the actual instrumentation tools will live.
 
 It can also be seen that the environment is an impulse into this loop that causes the design and corresponding implementation to evolve. In this sense, failures are inputs into this loop, they are the stimulus the environment provides to feed this loop. For a given environment, failures reveal the missing information that the design needs to learn to converge on an ideal model within the scope of its knowledge. As the environment changes, the feedback loop iterates and the design reconverges.
 
