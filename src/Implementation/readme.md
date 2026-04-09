@@ -4,13 +4,15 @@ This engine has two modules:
 - one modules is used to build the design and automatically debug its behavior
 - the other half is used to implement the design and map the designs behavior onto the implementation
 
-It can also be noted that the implementation must be able to generate the instrumentation and the design must be able to transform the generated trace.
-
 ![Realization Loop](/src/docs/loop.JPG)        
 
 The structure of the design is projected onto the implementation. As such, the interaction between the two modules moves in one direction. Then through the instrumentation, execution and transformation, the information moves back in the other direction, completing the loop.
 
+It can also be noted that the implementation must be able to generate the instrumentation and the design must be able to transform the generated trace.
+
 Note: Practically, I am doing the information in python because I like the AST library. However, it is clear that the implementation module of this engine has the necessary information to instrument the source. A javascript python parser could easily implement the instrumentation logic. There is a discuss to be had about where the actual instrumentation tools will live.
+
+It can also be seen that the environment is an impulse into this loop that causes the design and corresponding implementation to evolve. In this sense, failures are inputs into this loop, they are the stimulus the environment provides to feed this loop.
 
 ## Design Module
 At a high level:
@@ -18,6 +20,7 @@ At a high level:
 - Each graph is made up of nodes. 
 - Each node exhibits a behavior and has participants. 
 - Each participant has invariants. 
+- These invariants define the correctness of the behavior.
 
 ## Implementation Module
 The implementation module contains the source files that realize the design. Each source file is parsed into an index of statements and the designs behavior and participant are projected onto the implementations statemnts and variables. As a result, each statement in the implementation can correspond to a behavior in the design and each variable in the statement can correspond to a participant in that behavior. 
