@@ -66,9 +66,24 @@ export default class File extends Base {
         });
     }
 
-    _loadFromFile (mapJSON) {
-        for (const [key, value] of Object.entries(mapJSON)) {
-            this[key] = value;
+    _loadFromFile (savedJSON) {
+        for (const [key, value] of Object.entries(savedJSON)) {
+            if (key === "_versions") {
+                value.forEach(node => this._versions.push(new Source(node)));
+
+                // Load the active version if it was saved by finding
+                // it in the versions array.
+                if (savedJSON._activeVersion?._versionId) {
+                    this._activeVersion = this._versions.find(
+                        version => version.getVersionId() === savedJSON._activeVersion._versionId
+                    );
+                }
+
+            } else if (key !== "_activeVersion") {
+                // We skip active version, because we are manually finding it
+                // in the versions array and setting it.
+                this[key] = savedJSON[key];
+            }
         };
     }
 

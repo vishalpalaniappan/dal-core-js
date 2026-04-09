@@ -25,7 +25,7 @@ export default class Source extends Base {
      * @param {Object} args The arguments to initialize the invariant with.
      */
     _loadArgs (args) {
-        const expectedAttributes = ["uid"];
+        const expectedAttributes = [];
         if (typeof args !== "object" || args === null || Array.isArray(args)) {
             // Not an object, so all attributes are missing.
             throw new MissingAttributes("Source", expectedAttributes);

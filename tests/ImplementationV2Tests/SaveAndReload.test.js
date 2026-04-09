@@ -20,12 +20,15 @@ describe("serialization and deserialization", () => {
     it ("serializes and deserializes an implementation correctly", async () => {
         const {source, indexJson, filePath} = await getFiles();
 
+        const shortIndex = [indexJson[0]];
+
         let d = new DALEngine({
             name: "Test Implementation",
             description: "This is a test implementation.",
         });
 
         const f = d.addFileV2("src/test.py", "test.py", "SOURCE");
+        f.addStatementIndex(shortIndex);
 
         const tempFilePath = resolve(__dirname, "../temp/v2implementation.json")
         await writeFile(tempFilePath, d.serialize())
