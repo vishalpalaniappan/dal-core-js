@@ -28,9 +28,8 @@ The implementation module contains the source files that realize the design. Eac
 As such the class structure will have to reflect this hierarchy:
 
 - Implementation Class 
-- File Class
-- Source Class
-- Statement Index Class
+- File Class (version management happens here)
+- Source Class (versioning happens here)
 - Map Class
 
 The Implementaiton class is the root of this module, it contains all the files in the implementation.
@@ -51,14 +50,9 @@ I will identify the attributes of the classes from the leaf to the root.
 
 This class contains a behavior ID, a list of (participant, variable) pairs and the line number of the statement it is mapping in the program. This class also has a UID. 
 
-### Statement Index Class
-- Maps
-
-This class contains a collection of maps which together define the statement index. The reason I have this in its own class is because the statement index itself has to be searchable. Rather than store this logic in the source class, I think its better to live in the statement index class. 
-
 ### Source Class
 - Content
-- Statement Index
+- Statement Index (collection of maps)
 - Version ID
 - Timestamp
 
