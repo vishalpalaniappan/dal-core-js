@@ -4,11 +4,11 @@ This engine has two modules:
 - one modules is used to build the design and automatically debug its behavior
 - the other half is used to implement the design and map the designs behavior onto the implementation
 
+It can also be noted that the implementation must be able to generate the instrumentation and the design must be able to transform the generated trace.
+
 ![Realization Loop](/src/docs/loop.JPG)        
 
-The structure of the design is projected onto the implementation. As such, the interaction between the two modules moves in one direction. Then through the instrumentation, execution and transformation, the information moves back in the other direction.
-
-It can also be noted that the implementation must be able to generate the instrumentation and the design must be able to transform the generated trace.
+The structure of the design is projected onto the implementation. As such, the interaction between the two modules moves in one direction. Then through the instrumentation, execution and transformation, the information moves back in the other direction, completing the loop.
 
 Note: Practically, I am doing the information in python because I like the AST library. However, it is clear that the implementation module of this engine has the necessary information to instrument the source. A javascript python parser could easily implement the instrumentation logic. There is a discuss to be had about where the actual instrumentation tools will live.
 
