@@ -20,6 +20,7 @@ export default class File {
     constructor (path) {
         this._versions = [];
         this._path = path;
+        this._activeVersion = null;
     }
 
     /**
@@ -27,6 +28,7 @@ export default class File {
      */
     addVersion () {
         const source = new Source({uid: `source${this._versions.length + 1}`});
+        this._activeVersion = source;
         this._versions.push(source);
     }
 
@@ -58,6 +60,7 @@ export default class File {
      * @returns {Source} Source object representing version of source file.
      */
     getLatestVersion () {
+        // TODO: Modify to use creation time instead of array order.
         if (this._versions.length === 0) {
             throw new Error("No source versions exist in the file.");
         }
@@ -95,31 +98,54 @@ export default class File {
      * the statement with the given statement ID.
      * @param {String} stmtId ID of the mapped statement.
      * @param {String} behaviorId ID of the behavior.
+     * @throws {Error} Throws when active version of source file is not set.
+     * @throws {Error} Throws when index does not entry with given stmtId.
      */
     setBehaviorId (stmtId, behaviorId) {
-        const latestVersion = this.getLatestVersion();
-        const stmtIndexEntry = latestVersion.getStatementIndexEntryByUid(stmtId);
+        if (!this._activeVersion) {
+            throw new Error("No version of source is set as active version.");
+        }
+        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
         if (!stmtIndexEntry) {
-            throw new Error(`Statement with ID ${stmtId} 
-                does not exist in the latest version of 
-                the source file.`);
+            throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
         stmtIndexEntry.setBehaviorId(behaviorId);
+    }
+
+    /**
+     * Clears the behavior ID for the statement with the given stmtId in
+     * the latest version of the source file.
+     * @param {String} stmtId StmtId of the mapped statement.
+     * @throws {Error} Throws when active version of source file is not set.
+     * @throws {Error} Throws when index does not entry with given stmtId.
+     */
+    clearBehaviorId (stmtId) {
+        if (!this._activeVersion) {
+            throw new Error("No version of source is set as active version.");
+        }
+        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        if (!stmtIndexEntry) {
+            throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
+        }
+        stmtIndexEntry.setBehaviorId(null);
+        // TODO: Clear the participants and variables.
     }
 
     /**
      * Given a statment ID, return the behavior assigned to the mapped stmt.
      * @param {String} stmtId ID of the mapped statement.
      * @returns {String} ID of the behavior assigned to the mapped statement.
+     * @throws {Error} Throws when active version of source file is not set.
+     * @throws {Error} Throws when index does not entry with given stmtId.
      */
-    getBehaviorId (stmtId) {
-        const latestVersion = this.getLatestVersion();
-        const stmtIndexEntry = latestVersion.getStatementIndexEntryByUid(stmtId);
-        if (!stmtIndexEntry) {
-            throw new Error(`Statement with ID ${stmtId}
-                does not exist in the latest version of
-                the source file.`);
+    getStmt (stmtId) {
+        if (!this._activeVersion) {
+            throw new Error("No version of source is set as active version.");
         }
-        return stmtIndexEntry.getBehaviorId();
+        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        if (!stmtIndexEntry) {
+            throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
+        }
+        return stmtIndexEntry;
     }
 };
