@@ -23,7 +23,7 @@ At a high level:
 - These invariants define the correctness of the behavior.
 
 ## Implementation Module
-The implementation module contains the source files that realize the design. Each source file is parsed into an index of statements and the designs behavior and participant are projected onto the implementations statemnts and variables. As a result, each statement in the implementation can correspond to a behavior in the design and each variable in the statement can correspond to a participant in that behavior. 
+The implementation module contains the source files that realize the design. Each source file is parsed into an index of statements and the designs behavior and participants are projected onto the implementations statements and variables. As a result, each statement in the implementation can correspond to a behavior in the design and each variable in the statement can correspond to a participant in that behavior. 
 
 As such the class structure will have to reflect this hierarchy:
 
@@ -54,7 +54,7 @@ This class contains a behavior ID, a list of (participant, variable) pairs and t
 ### Statement Index Class
 - Maps
 
-This class contains a collection of maps which make up the statement index. The reason I have this in its own class is because the statement index itself has to be searchable. Rather than store this logic in the source class, I think its better to live in the statement index class. 
+This class contains a collection of maps which together define the statement index. The reason I have this in its own class is because the statement index itself has to be searchable. Rather than store this logic in the source class, I think its better to live in the statement index class. 
 
 ### Source Class
 - Content
@@ -72,6 +72,12 @@ This class contains a list of source versions and it will implement the versioni
 ### Implementation Class
 - List of files
 
-THis class contains a list of files and it will produce the output that will be accepted by the instrumenter.
+Tis class contains a list of files and it will produce the output that will be accepted by the instrumenter.
+
+
+## Clarity
+I think there is a case to be made that there is no need for the statement index class. A statement index is just a collection of maps, so why create this class, just create an object inside the source that has the relevant maps. This is not a point I can argue with but I do think as I implement it, I will find that creating that extra layer keeps the code more organized. 
+
+As with most things, I learn the most by building, so I will evolve my thoughts on these decisions as I build.
 
 
