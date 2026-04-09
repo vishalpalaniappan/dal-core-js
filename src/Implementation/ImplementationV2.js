@@ -40,7 +40,7 @@ export default class ImplementationV2 extends Base {
     addFile (name, path, content) {
         const f = new File(name, path);
         f.addVersion();
-        f.addContent(content);
+        f.setContent(content);
         this._files.push(f);
         return f;
     }
