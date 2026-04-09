@@ -89,4 +89,14 @@ export default class ImplementationV2 {
         const file = this.getFile(uid);
         return file.getStatementIndex();
     }
+
+    /**
+     * Exports implementation in a format that can be used for instrumentation.
+     * @returns {Object} Instrumentation package used for instrumenting source.
+     */
+    exportForInstrumentation () {
+        const instrumentationPackage = {};
+        // TODO: Define expected format.
+        return instrumentationPackage;
+    }
 }
