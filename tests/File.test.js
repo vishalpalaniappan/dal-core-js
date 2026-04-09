@@ -12,10 +12,18 @@ describe("file tests", () => {
         const mapPath = resolve(__dirname, "./test_data/TransactionDB_mapping.json");
         const index = await readFile(mapPath, "utf-8");
 
+        const indexJson = JSON.parse(index);
+        const firstEntry = indexJson[0];
+        const thirdEntry = indexJson[2];
+        const eighthEntry = indexJson[7];
+
         const f = new File("sampleFile.py");
         f.addVersion();
         f.addStatementIndex(JSON.parse(index));
         f.addContent(source);
+
+        f.setBehaviorId(firstEntry.uid, "behavior1");
+        expect(f.getMappedStatement(firstEntry.uid).getBehavior()).toBe("behavior1");
 
     });
 
