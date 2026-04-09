@@ -68,10 +68,3 @@ This class contains a list of source versions and it will implement the versioni
 
 Tis class contains a list of files and it will produce the output that will be accepted by the instrumenter.
 
-
-## Clarity
-I think there is a case to be made that there is no need for the statement index class. A statement index is just a collection of maps, so why create this class, just create an object inside the source that has the relevant maps. This is not a point I can argue with but I do think as I implement it, I will find that creating that extra layer keeps the code more organized. 
-
-As with most things, I learn the most by building, so I will evolve my thoughts on these decisions as I build.
-
-
