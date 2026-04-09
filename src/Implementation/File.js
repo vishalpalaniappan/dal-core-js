@@ -110,6 +110,24 @@ export default class File {
     }
 
     /**
+     * Given a statment ID, return the behavior assigned to the mapped stmt.
+     * @param {String} stmtId ID of the mapped statement.
+     * @returns {String} ID of the behavior assigned to the mapped statement.
+     * @throws {Error} Throws when active version of source file is not set.
+     * @throws {Error} Throws when index does not entry with given stmtId.
+     */
+    getMappedStatement (stmtId) {
+        if (!this._activeVersion) {
+            throw new Error("No version of source is set as active version.");
+        }
+        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        if (!stmtIndexEntry) {
+            throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
+        }
+        return stmtIndexEntry;
+    }
+
+    /**
      * For the latest version of the source file, set the behavior ID for
      * the statement with the given statement ID.
      * @param {String} stmtId ID of the mapped statement.
@@ -148,13 +166,14 @@ export default class File {
     }
 
     /**
-     * Given a statment ID, return the behavior assigned to the mapped stmt.
-     * @param {String} stmtId ID of the mapped statement.
-     * @returns {String} ID of the behavior assigned to the mapped statement.
+     * Sets participant and variable name for the statement with the stmtId.
+     * @param {String} stmtId Statment ID of the mapped statement.
+     * @param {String} participantName Name of the participant.
+     * @param {String} variableName Name of the variable.
      * @throws {Error} Throws when active version of source file is not set.
      * @throws {Error} Throws when index does not entry with given stmtId.
      */
-    getMappedStatement (stmtId) {
+    setParticipant (stmtId, participantName, variableName) {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
@@ -162,6 +181,25 @@ export default class File {
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
-        return stmtIndexEntry;
+        stmtIndexEntry.setParticipant(participantName, variableName);
+    }
+
+    /**
+     * Clears the participant with the given participant name from the statement
+     * with the given stmtId.
+     * @param {String} stmtId Statement ID of the mapped statement.
+     * @param {*} participantName Name of the participant to clear.
+     * @throws {Error} Throws when active version of source file is not set.
+     * @throws {Error} Throws when index does not entry with given stmtId.
+     */
+    clearParticipant (stmtId, participantName) {
+        if (!this._activeVersion) {
+            throw new Error("No version of source is set as active version.");
+        }
+        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        if (!stmtIndexEntry) {
+            throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
+        }
+        stmtIndexEntry.removeParticipantByName(participantName);
     }
 };
