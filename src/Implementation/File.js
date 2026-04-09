@@ -69,4 +69,23 @@ export default class File {
     getPath () {
         return this._path;
     }
+
+    /**
+     * For the latest version of the source file, set the behavior ID for
+     * the statement with the given statement ID.
+     * @param {String} stmtId ID of the mapped statement.
+     * @param {String} behaviorId ID of the behavior.
+     */
+    setBehaviorId (stmtId, behaviorId) {
+
+    }
+
+    /**
+     * Given a statment ID, return the behavior assigned to the mapped stmt.
+     * @param {String} stmtId ID of the mapped statement.
+     * @returns {String} ID of the behavior assigned to the mapped statement.
+     */
+    getBehaviorId (stmtId) {
+
+    }
 };
