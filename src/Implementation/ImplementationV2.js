@@ -22,8 +22,8 @@ export default class ImplementationV2 extends Base {
      */
     loadFromJson (json) {
         for (const [key, value] of Object.entries(json)) {
-            if (key === "_sourceFiles") {
-                value.forEach(file => this._sourceFiles.push(file));
+            if (key === "_files") {
+                value.forEach(node => this._files.push(new File(node)));
             } else {
                 this[key] = json[key];
             }
@@ -38,7 +38,7 @@ export default class ImplementationV2 extends Base {
      * @returns {File} The file that was added to the implementation.
      */
     addFile (key, name, content) {
-        const f = new File(key, name);
+        const f = new File({key, name});
         f.addVersion();
         f.setContent(content);
         this._files.push(f);

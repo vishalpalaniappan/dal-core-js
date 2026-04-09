@@ -1,4 +1,6 @@
 import Base from "../Base";
+import MissingAttributes from "../Errors/MissingAttributes";
+import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import Source from "./Source";
 
 export default class File extends Base {
@@ -32,14 +34,42 @@ export default class File extends Base {
      *
      * @param {String} name Name of the source file.
      * @param {String} key Path of the source file.
+     * @param args
      */
-    constructor (name, key) {
+    constructor (args) {
         super();
-        this._name = name;
+        this._name = args.name;
         this._versions = [];
-        this._key = key;
+        this._key = args.key;
         this._activeVersion = null;
         this._uid = crypto.randomUUID();
+        (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
+    }
+
+    /**
+     * Loads the provided arguments.
+     *
+     * @throws {MissingAttributes} Thrown when required attr is not present.
+     * @param {Object} args
+     */
+    _loadArgs (args) {
+        const expectedAttributes = ["name", "key"];
+        if (typeof args !== "object" || args === null || Array.isArray(args)) {
+            // Not an object, so all attributes are missing.
+            throw new MissingAttributes("File", expectedAttributes);
+        }
+        expectedAttributes.forEach((attr) => {
+            if (!(attr in args)) {
+                throw new MissingAttributes("File", attr);
+            }
+            this["_" + attr] = args[attr];
+        });
+    }
+
+    _loadFromFile (mapJSON) {
+        for (const [key, value] of Object.entries(mapJSON)) {
+            this[key] = value;
+        };
     }
 
     /**
