@@ -91,6 +91,25 @@ export default class ImplementationV2 {
     }
 
     /**
+     * Sets the entry point script to run the implementation.
+     * @param {String} entryPoint Entry point to execute implementation.
+     */
+    setEntryPoint (entryPoint) {
+        if (typeof entryPoint !== "string") {
+            throw new Error("Entry point script must be a string.");
+        }
+        this._entryPoint = entryPoint;
+    }
+
+    /**
+     * Returns the entry point script to run the implementation.
+     * @returns {String} Entry point string.
+     */
+    getEntryPoint () {
+        return this._entryPoint;
+    }
+
+    /**
      * Exports implementation in a format that can be used for instrumentation.
      * @returns {Object} Instrumentation package used for instrumenting source.
      */
