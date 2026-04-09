@@ -2,6 +2,30 @@ import Base from "../Base";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 
 export default class Map extends Base {
+    /**
+     * This class represents an entry in the statement index of a source object.
+     * The entries are populated with information extracted by parsing the
+     * source into mappable statements. Each mappable statement is identified
+     * by a uid, a start line, end line. The src is an optional field that is
+     * extracted but it is useful to the mapping container in the UI.
+     *
+     * This map object provides a mechanism to map a behavior and its
+     * participants onto itself. This means that you can set a behavior
+     * and remove a behavior from the map. You can set or remove the
+     * participant and the corresponding variable name. There can be many
+     * participants mapped to this object but there can only be one behavior.
+     *
+     * When the implementation is prepare for instrumentation, it will iterate
+     * through each of the maps in each files statement index, extract the
+     * behavior, participants and variable values and use that to inform the
+     * instrumentation of the source file.
+     *
+     * @param {Object} args
+     * @param {String} args.uid Unique identifier for the map entry.
+     * @param {Number} args.start_line Start line num of stmt in the src file.
+     * @param {Number} args.end_line End line num of stmt in the src file.
+     * @param {String} args.source The src of the statement.
+     */
     constructor (args) {
         super();
         this._behaviorId = null;
