@@ -62,10 +62,26 @@ describe("implementation tests", () => {
         const f = imp.addFile("TransactionDB.py", filePath, source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
-        f.setBehaviorId(stmt1.uid, "behavior1");
+        f.setBehavior(stmt1.uid, "behavior1");
         expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBe("behavior1");
 
-        expect(() => f.setBehaviorId("asdf", "behavior1"))
+        expect(() => f.setBehavior("asdf", "behavior1"))
             .toThrow("Statement with ID asdf does not exist in the active version.");
+    });
+
+    it("adds behavior to stmtid and removes behavior from stmtid", async () => {
+        const {source, indexJson, filePath} = await getFiles();
+
+        const stmt1 = indexJson[0];
+
+        const imp = new ImplementationV2();
+        const f = imp.addFile("TransactionDB.py", filePath, source);
+        imp.setStatementIndexForFile(f._uid, indexJson);
+
+        f.setBehavior(stmt1.uid, "behavior1");
+        expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBe("behavior1");
+
+        f.clearBehavior(stmt1.uid);
+        expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBeNull();
     });
 });
