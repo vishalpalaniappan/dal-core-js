@@ -30,11 +30,14 @@ export default class File {
      * other functionality is added.
      *
      * @param {String} path Path of the source file.
+     * @param {String} name Name of the source file.
      */
-    constructor (path) {
+    constructor (name, path) {
+        this._name = name;
         this._versions = [];
         this._path = path;
         this._activeVersion = null;
+        this._uid = crypto.randomUUID();
     }
 
     /**
@@ -107,6 +110,15 @@ export default class File {
     addStatementIndex (statementIndex) {
         const latestVersion = this.getLatestVersion();
         latestVersion.addStatementIndex(statementIndex);
+    }
+
+    /**
+     * Returns the statement index for the latest version of the source file.
+     * @returns {Object} Statement index of the latest version.
+     */
+    getStatementIndex () {
+        const latestVersion = this.getLatestVersion();
+        return latestVersion.getStatementIndex();
     }
 
     /**
