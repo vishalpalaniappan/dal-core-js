@@ -28,6 +28,8 @@ export default class File {
      */
     addVersion () {
         const source = new Source({uid: `source${this._versions.length + 1}`});
+        // TODO: This will be extended as versioning is develope further.
+        source.setVersionId(`version${this._versions.length + 1}`);
         this._activeVersion = source;
         this._versions.push(source);
     }
