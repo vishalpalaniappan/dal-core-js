@@ -40,7 +40,11 @@ export default class Source extends Base {
 
     _loadFromFile (mapJSON) {
         for (const [key, value] of Object.entries(mapJSON)) {
-            this[key] = value;
+            if (key === "_statementIndex") {
+                value.forEach(node => this._statementIndex.push(new Map(node)));
+            } else {
+                this[key] = value;
+            }
         };
     }
 
