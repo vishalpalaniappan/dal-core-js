@@ -8,7 +8,7 @@ This engine has two modules:
 
 The structure of the design is projected onto the implementation. As such, the interaction between the two modules moves in one direction. Then through the instrumentation, execution and transformation, the information moves back in the other direction, completing the loop.
 
-It can also be noted that the implementation must be able to generate the instrumentation and the design must be able to transform the generated trace.
+It can also be noted that the implementation must be able to generate the instrumentation and the design must be able interpret the execution through the behavior. Although, this phrasing might be inaccurate because it is clear that the mapping is already doing the transform. The instrumentation and transformation are just applications of the transformation that was already established. 
 
 Note: Practically, I am doing the instrumentation in python because I like the AST library. However, it is clear that the implementation module of this engine has the necessary information to instrument the source. A javascript python parser could easily implement the instrumentation logic. There is a discussion to be had about where the actual instrumentation tools will live.
 
