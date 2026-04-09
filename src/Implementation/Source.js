@@ -40,6 +40,10 @@ export default class Source extends Base {
         });
     }
 
+    /**
+     * Loads the source from a JSON object read from file.
+     * @param {Object} mapJSON JSON represetation of serialized file.
+     */
     _loadFromFile (mapJSON) {
         for (const [key, value] of Object.entries(mapJSON)) {
             if (key === "_statementIndex") {
@@ -61,38 +65,70 @@ export default class Source extends Base {
         };
     }
 
+    /**
+     * Returns the statement index of the source file.
+     * @returns {Array} Array of Maps representing the stmt index.
+     */
     getStatementIndex () {
         return this._statementIndex;
     }
 
+    /**
+     * Returns the statement with the given UID.
+     * @param {String} uid UID of the statement to get.
+     * @returns {Map} Map object representing the statement.
+     */
     getStatementByUid (uid) {
         return this._statementIndex.find(entry => entry.getUid() === uid);
     }
 
+    /**
+     * Sets the version ID of the source object.
+     * @param {String} versionId Version ID to set.
+     */
     setVersionId (versionId) {
         this._versionId = versionId;
     }
 
+    /**
+     * Returns the version ID of the source object.
+     * @returns {String} Version ID of the source object.
+     */
     getVersionId () {
         return this._versionId;
     }
 
+    /**
+     * Sets the content of the source object.
+     * @param {String} content Content to set.
+     */
     setContent (content) {
         this._content = content;
         this._lastModified = new Date();
         this._isDirty = (this._updatedContent === this._content)
     }
-
+    /**
+     * Returns the content of the source object.
+     * @returns {String} Content of the source object.
+     */
     getContent () {
         return this._content;
     }
 
-    setUpdatedContent (content) {
-        this._updatedContent = content;
+    /**
+     * Sets the updated content of the source object.
+     * @param {String} updatedContent Updated content to set.
+     */
+    setUpdatedContent (updatedContent) {
+        this._updatedContent = updatedContent;
         this._lastModified = new Date();
         this._isDirty = (this._updatedContent === this._content)
     }
 
+    /**
+     * Returns the updated content of this source.
+     * @returns {String} Updated content of source.
+     */
     getUpdatedContent () {
         return this._updatedContent;
     }
