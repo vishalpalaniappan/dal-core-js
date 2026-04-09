@@ -14,7 +14,7 @@ export default class File {
      * -  set or remove the behavior from the statement.
      * -  add participants and variable names to a statement.
      *
-     * When the user wants to instrument the source file, this API will export
+     * When the user wants to instrument the source file, this API will
      * provide a method to get the source and mapping in a format that the
      * instrumenter can use. The implementation API will be a higher level
      * abstraction that will provide the output of this file API while
