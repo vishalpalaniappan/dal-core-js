@@ -77,10 +77,4 @@ export default class Map {
             participant => participant.participantName !== participantName
         );
     }
-
-    removeParticipantByVariable (variableName) {
-        this._participants = this._participants.filter(
-            participant => participant.variableName !== variableName
-        );
-    }
 };
