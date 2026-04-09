@@ -90,11 +90,16 @@ export default class Map extends Base {
      * Returns a participant by its name.
      * @param {String} participantName The name of the participant.
      * @returns {Object} The participant object.
+     * @throws {Error} Thrown when participant with the given name is not found.
      */
     getParticipantByName (participantName) {
-        return this._participants.find(
+        const foundParticipant = this._participants.find(
             participant => participant.participantName === participantName
         );
+        if (!foundParticipant) {
+            throw new Error(`Participant with name ${participantName} not found.`);
+        }
+        return foundParticipant;
     }
 
     /**
@@ -103,6 +108,13 @@ export default class Map extends Base {
      * @param {String} variableName The var name associated with the participant
      */
     setParticipant (participantName, variableName) {
+        const existingParticipant = this._participants.find(
+            participant => participant.participantName === participantName
+        );
+        if (existingParticipant) {
+            existingParticipant.variableName = variableName;
+            return;
+        }
         this._participants.push({participantName, variableName});
     }
 
