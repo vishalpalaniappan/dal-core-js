@@ -147,7 +147,7 @@ export default class File {
      * @throws {Error} Throws when active version of source file is not set.
      * @throws {Error} Throws when index does not entry with given stmtId.
      */
-    setBehaviorId (stmtId, behaviorId) {
+    setBehavior (stmtId, behaviorId) {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
@@ -165,7 +165,7 @@ export default class File {
      * @throws {Error} Throws when active version of source file is not set.
      * @throws {Error} Throws when index does not entry with given stmtId.
      */
-    clearBehaviorId (stmtId) {
+    clearBehavior (stmtId) {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
@@ -173,7 +173,7 @@ export default class File {
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
-        stmtIndexEntry.setBehaviorId(null);
+        stmtIndexEntry.setBehavior(null);
         // TODO: Clear the participants and variables.
     }
 
