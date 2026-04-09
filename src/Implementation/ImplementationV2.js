@@ -19,12 +19,14 @@ export default class ImplementationV2 {
      * @param {String} name
      * @param {String} path
      * @param {String} content
+     * @returns {File} The file that was added to the implementation.
      */
     addFile (name, path, content) {
         const f = new File(name, path);
         f.addVersion();
         f.addContent(content);
         this._files.push(f);
+        return f;
     }
 
     /**
