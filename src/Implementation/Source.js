@@ -1,7 +1,8 @@
+import Base from "../Base";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import Map from "./Map";
 
-export default class Source {
+export default class Source extends Base {
     /**
      * The source object represents a version of a source file in the
      * implementation. It is represented by the content of the source file,
@@ -11,6 +12,7 @@ export default class Source {
      * @param {Object} args The arguments to initialize the source object with.
      */
     constructor (args) {
+        super();
         this._versionId = null;
         this._content = null;
         this._statementIndex = [];

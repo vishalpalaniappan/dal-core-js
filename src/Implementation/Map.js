@@ -1,7 +1,9 @@
+import Base from "../Base";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 
-export default class Map {
+export default class Map extends Base {
     constructor (args) {
+        super();
         this._behaviorId = null;
         this._participants = [];
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));

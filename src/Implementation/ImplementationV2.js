@@ -1,3 +1,4 @@
+import Base from "../Base";
 import File from "./File";
 
 /**
@@ -9,9 +10,24 @@ import File from "./File";
  * to use this new implementation and then I will merge engine into main before
  * I add any more features.
  */
-export default class ImplementationV2 {
+export default class ImplementationV2 extends Base {
     constructor () {
+        super();
         this._files = [];
+    }
+
+    /**
+     * Loads the implementation from a JSON object read from file.
+     * @param {Object} json JSON object representing the implementation.
+     */
+    loadFromJson (json) {
+        for (const [key, value] of Object.entries(json)) {
+            if (key === "_sourceFiles") {
+                value.forEach(file => this._sourceFiles.push(file));
+            } else {
+                this[key] = json[key];
+            }
+        };
     }
 
     /**

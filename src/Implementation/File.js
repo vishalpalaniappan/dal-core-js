@@ -1,6 +1,7 @@
+import Base from "../Base";
 import Source from "./Source";
 
-export default class File {
+export default class File extends Base {
     /**
      * The file object represents a source file in the implementation. It is
      * represented by a path and contains multiple versions of the source file.
@@ -33,6 +34,7 @@ export default class File {
      * @param {String} name Name of the source file.
      */
     constructor (name, path) {
+        super();
         this._name = name;
         this._versions = [];
         this._path = path;
