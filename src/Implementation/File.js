@@ -77,7 +77,14 @@ export default class File {
      * @param {String} behaviorId ID of the behavior.
      */
     setBehaviorId (stmtId, behaviorId) {
-
+        const latestVersion = this.getLatestVersion();
+        const stmtIndexEntry = latestVersion.getStatementIndexEntryByUid(stmtId);
+        if (!stmtIndexEntry) {
+            throw new Error(`Statement with ID ${stmtId} 
+                does not exist in the latest version of 
+                the source file.`);
+        }
+        stmtIndexEntry.setBehaviorId(behaviorId);
     }
 
     /**
@@ -86,6 +93,13 @@ export default class File {
      * @returns {String} ID of the behavior assigned to the mapped statement.
      */
     getBehaviorId (stmtId) {
-
+        const latestVersion = this.getLatestVersion();
+        const stmtIndexEntry = latestVersion.getStatementIndexEntryByUid(stmtId);
+        if (!stmtIndexEntry) {
+            throw new Error(`Statement with ID ${stmtId}
+                does not exist in the latest version of
+                the source file.`);
+        }
+        return stmtIndexEntry.getBehaviorId();
     }
 };
