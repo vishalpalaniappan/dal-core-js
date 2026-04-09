@@ -52,46 +52,87 @@ export default class Map extends Base {
         });
     }
 
+    /**
+     * Loads the map from a JSON object read from serialized output.
+     * @param {Object} mapJSON JSON object read from serialized output.
+     */
     _loadFromFile (mapJSON) {
         for (const [key, value] of Object.entries(mapJSON)) {
             this[key] = value;
         };
     }
 
+    /**
+     * Returns the behavior assigned to this map entry.
+     * @returns {String} Behavior assigned to this stmt.
+     */
     getBehavior () {
         return this._behaviorId;
     }
 
+    /**
+     * Sets the behavior for this map entry.
+     * @param {String} behaviorId The behavior ID to assign.
+     */
     setBehavior (behaviorId) {
         this._behaviorId = behaviorId;
     }
 
+    /**
+     * Returns the participants assigned to this map entry.
+     * @returns {Array} Array of participants.
+     */
     getParticipants () {
         return this._participants;
     }
 
+    /**
+     * Returns a participant by its name.
+     * @param {String} participantName The name of the participant.
+     * @returns {Object} The participant object.
+     */
     getParticipantByName (participantName) {
         return this._participants.find(
             participant => participant.participantName === participantName
         );
     }
 
+    /**
+     * Sets a participant for this map entry.
+     * @param {String} participantName The name of the participant.
+     * @param {String} variableName The var name associated with the participant
+     */
     setParticipant (participantName, variableName) {
-        this._participants.push({ participantName, variableName });
+        this._participants.push({participantName, variableName});
     }
 
+    /**
+     * Returns the range of lines for this stmt in the source.
+     * @returns {Object} Object containing start and end line.
+     */
     getLineRange () {
         return {startLine: this._start_line, endLine: this._end_line};
     }
 
+    /**
+     * Returns the UID of this statement.
+     * @returns {String} UID of this statement.
+     */
     getUid () {
         return this._uid;
     }
 
+    /**
+     * Removes the behavior assigned to this map entry.
+     */
     removeBehavior () {
         this._behaviorId = null;
     }
 
+    /**
+     * Removes a participant by its name.
+     * @param {String} participantName The name of the participant to remove.
+     */
     removeParticipantByName (participantName) {
         this._participants = this._participants.filter(
             participant => participant.participantName !== participantName
