@@ -109,7 +109,7 @@ describe("implementation tests", () => {
             .toThrow("Statement with ID asdf does not exist in the active version.");
     });
 
-    it ("adds a participant/variable name and removes participant by name"), async () => {
+    it ("adds a participant/variable name and removes participant by name", async () => {
         const {source, indexJson, filePath} = await getFiles();
 
         const stmt1 = indexJson[0];
@@ -121,7 +121,25 @@ describe("implementation tests", () => {
         f.setParticipant(stmt1.uid, "participant1", "variable1");
         expect(f.getParticipant(stmt1.uid, "participant1").variableName).toBe("variable1");
 
-        f.removeParticipantByName(stmt1.uid, "participant1");
+        f.removeParticipant(stmt1.uid, "participant1");
         expect(f.getParticipant(stmt1.uid, "participant1")).toBeUndefined();
-    };
+    });
+
+    it ("adds multiple files and gets all files", async () => {
+        const {source, indexJson, filePath} = await getFiles();
+
+        const imp = new ImplementationV2();
+        const f1 = imp.addFile("TransactionDB1.py", filePath, source);
+        const f2 = imp.addFile("TransactionDB2.py", filePath, source);
+        const f3 = imp.addFile("TransactionDB3.py", filePath, source);
+
+        const savedFiles = imp.getFiles();
+        expect(savedFiles.length).toBe(3);
+        expect(savedFiles).toEqual(expect.arrayContaining([f1, f2, f3]));
+        savedFiles.forEach((file) => {
+            const retrievedFile = imp.getFile(file._uid);
+            expect(retrievedFile).toBeDefined();
+            expect(retrievedFile.getPath()).toEqual(filePath);
+        });
+    });
 });
