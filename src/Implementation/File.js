@@ -30,14 +30,14 @@ export default class File extends Base {
      * right now but it is clear how that will work and it will be added after
      * other functionality is added.
      *
-     * @param {String} path Path of the source file.
      * @param {String} name Name of the source file.
+     * @param {String} key Path of the source file.
      */
-    constructor (name, path) {
+    constructor (name, key) {
         super();
         this._name = name;
         this._versions = [];
-        this._path = path;
+        this._key = key;
         this._activeVersion = null;
         this._uid = crypto.randomUUID();
     }
@@ -92,8 +92,8 @@ export default class File extends Base {
      * Returns the path of this file.
      * @returns {String} Path of this file.
      */
-    getPath () {
-        return this._path;
+    getKey () {
+        return this._key;
     }
 
     /**
