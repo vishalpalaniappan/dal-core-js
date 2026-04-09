@@ -202,4 +202,24 @@ export default class File {
         }
         stmtIndexEntry.removeParticipantByName(participantName);
     }
+
+    /**
+     * Gets particiant with the provided name form the statement with
+     * the given statement id.
+     * @param {String} stmtId Statement ID of the mapped statement.
+     * @param {String} participantName Name of the participant to get.
+     * @returns {Object} Participant object with the name and variable.
+     * @throws {Error} Throws when active version of source file is not set.
+     * @throws {Error} Throws when index does not entry with given stmtId.
+     */
+    getParticipant (stmtId, participantName) {
+        if (!this._activeVersion) {
+            throw new Error("No version of source is set as active version.");
+        }
+        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        if (!stmtIndexEntry) {
+            throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
+        }
+        return stmtIndexEntry.getParticipantByName(participantName);
+    }
 };
