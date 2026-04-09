@@ -12,11 +12,10 @@ Transform    |                    | Instrument
          [ Trace ]   <----  [Execute]   
                     Generate               
 
-So the information from the design is projected onto the implementation. As such, the interaction between the two modules moves in one direction. 
+The structure of the design is projected onto the implementation. As such, the interaction between the two modules moves in one direction. Then through the instrumentation, execution and transformation, the information moves back in the other direction.
 
 Design Module
 - Will write more about this later.
-
 
 Implementation Module
 The implementation module contains the source files that realize the design. Each source file is parsed into an index of statements and the designs behavior and participant are projected onto the implementations statemnts and variables. As a result, each statement in the implementation can correspond to a behavior in the design and each variable in the statement can correspond to a participant in that behavior. 
