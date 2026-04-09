@@ -151,6 +151,33 @@ export default class File extends Base {
     }
 
     /**
+     * Returns the content of the source file.
+     * @returns {String} Content of file.
+     */
+    getContent () {
+        const latestVersion = this.getLatestVersion();
+        return latestVersion.getContent();
+    }
+
+    /**
+     * Sets the updated content of the latest version of the source file.
+     * @param {String} content Updated content of the source file.
+     */
+    setUpdatedContent (content) {
+        const latestVersion = this.getLatestVersion();
+        latestVersion.setUpdatedContent(content);
+    }
+
+    /**
+     * Retuns the updated content of the source file.
+     * @returns {String} Updated content of the source file.
+     */
+    getUpdatedContent () {
+        const latestVersion = this.getLatestVersion();
+        return latestVersion.getUpdatedContent();
+    }
+
+    /**
      * Adds a statement index to the latest version of the source file.
      * @param {JSON} statementIndex Mapping of statements to source file.
      */
@@ -179,7 +206,7 @@ export default class File extends Base {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
-        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        const stmtIndexEntry = this._activeVersion.getStatementByUid(stmtId);
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
@@ -198,7 +225,7 @@ export default class File extends Base {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
-        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        const stmtIndexEntry = this._activeVersion.getStatementByUid(stmtId);
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
@@ -216,7 +243,7 @@ export default class File extends Base {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
-        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        const stmtIndexEntry = this._activeVersion.getStatementByUid(stmtId);
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
@@ -236,7 +263,7 @@ export default class File extends Base {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
-        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        const stmtIndexEntry = this._activeVersion.getStatementByUid(stmtId);
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
@@ -255,7 +282,7 @@ export default class File extends Base {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
-        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        const stmtIndexEntry = this._activeVersion.getStatementByUid(stmtId);
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }
@@ -275,7 +302,7 @@ export default class File extends Base {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
-        const stmtIndexEntry = this._activeVersion.getStatementIndexEntryByUid(stmtId);
+        const stmtIndexEntry = this._activeVersion.getStatementByUid(stmtId);
         if (!stmtIndexEntry) {
             throw new Error(`Statement with ID ${stmtId} does not exist in the active version.`);
         }

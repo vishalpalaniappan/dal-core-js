@@ -15,6 +15,8 @@ export default class Source extends Base {
         super();
         this._versionId = null;
         this._content = null;
+        this._updatedContent = null;
+        this._isDirty = false;
         this._statementIndex = [];
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
@@ -63,7 +65,7 @@ export default class Source extends Base {
         return this._statementIndex;
     }
 
-    getStatementIndexEntryByUid (uid) {
+    getStatementByUid (uid) {
         return this._statementIndex.find(entry => entry.getUid() === uid);
     }
 
@@ -78,9 +80,20 @@ export default class Source extends Base {
     setContent (content) {
         this._content = content;
         this._lastModified = new Date();
+        this._isDirty = (this._updatedContent === this._content)
     }
 
     getContent () {
         return this._content;
+    }
+
+    setUpdatedContent (content) {
+        this._updatedContent = content;
+        this._lastModified = new Date();
+        this._isDirty = (this._updatedContent === this._content)
+    }
+
+    getUpdatedContent () {
+        return this._updatedContent;
     }
 };
