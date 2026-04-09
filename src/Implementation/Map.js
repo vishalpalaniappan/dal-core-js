@@ -144,8 +144,18 @@ export default class Map extends Base {
     /**
      * Removes a participant by its name.
      * @param {String} participantName The name of the participant to remove.
+     * @throws {Error} Thrown when participant with the given name is not found.
      */
     removeParticipantByName (participantName) {
+        const foundParticipant = this._participants.find(
+            participant => participant.participantName === participantName
+        );
+        if (!foundParticipant) {
+            // I chose to throw an error here even though it doesn't change
+            // the end result because it lets the user know that they are
+            // trying to remove an unmapped participant.
+            throw new Error(`Participant with name ${participantName} not found.`);
+        }
         this._participants = this._participants.filter(
             participant => participant.participantName !== participantName
         );
