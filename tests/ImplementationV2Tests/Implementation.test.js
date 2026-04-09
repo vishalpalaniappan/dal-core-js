@@ -39,7 +39,7 @@ describe("implementation tests", () => {
 
     });
 
-    it("adds file to implementation and adds statement index", async () => {
+    it("adds file to implementation, adds statement index and gets statement index", async () => {
         const {source, indexJson, filePath} = await getFiles();
 
         const imp = new ImplementationV2();
@@ -51,6 +51,8 @@ describe("implementation tests", () => {
         statementIndex.forEach((stmt, idx) => {
             expect(stmt._uid).toEqual(indexJson[idx].uid);
         });
+
+        expect(imp.getStatementIndexForFile(f._uid).length).toEqual(indexJson.length);
     });
 
     it("adds behavior to stmtid of file and throws on invalid stmtid", async () => {
