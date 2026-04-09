@@ -204,7 +204,7 @@ export default class File {
      * @throws {Error} Throws when active version of source file is not set.
      * @throws {Error} Throws when index does not entry with given stmtId.
      */
-    clearParticipant (stmtId, participantName) {
+    removeParticipant (stmtId, participantName) {
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
