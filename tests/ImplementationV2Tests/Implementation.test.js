@@ -84,4 +84,28 @@ describe("implementation tests", () => {
         f.clearBehavior(stmt1.uid);
         expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBeNull();
     });
+
+    it ("adds a participant and variable name to the file given a statement", async () => {
+        const {source, indexJson, filePath} = await getFiles();
+
+        const stmt1 = indexJson[0];
+
+        const imp = new ImplementationV2();
+        const f = imp.addFile("TransactionDB.py", filePath, source);
+        imp.setStatementIndexForFile(f._uid, indexJson);
+
+        f.setParticipant(stmt1.uid, "participant1", "variable1");
+        expect(f.getParticipant(stmt1.uid, "participant1").variableName).toBe("variable1");
+    });
+
+    it ("throws error when setting participant for invalid stmtId", async () => {
+        const {source, indexJson, filePath} = await getFiles();
+
+        const imp = new ImplementationV2();
+        const f = imp.addFile("TransactionDB.py", filePath, source);
+        imp.setStatementIndexForFile(f._uid, indexJson);
+
+        expect(() => f.setParticipant("asdf", "participant1", "variable1"))
+            .toThrow("Statement with ID asdf does not exist in the active version.");
+    });
 });
