@@ -8,6 +8,10 @@ This engine has two modules:
 
 The structure of the design is projected onto the implementation. As such, the interaction between the two modules moves in one direction. Then through the instrumentation, execution and transformation, the information moves back in the other direction.
 
+It can also be noted that the implementation must be able to generate the instrumentation and the design must be able to transform the generated trace.
+
+Note: Practically, I am doing the information in python because I like the AST library. However, it is clear that the implementation module of this engine has the necessary information to instrument the source. A javascript python parser could easily implement the instrumentation logic. There is a discuss to be had about where the actual instrumentation tools will live.
+
 ## Design Module
 At a high level:
 - Each design is made up of a collection of graphs. 
