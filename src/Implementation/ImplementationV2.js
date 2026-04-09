@@ -45,6 +45,14 @@ export default class ImplementationV2 {
     }
 
     /**
+     * Returns the files in the implementaiton.
+     * @returns {Array} List of files in the implementation.
+     */
+    getFiles () {
+        return this._files;
+    }
+
+    /**
      * Remove the file with the given UID from the implementation.
      * @param {String} uid UID of the file to remove.
      * @throws {Error} Throws an error if a file with the given UID does not
