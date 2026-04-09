@@ -19,8 +19,6 @@ describe("file tests", () => {
     it("sets behavior ID from the file object", async () => {
         const {source, indexJson, filePath} = await getFiles();
         const firstEntry = indexJson[0];
-        const thirdEntry = indexJson[2];
-        const eighthEntry = indexJson[7];
 
         const f = new File("sampleFile.py");
         f.addVersion();
@@ -35,8 +33,6 @@ describe("file tests", () => {
     it ("adds a participant and variable name to the file given a statement", async () => {
         const {source, indexJson, filePath} = await getFiles();
         const firstEntry = indexJson[0];
-        const thirdEntry = indexJson[2];
-        const eighthEntry = indexJson[7];
 
         const f = new File("sampleFile.py");
         f.addVersion();
