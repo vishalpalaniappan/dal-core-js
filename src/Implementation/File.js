@@ -8,7 +8,8 @@ export default class File {
      * the source object.
      *
      * Note: Currently, this file does not track version information, I am
-     * simply saving a source.
+     * simply saving a source in a single version. Versioning will be added
+     * after but this sets up the structure needed to implement that.
      *
      * Note2: There is another layer of version abstraction where files that
      * are renamed or moved need to be tracked. I am also not implementing this
