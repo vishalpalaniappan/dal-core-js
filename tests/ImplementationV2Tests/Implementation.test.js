@@ -108,4 +108,20 @@ describe("implementation tests", () => {
         expect(() => f.setParticipant("asdf", "participant1", "variable1"))
             .toThrow("Statement with ID asdf does not exist in the active version.");
     });
+
+    it ("adds a participant/variable name and removes participant by name"), async () => {
+        const {source, indexJson, filePath} = await getFiles();
+
+        const stmt1 = indexJson[0];
+
+        const imp = new ImplementationV2();
+        const f = imp.addFile("TransactionDB.py", filePath, source);
+        imp.setStatementIndexForFile(f._uid, indexJson);
+
+        f.setParticipant(stmt1.uid, "participant1", "variable1");
+        expect(f.getParticipant(stmt1.uid, "participant1").variableName).toBe("variable1");
+
+        f.removeParticipantByName(stmt1.uid, "participant1");
+        expect(f.getParticipant(stmt1.uid, "participant1")).toBeUndefined();
+    };
 });
