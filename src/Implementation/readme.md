@@ -1,8 +1,8 @@
 # Implementation Module Planning
 
 This engine has two modules:
-- one modules is used to build the design and automatically debug its behavior
-- the other half is used to implement the design and map the designs behavior onto the implementation
+- The design module is used to build the design and automatically debug its behavior
+- The implementation module is used to implement the design and map the designs behavior onto the implementation
 
 ![Realization Loop](/src/docs/loop.JPG)        
 
