@@ -11,7 +11,6 @@ describe("file tests", () => {
         const source = await readFile(filePath, "utf-8")
         const mapPath = resolve(__dirname, "./test_data/TransactionDB_mapping.json");
         const index = await readFile(mapPath, "utf-8");
-
         const indexJson = JSON.parse(index);
         const firstEntry = indexJson[0];
         const thirdEntry = indexJson[2];
@@ -27,5 +26,22 @@ describe("file tests", () => {
 
     });
 
+    it ("adds a participant and variable name to the file given a statement", async () => {
+        const filePath = resolve(__dirname, "./test_data/TransactionDB.py")
+        const source = await readFile(filePath, "utf-8")
+        const mapPath = resolve(__dirname, "./test_data/TransactionDB_mapping.json");
+        const index = await readFile(mapPath, "utf-8");
+        const indexJson = JSON.parse(index);
+        const firstEntry = indexJson[0];
+        const thirdEntry = indexJson[2];
+        const eighthEntry = indexJson[7];
 
+        const f = new File("sampleFile.py");
+        f.addVersion();
+        f.addStatementIndex(JSON.parse(index));
+        f.addContent(source);
+
+        f.setParticipant(firstEntry.uid, "participant1", "variable1");
+        expect(f.getParticipant(firstEntry.uid, "participant1").variableName).toBe("variable1");
+    });
 });
