@@ -2,7 +2,7 @@ import {readFile, unlink, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
-import Map from "../src/Implementation/Map";
+import Map from "../../src/Implementation/Map";
 
 describe("map tests", () => {
 
