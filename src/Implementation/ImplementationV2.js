@@ -32,13 +32,13 @@ export default class ImplementationV2 extends Base {
 
     /**
      * Add a source file to the implementation.
-     * @param {String} name
-     * @param {String} path
-     * @param {String} content
+     * @param {String} key Key of the source file (used to create directories).
+     * @param {String} name Name of the source file.
+     * @param {String} content Content of the source file.
      * @returns {File} The file that was added to the implementation.
      */
-    addFile (name, path, content) {
-        const f = new File(name, path);
+    addFile (key, name, content) {
+        const f = new File(key, name);
         f.addVersion();
         f.setContent(content);
         this._files.push(f);
