@@ -46,12 +46,6 @@ export default class Map extends Base {
         return this._participants;
     }
 
-    getParticipantByVariable (variableName) {
-        return this._participants.find(
-            participant => participant.variableName === variableName
-        );
-    }
-
     getParticipantByName (participantName) {
         return this._participants.find(
             participant => participant.participantName === participantName
