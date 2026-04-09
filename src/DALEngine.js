@@ -1,6 +1,7 @@
 import Graphs from "./BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
 import Implementation from "./Implementation/Implementation";
+import ImplementationV2 from "./Implementation/ImplementationV2";
 import Behavior from "./Members/Behavior";
 import Invariant from "./Members/Invariant";
 import INVARIANT_TYPES from "./Members/InvariantTypes/InvariantTypes";
@@ -33,6 +34,8 @@ export class DALEngine {
         this.graph = this.graphs.getActiveGraph();
         this.invariant_types = INVARIANT_TYPES;
         this.implementation = new Implementation();
+        // TEMPORARY, will remove after I migrate to using ImplementationV2.
+        this.implementationV2 = new ImplementationV2();
         this._loadArgs(args);
     }
 
@@ -68,6 +71,7 @@ export class DALEngine {
             description: this._description,
             graphs: this.graphs,
             implementation: this.implementation,
+            implementationV2: this.implementationV2,
         });
     }
 
@@ -89,6 +93,9 @@ export class DALEngine {
         this.implementation = new Implementation();
         this.implementation.loadFromJson(parsed.implementation);
 
+        this.implementationV2 = new ImplementationV2();
+        this.implementationV2.loadFromJson(parsed.implementationV2);
+
         this._name = parsed.name;
         this._description = parsed.description;
     }
@@ -107,6 +114,10 @@ export class DALEngine {
         return this.implementation.addSourceFile(name, key, content);
     }
 
+    addFileV2 (key, name, content) {
+        return this.implementationV2.addFile(key, name, content);
+    }
+
     /**
      * Gets the file from the implementation with the given UID.
      *
@@ -119,6 +130,10 @@ export class DALEngine {
         return this.implementation.getSourceFile(uid);
     }
 
+    getFileV2 (uid) {
+        return this.implementationV2.getFile(uid);
+    }
+
     /**
      * Gets all the files from the implementation.
      *
@@ -126,6 +141,10 @@ export class DALEngine {
      */
     getFiles () {
         return this.implementation.getSourceFiles();
+    }
+
+    getFilesV2 () {
+        return this.implementationV2.getFiles();
     }
 
 
@@ -137,6 +156,10 @@ export class DALEngine {
      */
     removeFile (key) {
         this.implementation.removeSourceFile(key);
+    }
+
+    removeFileV2 (uid) {
+        this.implementationV2.removeFile(uid);
     }
 
     /**
