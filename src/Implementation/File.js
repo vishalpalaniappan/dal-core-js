@@ -1,3 +1,5 @@
+import Source from "./Source";
+
 export default class File {
     /**
      * The file object represents a source file in the implementation. It is
@@ -22,9 +24,9 @@ export default class File {
 
     /**
      * Adds a source version to the file.
-     * @param {Source} source Source object
      */
-    addVersion (source) {
+    addVersion () {
+        const source = new Source({uid: `source${this._versions.length + 1}`});
         this._versions.push(source);
     }
 
@@ -68,6 +70,24 @@ export default class File {
      */
     getPath () {
         return this._path;
+    }
+
+    /**
+     * Sets the content of the latest version of the source file.
+     * @param {String} content Content of the source file.
+     */
+    addContent (content) {
+        const latestVersion = this.getLatestVersion();
+        latestVersion.setContent(content);
+    }
+
+    /**
+     * Adds a statement index to the latest version of the source file.
+     * @param {JSON} statementIndex Mapping of statements to source file.
+     */
+    addStatementIndex (statementIndex) {
+        const latestVersion = this.getLatestVersion();
+        latestVersion.addStatementIndex(statementIndex);
     }
 
     /**
