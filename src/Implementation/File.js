@@ -100,7 +100,7 @@ export default class File extends Base {
      * Sets the content of the latest version of the source file.
      * @param {String} content Content of the source file.
      */
-    addContent (content) {
+    setContent (content) {
         const latestVersion = this.getLatestVersion();
         latestVersion.setContent(content);
     }
