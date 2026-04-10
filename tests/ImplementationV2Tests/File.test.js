@@ -20,9 +20,9 @@ describe("file tests", () => {
         const {source, indexJson, filePath} = await getFiles();
         const firstEntry = indexJson[0];
 
-        const f = new File("sampleFile.py");
+        const f = new File({name: "sampleFile.py", key: "sampleFile.py"});
         f.addVersion();
-        f.addStatementIndex(indexJson);
+        f.setStatementIndex(indexJson);
         f.setContent(source);
 
         f.setBehavior(firstEntry.uid, "behavior1");
@@ -30,13 +30,29 @@ describe("file tests", () => {
 
     });
 
+    it("sets behavior and gets all entries with given behavior", async () => {
+        const {source, indexJson, filePath} = await getFiles();
+        const firstEntry = indexJson[0];
+
+        const f = new File({name: "sampleFile.py", key: "sampleFile.py"});
+        f.addVersion();
+        f.setStatementIndex(indexJson);
+        f.setContent(source);
+
+        f.setBehavior(firstEntry.uid, "behavior1");
+        expect(f.getMappedStatement(firstEntry.uid).getBehavior()).toBe("behavior1");
+
+        expect(f.getStatementsWithBehavior("behavior1"))
+            .toContain(f.getMappedStatement(firstEntry.uid));
+    });
+
     it ("adds a participant and variable name to the file given a statement", async () => {
         const {source, indexJson, filePath} = await getFiles();
         const firstEntry = indexJson[0];
 
-        const f = new File("sampleFile.py");
+        const f = new File({name: "sampleFile.py", key: "sampleFile.py"});
         f.addVersion();
-        f.addStatementIndex(indexJson);
+        f.setStatementIndex(indexJson);
         f.setContent(source);
 
         f.setParticipant(firstEntry.uid, "participant1", "variable1");
