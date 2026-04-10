@@ -69,6 +69,9 @@ describe("implementation tests", () => {
 
         expect(() => f.setBehavior("asdf", "behavior1"))
             .toThrow("Statement with ID asdf does not exist in the active version.");
+
+        console.log(imp.getFileContainingStmtWithUid(stmt1.uid).getName());
+        expect(imp.getFileContainingStmtWithUid(stmt1.uid).getName()).toEqual("TransactionDB.py");
     });
 
     it("adds behavior to stmtid and removes behavior from stmtid", async () => {

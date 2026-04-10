@@ -108,6 +108,26 @@ export default class ImplementationV2 extends Base {
 
 
     /**
+     * Gets the file from the given statement index.
+     * @param {String} uid UID of the statement to get the file for.
+     * @returns {File} The file that contains the statement with the given UID.
+     * @throws {Error} Throws an error if a file with the given statement index
+     * UID does not exist in the implementation.
+     */
+    getFileContainingStmtWithUid (uid) {
+        const file = this._files.find(file => {
+            const statementIndex = file.getStatementIndex();
+            console.log(statementIndex);
+            return statementIndex && statementIndex.some(entry => entry.getUid() === uid);
+        });
+        if (!file) {
+            throw new Error(`File with statement index uid ${uid} not found in implementation.`);
+        }
+        return file;
+    }
+
+
+    /**
      * Find all the statements in the implementation with
      * the given behavior.
      * @param {String} behavior Behavior to search for.
