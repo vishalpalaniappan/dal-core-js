@@ -162,8 +162,7 @@ export default class File extends Base {
      * @param {String} content Content of the source file.
      */
     setContent (content) {
-        const latestVersion = this.getLatestVersion();
-        latestVersion.setContent(content);
+        this._activeVersion.setContent(content);
     }
 
     /**
@@ -171,8 +170,7 @@ export default class File extends Base {
      * @returns {String} Content of file.
      */
     getContent () {
-        const latestVersion = this.getLatestVersion();
-        return latestVersion.getContent();
+        return this._activeVersion.getContent();
     }
 
     /**
@@ -180,8 +178,7 @@ export default class File extends Base {
      * @param {String} content Updated content of the source file.
      */
     setUpdatedContent (content) {
-        const latestVersion = this.getLatestVersion();
-        latestVersion.setUpdatedContent(content);
+        this._activeVersion.setUpdatedContent(content);
     }
 
     /**
@@ -189,8 +186,7 @@ export default class File extends Base {
      * @returns {String} Updated content of the source file.
      */
     getUpdatedContent () {
-        const latestVersion = this.getLatestVersion();
-        return latestVersion.getUpdatedContent();
+        return this._activeVersion.getUpdatedContent();
     }
 
     /**
@@ -198,8 +194,7 @@ export default class File extends Base {
      * @param {JSON} statementIndex Mapping of statements to source file.
      */
     setStatementIndex (statementIndex) {
-        const latestVersion = this.getLatestVersion();
-        latestVersion.setStatementIndex(statementIndex);
+        this._activeVersion.setStatementIndex(statementIndex);
     }
 
     /**
@@ -207,8 +202,7 @@ export default class File extends Base {
      * @returns {Object} Statement index of the latest version.
      */
     getStatementIndex () {
-        const latestVersion = this.getLatestVersion();
-        return latestVersion.getStatementIndex();
+        return this._activeVersion.getStatementIndex();
     }
 
     /**
@@ -236,7 +230,6 @@ export default class File extends Base {
      * @returns {Array} List of statements with the given behavior ID.
      */
     getStatementsWithBehavior (behaviorId) {
-
         if (!this._activeVersion) {
             throw new Error("No version of source is set as active version.");
         }
