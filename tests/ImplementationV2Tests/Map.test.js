@@ -42,7 +42,9 @@ describe("map tests", () => {
 
         // Remove participant by name and verify
         map.removeParticipantByName("participant1");
-        expect(map.getParticipantByName("participant1")).toBeUndefined();
+        expect(() => map.getParticipantByName("participant1"))
+            .toThrow("Participant with name participant1 not found.");
+
         expect(map.getParticipants())
             .toEqual([{ participantName: "participant2", variableName: "variable2" }]);
 
