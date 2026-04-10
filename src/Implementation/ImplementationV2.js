@@ -117,8 +117,12 @@ export default class ImplementationV2 extends Base {
         const statements = [];
         this._files.forEach((file) => {
             file.getStatementsWithBehavior(behavior).forEach(
-                (statement) => statements.push(statement)
-            );
+                (statement) => statements.push(
+                    {
+                        file: file,
+                        statement: statement,
+                    }
+                ));
         });
         return statements;
     }
