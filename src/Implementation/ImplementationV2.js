@@ -91,7 +91,7 @@ export default class ImplementationV2 extends Base {
      */
     setStatementIndexForFile (uid, index) {
         const file = this.getFile(uid);
-        file.addStatementIndex(index);
+        file.setStatementIndex(index);
     }
 
     /**
@@ -104,6 +104,23 @@ export default class ImplementationV2 extends Base {
     getStatementIndexForFile (uid) {
         const file = this.getFile(uid);
         return file.getStatementIndex();
+    }
+
+
+    /**
+     * Find all the statements in the implementation with
+     * the given behavior.
+     * @param {String} behavior Behavior to search for.
+     * @returns {Array} List of statements with the given behavior.
+     */
+    getStatementsWithBehavior (behavior) {
+        const statements = [];
+        this._files.forEach((file) => {
+            file.getStatementsWithBehavior(behavior).forEach(
+                (statement) => statements.push(statement)
+            );
+        });
+        return statements;
     }
 
     /**
