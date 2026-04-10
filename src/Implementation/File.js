@@ -230,6 +230,22 @@ export default class File extends Base {
     }
 
     /**
+     * Returns all the statements with the given behavior ID in the
+     * selected version of the source file.
+     * @param {String} behaviorId Behavior ID to search for.
+     * @returns {Array} List of statements with the given behavior ID.
+     */
+    getStatementsWithBehavior (behaviorId) {
+
+        if (!this._activeVersion) {
+            throw new Error("No version of source is set as active version.");
+        }
+        const stmtIndex = this._activeVersion.getStatementIndex();
+
+        return Object.values(stmtIndex).filter(stmt => stmt.getBehavior() === behaviorId);
+    }
+
+    /**
      * For the latest version of the source file, set the behavior ID for
      * the statement with the given statement ID.
      * @param {String} stmtId ID of the mapped statement.
