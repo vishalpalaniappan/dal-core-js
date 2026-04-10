@@ -59,7 +59,8 @@ export default class Source extends Base {
      * @param {Array} statementIndex The array of entries to add to the
      * statement index.
      */
-    addStatementIndex (statementIndex) {
+    setStatementIndex (statementIndex) {
+        this._statementIndex = [];
         for (const value of statementIndex) {
             this._statementIndex.push(new Map(value));
         };

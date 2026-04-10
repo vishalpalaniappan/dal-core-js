@@ -102,7 +102,7 @@ export default class Implementation {
         if (!sourceFile) {
             throw new Error(`Source file with UID ${uid} does not exist in the implementation.`);
         }
-        sourceFile.statementIndex = statementIndex;
+        sourceFile.setStatementIndex(statementIndex);
     }
 
     /**
@@ -117,7 +117,7 @@ export default class Implementation {
         if (!sourceFile) {
             throw new Error(`Source file with UID ${uid} does not exist in the implementation.`);
         }
-        return sourceFile.statementIndex;
+        return sourceFile.getStatementIndex();
     }
 
 

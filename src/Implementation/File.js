@@ -88,6 +88,22 @@ export default class File extends Base {
     }
 
     /**
+     * Returns the name of the file.
+     * @returns {String} Name of the file.
+     */
+    getName () {
+        return this._name;
+    }
+
+    /**
+     * Returns the UID of the file.
+     * @returns {String} UID of the file.
+     */
+    getUid () {
+        return this._uid;
+    }
+
+    /**
      * Adds a source version to the file.
      */
     addVersion () {
@@ -178,12 +194,12 @@ export default class File extends Base {
     }
 
     /**
-     * Adds a statement index to the latest version of the source file.
+     * Sets a statement index to the latest version of the source file.
      * @param {JSON} statementIndex Mapping of statements to source file.
      */
-    addStatementIndex (statementIndex) {
+    setStatementIndex (statementIndex) {
         const latestVersion = this.getLatestVersion();
-        latestVersion.addStatementIndex(statementIndex);
+        latestVersion.setStatementIndex(statementIndex);
     }
 
     /**
