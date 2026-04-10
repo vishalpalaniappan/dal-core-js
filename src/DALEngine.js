@@ -93,8 +93,12 @@ export class DALEngine {
         this.implementation = new Implementation();
         this.implementation.loadFromJson(parsed.implementation);
 
-        this.implementationV2 = new ImplementationV2();
-        this.implementationV2.loadFromJson(parsed.implementationV2);
+        // TEMPORARY, preserves backwards compatibility while I
+        // finish migrating.
+        if (parsed?.implementationV2) {
+            this.implementationV2 = new ImplementationV2();
+            this.implementationV2.loadFromJson(parsed.implementationV2);
+        }
 
         this._name = parsed.name;
         this._description = parsed.description;
