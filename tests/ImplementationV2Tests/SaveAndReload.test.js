@@ -23,7 +23,7 @@ describe("serialization and deserialization", () => {
 
         // Add source, statement index and behavior to statement index
         const f = d.addFileV2("src/test.py", "test.py", "SOURCE");
-        f.addStatementIndex(shortIndex);
+        f.setStatementIndex(shortIndex);
         f.setBehavior(shortIndex[0].uid, "test behavi3or");
 
         // For the same stmt index, set the participant and variable name

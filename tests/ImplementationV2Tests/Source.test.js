@@ -25,7 +25,7 @@ describe("source tests", () => {
 
         // Set the content and statement index of the source object
         s.setContent(source);
-        s.addStatementIndex(indexJson);
+        s.setStatementIndex(indexJson);
 
         // Get the content and statement index and verify
         // their shape and content
@@ -36,7 +36,7 @@ describe("source tests", () => {
         expect(statementIndex).toBeDefined();
         expect(statementIndex).toBeInstanceOf(Object);
 
-        const entry = s.getStatementIndexEntryByUid(indexJson[0].uid);
+        const entry = s.getStatementByUid(indexJson[0].uid);
         expect(entry).toBeDefined();
         expect(entry).toBeInstanceOf(Map);
     });
