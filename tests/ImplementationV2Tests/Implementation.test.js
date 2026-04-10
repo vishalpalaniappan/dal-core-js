@@ -19,7 +19,7 @@ describe("implementation tests", () => {
         const {source, indexJson, fileKey} = await getFiles();
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
         const retrievedFile = imp.getFile(f._uid);
@@ -31,7 +31,7 @@ describe("implementation tests", () => {
         const {source, indexJson, fileKey} = await getFiles();
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
 
         imp.removeFile(f._uid);
         expect(() => imp.getFile(f._uid))
@@ -43,7 +43,7 @@ describe("implementation tests", () => {
         const {source, indexJson, fileKey} = await getFiles();
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
         const retrievedFile = imp.getFile(f._uid);
@@ -61,7 +61,7 @@ describe("implementation tests", () => {
         const stmt1 = indexJson[0];
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
         f.setBehavior(stmt1.uid, "behavior1");
@@ -77,7 +77,7 @@ describe("implementation tests", () => {
         const stmt1 = indexJson[0];
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
         f.setBehavior(stmt1.uid, "behavior1");
@@ -87,13 +87,29 @@ describe("implementation tests", () => {
         expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBeNull();
     });
 
+    it("adds behavior to stmtid and gets all statements with given behavior", async () => {
+        const {source, indexJson, fileKey} = await getFiles();
+
+        const stmt1 = indexJson[0];
+
+        const imp = new ImplementationV2();
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
+        imp.setStatementIndexForFile(f._uid, indexJson);
+
+        f.setBehavior(stmt1.uid, "behavior1");
+        expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBe("behavior1");
+
+        expect(f.getStatementsWithBehavior("behavior1"))
+            .toContain(f.getMappedStatement(stmt1.uid));
+    });
+
     it ("adds a participant and variable name to the file given a statement", async () => {
         const {source, indexJson, fileKey} = await getFiles();
 
         const stmt1 = indexJson[0];
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
         f.setParticipant(stmt1.uid, "participant1", "variable1");
@@ -104,7 +120,7 @@ describe("implementation tests", () => {
         const {source, indexJson, fileKey} = await getFiles();
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
         expect(() => f.setParticipant("asdf", "participant1", "variable1"))
@@ -117,23 +133,24 @@ describe("implementation tests", () => {
         const stmt1 = indexJson[0];
 
         const imp = new ImplementationV2();
-        const f = imp.addFile("TransactionDB.py", fileKey, source);
+        const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
         f.setParticipant(stmt1.uid, "participant1", "variable1");
         expect(f.getParticipant(stmt1.uid, "participant1").variableName).toBe("variable1");
 
         f.removeParticipant(stmt1.uid, "participant1");
-        expect(f.getParticipant(stmt1.uid, "participant1")).toBeUndefined();
+        expect(() => f.getParticipant(stmt1.uid, "participant1"))
+            .toThrow("Participant with name participant1 not found.");
     });
 
     it ("adds multiple files and gets all files", async () => {
         const {source, indexJson, fileKey} = await getFiles();
 
         const imp = new ImplementationV2();
-        const f1 = imp.addFile("TransactionDB1.py", fileKey, source);
-        const f2 = imp.addFile("TransactionDB2.py", fileKey, source);
-        const f3 = imp.addFile("TransactionDB3.py", fileKey, source);
+        const f1 = imp.addFile(fileKey, "TransactionDB.py", source);
+        const f2 = imp.addFile(fileKey, "TransactionDB.py", source);
+        const f3 = imp.addFile(fileKey, "TransactionDB.py", source);
 
         const savedFiles = imp.getFiles();
         expect(savedFiles.length).toBe(3);
