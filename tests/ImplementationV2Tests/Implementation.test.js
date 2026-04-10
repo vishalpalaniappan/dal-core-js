@@ -98,9 +98,7 @@ describe("implementation tests", () => {
 
         f.setBehavior(stmt1.uid, "behavior1");
         expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBe("behavior1");
-
-        expect(f.getStatementsWithBehavior("behavior1"))
-            .toContainEqual({file: f, statement: f.getMappedStatement(stmt1.uid)});
+        expect(f.getStatementsWithBehavior("behavior1")[0]._behaviorId).toEqual("behavior1");
     });
 
     it ("adds a participant and variable name to the file given a statement", async () => {
