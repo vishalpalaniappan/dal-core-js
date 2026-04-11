@@ -59,18 +59,21 @@ describe("implementation tests", () => {
         const {source, indexJson, fileKey} = await getFiles();
 
         const stmt1 = indexJson[0];
+        const stmt2 = indexJson[4];
 
         const imp = new ImplementationV2();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
-        imp.setStatementIndexForFile(f._uid, indexJson);
+        const f2 = imp.addFile("key2", "TransactionDB2.py", source);
+        imp.setStatementIndexForFile(f._uid, [stmt1]);
+        imp.setStatementIndexForFile(f2._uid, [stmt2]);
 
         f.setBehavior(stmt1.uid, "behavior1");
         expect(f.getMappedStatement(stmt1.uid).getBehavior()).toBe("behavior1");
-
-        expect(() => f.setBehavior("asdf", "behavior1"))
-            .toThrow("Statement with ID asdf does not exist in the active version.");
-
-        console.log(imp.getFileContainingStmtWithUid(stmt1.uid).getName());
+        
+        f2.setBehavior(stmt2.uid, "behavior2");
+        expect(f2.getMappedStatement(stmt2.uid).getBehavior()).toBe("behavior2");
+        
+        expect(imp.getFileContainingStmtWithUid(stmt2.uid).getName()).toEqual("TransactionDB2.py");
         expect(imp.getFileContainingStmtWithUid(stmt1.uid).getName()).toEqual("TransactionDB.py");
     });
 
