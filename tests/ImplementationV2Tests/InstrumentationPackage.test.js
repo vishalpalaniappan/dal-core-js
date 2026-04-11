@@ -35,7 +35,7 @@ describe("instrumentation package tests", async () => {
         const instrumentationPackage = d.implementation.exportForInstrumentation();
 
         const filePath2 = resolve(__dirname, "../temp/instrumentationExport.json");
-        await writeFile(filePath2, JSON.stringify(instrumentationPackage, null, 2));
+        await writeFile(filePath2, instrumentationPackage);
     });
 
 });

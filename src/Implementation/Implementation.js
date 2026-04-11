@@ -172,11 +172,11 @@ export default class Implementation extends Base {
             instrumentationPackage[file._uid] = {
                 name: file._name,
                 key: file._key,
-                content: file._content,
+                content: file.getContent(),
                 statementIndex: file.getStatementIndex(),
             };
         });
         // TODO: Define expected format.
-        return instrumentationPackage;
+        return JSON.stringify(instrumentationPackage);
     }
 }
