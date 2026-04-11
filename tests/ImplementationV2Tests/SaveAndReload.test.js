@@ -22,7 +22,7 @@ describe("serialization and deserialization", () => {
         let d = new DALEngine({name: "", description: ""});
 
         // Add source, statement index and behavior to statement index
-        const f = d.addFileV2("src/test.py", "test.py", "SOURCE");
+        const f = d.addFile("src/test.py", "test.py", "SOURCE");
         f.setStatementIndex(shortIndex);
         f.setBehavior(shortIndex[0].uid, "test behavi3or");
 
@@ -36,17 +36,17 @@ describe("serialization and deserialization", () => {
         d.deserialize(await readFile(tempFilePath, "utf-8"));
 
         // Check that there is one fil
-        expect(d.implementationV2.getFiles().length).toBe(1);
+        expect(d.implementation.getFiles().length).toBe(1);
 
         // Check that the first file has the correct key
-        const retrievedFile = d.implementationV2.getFiles()[0];
+        const retrievedFile = d.implementation.getFiles()[0];
         expect(retrievedFile.getKey()).toEqual("src/test.py");
 
-        // Get the stmt from the file and check that its behavior is what was set
+        // Get the stmt from the file and check that behavior is what was set
         const stmt = retrievedFile.getMappedStatement(shortIndex[0].uid);
         expect(stmt.getBehavior()).toEqual("test behavi3or");
 
-        // Get the participant from the stmt and check that the variable name is correct
+        // Get the participant from the stmt and check that var name is correct
         const participant = retrievedFile.getParticipant(shortIndex[0].uid, "test participant");
         expect(participant.variableName).toEqual("variableName");
     });

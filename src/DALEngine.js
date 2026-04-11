@@ -1,7 +1,6 @@
 import Graphs from "./BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
 import Implementation from "./Implementation/Implementation";
-import ImplementationV2 from "./Implementation/ImplementationV2";
 import Behavior from "./Members/Behavior";
 import Invariant from "./Members/Invariant";
 import INVARIANT_TYPES from "./Members/InvariantTypes/InvariantTypes";
@@ -34,8 +33,6 @@ export class DALEngine {
         this.graph = this.graphs.getActiveGraph();
         this.invariant_types = INVARIANT_TYPES;
         this.implementation = new Implementation();
-        // TEMPORARY, will remove after I migrate to using ImplementationV2.
-        this.implementationV2 = new ImplementationV2();
         this._loadArgs(args);
     }
 
@@ -71,7 +68,6 @@ export class DALEngine {
             description: this._description,
             graphs: this.graphs,
             implementation: this.implementation,
-            implementationV2: this.implementationV2,
         });
     }
 
@@ -93,13 +89,6 @@ export class DALEngine {
         this.implementation = new Implementation();
         this.implementation.loadFromJson(parsed.implementation);
 
-        // TEMPORARY, preserves backwards compatibility while I
-        // finish migrating.
-        if (parsed?.implementationV2) {
-            this.implementationV2 = new ImplementationV2();
-            this.implementationV2.loadFromJson(parsed.implementationV2);
-        }
-
         this._name = parsed.name;
         this._description = parsed.description;
     }
@@ -115,11 +104,7 @@ export class DALEngine {
      * already exists in the implementation.
      */
     addFile (key, name, content) {
-        return this.implementation.addSourceFile(name, key, content);
-    }
-
-    addFileV2 (key, name, content) {
-        return this.implementationV2.addFile(key, name, content);
+        return this.implementation.addFile(key, name, content);
     }
 
     /**
@@ -131,11 +116,7 @@ export class DALEngine {
      * does not exist in the implementation.
      */
     getFile (uid) {
-        return this.implementation.getSourceFile(uid);
-    }
-
-    getFileV2 (uid) {
-        return this.implementationV2.getFile(uid);
+        return this.implementation.getFile(uid);
     }
 
     /**
@@ -144,26 +125,18 @@ export class DALEngine {
      * @returns {Array} An array of all files in the implementation.
      */
     getFiles () {
-        return this.implementation.getSourceFiles();
-    }
-
-    getFilesV2 () {
-        return this.implementationV2.getFiles();
+        return this.implementation.getFiles();
     }
 
 
     /**
-     * Removes the file from the implementation with the given key.
-     * @param {String} key Key of source file.
-     * @throws {Error} Throws an error if the source file with the given key
+     * Removes the file from the implementation with the given UID.
+     * @param {String} uid UID of source file.
+     * @throws {Error} Throws an error if the source file with the given UID
      * does not exist in the implementation.
      */
-    removeFile (key) {
-        this.implementation.removeSourceFile(key);
-    }
-
-    removeFileV2 (uid) {
-        this.implementationV2.removeFile(uid);
+    removeFile (uid) {
+        this.implementation.removeFile(uid);
     }
 
     /**

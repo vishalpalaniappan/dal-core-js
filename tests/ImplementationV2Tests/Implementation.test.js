@@ -2,7 +2,7 @@ import {readFile, unlink, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
-import ImplementationV2 from "../../src/Implementation/ImplementationV2";
+import Implementation from "../../src/Implementation/Implementation";
 
 const getFiles = async () => {
     const fileKey = resolve(__dirname, "../test_data/TransactionDB.py")
@@ -18,7 +18,7 @@ describe("implementation tests", () => {
     it("creates implementation, adds source file and gets source file by UID", async () => {
         const {source, indexJson, fileKey} = await getFiles();
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
@@ -30,7 +30,7 @@ describe("implementation tests", () => {
     it("removes file from implementation and verifies it is removed", async () => {
         const {source, indexJson, fileKey} = await getFiles();
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
 
         imp.removeFile(f._uid);
@@ -42,7 +42,7 @@ describe("implementation tests", () => {
     it("adds file to implementation, adds statement index and gets statement index", async () => {
         const {source, indexJson, fileKey} = await getFiles();
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
@@ -61,7 +61,7 @@ describe("implementation tests", () => {
         const stmt1 = indexJson[0];
         const stmt2 = indexJson[4];
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         const f2 = imp.addFile("key2", "TransactionDB2.py", source);
         imp.setStatementIndexForFile(f._uid, [stmt1]);
@@ -82,7 +82,7 @@ describe("implementation tests", () => {
 
         const stmt1 = indexJson[0];
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
@@ -98,7 +98,7 @@ describe("implementation tests", () => {
 
         const stmt1 = indexJson[0];
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
@@ -112,7 +112,7 @@ describe("implementation tests", () => {
 
         const stmt1 = indexJson[0];
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
@@ -123,7 +123,7 @@ describe("implementation tests", () => {
     it ("throws error when setting participant for invalid stmtId", async () => {
         const {source, indexJson, fileKey} = await getFiles();
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
@@ -136,7 +136,7 @@ describe("implementation tests", () => {
 
         const stmt1 = indexJson[0];
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f = imp.addFile(fileKey, "TransactionDB.py", source);
         imp.setStatementIndexForFile(f._uid, indexJson);
 
@@ -151,7 +151,7 @@ describe("implementation tests", () => {
     it ("adds multiple files and gets all files", async () => {
         const {source, indexJson, fileKey} = await getFiles();
 
-        const imp = new ImplementationV2();
+        const imp = new Implementation();
         const f1 = imp.addFile(fileKey, "TransactionDB.py", source);
         const f2 = imp.addFile(fileKey, "TransactionDB.py", source);
         const f3 = imp.addFile(fileKey, "TransactionDB.py", source);

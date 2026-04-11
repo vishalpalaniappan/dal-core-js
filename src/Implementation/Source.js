@@ -105,6 +105,7 @@ export default class Source extends Base {
      */
     setContent (content) {
         this._content = content;
+        this._updatedContent = content;
         this._lastModified = new Date();
         this._isDirty = (this._updatedContent === this._content)
     }
