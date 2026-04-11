@@ -167,6 +167,15 @@ export default class Implementation extends Base {
      */
     exportForInstrumentation () {
         const instrumentationPackage = {};
+
+        this._files.forEach(file => {
+            instrumentationPackage[file._uid] = {
+                name: file._name,
+                key: file._key,
+                content: file._content,
+                statementIndex: file.getStatementIndex(),
+            };
+        });
         // TODO: Define expected format.
         return instrumentationPackage;
     }
