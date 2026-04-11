@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { DAL } from '../src/DAL.js';
+import { DALEngine } from '../src/DALEngine.ts';
 
-describe('DAL', () => {
+describe('DALEngine', () => {
   it('sets the name correctly', () => {
-    const dalInstance = new DAL("name");
+    const dalInstance = new DALEngine({ name: "name" });
     expect(dalInstance.name).toBe("name");
   });
 });
