@@ -1,0 +1,91 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #5a3e2b;           /* chocolate */
+  --ifm-color-primary-dark: #4e3626;
+  --ifm-color-primary-darker: #473022;
+  --ifm-color-primary-darkest: #3a271c;
+
+  --ifm-color-primary-light: #6a4a33;
+  --ifm-color-primary-lighter: #75523a;
+  --ifm-color-primary-lightest: #8a6144;
+
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #c69c6d;           /* caramel accent */
+  --ifm-color-primary-dark: #b68c5e;
+  --ifm-color-primary-darker: #a87f52;
+  --ifm-color-primary-darkest: #8c6a44;
+
+  --ifm-color-primary-light: #d2aa7c;
+  --ifm-color-primary-lighter: #ddb88e;
+  --ifm-color-primary-lightest: #e8c9a6;
+
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+} 
+
+
+/* Make API pages breathe more */
+.theme-doc-markdown {
+  max-width: 900px;
+}
+
+.theme-doc-markdown h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.theme-doc-markdown h2 {
+  margin-top: 2.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.theme-doc-markdown h3 {
+  margin-top: 1.5rem;
+}
+
+/* Better code/signature blocks */
+.theme-doc-markdown pre {
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Better inline code */
+.theme-doc-markdown code {
+  border-radius: 6px;
+  padding: 0.15rem 0.35rem;
+}
+
+/* Improve tables */
+.theme-doc-markdown table {
+  display: table;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.theme-doc-markdown table th {
+  text-align: left;
+}
+
+.theme-doc-markdown table td,
+.theme-doc-markdown table th {
+  padding: 0.75rem;
+}
+
+/* Make blockquotes and remarks nicer */
+.theme-doc-markdown blockquote {
+  border-left: 4px solid var(--ifm-color-primary);
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
