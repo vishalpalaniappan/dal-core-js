@@ -4,7 +4,7 @@
 
 # Class: DALEngine
 
-Defined in: DALEngine.ts:6
+Defined in: [DALEngine.ts:6](https://github.com/vishalpalaniappan/dal-engine-core-js/blob/5784d8baa4bb3f99ad021d02c79179894bfad2c0/src/DALEngine.ts#L6)
 
 ## Constructors
 
@@ -12,7 +12,7 @@ Defined in: DALEngine.ts:6
 
 > **new DALEngine**(`options`): `DALEngine`
 
-Defined in: DALEngine.ts:9
+Defined in: [DALEngine.ts:9](https://github.com/vishalpalaniappan/dal-engine-core-js/blob/5784d8baa4bb3f99ad021d02c79179894bfad2c0/src/DALEngine.ts#L9)
 
 #### Parameters
 
@@ -32,9 +32,9 @@ Defined in: DALEngine.ts:9
 
 > **get** **name**(): `string`
 
-Defined in: DALEngine.ts:17
+Defined in: [DALEngine.ts:17](https://github.com/vishalpalaniappan/dal-engine-core-js/blob/5784d8baa4bb3f99ad021d02c79179894bfad2c0/src/DALEngine.ts#L17)
 
-Gets the name of the engine.asdfasdfasfasf
+Gets the name of the engine.
 
 ##### Returns
 
@@ -48,9 +48,9 @@ The name of the engine.
 
 > **sayHello**(): `void`
 
-Defined in: DALEngine.ts:24
+Defined in: [DALEngine.ts:24](https://github.com/vishalpalaniappan/dal-engine-core-js/blob/5784d8baa4bb3f99ad021d02c79179894bfad2c0/src/DALEngine.ts#L24)
 
-Sasdfays hello using the engine's name.asdf
+Sasdfays hello using the engine's name.
 
 #### Returns
 

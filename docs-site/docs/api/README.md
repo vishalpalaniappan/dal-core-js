@@ -5,7 +5,7 @@
 # DAL Engine Core JS
 This repository contains the core JavaScript implementation of the Design Abstraction Language Engine (DALE).
 
-More details coming soon. asdfasdfasdfasf
+More details coming soon.
 
 Basic commands:
 
