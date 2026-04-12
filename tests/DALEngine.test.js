@@ -140,7 +140,7 @@ describe("DALEngine", () => {
         await writeFile(filePath, d.serialize())
 
         d = new DALEngine({name: "Library Manager", description: "Manages the library"});
-        d.deserialize(await readFile(filePath, "utf-8"));
+        d.deserialize(await readFile(filePath));
         expect(d.graph.nodes.length).toBe(3);
 
         // Intentionally not cleaning up the file because I want to inspect

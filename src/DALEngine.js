@@ -1,3 +1,5 @@
+import {gunzipSync, gzipSync, strFromU8, strToU8} from "fflate";
+
 import Graphs from "./BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
 import Implementation from "./Implementation/Implementation";
@@ -63,24 +65,27 @@ export class DALEngine {
      * @returns {String} Returns JSON string representing the control graphs.
      */
     serialize () {
-        return JSON.stringify({
+        const serialized = JSON.stringify({
             name: this._name,
             description: this._description,
             graphs: this.graphs,
             implementation: this.implementation,
         });
+        return gzipSync(strToU8(serialized));
     }
 
     /**
      * Loads the behavioral control graphs from JSON text and sets
      * the active graph to the first graph in the collection of graphs.
      *
-     * @param {String} serializedText JSON txt representing the control graphs.
+     * @param {String} compressedBytes compressed engine to deseralize
      * @throws {SyntaxError|TypeError} Thrown when the JSON text is invalid.
      */
-    deserialize (serializedText) {
+    deserialize (compressedBytes) {
         // TODO: Improve validation to throw specific error.
-        const parsed = JSON.parse(serializedText);
+        const json = strFromU8(gunzipSync(compressedBytes));
+
+        const parsed = JSON.parse(json);
 
         this.graphs = new Graphs();
         this.graphs.loadFromJson(parsed.graphs);

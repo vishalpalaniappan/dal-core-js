@@ -33,7 +33,7 @@ describe("serialization and deserialization", () => {
         const tempFilePath = resolve(__dirname, "../temp/v2implementation.json")
         await writeFile(tempFilePath, d.serialize())
         d = new DALEngine({name: "Library Manager", description: "Manages the library"});
-        d.deserialize(await readFile(tempFilePath, "utf-8"));
+        d.deserialize(await readFile(tempFilePath));
 
         // Check that there is one fil
         expect(d.implementation.getFiles().length).toBe(1);

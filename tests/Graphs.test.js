@@ -74,7 +74,7 @@ describe("multiple graphs test", () => {
 
         await writeFile(resolve(__dirname, "./temp/graphs.json"), d.serialize());
 
-        d.deserialize(await readFile(resolve(__dirname, "./temp/graphs.json"), "utf-8"));
+        d.deserialize(await readFile(resolve(__dirname, "./temp/graphs.json")));
         expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 1", "graph 2"]);
     });
 });
