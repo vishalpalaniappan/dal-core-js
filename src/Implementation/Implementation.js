@@ -14,6 +14,7 @@ export default class Implementation extends Base {
     constructor () {
         super();
         this._files = [];
+        this._traces = {};
     }
 
     /**
@@ -159,6 +160,36 @@ export default class Implementation extends Base {
      */
     getEntryPoint () {
         return this._entryPoint;
+    }
+
+    /**
+     * Adds an execution trace to the implementation.
+     * @param {Object} trace Trace object to add.
+     */
+    addTrace (trace) {
+        if (typeof trace !== "object" || trace === null) {
+            throw new Error("Trace must be a non-null object.");
+        }
+        const {uid} = trace;
+        if (!uid) {
+            throw new Error("Trace object must have a UID.");
+        }
+        if (this._traces[uid]) {
+            throw new Error(`Trace with UID ${uid} already exists.`);
+        }
+        trace.timestamp = new Date().toISOString();
+        this._traces[uid] = trace;
+    }
+
+    /**
+     * Deletes an execution trace from the implementation.
+     * @param {String} uid UID of the trace to delete.
+     */
+    deleteTrace (uid) {
+        if (!this._traces[uid]) {
+            throw new Error(`Trace with UID ${uid} does not exist.`);
+        }
+        delete this._traces[uid];
     }
 
     /**
