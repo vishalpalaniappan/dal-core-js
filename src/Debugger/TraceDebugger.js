@@ -46,15 +46,32 @@ class TraceDebugger {
         );
         const logs = decoder.decodeRange(0, decoder.deserializeStream(), false);
 
+        // Find the atomic node
+        this._logs = [];
         for (const log of logs) {
             const msg = JSON.parse(log.message);
             const loggedMsg = msg["user-generated"];
-
-            if (loggedMsg["type"] === "variable") {
-                console.log(loggedMsg);
-            }
+            this._logs.push(loggedMsg)
         }
 
+        const atomicNode = this.findAtomicBehavior();
+        console.log(atomicNode);
+    }
+
+    findAtomicBehavior () {
+        for (const log of this._logs) {
+            if (log.type !== "behavior") continue;
+            const graphs = this._design.getGraphs();
+            for (const graph of Object.keys(graphs)) {
+                let node;
+                try {
+                    node = graphs[graph].findNode(log.name);
+                } catch (e) {
+                    continue;
+                }
+                return node;
+            }
+        }
     }
 }
 
