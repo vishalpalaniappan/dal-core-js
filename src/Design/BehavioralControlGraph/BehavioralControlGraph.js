@@ -4,10 +4,9 @@ import InvalidTransitionError from "../../Errors/InvalidTransitionError";
 import MissingAttributes from "../../Errors/MissingAttributes";
 import UnknownBehaviorError from "../../Errors/UnknownBehaviorError";
 import isLoadedFromFile from "../../helpers/isLoadedFromFile";
-import Behavior from "../Behavior";
 import ENGINE_TYPES from "../../TYPES";
+import Behavior from "../Behavior";
 import GraphNode from "./GraphNode";
-
 
 class BehavioralControlGraph extends Base {
     /**
