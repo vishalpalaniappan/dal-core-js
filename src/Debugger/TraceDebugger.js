@@ -81,14 +81,14 @@ class TraceDebugger {
         }
     }
 
-    processParticipant (node) {
+    processParticipant (currentNode) {
         const currLog = this._logs[this.currentIndex];
         const loggedValueStr = JSON.stringify(currLog.getParticipantValue());
         this.addTransition(`   Processing participant named ${currLog.getParticipantName()}.`);
         this.addTransition(`   Participant Value: ${loggedValueStr}.`);
 
         const loggedParticipantName = currLog.getParticipantName();
-        const currBehavior = this.currentNode.getBehavior();
+        const currBehavior = currentNode.getBehavior();
         const currParticipant = currBehavior.getParticipant(loggedParticipantName);
 
         currParticipant.setValue(currLog.getParticipantValue());
@@ -100,8 +100,8 @@ class TraceDebugger {
     }
 
     visitCurrentNode () {
-        this.currentNode = this.findNode(++this.currentIndex);
-        const currBehavior = this.currentNode.getBehavior().getName();
+        const currentNode = this.findNode(++this.currentIndex);
+        const currBehavior = currentNode.getBehavior().getName();
 
         if (this.currentIndex < this._logs.length - 1) {
             const nextNode = this.findNode(this.currentIndex + 1);
@@ -113,23 +113,18 @@ class TraceDebugger {
             }
 
             if (this._logs[this.currentIndex].getType() == "variable") {
-                this.processParticipant(this.currentNode);
+                this.processParticipant(currentNode);
             }
 
-            if (currBehavior === nextBehavior) {
-                this.visitCurrentNode();
-            } else if (this.currentNode.isValidTransition(nextBehavior)) {
-                // this.addTransition(`${currBehavior}->${nextBehavior}.`);
+            if ((currBehavior === nextBehavior) || currentNode.isValidTransition(nextBehavior)) {
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
                     this.addTransition(`Reached atomic behavior ${nextBehavior}.`, true);
                     this.visitCurrentNode();
-                    return;
                 } else {
                     // INVALID TRANSITION: STOP
                     this.addTransition(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
-                    return;
                 }
             }
         }
