@@ -88,8 +88,10 @@ class TraceDebugger {
         const currBehavior = this.currentNode.getBehavior();
         const currParticipant = currBehavior.getParticipant(loggedParticipantName);
 
-        //currParticipant.setValue(currLog.getParticipantValue());
-        //currParticipant.evaluateInvariants();
+        currParticipant.setValue(currLog.getParticipantValue());
+        currParticipant.evaluateInvariants();
+
+        this.addTransition(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
     }
 
     visitCurrentNode () {
