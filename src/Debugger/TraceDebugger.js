@@ -81,8 +81,9 @@ class TraceDebugger {
 
     processParticipant (node) {
         const currLog = this._logs[this.currentIndex];
+        const loggedValueStr = JSON.stringify(currLog.getParticipantValue());
         this.addTransition(`   Processing variable named ${currLog.getParticipantName()}.`);
-        this.addTransition(`   Participant Value: ${currLog.getParticipantValue()}.`);
+        this.addTransition(`   Participant Value: ${loggedValueStr}.`);
 
         const loggedParticipantName = currLog.getParticipantName();
         const currBehavior = this.currentNode.getBehavior();
