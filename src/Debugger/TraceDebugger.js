@@ -82,7 +82,7 @@ class TraceDebugger {
     processParticipant (node) {
         const currLog = this._logs[this.currentIndex];
         const loggedValueStr = JSON.stringify(currLog.getParticipantValue());
-        this.addTransition(`   Processing variable named ${currLog.getParticipantName()}.`);
+        this.addTransition(`   Processing participant named ${currLog.getParticipantName()}.`);
         this.addTransition(`   Participant Value: ${loggedValueStr}.`);
 
         const loggedParticipantName = currLog.getParticipantName();
@@ -109,10 +109,12 @@ class TraceDebugger {
                 }
                 this.visitCurrentNode();
                 return;
+            } else {
+                this.addTransition(`Behavior: ${currBehavior}.`);
             }
 
             if (this.currentNode.isValidTransition(nextBehavior)) {
-                this.addTransition(`Valid Transition from ${currBehavior}->${nextBehavior}.`);
+                // this.addTransition(`Valid Transition from ${currBehavior}->${nextBehavior}.`);
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
