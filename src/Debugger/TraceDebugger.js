@@ -7,6 +7,8 @@ if (typeof window === "undefined") {
     clpFfiJsModuleInit = await import("clp-ffi-js");
 }
 
+import LogEntry from "./LogEntry";
+
 class TraceDebugger {
     /**
      * Initializes a trace debugger that accepts the design and the trace. The
@@ -31,6 +33,7 @@ class TraceDebugger {
         this._implementation = implementation;
         this._traceId = traceId;
         this._design = design;
+        this._logs = [];
     }
 
     /**
@@ -46,26 +49,22 @@ class TraceDebugger {
         );
         const logs = decoder.decodeRange(0, decoder.deserializeStream(), false);
 
-        // Find the atomic node
-        this._logs = [];
-        for (const log of logs) {
-            const msg = JSON.parse(log.message);
-            const loggedMsg = msg["user-generated"];
-            this._logs.push(loggedMsg)
-        }
+
+        this._logs = logs.map((log) => new LogEntry(log));
 
         const atomicNode = this.findAtomicBehavior();
         console.log(atomicNode);
+
     }
 
     findAtomicBehavior () {
         for (const log of this._logs) {
-            if (log.type !== "behavior") continue;
+            if (log.getType() !== "behavior") continue;
             const graphs = this._design.getGraphs();
             for (const graph of Object.keys(graphs)) {
                 let node;
                 try {
-                    node = graphs[graph].findNode(log.name);
+                    node = graphs[graph].findNode(log.userGenerated.name);
                 } catch (e) {
                     continue;
                 }
