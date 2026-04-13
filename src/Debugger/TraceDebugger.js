@@ -36,6 +36,7 @@ class TraceDebugger {
         this._logs = [];
         this._transitions = [];
         this._currentTransition = [];
+        this._invariantsViolated = [];
     }
 
     /**
@@ -83,19 +84,26 @@ class TraceDebugger {
 
     processParticipant (currentNode) {
         const currLog = this._logs[this.currentIndex];
-        const loggedValueStr = JSON.stringify(currLog.getParticipantValue());
-        this.addTransition(`   Processing participant named ${currLog.getParticipantName()}.`);
-        this.addTransition(`   Participant Value: ${loggedValueStr}.`);
+        this.addTransition(`-Processing participant named ${currLog.getParticipantName()}.`);
+        this.addTransition(`-Participant Value: ${JSON.stringify(currLog.getParticipantValue())}.`);
 
-        const loggedParticipantName = currLog.getParticipantName();
         const currBehavior = currentNode.getBehavior();
-        const currParticipant = currBehavior.getParticipant(loggedParticipantName);
+        const currParticipant = currBehavior.getParticipant(currLog.getParticipantName());
 
         currParticipant.setValue(currLog.getParticipantValue());
         currParticipant.evaluateInvariants();
 
         if (currParticipant.getInvariants().length > 0) {
             this.addTransition(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
+        }
+
+        // Add to the list of violated invariants if the invariant was violated.
+        if (currParticipant._invariantViolated) {
+            this._invariantsViolated.push({
+                index: this.currentIndex,
+                behavior: currBehavior,
+                participant: currParticipant,
+            });
         }
     }
 
