@@ -15,12 +15,13 @@ class TraceDebugger {
      *
      * @param {Object} design The design to use as the authoritative semantic
      * model for debugging.
-     * @param {Object} trace The trace to debug, which is a trace compressed
-     * using CLP.
+     * @param {Object} implementation The implementation to use for debugging.
+     * @param {String} traceId The ID of the trace to debug.
      */
-    constructor (design, trace) {
+    constructor (design, implementation, traceId) {
+        this._implementation = implementation;
+        this._traceId = traceId;
         this._design = design;
-        this._trace = trace;
     }
 }
 

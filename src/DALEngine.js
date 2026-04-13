@@ -1,5 +1,6 @@
 import {gunzipSync, gzipSync, strFromU8, strToU8} from "fflate";
 
+import TraceDebugger from "./Debugger/TraceDebugger";
 import Behavior from "./Design/Behavior";
 import Graphs from "./Design/BehavioralControlGraph/Graphs";
 import Invariant from "./Design/Invariant";
@@ -45,6 +46,7 @@ export class DALEngine {
         this.graph = this.graphs.getActiveGraph();
         this.invariant_types = INVARIANT_TYPES;
         this.implementation = new Implementation();
+        this._activeDebugger = null;
         this._loadArgs(args);
     }
 
@@ -316,5 +318,22 @@ export class DALEngine {
      */
     goToBehavior (nextBehaviorId) {
         this.graph.goToBehavior(nextBehaviorId);
+    }
+
+
+    /**
+     * Debug the trace with the given traceId using the TraceDebugger.
+     * @param {String} traceId ID of the trace to debug.
+     */
+    debugTrace (traceId) {
+        this._activeDebugger = new TraceDebugger(this.graphs, this.implementation, traceId);
+    }
+
+    /**
+     * Returns the currently active debugger.
+     * @returns {TraceDebugger} Currently active debugger.
+     */
+    getActiveDebugger () {
+        return this._activeDebugger;
     }
 }
