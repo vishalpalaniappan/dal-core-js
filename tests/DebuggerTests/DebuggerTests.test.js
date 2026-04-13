@@ -20,6 +20,5 @@ describe("debugger tests", () => {
         const traceIds = Object.keys(d.implementation._traces);
         const traceId = traceIds[0];
         const debuggerInstance = d.createDebugger(traceId);
-        await debuggerInstance.loadTrace();
     });
 });

@@ -34,7 +34,7 @@ class TraceDebugger {
     }
 
     /**
-     * Load the trace file and 
+     * Load the trace file.
      */
     async loadTrace () {
         const traceRaw = this._implementation.getTrace(this._traceId);

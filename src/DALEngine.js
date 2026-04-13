@@ -331,6 +331,7 @@ export class DALEngine {
      */
     createDebugger (traceId) {
         this._activeDebugger = new TraceDebugger(this.graphs, this.implementation, traceId);
+        this._activeDebugger.loadTrace();
         return this._activeDebugger;
     }
 
