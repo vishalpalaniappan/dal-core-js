@@ -11,10 +11,14 @@ describe("multiple graphs test", () => {
     it("create multiple graphs and switch", async () => {
         const d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         d.createGraph("graph 1");
-        d.addNode("graph1behavior", "Graph 1 behavior", []);
+        const n1 = d.addNode("graph1behavior", "Graph 1 behavior", []);
 
         d.createGraph("graph 2");
-        d.addNode("graph2behavior", "Graph 2 behavior", []);
+        const n2 = d.addNode("graph2behavior", "Graph 2 behavior", []);
+
+        expect(d.graphs.getAllBehaviors()).toEqual(
+            [n1.getBehavior(), n2.getBehavior()]
+        );
 
         d.selectGraph("graph 1");
         expect(d.getNode("graph1behavior")).toBeTruthy();

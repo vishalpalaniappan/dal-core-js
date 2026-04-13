@@ -140,6 +140,20 @@ class Graphs {
     getGraphNames () {
         return Object.keys(this._graphs);
     }
+
+    /**
+     * Returns all the behaviors in the design across all the graphs.
+     * @returns {Array} List of behaviors in all the graphs.
+     */
+    getAllBehaviors () {
+        const behaviors = [];
+        for (const graph of Object.values(this._graphs)) {
+            for (const node of graph.nodes) {
+                behaviors.push(node.getBehavior());
+            }
+        }
+        return behaviors;
+    }
 }
 
 export default Graphs;
