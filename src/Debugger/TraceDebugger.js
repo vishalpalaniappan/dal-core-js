@@ -35,6 +35,7 @@ class TraceDebugger {
         this._design = design;
         this._logs = [];
         this._transitions = [];
+        this._currentTransition = [];
     }
 
     /**
@@ -50,7 +51,6 @@ class TraceDebugger {
         );
         const logs = decoder.decodeRange(0, decoder.deserializeStream(), false);
 
-
         this._logs = logs.map((log) => new LogEntry(log));
 
         this.currentIndex = 0;
@@ -63,9 +63,10 @@ class TraceDebugger {
         const graphs = this._design.getGraphs();
         for (const graph of Object.keys(graphs)) {
             try {
-                return graphs[graph].findNode(
+                const behavior = graphs[graph].findNode(
                     this._logs[index].getBehavior()
                 );
+                return behavior;
             } catch {}
         }
     }
@@ -73,7 +74,7 @@ class TraceDebugger {
     visitCurrentNode () {
         const currentBehavior = this.currentNode.getBehavior().getName();
 
-        if (this.currentIndex + 1 <= this._logs.length) {
+        if (this.currentIndex < this._logs.length - 1) {
             const nextNode = this.findNode(this.currentIndex + 1);
             const nextBehavior = nextNode.getBehavior().getName();
 
@@ -84,16 +85,34 @@ class TraceDebugger {
             }
 
             if (this.currentNode.isValidTransition(nextBehavior)) {
+                this._currentTransition.push(
+                    `Transition from ${currentBehavior} to ${nextBehavior} is valid.`
+                );
                 this.currentNode = this._design.getActiveGraph().findNode(nextBehavior);
                 this.currentIndex++;
                 this.visitCurrentNode();
-                this._transitions.push(
-                    `Transition from ${currentBehavior} to ${nextBehavior} is valid.`
-                );
             } else {
-                this._transitions.push(
-                    `Invalid transition from ${currentBehavior} to ${nextBehavior}`
-                );
+                if (nextNode.isAtomic()) {
+
+                    this._currentTransition.push(
+                        `Reached atomic behavior ${nextBehavior} from ${currentBehavior}.`
+                    );
+                    this._transitions.push(this._currentTransition);
+                    this._currentTransition = [];
+
+                    this.currentNode = this._design.getActiveGraph().findNode(nextBehavior);
+                    this.currentIndex++;
+
+                    this.visitCurrentNode();
+                    return;
+                } else {
+                    this._currentTransition.push(
+                        `Transition from ${currentBehavior} to ${nextBehavior} is invalid.`
+                    );
+                    this._transitions.push(this._currentTransition);
+                    this._currentTransition = [];
+                    return;
+                }
             }
         }
     }

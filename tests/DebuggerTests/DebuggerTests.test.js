@@ -21,9 +21,9 @@ describe("debugger tests", () => {
         const traceId = traceIds[0];
         const debuggerInstance = await d.createDebugger(traceId);
 
-        const filePath2 = resolve(__dirname, "../temp/transitions.txt")
+        const filePath2 = resolve(__dirname, "../temp/transitions.txt");
         await writeFile(
-            filePath2, JSON.stringify(debuggerInstance._transitions.reverse(), null, 2)
+            filePath2, JSON.stringify(debuggerInstance._transitions, null, 2)
         );
     });
 });
