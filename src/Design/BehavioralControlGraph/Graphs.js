@@ -1,5 +1,5 @@
-import GraphWithNameExistsError from "../Errors/GraphWithNameExistsError";
-import UnknownGraph from "../Errors/UnknownGraph";
+import GraphWithNameExistsError from "../../Errors/GraphWithNameExistsError";
+import UnknownGraph from "../../Errors/UnknownGraph";
 import BehavioralControlGraph from "./BehavioralControlGraph";
 
 

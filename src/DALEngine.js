@@ -1,12 +1,12 @@
 import {gunzipSync, gzipSync, strFromU8, strToU8} from "fflate";
 
-import Graphs from "./BehavioralControlGraph/Graphs";
+import Graphs from "./Design/BehavioralControlGraph/Graphs";
 import MissingAttributes from "./Errors/MissingAttributes";
 import Implementation from "./Implementation/Implementation";
-import Behavior from "./Members/Behavior";
-import Invariant from "./Members/Invariant";
-import INVARIANT_TYPES from "./Members/InvariantTypes/InvariantTypes";
-import Participant from "./Members/Participant";
+import Behavior from "./Design/Behavior";
+import Invariant from "./Design/Invariant";
+import INVARIANT_TYPES from "./Design/InvariantTypes/InvariantTypes";
+import Participant from "./Design/Participant";
 
 /**
  * This engine can be used to define and execute designs defined in a
