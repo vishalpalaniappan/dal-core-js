@@ -17,6 +17,14 @@ class LogEntry {
     getBehavior () {
         return this.userGenerated.behaviorName;
     }
+
+    getParticipantName () {
+        return this.userGenerated.participantName;
+    }
+
+    getParticipantValue () {
+        return JSON.stringify(this.userGenerated.participantValue);
+    }
 };
 
 export default LogEntry;

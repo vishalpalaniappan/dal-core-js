@@ -75,6 +75,12 @@ class TraceDebugger {
         this._currentTransition.push(transition);
     }
 
+    processParticipant (node) {
+        const currLog = this._logs[this.currentIndex];
+        this.addTransition(`   Processing variable named ${currLog.getParticipantName()}.`);
+        this.addTransition(`   Participant Value: ${currLog.getParticipantValue()}.`);
+    }
+
     visitCurrentNode () {
         this.currentNode = this.findNode(++this.currentIndex);
         const currBehavior = this.currentNode.getBehavior().getName();
@@ -84,6 +90,9 @@ class TraceDebugger {
             const nextBehavior = nextNode.getBehavior().getName();
 
             if (currBehavior === nextBehavior) {
+                if (this._logs[this.currentIndex].getType() == "variable") {
+                    this.processParticipant(this.currentNode);
+                }
                 this.visitCurrentNode();
                 return;
             }
