@@ -54,6 +54,7 @@ class TraceDebugger {
         this._logs = logs.map((log) => new LogEntry(log));
 
         this.currentIndex = 0;
+        this.currentBehavior = null;
         this.currentNode = this.findNode(this.currentIndex);
 
         this.visitCurrentNode();
@@ -93,7 +94,9 @@ class TraceDebugger {
         currParticipant.setValue(currLog.getParticipantValue());
         currParticipant.evaluateInvariants();
 
-        this.addTransition(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
+        if (currParticipant.getInvariants().length > 0) {
+            this.addTransition(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
+        }
     }
 
     visitCurrentNode () {
@@ -104,18 +107,19 @@ class TraceDebugger {
             const nextNode = this.findNode(this.currentIndex + 1);
             const nextBehavior = nextNode.getBehavior().getName();
 
-            if (currBehavior === nextBehavior) {
-                if (this._logs[this.currentIndex].getType() == "variable") {
-                    this.processParticipant(this.currentNode);
-                }
-                this.visitCurrentNode();
-                return;
-            } else {
+            if (this.currentBehavior !== currBehavior) {
                 this.addTransition(`Behavior: ${currBehavior}.`);
+                this.currentBehavior = currBehavior;
             }
 
-            if (this.currentNode.isValidTransition(nextBehavior)) {
-                // this.addTransition(`Valid Transition from ${currBehavior}->${nextBehavior}.`);
+            if (this._logs[this.currentIndex].getType() == "variable") {
+                this.processParticipant(this.currentNode);
+            }
+
+            if (currBehavior === nextBehavior) {
+                this.visitCurrentNode();
+            } else if (this.currentNode.isValidTransition(nextBehavior)) {
+                // this.addTransition(`${currBehavior}->${nextBehavior}.`);
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
