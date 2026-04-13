@@ -17,6 +17,9 @@ describe("debugger tests", () => {
 
         d.deserialize(source);
 
-        console.log(Object.keys(d.implementation._traces));
+        const traceIds = Object.keys(d.implementation._traces);
+        const traceId = traceIds[0];
+        const debuggerInstance = d.createDebugger(traceId);
+        await debuggerInstance.loadTrace();
     });
 });
