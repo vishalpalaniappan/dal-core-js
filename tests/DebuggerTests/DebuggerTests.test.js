@@ -18,8 +18,14 @@ describe("debugger tests", () => {
         d.deserialize(source);
 
         const traceIds = Object.keys(d.implementation._traces);
-        const traceId = traceIds[0];
-        const debuggerInstance = await d.createDebugger(traceId);
+
+        // Trace with no violations
+        const traceNoViolations = traceIds[0];
+
+        // Trace with min length violation
+        const traceWithViolation = traceIds[1];
+
+        const debuggerInstance = await d.createDebugger(traceWithViolation);
 
         const filePath2 = resolve(__dirname, "../temp/transitions.txt");
         await writeFile(
