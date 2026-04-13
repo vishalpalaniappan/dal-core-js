@@ -23,7 +23,7 @@ class LogEntry {
     }
 
     getParticipantValue () {
-        return JSON.stringify(this.userGenerated.participantValue);
+        return this.userGenerated.participantValue;
     }
 };
 
