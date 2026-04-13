@@ -3,8 +3,8 @@ import { readFile, unlink, writeFile } from "fs/promises"
 import { resolve } from "path"
 import { describe, expect, it } from "vitest";
 
-import { DALEngine } from "../src/DALEngine.js";
-import MissingAttributes from "../src/Errors/MissingAttributes.js";
+import { DALEngine } from "../../src/DALEngine.js";
+import MissingAttributes from "../../src/Errors/MissingAttributes.js";
 
 describe("invariantTests", () => {
 

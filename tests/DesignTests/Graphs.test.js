@@ -3,8 +3,8 @@ import {readFile, unlink, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
-import {DALEngine} from "../src/DALEngine.js";
-import GraphWithNameExistsError from "../src/Errors/GraphWithNameExistsError";
+import {DALEngine} from "../../src/DALEngine.js";
+import GraphWithNameExistsError from "../../src/Errors/GraphWithNameExistsError.js";
 
 describe("multiple graphs test", () => {
 
@@ -19,12 +19,12 @@ describe("multiple graphs test", () => {
         d.selectGraph("graph 1");
         expect(d.getNode("graph1behavior")).toBeTruthy();
         expect(() => d.getNode("graph2behavior")).toThrow();
-        await writeFile(resolve(__dirname, "./temp/graph1.json"), d.serialize())
+        await writeFile(resolve(__dirname, "../temp/graph1.json"), d.serialize())
 
         d.selectGraph("graph 2");
         expect(d.getNode("graph2behavior")).toBeTruthy();
         expect(() => d.getNode("graph1behavior")).toThrow();
-        await writeFile(resolve(__dirname, "./temp/graph2.json"), d.serialize())
+        await writeFile(resolve(__dirname, "../temp/graph2.json"), d.serialize())
     });
 
 
@@ -72,9 +72,9 @@ describe("multiple graphs test", () => {
         d.createGraph("graph 2");
         d.addNode("graph2behavior", "Graph 2 behavior", []);
 
-        await writeFile(resolve(__dirname, "./temp/graphs.json"), d.serialize());
+        await writeFile(resolve(__dirname, "../temp/graphs.json"), d.serialize());
 
-        d.deserialize(await readFile(resolve(__dirname, "./temp/graphs.json")));
+        d.deserialize(await readFile(resolve(__dirname, "../temp/graphs.json")));
         expect(d.getSelectableGraphs()).toEqual(["default graph", "graph 1", "graph 2"]);
     });
 });

@@ -3,13 +3,13 @@ import {readFile, unlink, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
-import {DALEngine} from "../src/DALEngine.js";
-import BehaviorAlreadyExistsError from "../src/Errors/BehaviorAlreadyExistsError.js";
-import InvalidTransitionError from "../src/Errors/InvalidTransitionError.js";
-import MissingAttributes from "../src/Errors/MissingAttributes.js";
-import TransitionAlreadyExistsError from "../src/Errors/TransitionAlreadyExistsError.js";
-import UnknownBehaviorError from "../src/Errors/UnknownBehaviorError.js";
-import ENGINE_TYPES from "../src/TYPES.js";
+import {DALEngine} from "../../src/DALEngine.js";
+import BehaviorAlreadyExistsError from "../../src/Errors/BehaviorAlreadyExistsError.js";
+import InvalidTransitionError from "../../src/Errors/InvalidTransitionError.js";
+import MissingAttributes from "../../src/Errors/MissingAttributes.js";
+import TransitionAlreadyExistsError from "../../src/Errors/TransitionAlreadyExistsError.js";
+import UnknownBehaviorError from "../../src/Errors/UnknownBehaviorError.js";
+import ENGINE_TYPES from "../../src/TYPES.js";
 
 describe("DALEngine", () => {
     it("sets the name correctly", () => {
@@ -136,7 +136,7 @@ describe("DALEngine", () => {
 
         d.getNode("AcceptBookFromUser").getBehavior().addParticipant(book);
 
-        const filePath = resolve(__dirname, "./temp/inspectSerializeTemp.json")
+        const filePath = resolve(__dirname, "../temp/inspectSerializeTemp.json")
         await writeFile(filePath, d.serialize())
 
         d = new DALEngine({name: "Library Manager", description: "Manages the library"});
@@ -147,7 +147,7 @@ describe("DALEngine", () => {
         // await unlink(filePath)
 
         // This is a temporary file I create for my own inspection
-        const filePath2 = resolve(__dirname, "./temp/inspectDeseralizeTemp.json")
+        const filePath2 = resolve(__dirname, "../temp/inspectDeseralizeTemp.json")
         await writeFile(filePath2, d.serialize())
     });
 });
