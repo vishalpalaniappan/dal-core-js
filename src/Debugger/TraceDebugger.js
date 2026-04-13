@@ -71,44 +71,35 @@ class TraceDebugger {
         }
     }
 
+    addTransition (transition) {
+        this._currentTransition.push(transition);
+    }
+
     visitCurrentNode () {
-        const currentBehavior = this.currentNode.getBehavior().getName();
+        this.currentNode = this.findNode(++this.currentIndex);
+        const currBehavior = this.currentNode.getBehavior().getName();
 
         if (this.currentIndex < this._logs.length - 1) {
             const nextNode = this.findNode(this.currentIndex + 1);
             const nextBehavior = nextNode.getBehavior().getName();
 
-            if (currentBehavior === nextBehavior) {
-                this.currentIndex++;
+            if (currBehavior === nextBehavior) {
                 this.visitCurrentNode();
                 return;
             }
 
             if (this.currentNode.isValidTransition(nextBehavior)) {
-                this._currentTransition.push(
-                    `Transition from ${currentBehavior} to ${nextBehavior} is valid.`
-                );
-                this.currentNode = this._design.getActiveGraph().findNode(nextBehavior);
-                this.currentIndex++;
+                this.addTransition(`Valid Transition from ${currBehavior}->${nextBehavior}.`);
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
-
-                    this._currentTransition.push(
-                        `Reached atomic behavior ${nextBehavior} from ${currentBehavior}.`
-                    );
+                    this.addTransition(`Reached atomic behavior ${nextBehavior}.`);
                     this._transitions.push(this._currentTransition);
                     this._currentTransition = [];
-
-                    this.currentNode = this._design.getActiveGraph().findNode(nextBehavior);
-                    this.currentIndex++;
-
                     this.visitCurrentNode();
                     return;
                 } else {
-                    this._currentTransition.push(
-                        `Transition from ${currentBehavior} to ${nextBehavior} is invalid.`
-                    );
+                    this.addTransition(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
                     this._transitions.push(this._currentTransition);
                     this._currentTransition = [];
                     return;
