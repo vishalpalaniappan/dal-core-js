@@ -29,7 +29,7 @@ describe("debugger tests", () => {
 
         const filePath2 = resolve(__dirname, "../temp/transitions.txt");
         await writeFile(
-            filePath2, JSON.stringify(debuggerInstance._transitions, null, 2)
+            filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
         );
     });
 });

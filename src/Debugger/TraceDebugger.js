@@ -34,10 +34,21 @@ class TraceDebugger {
         this._traceId = traceId;
         this._design = design;
         this._logs = [];
-        this._transitions = [];
-        this._currentTransition = [];
+
+        // Track all the violated invariants
         this._invariantsViolated = [];
+
+        // Automated debugging will be implemented using
+        // these invariants.
+
+        // Indiciates if an invalid transition was found
         this._instrumentationFailure = false;
+
+        // Tracks the atomic paths in the execution
+        // This will be extended into an object of its own
+        // but for now it is used for logging.
+        this._atomicPathsLog = [];
+        this._currentPathLog = [];
     }
 
     /**
@@ -60,7 +71,7 @@ class TraceDebugger {
         this.currentNode = this.findNode(this.currentIndex);
 
         this.visitCurrentNode();
-        this._transitions.push(this._currentTransition);
+        this._atomicPathsLog.push(this._currentPathLog);
     }
 
     findNode (index) {
@@ -75,18 +86,18 @@ class TraceDebugger {
         }
     }
 
-    addTransition (transition, reachedAtomic = false) {
-        this._currentTransition.push(transition);
+    addLog (currentNode, reachedAtomic = false) {
+        this._currentPathLog.push(currentNode);
         if (reachedAtomic) {
-            this._transitions.push(this._currentTransition);
-            this._currentTransition = [];
+            this._atomicPathsLog.push(this._currentPathLog);
+            this._currentPathLog = [];
         }
     }
 
     processParticipant (currentNode) {
         const currLog = this._logs[this.currentIndex];
-        this.addTransition(`-Processing participant named ${currLog.getParticipantName()}.`);
-        this.addTransition(`-Participant Value: ${JSON.stringify(currLog.getParticipantValue())}.`);
+        this.addLog(`-Processing participant named ${currLog.getParticipantName()}.`);
+        this.addLog(`-Participant Value: ${JSON.stringify(currLog.getParticipantValue())}.`);
 
         const currBehavior = currentNode.getBehavior();
         const currParticipant = currBehavior.getParticipant(currLog.getParticipantName());
@@ -95,7 +106,7 @@ class TraceDebugger {
         currParticipant.evaluateInvariants();
 
         if (currParticipant.getInvariants().length > 0) {
-            this.addTransition(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
+            this.addLog(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
         }
 
         // Add to the list of violated invariants if the invariant was violated.
@@ -117,7 +128,7 @@ class TraceDebugger {
             const nextBehavior = nextNode.getBehavior().getName();
 
             if (this.currentBehavior !== currBehavior) {
-                this.addTransition(`Behavior: ${currBehavior}.`);
+                this.addLog(`Behavior: ${currBehavior}.`);
                 this.currentBehavior = currBehavior;
             }
 
@@ -129,11 +140,11 @@ class TraceDebugger {
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
-                    this.addTransition(`Reached atomic behavior ${nextBehavior}.`, true);
+                    this.addLog(`Reached atomic behavior ${nextBehavior}.`, true);
                     this.visitCurrentNode();
                 } else {
                     this.instrumentationFailure = true;
-                    this.addTransition(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
+                    this.addLog(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
                 }
             }
         }
