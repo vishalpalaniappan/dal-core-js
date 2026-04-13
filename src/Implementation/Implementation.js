@@ -193,6 +193,20 @@ export default class Implementation extends Base {
     }
 
     /**
+     * Gets an execution trace from the implementation.
+     * @param {String} uid UID of the trace to get.
+     * @returns {Object} Trace object with the given UID.
+     * @throws {Error} Throws an error if a trace with the given UID does
+     * not exist.
+     */
+    getTrace (uid) {
+        if (!this._traces[uid]) {
+            throw new Error(`Trace with UID ${uid} does not exist.`);
+        }
+        return this._traces[uid];
+    }
+
+    /**
      * Exports implementation in a format that can be used for instrumentation.
      * @returns {Object} Instrumentation package used for instrumenting source.
      */
