@@ -25,6 +25,14 @@ export default class Implementation extends Base {
         for (const [key, value] of Object.entries(json)) {
             if (key === "_files") {
                 value.forEach(node => this._files.push(new File(node)));
+            } else if (key === "_traces") {
+                // This is because I am currently serializing the traces using
+                // JSON.stringify which is converting the Uint8Array to object
+                // I have added a TODO to fix this in the serialize method.
+                for (const key of Object.keys(value)) {
+                    value[key].trace = Uint8Array.from(Object.values(value[key].trace));
+                }
+                this._traces = value;
             } else {
                 this[key] = json[key];
             }

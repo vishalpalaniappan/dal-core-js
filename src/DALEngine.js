@@ -77,11 +77,9 @@ export class DALEngine {
      * @returns {String} Returns JSON string representing the control graphs.
      */
     serialize () {
-        // TODO: I shouldn't be using JSON.stringify here but I want to
-        // work on some other things and I will return to this and improve it
-        // As a result of this, the trace data will be a key value pair
-        // which has a key and string value instead of a Uint8Array, so I will
-        // need to covnert it back.
+        // TODO: I shouldn't be seriazing using JSON.stringify. Causes the
+        // uint8array (trace) to be converted to an object with numeric keys.
+        // I will change the serlization process, this is temporary.
         const serialized = JSON.stringify({
             name: this._name,
             description: this._description,
