@@ -34,6 +34,7 @@ class TraceDebugger {
         this._traceId = traceId;
         this._design = design;
         this._logs = [];
+        this._transitions = [];
     }
 
     /**
@@ -52,23 +53,47 @@ class TraceDebugger {
 
         this._logs = logs.map((log) => new LogEntry(log));
 
-        const atomicNode = this.findAtomicBehavior();
-        console.log(atomicNode);
+        this.currentIndex = 0;
+        this.currentNode = this.findNode(this.currentIndex);
 
+        this.visitCurrentNode();
     }
 
-    findAtomicBehavior () {
-        for (const log of this._logs) {
-            if (log.getType() !== "behavior") continue;
-            const graphs = this._design.getGraphs();
-            for (const graph of Object.keys(graphs)) {
-                let node;
-                try {
-                    node = graphs[graph].findNode(log.getBehavior());
-                } catch (e) {
-                    continue;
-                }
-                return node;
+    findNode (index) {
+        const graphs = this._design.getGraphs();
+        for (const graph of Object.keys(graphs)) {
+            try {
+                return graphs[graph].findNode(
+                    this._logs[index].getBehavior()
+                );
+            } catch {}
+        }
+    }
+
+    visitCurrentNode () {
+        const currentBehavior = this.currentNode.getBehavior().getName();
+
+        if (this.currentIndex + 1 <= this._logs.length) {
+            const nextNode = this.findNode(this.currentIndex + 1);
+            const nextBehavior = nextNode.getBehavior().getName();
+
+            if (currentBehavior === nextBehavior) {
+                this.currentIndex++;
+                this.visitCurrentNode();
+                return;
+            }
+
+            if (this.currentNode.isValidTransition(nextBehavior)) {
+                this.currentNode = this._design.getActiveGraph().findNode(nextBehavior);
+                this.currentIndex++;
+                this.visitCurrentNode();
+                this._transitions.push(
+                    `Transition from ${currentBehavior} to ${nextBehavior} is valid.`
+                );
+            } else {
+                this._transitions.push(
+                    `Invalid transition from ${currentBehavior} to ${nextBehavior}`
+                );
             }
         }
     }

@@ -323,15 +323,15 @@ export class DALEngine {
         this.graph.goToBehavior(nextBehaviorId);
     }
 
-
     /**
      * Creates a debugger and initializes it with the given trace id.
      * @param {String} traceId ID of the trace to debug.
-     * @returns {TraceDebugger} TraceDebugger instance
+     * @returns {Promise<TraceDebugger>} Promise that resolves to the
+     * TraceDebugger instance.
      */
-    createDebugger (traceId) {
+    async createDebugger (traceId) {
         this._activeDebugger = new TraceDebugger(this.graphs, this.implementation, traceId);
-        this._activeDebugger.loadTrace();
+        await this._activeDebugger.loadTrace();
         return this._activeDebugger;
     }
 
