@@ -111,6 +111,7 @@ class Invariant extends Base {
             }
         }
         this.value = value;
+        console.log(this.invariantType);
         return this.invariantType.evaluate(value)
     }
 

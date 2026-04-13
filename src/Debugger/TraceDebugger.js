@@ -71,14 +71,25 @@ class TraceDebugger {
         }
     }
 
-    addTransition (transition) {
+    addTransition (transition, reachedAtomic = false) {
         this._currentTransition.push(transition);
+        if (reachedAtomic) {
+            this._transitions.push(this._currentTransition);
+            this._currentTransition = [];
+        }
     }
 
     processParticipant (node) {
         const currLog = this._logs[this.currentIndex];
         this.addTransition(`   Processing variable named ${currLog.getParticipantName()}.`);
         this.addTransition(`   Participant Value: ${currLog.getParticipantValue()}.`);
+
+        const loggedParticipantName = currLog.getParticipantName();
+        const currBehavior = this.currentNode.getBehavior();
+        const currParticipant = currBehavior.getParticipant(loggedParticipantName);
+
+        //currParticipant.setValue(currLog.getParticipantValue());
+        //currParticipant.evaluateInvariants();
     }
 
     visitCurrentNode () {
@@ -102,15 +113,12 @@ class TraceDebugger {
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
-                    this.addTransition(`Reached atomic behavior ${nextBehavior}.`);
-                    this._transitions.push(this._currentTransition);
-                    this._currentTransition = [];
+                    this.addTransition(`Reached atomic behavior ${nextBehavior}.`, true);
                     this.visitCurrentNode();
                     return;
                 } else {
+                    // INVALID TRANSITION: STOP
                     this.addTransition(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
-                    this._transitions.push(this._currentTransition);
-                    this._currentTransition = [];
                     return;
                 }
             }
