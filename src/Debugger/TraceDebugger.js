@@ -64,7 +64,7 @@ class TraceDebugger {
             for (const graph of Object.keys(graphs)) {
                 let node;
                 try {
-                    node = graphs[graph].findNode(log.userGenerated.name);
+                    node = graphs[graph].findNode(log.getBehavior());
                 } catch (e) {
                     continue;
                 }
