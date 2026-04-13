@@ -6,10 +6,12 @@ export default {
         {
             file: "dist/index.cjs",
             format: "cjs",
+            inlineDynamicImports: true,
         },
         {
             file: "dist/index.esm.js",
             format: "esm",
+            inlineDynamicImports: true,
         },
     ],
     plugins: [resolve()],
