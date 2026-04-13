@@ -2,6 +2,9 @@ import Base from "../Base";
 import File from "./File";
 
 export default class Implementation extends Base {
+    /**
+     * TODO: Describe full scope of implementation class.
+     */
     constructor () {
         super();
         this._files = [];
