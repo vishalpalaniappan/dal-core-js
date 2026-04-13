@@ -72,4 +72,14 @@ export class InvariantType {
             reason: reason,
         });
     }
+
+    /**
+     * Removes the predicted invalid state for the specified behavior.
+     * @param {String} behavior Behavior to remove from the prediction list.
+     */
+    unassignPredictedInvalidState (behavior) {
+        this.predictedFailures = this.predictedFailures.filter(
+            (prediction) => prediction.behavior !== behavior
+        );
+    }
 }

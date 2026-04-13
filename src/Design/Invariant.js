@@ -172,8 +172,18 @@ class Invariant extends Base {
      * violation.
      * @param {String} reason Reason for the prediction.
      */
-    setFailedBehavior (behavior, reason) {
+    addFailedBehaviorPrediction (behavior, reason) {
         this._invariantType.assignPredictedInvalidState(behavior, reason);
+    }
+
+    /**
+     * Removes the provided behavior from the failure prediction list for
+     * this invariant.
+     * @param {String} behavior Behavior to remove from the failure
+     * prediction list.
+     */
+    removeFailedBehaviorPrediction (behavior) {
+        this._invariantType.unassignPredictedInvalidState(behavior);
     }
 }
 
