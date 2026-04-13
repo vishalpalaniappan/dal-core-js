@@ -119,6 +119,22 @@ class TraceDebugger {
         }
     }
 
+    /**
+     * Traverse the trace by visiting the next node in the trace. If
+     * the next not is not a valid transition and is not atomic, then
+     * this indicates that there is an instrumentation error.
+     *
+     * When concurrency support is added, if a node is a fork,
+     * the UID's will be used to follow the trace through the fork
+     * into the next node in the system.
+     *
+     * When variables are visited, they are processed by updating
+     * the value of the participant and enforcing the invariant.
+     *
+     * All of the invariants are accumulated and used to perform
+     * the automated debugging after the trace is fully traversed.
+     *
+     */
     visitCurrentNode () {
         const currentNode = this.findNode(++this.currentIndex);
         const currBehavior = currentNode.getBehavior().getName();
