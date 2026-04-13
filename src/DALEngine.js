@@ -28,6 +28,16 @@ import Implementation from "./Implementation/Implementation";
  * The values of the participants are set from the observed values and the
  * invariants are checked at each transition to recognize if the design has
  * entered a semantically invalid state.
+ *
+ * TODO: There is a design decision to be made about how to leverage workers
+ * in the engine. If the engine create's workers, then that can be used
+ * to actually implement the worker threads that are defined in the
+ * design. In this case, API calls to the engine would return promises
+ * that are resolved when the workers have completed their tasks. In the other
+ * case, the consuming application would create workers and the engine would
+ * live in the worker. I will explore the pros and cons of both approaches
+ * and take a look at existing tools to see what the standard approach is for
+ * this type of architeture before making a decision and removing this todo.
  */
 export class DALEngine {
     constructor (args) {
