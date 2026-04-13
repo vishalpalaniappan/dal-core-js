@@ -2,8 +2,8 @@ import Base from "../../Base";
 import MissingAttributes from "../../Errors/MissingAttributes";
 import TransitionAlreadyExistsError from "../../Errors/TransitionAlreadyExistsError";
 import isLoadedFromFile from "../../helpers/isLoadedFromFile";
-import Behavior from "../Behavior";
 import ENGINE_TYPES from "../../TYPES";
+import Behavior from "../Behavior";
 
 class GraphNode extends Base {
     /**
