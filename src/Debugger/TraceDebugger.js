@@ -37,6 +37,7 @@ class TraceDebugger {
         this._transitions = [];
         this._currentTransition = [];
         this._invariantsViolated = [];
+        this._instrumentationFailure = false;
     }
 
     /**
@@ -131,7 +132,7 @@ class TraceDebugger {
                     this.addTransition(`Reached atomic behavior ${nextBehavior}.`, true);
                     this.visitCurrentNode();
                 } else {
-                    // INVALID TRANSITION: STOP
+                    this.instrumentationFailure = true;
                     this.addTransition(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
                 }
             }
