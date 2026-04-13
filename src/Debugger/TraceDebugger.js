@@ -57,6 +57,7 @@ class TraceDebugger {
         this.currentNode = this.findNode(this.currentIndex);
 
         this.visitCurrentNode();
+        this._transitions.push(this._currentTransition);
     }
 
     findNode (index) {
