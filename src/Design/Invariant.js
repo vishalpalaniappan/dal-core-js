@@ -2,6 +2,7 @@ import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
+import {MinLengthInvariant} from "./InvariantTypes/MinLengthInvariant";
 
 class Invariant extends Base {
     /**
@@ -46,7 +47,14 @@ class Invariant extends Base {
      */
     _loadFromFile (invariantJSON) {
         for (const [key, value] of Object.entries(invariantJSON)) {
-            this[key] = value;
+            if (key === "invariantType") {
+                if (value.type === "min_length") {
+                    this[key] = new MinLengthInvariant(value);
+                    this[key].properties = value.properties;
+                }
+            } else {
+                this[key] = value;
+            }
         };
         // Reset these because they are set by the execution
         this.invariantViolated = null;
@@ -111,7 +119,6 @@ class Invariant extends Base {
             }
         }
         this.value = value;
-        console.log(this.invariantType);
         return this.invariantType.evaluate(value)
     }
 
