@@ -63,10 +63,10 @@ export class InvariantType {
      *
      * @param {String} behavior The downstream behavior predicted to enter an
      * invalid semantic state due to this invariant violation..
-     * @param {Object} manifestation Details about the manifestation of this
-     * invariant violation in the design.
+     * @param {Object} reason Details about the reason for this prediction.
      */
-    assignPredictedInvalidState(behavior, manifestation) {
-
+    assignPredictedInvalidState (behavior, reason) {
+        this.predictedFailedBehavior = behavior;
+        this.predictedFailureReason = reason;
     }
 }
