@@ -161,6 +161,20 @@ class Invariant extends Base {
         // TODO: Add validation for traceId.
         this.traceId = traceId;
     }
+
+    /**
+     * Set the behavior that will fail due to the violation of this invariant.
+     * This is used for automated debugging and the root cause of a behavior
+     * failing can be identified in upstream inavariant violations that
+     * predict its existence.
+     *
+     * @param {String} behavior Behavior that will fail due to this invariant
+     * violation.
+     * @param {String} reason Reason for the prediction.
+     */
+    setFailedBehavior (behavior, reason) {
+        this._invariantType.assignPredictedInvalidState(behavior, reason);
+    }
 }
 
 export default Invariant;
