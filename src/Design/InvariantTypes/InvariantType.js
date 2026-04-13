@@ -18,6 +18,7 @@ export class InvariantType {
         this.label = label;
         this.properties = properties;
         this.invariantViolated = null;
+        this.predictedFailures = [];
     }
 
     /**
@@ -66,7 +67,9 @@ export class InvariantType {
      * @param {Object} reason Details about the reason for this prediction.
      */
     assignPredictedInvalidState (behavior, reason) {
-        this.predictedFailedBehavior = behavior;
-        this.predictedFailureReason = reason;
+        this.predictedFailures.push({
+            behavior: behavior,
+            reason: reason,
+        });
     }
 }
