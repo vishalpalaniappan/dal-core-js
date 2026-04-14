@@ -326,12 +326,16 @@ export class DALEngine {
     /**
      * Creates a debugger and initializes it with the given trace id.
      * @param {String} traceId ID of the trace to debug.
-     * @returns {Promise<TraceDebugger>} Promise that resolves to the
-     * TraceDebugger instance.
+     * @param {Array} traceLogs Logs of the trace to debug.
+     * @returns {TraceDebugger} The TraceDebugger instance.
      */
-    async createDebugger (traceId) {
-        this._activeDebugger = new TraceDebugger(this.graphs, this.implementation, traceId);
-        await this._activeDebugger.loadTrace();
+    createDebugger (traceId, traceLogs) {
+        this._activeDebugger = new TraceDebugger(
+            this.graphs,
+            this.implementation,
+            traceId,
+            traceLogs
+        );
         return this._activeDebugger;
     }
 
