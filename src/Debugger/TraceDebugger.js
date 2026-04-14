@@ -117,7 +117,13 @@ class TraceDebugger {
         const currentNode = this.findNode(++this.currentIndex);
         const currBehavior = currentNode.getBehavior().getName();
 
-        if (this.currentIndex < this._logs.length - 1) {
+        if (this._logs[this.currentIndex].getType() == "failure") {
+            // Return on failure.
+            this.addLog(`Failure: ${this._logs[this.currentIndex].getBehavior()}.`);
+            return;
+        }
+
+        if (this.currentIndex < this._logs.length) {
             const nextNode = this.findNode(this.currentIndex + 1);
             const nextBehavior = nextNode.getBehavior().getName();
 
