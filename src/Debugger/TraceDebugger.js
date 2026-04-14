@@ -165,18 +165,28 @@ class TraceDebugger {
     }
 
     processFailure (failure) {
+        let rootCause;
         const failedBehavior = failure.getBehavior();
         for (const violation of this._invariantsViolated) {
             for (const prediction of violation.invariant.predictedFailures) {
                 if (prediction.behavior != failedBehavior) continue;
-                const rootCause = [
+                rootCause = [
                     `Root cause of failure at ${failedBehavior}`,
                     `due to invariant ${violation.invariant.getName()}`,
                     `being violated at behavior ${violation.behavior.getName()}.`
                 ].join(" ");
-                console.log(rootCause);
-                this.addLog(rootCause);
             }
+        }
+        if (rootCause) {
+            console.log(rootCause);
+            this.addLog(rootCause);
+        } else {
+            const unknownFailure = [
+                `Unknown root cause of failure at ${failedBehavior}.`,
+                "Design must learn new semantics to explain this failure.",
+            ].join(" ");
+            console.log(unknownFailure);
+            this.addLog(unknownFailure);
         }
     }
 }
