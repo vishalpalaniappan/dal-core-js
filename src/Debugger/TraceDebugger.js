@@ -181,6 +181,7 @@ class TraceDebugger {
                     `due to invariant ${violation.invariant.getName()}`,
                     `being violated at behavior ${violation.behavior.getName()}.`
                 ].join(" ");
+                this.addLog(rootCause);
                 failure.rootCauses.push({
                     invariant: violation.invariant,
                     behavior: violation.behavior,
