@@ -126,7 +126,13 @@ class TraceDebugger {
 
         if (this._logs[this.currentIndex].getType() == "failure") {
             // Return on failure.
-            this._failures.push(this._logs[this.currentIndex]);
+            this._failures.push(
+                {
+                    log: this._logs[this.currentIndex],
+                    index: this.currentIndex,
+                    rootCauses: [],
+                }
+            );
             this.addLog(`Failure: ${this._logs[this.currentIndex].getBehavior()}.`);
             return;
         }
@@ -166,7 +172,7 @@ class TraceDebugger {
 
     processFailure (failure) {
         let rootCause;
-        const failedBehavior = failure.getBehavior();
+        const failedBehavior = failure["log"].getBehavior();
         for (const violation of this._invariantsViolated) {
             for (const prediction of violation.invariant.predictedFailures) {
                 if (prediction.behavior != failedBehavior) continue;
@@ -175,18 +181,13 @@ class TraceDebugger {
                     `due to invariant ${violation.invariant.getName()}`,
                     `being violated at behavior ${violation.behavior.getName()}.`
                 ].join(" ");
+                failure.rootCauses.push({
+                    invariant: violation.invariant,
+                    behavior: violation.behavior,
+                    reason: prediction.reason,
+                    summary: rootCause,
+                });
             }
-        }
-        if (rootCause) {
-            console.log(rootCause);
-            this.addLog(rootCause);
-        } else {
-            const unknownFailure = [
-                `Unknown root cause of failure at ${failedBehavior}.`,
-                "Design must learn new semantics to explain this failure.",
-            ].join(" ");
-            console.log(unknownFailure);
-            this.addLog(unknownFailure);
         }
     }
 }
