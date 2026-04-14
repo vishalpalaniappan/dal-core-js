@@ -19,6 +19,7 @@ class Invariant extends Base {
         this.invariantViolated = false;
         this.invariantType = null;
         this.traceId = null;
+        this.predictedFailures = [];
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -171,9 +172,18 @@ class Invariant extends Base {
      * @param {String} behavior Behavior that will fail due to this invariant
      * violation.
      * @param {String} reason Reason for the prediction.
+     * @throws {Error} Thrown when the behavior already exists in the failure
+     * prediction list for this invariant.
      */
     addFailedBehaviorPrediction (behavior, reason) {
-        this._invariantType.assignPredictedInvalidState(behavior, reason);
+        if (this.hasFailedBehaviorPrediction(behavior)) {
+            throw new Error(`Behavior ${behavior} already exists in 
+                the failure prediction list for this invariant.`);
+        }
+        this.predictedFailures.push({
+            behavior: behavior,
+            reason: reason,
+        });
     }
 
     /**
@@ -183,7 +193,9 @@ class Invariant extends Base {
      * prediction list.
      */
     removeFailedBehaviorPrediction (behavior) {
-        this._invariantType.unassignPredictedInvalidState(behavior);
+        this.predictedFailures = this.predictedFailures.filter(
+            (prediction) => prediction.behavior !== behavior
+        );
     }
 
     /**
@@ -193,7 +205,9 @@ class Invariant extends Base {
      * behavior.
      */
     hasFailedBehaviorPrediction (behavior) {
-        return this._invariantType.hasPredictedInvalidState(behavior);
+        return this.predictedFailures.some(
+            (prediction) => prediction.behavior === behavior
+        );
     }
 }
 

@@ -18,6 +18,22 @@ describe("invariantTests", () => {
         expect(invariant.invariantType.label).toBe("Minimum Length");
     });
 
+    it("assigns failed prediction behavior", () => {
+        let d = new DALEngine({ name: "Library Manager", description: "Manages the library"});
+        const invariant = d.createInvariant({
+            name: "Book Title Length", 
+            description: "Ensures that the book title has at least a certain number of characters" 
+        });
+        invariant.assignInvariantType(new d.invariant_types.MIN_LENGTH());
+        expect(invariant.invariantType.label).toBe("Minimum Length");
+
+        invariant.addFailedBehaviorPrediction("Behavior1", {reason: "Predicted failure reason"});
+        expect(invariant.hasFailedBehaviorPrediction("Behavior1")).toBe(true);
+        invariant.removeFailedBehaviorPrediction("Behavior1");
+        expect(invariant.hasFailedBehaviorPrediction("Behavior1")).toBe(false);
+    });
+
+
     it("tests min length invariant", () => {
         let d = new DALEngine({name: "Library Manager", description: "Manages the library"});
         const minLengthInvariant = new d.invariant_types.MIN_LENGTH();
