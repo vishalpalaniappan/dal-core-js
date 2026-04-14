@@ -120,7 +120,8 @@ class Invariant extends Base {
             }
         }
         this.value = value;
-        return this.invariantType.evaluate(value)
+        this.invariantViolated = this.invariantType.evaluate(value);
+        return this.invariantViolated;
     }
 
 

@@ -42,6 +42,9 @@ class TraceDebugger {
         this._atomicPathsLog = [];
         this._currentPathLog = [];
 
+        // Note: Currently there is no concurrency, so only one failure but
+        // for distributed systems, there can be many, so I'm using an array.
+        this._failures = [];
     }
 
     run () {
@@ -50,6 +53,7 @@ class TraceDebugger {
 
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
+        this.debug();
     }
 
     findNode (index) {
@@ -87,13 +91,16 @@ class TraceDebugger {
             this.addLog(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
         }
 
-        // Add to the list of violated invariants if the invariant was violated.
-        if (currParticipant._invariantViolated) {
-            this._invariantsViolated.push({
-                index: this.currentIndex,
-                behavior: currBehavior,
-                participant: currParticipant,
-            });
+        for (const invariant of currParticipant.getInvariants()) {
+            // Add to the list of violated invariants if invariant was violated.
+            if (invariant.invariantViolated) {
+                this._invariantsViolated.push({
+                    index: this.currentIndex,
+                    behavior: currBehavior,
+                    participant: currParticipant,
+                    invariant: invariant,
+                });
+            }
         }
     }
 
@@ -119,6 +126,7 @@ class TraceDebugger {
 
         if (this._logs[this.currentIndex].getType() == "failure") {
             // Return on failure.
+            this._failures.push(this._logs[this.currentIndex]);
             this.addLog(`Failure: ${this._logs[this.currentIndex].getBehavior()}.`);
             return;
         }
@@ -146,6 +154,24 @@ class TraceDebugger {
                     this.instrumentationFailure = true;
                     this.addLog(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
                 }
+            }
+        }
+    }
+
+    debug () {
+        for (const failure of this._failures) {
+            this.processFailure(failure);
+        }
+    }
+
+    processFailure (failure) {
+        const failedBehavior = failure.getBehavior();
+        for (const violation of this._invariantsViolated) {
+            for (const prediction of violation.invariant.predictedFailures) {
+                if (prediction.behavior != failedBehavior) continue;
+                const rootCause = `Root cause of failure at ${failedBehavior} due to invariant ${violation.invariant.getName()}`;
+                console.log(rootCause);
+                this.addLog(rootCause);
             }
         }
     }
