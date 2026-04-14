@@ -126,7 +126,7 @@ class TraceDebugger {
                 this.currentBehavior = currBehavior;
             }
 
-            if (this._logs[this.currentIndex].getType() == "variable") {
+            if (this._logs[this.currentIndex].getType() == "participant") {
                 this.processParticipant(currentNode);
             }
 

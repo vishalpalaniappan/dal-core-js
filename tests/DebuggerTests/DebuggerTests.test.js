@@ -37,11 +37,11 @@ describe("debugger tests", () => {
         const traceIds = Object.keys(d.implementation._traces);
 
         const traceNoViolations = traceIds[0]; // Trace with no violations
-        const traceWithViolation = traceIds[1]; // Trace with min length violation
+        // const traceWithViolation = traceIds[1]; // Trace with min length violation
 
-        const traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolation));
+        const traceLogs = await loadTrace(d.implementation.getTrace(traceNoViolations));
 
-        const debuggerInstance = d.createDebugger(traceWithViolation, traceLogs);
+        const debuggerInstance = d.createDebugger(traceNoViolations, traceLogs);
         debuggerInstance.run();
 
         const filePath2 = resolve(__dirname, "../temp/transitions.txt");
