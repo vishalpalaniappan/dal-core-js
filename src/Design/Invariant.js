@@ -170,18 +170,20 @@ class Invariant extends Base {
      * failing can be identified in upstream inavariant violations that
      * predict its existence.
      *
+     * @param {String} uid Unique identifier for the failure prediction. 
      * @param {String} behavior Behavior that will fail due to this invariant
      * violation.
      * @param {String} reason Reason for the prediction.
      * @throws {Error} Thrown when the behavior already exists in the failure
      * prediction list for this invariant.
      */
-    addFailedBehaviorPrediction (behavior, reason) {
+    addFailedBehaviorPrediction (uid, behavior, reason) {
         if (this.hasFailedBehaviorPrediction(behavior)) {
             throw new Error(`Behavior ${behavior} already exists in 
                 the failure prediction list for this invariant.`);
         }
         this.predictedFailures.push({
+            uid: uid,
             behavior: behavior,
             reason: reason,
         });
@@ -190,24 +192,25 @@ class Invariant extends Base {
     /**
      * Removes the provided behavior from the failure prediction list for
      * this invariant.
-     * @param {String} behavior Behavior to remove from the failure
-     * prediction list.
+     *
+     * @param {String} uid Unique identifier for the failure prediction.
      */
-    removeFailedBehaviorPrediction (behavior) {
+    removeFailedBehaviorPrediction (uid) {
         this.predictedFailures = this.predictedFailures.filter(
-            (prediction) => prediction.behavior !== behavior
+            (prediction) => prediction.uid !== uid
         );
     }
 
     /**
      * Checks if this invariant predicts a failure at the given behavior.
-     * @param {String} behavior The behavior to check for a predicted failure.
+     *
+     * @param {String} uid Unique identifier for the failure prediction.
      * @returns {Boolean} Whether this invariant predicts a failure at the given
      * behavior.
      */
-    hasFailedBehaviorPrediction (behavior) {
+    hasFailedBehaviorPrediction (uid) {
         return this.predictedFailures.some(
-            (prediction) => prediction.behavior === behavior
+            (prediction) => prediction.uid === uid
         );
     }
 }
