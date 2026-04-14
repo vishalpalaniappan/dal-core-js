@@ -169,7 +169,11 @@ class TraceDebugger {
         for (const violation of this._invariantsViolated) {
             for (const prediction of violation.invariant.predictedFailures) {
                 if (prediction.behavior != failedBehavior) continue;
-                const rootCause = `Root cause of failure at ${failedBehavior} due to invariant ${violation.invariant.getName()}`;
+                const rootCause = [
+                    `Root cause of failure at ${failedBehavior}`,
+                    `due to invariant ${violation.invariant.getName()}`,
+                    `being violated at behavior ${violation.behavior.getName()}.`
+                ].join(" ");
                 console.log(rootCause);
                 this.addLog(rootCause);
             }
