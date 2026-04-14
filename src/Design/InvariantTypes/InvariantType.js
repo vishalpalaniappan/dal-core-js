@@ -82,4 +82,19 @@ export class InvariantType {
             (prediction) => prediction.behavior !== behavior
         );
     }
+
+
+    /**
+     * Indicates whether this invariant violation predicts an
+     * invalid state at the given behavior
+     * @param {String} behavior The behavior to check for a predicted invalid
+     * state at.
+     * @returns {Boolean} Whether this invariant violation predicts an
+     * invalid state at the given behavior.
+     */
+    hasPredictedInvalidState (behavior) {
+        return this.predictedFailures.some(
+            (prediction) => prediction.behavior === behavior
+        );
+    }
 }

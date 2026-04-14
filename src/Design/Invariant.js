@@ -185,6 +185,16 @@ class Invariant extends Base {
     removeFailedBehaviorPrediction (behavior) {
         this._invariantType.unassignPredictedInvalidState(behavior);
     }
+
+    /**
+     * Checks if this invariant predicts a failure at the given behavior.
+     * @param {String} behavior The behavior to check for a predicted failure.
+     * @returns {Boolean} Whether this invariant predicts a failure at the given
+     * behavior.
+     */
+    hasFailedBehaviorPrediction (behavior) {
+        return this._invariantType.hasPredictedInvalidState(behavior);
+    }
 }
 
 export default Invariant;
