@@ -3,6 +3,7 @@ import MissingAttributes from "../Errors/MissingAttributes";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
 import {MinLengthInvariant} from "./InvariantTypes/MinLengthInvariant";
+import {RequiredKeysInvariant} from "./InvariantTypes/RequiredKeysInvariant";
 
 class Invariant extends Base {
     /**
@@ -47,8 +48,8 @@ class Invariant extends Base {
      * @param {Object} invariantJSON The JSON object to load the invariant from.
      */
     _loadFromFile (invariantJSON) {
-        console.log(invariantJSON);
         for (const [key, value] of Object.entries(invariantJSON)) {
+            console.log(key, value);
             if (key === "invariantType" && value) {
                 if (value.type === "min_length") {
                     this[key] = new MinLengthInvariant(value);
