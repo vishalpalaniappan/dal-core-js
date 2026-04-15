@@ -27,24 +27,26 @@ class TraceDebugger {
         this._design = design;
         this._logs = traceLogs.map((log) => new LogEntry(log));
 
-        // Track all the violated invariants
-        this._invariantsViolated = [];
-
-        // Automated debugging will be implemented using
-        // these invariants.
+        // This is currently used for logging. However, once I am done setting
+        // up the process trace variable, I will swithc to it.
+        this._atomicPathsLog = [];
+        this._currentPathLog = [];
 
         // Indiciates if an invalid transition was found
         this._instrumentationFailure = false;
 
-        // Tracks the atomic paths in the execution
-        // This will be extended into an object of its own
-        // but for now it is used for logging.
-        this._atomicPathsLog = [];
-        this._currentPathLog = [];
-
         // Note: Currently there is no concurrency, so only one failure but
         // for distributed systems, there can be many, so I'm using an array.
         this._failures = [];
+
+        // Stores the processed trace that will be used by UI for visualization
+        // Each node is a behavior that has the participant, its value and the
+        // semantic validity of the behavior as determined by the design.
+        // Each atomic path will have its own UID.
+        this.processedTrace = [];
+
+        // Track all the violated invariants
+        this._invariantsViolated = [];
     }
 
     run () {
@@ -54,6 +56,7 @@ class TraceDebugger {
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
         this.debug();
+        console.log(this.processedTrace);
     }
 
     findNode (index) {
@@ -143,6 +146,7 @@ class TraceDebugger {
 
             if (this.currentBehavior !== currBehavior) {
                 this.addLog(`Behavior: ${currBehavior}.`);
+                this.processedTrace.push(nextNode.getBehavior());
                 this.currentBehavior = currBehavior;
             }
 
