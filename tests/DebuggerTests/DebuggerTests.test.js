@@ -23,13 +23,13 @@ async function loadTrace (traceRaw) {
 
 describe("debugger tests", () => {
 
-    it("debugs an execution trace", async () => {
+    it("debugs an execution trace for library manager", async () => {
         const d = new DALEngine({
             name: "Execution Trace Walker",
             description: "Walks through execution traces",
         });
 
-        const filePath = resolve(__dirname, "../test_data/execution_trace_walker.dal");
+        const filePath = resolve(__dirname, "../test_data/library_manager.dal");
         const source = await readFile(filePath);
 
         d.deserialize(source);
@@ -43,7 +43,34 @@ describe("debugger tests", () => {
         const debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
         debuggerInstance.run();
 
-        const filePath2 = resolve(__dirname, "../temp/transitions.txt");
+        const filePath2 = resolve(__dirname, "../temp/library_manager_debugger_output.txt");
+        await writeFile(
+            filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
+        );
+    });
+
+    it("debugs an execution trace for trace walker", async () => {
+        const d = new DALEngine({
+            name: "Execution Trace Walker",
+            description: "Walks through execution traces",
+        });
+
+        const filePath = resolve(__dirname, "../test_data/execution_trace_walker.dal");
+        const source = await readFile(filePath);
+
+        d.deserialize(source);
+
+        const traceIds = Object.keys(d.implementation._traces);
+
+        const traceWithViolations = traceIds[0];
+        const traceWithoutViolations = traceIds[1];
+
+        const traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolations));
+
+        const debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
+        debuggerInstance.run();
+
+        const filePath2 = resolve(__dirname, "../temp/execution_trace_walker_debugger_output.txt");
         await writeFile(
             filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
         );
