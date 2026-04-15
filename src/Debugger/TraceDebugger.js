@@ -137,7 +137,7 @@ class TraceDebugger {
             return;
         }
 
-        if (this.currentIndex < this._logs.length) {
+        if (this.currentIndex < this._logs.length - 1) {
             const nextNode = this.findNode(this.currentIndex + 1);
             const nextBehavior = nextNode.getBehavior().getName();
 

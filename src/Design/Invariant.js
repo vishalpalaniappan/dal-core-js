@@ -47,10 +47,17 @@ class Invariant extends Base {
      * @param {Object} invariantJSON The JSON object to load the invariant from.
      */
     _loadFromFile (invariantJSON) {
+        console.log(invariantJSON);
         for (const [key, value] of Object.entries(invariantJSON)) {
-            if (key === "invariantType") {
+            if (key === "invariantType" && value) {
                 if (value.type === "min_length") {
                     this[key] = new MinLengthInvariant(value);
+                    this[key].properties = value.properties;
+                } else if (value.type === "required_keys") {
+                    this[key] = new RequiredKeysInvariant(value);
+                    this[key].properties = value.properties;
+                } else if (value.type === "range") {
+                    this[key] = new RangeInvariant(value);
                     this[key].properties = value.properties;
                 }
             } else {
@@ -108,7 +115,8 @@ class Invariant extends Base {
     evaluate (value) {
         if (!this.invariantType) {
             // TODO: Make into custom error.
-            throw new Error("Invariant type not assigned.");
+            console.log("Invariant type not assigned.");
+            return;
         }
         for (const key in this.invariantType.properties) {
             const property = this.invariantType.properties[key];

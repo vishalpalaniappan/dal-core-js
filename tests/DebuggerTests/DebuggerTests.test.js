@@ -25,11 +25,11 @@ describe("debugger tests", () => {
 
     it("debugs an execution trace", async () => {
         const d = new DALEngine({
-            name: "Library Manager",
-            description: "Manages the library",
+            name: "Execution Trace Walker",
+            description: "Walks through execution traces",
         });
 
-        const filePath = resolve(__dirname, "../test_data/library_manager.dal");
+        const filePath = resolve(__dirname, "../test_data/execution_trace_walker.dal");
         const source = await readFile(filePath);
 
         d.deserialize(source);
