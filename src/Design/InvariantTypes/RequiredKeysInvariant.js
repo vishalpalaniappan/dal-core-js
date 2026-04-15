@@ -42,6 +42,7 @@ export class RequiredKeysInvariant extends InvariantType {
 
         let value = state;
         for (const key of this.properties.keys.value) {
+            if (key.trim() === "") continue;
             if (!(key in value)) {
                 // If the key is not in the state,
                 // we consider the invariant to be not evaluable / not violated.

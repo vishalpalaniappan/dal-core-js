@@ -49,7 +49,6 @@ class Invariant extends Base {
      */
     _loadFromFile (invariantJSON) {
         for (const [key, value] of Object.entries(invariantJSON)) {
-            console.log(key, value);
             if (key === "invariantType" && value) {
                 if (value.type === "min_length") {
                     this[key] = new MinLengthInvariant(value);
