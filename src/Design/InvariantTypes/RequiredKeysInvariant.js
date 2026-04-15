@@ -18,7 +18,6 @@ export class RequiredKeysInvariant extends InvariantType {
                     keys: {
                         label: "Key(s) of array in object",
                         type: "Array",
-                        required: true,
                     },
                     requiredKeys: {
                         label: "Required Keys",

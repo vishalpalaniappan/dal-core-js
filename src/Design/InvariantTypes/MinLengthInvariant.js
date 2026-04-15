@@ -19,7 +19,6 @@ export class MinLengthInvariant extends InvariantType {
                     keys: {
                         label: "Key(s) of value in object",
                         type: "Array",
-                        required: true,
                     },
                     minLength: {
                         label: "Minimum Length",
