@@ -44,14 +44,19 @@ export class MinLengthInvariant extends InvariantType {
     evaluate (state) {
 
         let value = state;
-        for (const key of this.properties.keys.value) {
-            if (!(key in state)) {
-                // If the key is not in the state,
-                // we consider the invariant to be violated.
-                // TODO: Needs some more thought.
-                return false;
+
+        // If keys were provided get value at the key path.
+        if (this.properties.keys.value && Array.isArray(this.properties.keys.value)) {
+            for (const key of this.properties.keys.value) {
+                if (key.trim() === "") continue;
+                if (!(key in state)) {
+                    // TODO: If the key is not in the state, then invariant
+                    // failed. We should throw an error instead of considering
+                    // the invariant as failed. Will return to this later.
+                    return false;
+                }
+                value = value[key];
             }
-            value = value[key];
         }
 
         // True means that the invariant is violated.

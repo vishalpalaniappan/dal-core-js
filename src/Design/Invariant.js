@@ -120,7 +120,7 @@ class Invariant extends Base {
         }
         for (const key in this.invariantType.properties) {
             const property = this.invariantType.properties[key];
-            if (!("value" in property)) {
+            if (!("value" in property) && property.required) {
                 // TODO: Make into custom error.
                 // Also verify type (but do it in invariant type when the value
                 // of the property is being set).

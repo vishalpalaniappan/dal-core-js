@@ -34,21 +34,25 @@ export class RequiredKeysInvariant extends InvariantType {
      *
      * Returns true if violated, false if not violated.
      *
-     * @param {Object} state The state of the participant to evaluate the invariant on.
+     * @param {Object} state State of participant to evaluate the invariant on.
      * @returns {Boolean} Whether the invariant is violated or not.
      */
     evaluate (state) {
 
         let value = state;
-        for (const key of this.properties.keys.value) {
-            if (key.trim() === "") continue;
-            if (!(key in value)) {
-                // If the key is not in the state,
-                // we consider the invariant to be not evaluable / not violated.
-                // TODO: Needs some more thought.
-                return false;
+
+        // If keys were provided get value at the key path.
+        if (this.properties.keys.value && Array.isArray(this.properties.keys.value)) {
+            for (const key of this.properties.keys.value) {
+                if (key.trim() === "") continue;
+                if (!(key in value)) {
+                    // TODO: If the key is not in the state, then invariant
+                    // failed. We should throw an error instead of considering
+                    // the invariant as failed. Will return to this later.
+                    return false;
+                }
+                value = value[key];
             }
-            value = value[key];
         }
 
         this.invariantViolated = !(
