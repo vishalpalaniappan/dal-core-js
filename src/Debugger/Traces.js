@@ -1,4 +1,5 @@
 import BehavioralControlGraph from "../Design/BehavioralControlGraph/BehavioralControlGraph";
+import TraceDebugger from "./TraceDebugger";
 
 export default class Traces {
     /**
@@ -15,7 +16,7 @@ export default class Traces {
      * new versions that will be used to debug future traces.
      *
      * In many ways this captures the learning loop, a design is created
-     * and implemented. The execution trace cannot be debugge autoamtically,
+     * and implemented. The execution trace cannot be debugged autoamtically,
      * so the design learns new semantics, creating a new version. Now the
      * implementation claims to realize that version, so the corresponding
      * design is used to debug the generated trace.
@@ -32,8 +33,9 @@ export default class Traces {
     /**
      * Adds an execution trace to the implementation.
      * @param {Object} trace Trace object to add.
+     * @param {Object} decompressedLogs
      */
-    addTrace (trace) {
+    addTrace (trace, decompressedLogs) {
         if (typeof trace !== "object" || trace === null) {
             throw new Error("Trace must be a non-null object.");
         }
@@ -45,6 +47,26 @@ export default class Traces {
             throw new Error(`Trace with UID ${uid} already exists.`);
         }
         trace.timestamp = new Date().toISOString();
+
+        /**
+         * TODO:
+         * I am not incuding the clp-ffi-js library in the engine right now
+         * because it keeps things simpler while I workout some build issues.
+         * This means that when the trace is added, I accept the externally
+         * decompressed log files, debug it and save the results in the trace
+         * file. In the future, I would decompress the file in the engine
+         * and save the results in the trace object.
+         *
+         * Note:
+         * I should also say that with CLP, we don't need to fully decompress
+         * the log file to actually do the debugging. The entire process is
+         * optimized. Knowing the domain structure of the data means that we
+         * can work with it in an optimal way. There is no wasted movement here,
+         * we won't be performing any more computation than is necessary to
+         * get the results of the automated debugging.
+         */
+        trace.debugResults = new TraceDebugger(this._design, decompressedLogs).results;
+
         this._traces[uid] = trace;
     }
 
