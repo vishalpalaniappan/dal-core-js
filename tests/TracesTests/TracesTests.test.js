@@ -8,6 +8,19 @@ import {DALEngine} from "../../src/DALEngine.js";
 describe("traces tests", () => {
 
     it("adds a trace", async () => {
-        
+        const d = new DALEngine({
+            name: "Execution Trace Walker",
+            description: "Walks through execution traces",
+        });
+
+        const filePath = resolve(
+            __dirname, "../test_data/37901387-61a5-4a9c-980a-99bc9a6bd6ec.clp.zst"
+        );
+        const traceData = await readFile(filePath)
+        d.traces.addTrace({
+            uid: "37901387-61a5-4a9c-980a-99bc9a6bd6ec.clp.zst",
+            trace: traceData,
+        });
+
     });
 });
