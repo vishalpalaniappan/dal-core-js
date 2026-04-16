@@ -44,7 +44,7 @@ import Implementation from "./Implementation/Implementation";
 export class DALEngine {
     constructor (args) {
         this.graphs = new Graphs();
-        this.traces = new Traces();
+        this.traces = new Traces(this.graphs);
         this.graph = this.graphs.getActiveGraph();
         this.invariant_types = INVARIANT_TYPES;
         this.implementation = new Implementation();
@@ -118,7 +118,7 @@ export class DALEngine {
         // tests using engine objects that were serialized
         // before the traces class was added.
         if (parsed.traces) {
-            this.traces = new Traces();
+            this.traces = new Traces(this.graphs);
             this.traces.loadTracesFromFile(parsed.traces);
         }
 

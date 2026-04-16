@@ -43,9 +43,11 @@ class TraceDebugger {
 
         // Track all the violated invariants
         this._invariantsViolated = [];
+        this.run();
     }
 
     run () {
+        if (!this._log || this._log.length === 0) return;
         this.currentIndex = 0;
         this.currentBehavior = null;
 

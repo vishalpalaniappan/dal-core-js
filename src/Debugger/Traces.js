@@ -88,8 +88,7 @@ export default class Traces {
          * Temporarily disbling the debugger while I shift the storage of traces
          * from the implementation to this class in the workbench and tests.
          */
-        // trace.debugResults = new TraceDebugger(this._design, decompressedLogs).results;
-
+        trace.debugResults = new TraceDebugger(this._design, decompressedLogs)._failures;
         this._traces.push(trace);
     }
 

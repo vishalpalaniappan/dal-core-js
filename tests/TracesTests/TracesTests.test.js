@@ -37,7 +37,7 @@ describe("traces tests", () => {
         d.traces.addTrace({
             uid: traceUid,
             trace: traceData,
-        });
+        }, []);
 
         expect(d.traces.getTrace(traceUid).uid).toEqual(traceUid);
 
@@ -68,7 +68,7 @@ describe("traces tests", () => {
             "uid": "asf",
             "trace": await readFile(tempFilePath),
         };
-        d.traces.addTrace(t, null);
+        d.traces.addTrace(t, []);
         expect(t.uid).toEqual("asf");
         const traceTempPath = resolve(__dirname, "../temp/trace.clp.zst")
         await writeFile(traceTempPath, new Uint8Array(d.traces.getTrace("asf").trace.data))
