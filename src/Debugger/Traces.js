@@ -64,8 +64,11 @@ export default class Traces {
          * can work with it in an optimal way. There is no wasted movement here,
          * we won't be performing any more computation than is necessary to
          * get the results of the automated debugging.
+         *
+         * Temporarily disbling the debugger while I shift the storage of traces
+         * from the implementation to this class in the workbench and tests.
          */
-        trace.debugResults = new TraceDebugger(this._design, decompressedLogs).results;
+        // trace.debugResults = new TraceDebugger(this._design, decompressedLogs).results;
 
         this._traces[uid] = trace;
     }
