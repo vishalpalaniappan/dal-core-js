@@ -113,8 +113,14 @@ export class DALEngine {
         this.implementation = new Implementation();
         this.implementation.loadFromJson(parsed.implementation);
 
-        this.traces = new Traces();
-        this.traces.loadTracesFromFile(parsed.traces);
+        // TODO: Remove this check after migrating.
+        // I am adding it temporarily because the debugger
+        // tests using engine objects that were serialized
+        // before the traces class was added.
+        if (parsed.traces) {
+            this.traces = new Traces();
+            this.traces.loadTracesFromFile(parsed.traces);
+        }
 
         this._name = parsed.name;
         this._description = parsed.description;
