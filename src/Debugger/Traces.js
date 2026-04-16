@@ -16,7 +16,7 @@ export default class Traces {
      * new versions that will be used to debug future traces.
      *
      * In many ways this captures the learning loop, a design is created
-     * and implemented. The execution trace cannot be debugged autoamtically,
+     * and implemented. The execution trace cannot be debugged automatically,
      * so the design learns new semantics, creating a new version. Now the
      * implementation claims to realize that version, so the corresponding
      * design is used to debug the generated trace.
@@ -30,6 +30,16 @@ export default class Traces {
         this._design = design;
         this._traces = {};
     }
+
+
+    /**
+     * Load the traces from file.
+     * @param {*} traces Traces to load from file.
+     */
+    loadTracesFromFile (traces) {
+        console.log(traces);
+    }
+
     /**
      * Adds an execution trace to the implementation.
      * @param {Object} trace Trace object to add.
