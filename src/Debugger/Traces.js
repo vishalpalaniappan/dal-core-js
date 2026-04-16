@@ -53,9 +53,11 @@ export default class Traces {
     /**
      * Adds an execution trace to the implementation.
      * @param {Object} trace Trace object to add.
+     * @param {Boolean} debug Flag to indicate if debugger should run.
      * @param {Object} decompressedLogs
+     * @returns {Object}
      */
-    addTrace (trace, decompressedLogs) {
+    addTrace (trace, debug, decompressedLogs) {
         if (typeof trace !== "object" || trace === null) {
             throw new Error("Trace must be a non-null object.");
         }
@@ -88,7 +90,9 @@ export default class Traces {
          * Temporarily disbling the debugger while I shift the storage of traces
          * from the implementation to this class in the workbench and tests.
          */
-        trace.debugResults = new TraceDebugger(this._design, decompressedLogs)._failures;
+        if (debug) {
+            trace.debugResults = new TraceDebugger(this._design, decompressedLogs).run();
+        }
         this._traces.push(trace);
 
         return trace;

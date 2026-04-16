@@ -43,7 +43,6 @@ class TraceDebugger {
 
         // Track all the violated invariants
         this._invariantsViolated = [];
-        this.run();
     }
 
     run () {
@@ -54,6 +53,7 @@ class TraceDebugger {
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
         this.debug();
+        return this._atomicPathsLog;
     }
 
     findNode (index) {
