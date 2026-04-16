@@ -1,6 +1,5 @@
 import clpFfiJsModuleInit from "clp-ffi-js/node";
-import {trace} from "console";
-import {readFile, unlink, writeFile} from "fs/promises"
+import {readFile, writeFile} from "fs/promises"
 import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
