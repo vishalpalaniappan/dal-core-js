@@ -27,7 +27,7 @@ export default class Traces {
      */
     constructor (design) {
         this._design = design;
-        this._traces = [];
+        this._traces = {};
     }
     /**
      * Adds an execution trace to the implementation.
