@@ -28,7 +28,7 @@ export default class Traces {
      */
     constructor (design) {
         this._design = design;
-        this._traces = {};
+        this._traces = [];
     }
 
 
@@ -80,7 +80,7 @@ export default class Traces {
          */
         // trace.debugResults = new TraceDebugger(this._design, decompressedLogs).results;
 
-        this._traces[uid] = trace;
+        this._traces.push(trace);
     }
 
     /**
@@ -88,10 +88,11 @@ export default class Traces {
      * @param {String} uid UID of the trace to delete.
      */
     deleteTrace (uid) {
-        if (!this._traces[uid]) {
+        const foundIndex = this._traces.findIndex((t) => t.uid === uid);
+        if (foundIndex === -1) {
             throw new Error(`Trace with UID ${uid} does not exist.`);
         }
-        delete this._traces[uid];
+        this._traces.splice(foundIndex, 1);
     }
 
     /**
@@ -102,9 +103,18 @@ export default class Traces {
      * not exist.
      */
     getTrace (uid) {
-        if (!this._traces[uid]) {
+        const found = this._traces.find((t) => t.uid === uid);
+        if (!found) {
             throw new Error(`Trace with UID ${uid} does not exist.`);
         }
-        return this._traces[uid];
+        return found;
+    }
+
+    /**
+     * Returns all the traces.
+     * @returns {Object} Traces stored in this class.
+     */
+    getTraces () {
+        return this._traces;
     }
 }
