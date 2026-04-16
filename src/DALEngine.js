@@ -1,6 +1,7 @@
 import {gunzipSync, gzipSync, strFromU8, strToU8} from "fflate";
 
 import TraceDebugger from "./Debugger/TraceDebugger";
+import Traces from "./Debugger/Traces";
 import Behavior from "./Design/Behavior";
 import Graphs from "./Design/BehavioralControlGraph/Graphs";
 import Invariant from "./Design/Invariant";
@@ -43,6 +44,7 @@ import Implementation from "./Implementation/Implementation";
 export class DALEngine {
     constructor (args) {
         this.graphs = new Graphs();
+        this.traces = new Traces();
         this.graph = this.graphs.getActiveGraph();
         this.invariant_types = INVARIANT_TYPES;
         this.implementation = new Implementation();
@@ -332,7 +334,6 @@ export class DALEngine {
     createDebugger (traceId, traceLogs) {
         this._activeDebugger = new TraceDebugger(
             this.graphs,
-            this.implementation,
             traceId,
             traceLogs
         );
