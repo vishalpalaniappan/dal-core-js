@@ -4,6 +4,7 @@ import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
 import {DALEngine} from "../../src/DALEngine.js";
+import { trace } from "console";
 
 describe("traces tests", () => {
 
@@ -30,7 +31,7 @@ describe("traces tests", () => {
     });
 
     it("serializes engine with a trace and loads trace from file", async () => {
-        const d = new DALEngine({
+        let d = new DALEngine({
             name: "Execution Trace Walker",
             description: "Walks through execution traces",
         });
@@ -48,6 +49,12 @@ describe("traces tests", () => {
         const tempFilePath = resolve(__dirname, "../temp/traceTemp.json")
         await writeFile(tempFilePath, d.serialize())
 
+        d = new DALEngine({name: "Library Manager", description: "Manages the library"});
+        d.deserialize(await readFile(tempFilePath));
 
+        expect(d.traces.getTrace(traceUid).uid).toEqual(traceUid);
+
+        const traceTempPath = resolve(__dirname, "../temp/trace.clp.zst")
+        await writeFile(traceTempPath, new Uint8Array(d.traces.getTrace(traceUid).trace.data))
     });
 });
