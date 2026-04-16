@@ -47,7 +47,7 @@ class TraceDebugger {
     }
 
     run () {
-        if (!this._log || this._log.length === 0) return;
+        if (!this._logs || this._logs.length === 0) return;
         this.currentIndex = 0;
         this.currentBehavior = null;
 
