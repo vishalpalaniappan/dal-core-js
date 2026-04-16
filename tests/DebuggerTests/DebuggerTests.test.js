@@ -40,7 +40,7 @@ describe("debugger tests", () => {
 
         const traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolations));
 
-        const debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
+        const debuggerInstance = d.createDebugger(traceLogs);
         debuggerInstance.run();
 
         const filePath2 = resolve(__dirname, "../temp/library_manager_debugger_output.txt");
@@ -63,18 +63,17 @@ describe("debugger tests", () => {
         const traceIds = Object.keys(d.implementation._traces);
 
         const traceWithoutViolations = traceIds[0];
-        const traceWithViolations = traceIds[1];
-
         let traceLogs = await loadTrace(d.implementation.getTrace(traceWithoutViolations));
-        let debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
+        let debuggerInstance = d.createDebugger(traceLogs);
         debuggerInstance.run();
         let filePath2 = resolve(__dirname, "../temp/execution_trace_walker_no_failure.txt");
         await writeFile(
             filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
         );
 
+        const traceWithViolations = traceIds[1];
         traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolations));
-        debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
+        debuggerInstance = d.createDebugger(traceLogs);
         debuggerInstance.run();
         filePath2 = resolve(__dirname, "../temp/execution_trace_walker_failure.txt");
         await writeFile(
