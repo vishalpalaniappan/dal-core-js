@@ -58,7 +58,7 @@ describe("traces tests", () => {
         d.traces.addTrace({
             uid: traceUid,
             trace: traceData,
-        }, decompressedTrace);
+        }, []);
 
         const tempFilePath = resolve(__dirname, "../temp/traceTemp.json")
         await writeFile(tempFilePath, d.serialize())
@@ -107,9 +107,12 @@ describe("traces tests", () => {
         const traceData = await readFile(traceFilePath)
         const traceUid = "failed_trace.clp.zst";
         const decompressedTrace = await loadTrace(traceData);
-        d.traces.addTrace({
+        const t = d.traces.addTrace({
             uid: traceUid,
             trace: traceData,
         }, decompressedTrace);
+
+        const tempFilePath = resolve(__dirname, "../temp/debugged_temp.dal")
+        await writeFile(tempFilePath, d.serialize())
     });
 });
