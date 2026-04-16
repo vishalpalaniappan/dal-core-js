@@ -90,6 +90,8 @@ export default class Traces {
          */
         trace.debugResults = new TraceDebugger(this._design, decompressedLogs)._failures;
         this._traces.push(trace);
+
+        return trace;
     }
 
     /**
