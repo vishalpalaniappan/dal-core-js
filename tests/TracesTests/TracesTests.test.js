@@ -72,4 +72,24 @@ describe("traces tests", () => {
         const traceTempPath = resolve(__dirname, "../temp/trace.clp.zst")
         await writeFile(traceTempPath, new Uint8Array(d.traces.getTrace(traceUid).trace.data))
     });
+
+
+    it("automatically debugs added trace", async () => {
+
+        /**
+         * TODO:
+         * In order to do this, I need an engine with the design in it,
+         * so I will first migrate the workbench to use the traces object
+         * tested above and then I will manually run a few instrumented
+         * programs to get traces that can be debugged by the engine. Then
+         * I will add those traces to the engine and verify that the results
+         * of the automated debugging are as expected.
+         *
+         * This is just for this test to verfiy that automated debugger is
+         * triggered when a trace is added, after that I will just maunally
+         * trigger the autoamted debugger for other tests, it would be too
+         * annoying to go through this process everytime I want to test the
+         * automted debugging algorithm.
+         */
+    });
 });
