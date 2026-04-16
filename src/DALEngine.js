@@ -81,11 +81,13 @@ export class DALEngine {
     serialize () {
         // TODO: I shouldn't be seriazing using JSON.stringify. Causes the
         // uint8array (trace) to be converted to an object with numeric keys.
-        // I will change the serlization process, this is temporary.
+        // I will change the serlization process, this is temporary because it
+        // isn't my prority to address this right now.
         const serialized = JSON.stringify({
             name: this._name,
             description: this._description,
             graphs: this.graphs,
+            traces: this.traces,
             implementation: this.implementation,
         });
         return gzipSync(strToU8(serialized));
