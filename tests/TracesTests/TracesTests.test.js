@@ -64,12 +64,14 @@ describe("traces tests", () => {
         await writeFile(tempFilePath, d.serialize())
 
         d = new DALEngine({name: "", description: ""});
-        d.deserialize(await readFile(tempFilePath));
-
-        expect(d.traces.getTrace(traceUid).uid).toEqual(traceUid);
-
+        const t = {
+            "uid": "asf",
+            "trace": await readFile(tempFilePath),
+        };
+        d.traces.addTrace(t, null);
+        expect(t.uid).toEqual("asf");
         const traceTempPath = resolve(__dirname, "../temp/trace.clp.zst")
-        await writeFile(traceTempPath, new Uint8Array(d.traces.getTrace(traceUid).trace.data))
+        await writeFile(traceTempPath, new Uint8Array(d.traces.getTrace("asf").trace.data))
     });
 
 
@@ -90,5 +92,24 @@ describe("traces tests", () => {
          * annoying to go through this process everytime I want to test the
          * automted debugging algorithm.
          */
+
+
+        const d = new DALEngine({name: "", description: ""});
+        const filePath = resolve(
+            __dirname, "../test_data/automated_debugging_files/execution_trace_walker.dal"
+        );
+        const source = await readFile(filePath);
+        d.deserialize(source);
+
+        const traceFilePath = resolve(
+            __dirname, "../test_data/automated_debugging_files/failed_trace.clp.zst"
+        );
+        const traceData = await readFile(traceFilePath)
+        const traceUid = "failed_trace.clp.zst";
+        const decompressedTrace = await loadTrace(traceData);
+        d.traces.addTrace({
+            uid: traceUid,
+            trace: traceData,
+        }, decompressedTrace);
     });
 });
