@@ -327,14 +327,12 @@ export class DALEngine {
 
     /**
      * Creates a debugger and initializes it with the given trace id.
-     * @param {String} traceId ID of the trace to debug.
      * @param {Array} traceLogs Logs of the trace to debug.
      * @returns {TraceDebugger} The TraceDebugger instance.
      */
-    createDebugger (traceId, traceLogs) {
+    createDebugger (traceLogs) {
         this._activeDebugger = new TraceDebugger(
             this.graphs,
-            traceId,
             traceLogs
         );
         return this._activeDebugger;

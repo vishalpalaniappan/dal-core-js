@@ -17,11 +17,9 @@ class TraceDebugger {
      *
      * @param {Object} design The design to use as the authoritative semantic
      * model for debugging.
-     * @param {String} traceId The ID of the trace to debug.
      * @param {Array} traceLogs The logs of the trace to debug.
      */
-    constructor (design, traceId, traceLogs) {
-        this._traceId = traceId;
+    constructor (design, traceLogs) {
         this._design = design;
         this._logs = traceLogs.map((log) => new LogEntry(log));
 
