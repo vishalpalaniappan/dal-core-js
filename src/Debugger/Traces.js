@@ -34,10 +34,13 @@ export default class Traces {
 
     /**
      * Load the traces from file.
-     * @param {*} traces Traces to load from file.
+     * @param {*} traceRaw Traces to load from file.
      */
-    loadTracesFromFile (traces) {
-        console.log(traces);
+    loadTracesFromFile (traceRaw) {
+        const traces = traceRaw._traces;
+        for (const trace of traces) {
+            this._traces.push(trace);
+        }
     }
 
     /**

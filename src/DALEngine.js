@@ -113,6 +113,9 @@ export class DALEngine {
         this.implementation = new Implementation();
         this.implementation.loadFromJson(parsed.implementation);
 
+        this.traces = new Traces();
+        this.traces.loadTracesFromFile(parsed.traces);
+
         this._name = parsed.name;
         this._description = parsed.description;
     }
