@@ -62,15 +62,21 @@ describe("debugger tests", () => {
 
         const traceIds = Object.keys(d.implementation._traces);
 
-        const traceWithViolations = traceIds[0];
-        const traceWithoutViolations = traceIds[1];
+        const traceWithoutViolations = traceIds[0];
+        const traceWithViolations = traceIds[1];
 
-        const traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolations));
-
-        const debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
+        let traceLogs = await loadTrace(d.implementation.getTrace(traceWithoutViolations));
+        let debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
         debuggerInstance.run();
+        let filePath2 = resolve(__dirname, "../temp/execution_trace_walker_no_failure.txt");
+        await writeFile(
+            filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
+        );
 
-        const filePath2 = resolve(__dirname, "../temp/execution_trace_walker_debugger_output.txt");
+        traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolations));
+        debuggerInstance = d.createDebugger(traceWithViolations, traceLogs);
+        debuggerInstance.run();
+        filePath2 = resolve(__dirname, "../temp/execution_trace_walker_failure.txt");
         await writeFile(
             filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
         );
