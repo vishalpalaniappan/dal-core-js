@@ -40,6 +40,13 @@ export default class Traces {
         const traces = traceRaw._traces;
         for (const trace of traces) {
             this._traces.push(trace);
+            if (trace?.trace?.type && trace?.trace?.type === "Buffer") {
+                this._traces.push(trace);
+            } else {
+                // TODO: Send trace buffer data in binary format over
+                // websocket to avoid doing this (not priority right now).
+                trace.trace = Uint8Array.from(Object.values(trace.trace));
+            }
         }
     }
 
