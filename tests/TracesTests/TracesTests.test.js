@@ -28,4 +28,26 @@ describe("traces tests", () => {
         d.traces.deleteTrace(traceUid);
         expect(d.traces.getTraces().length).toEqual(0);
     });
+
+    it("serializes engine with a trace and loads trace from file", async () => {
+        const d = new DALEngine({
+            name: "Execution Trace Walker",
+            description: "Walks through execution traces",
+        });
+
+        const traceFilePath = resolve(
+            __dirname, "../test_data/37901387-61a5-4a9c-980a-99bc9a6bd6ec.clp.zst"
+        );
+        const traceData = await readFile(traceFilePath)
+        const traceUid = "37901387-61a5-4a9c-980a-99bc9a6bd6ec.clp.zst";
+        d.traces.addTrace({
+            uid: traceUid,
+            trace: traceData,
+        });
+
+        const tempFilePath = resolve(__dirname, "../temp/traceTemp.json")
+        await writeFile(tempFilePath, d.serialize())
+
+
+    });
 });
