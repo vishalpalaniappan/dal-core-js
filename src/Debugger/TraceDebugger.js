@@ -52,7 +52,6 @@ class TraceDebugger {
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
         this.debug();
-        console.log(this.processedTrace);
     }
 
     findNode (index) {
