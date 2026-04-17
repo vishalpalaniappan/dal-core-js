@@ -121,7 +121,7 @@ class TraceDebugger {
      *
      */
     visitCurrentNode () {
-        const currentNode = this.findNode(++this.currentIndex);
+        const currentNode = this.findNode(this.currentIndex);
         const currBehavior = currentNode.getBehavior().getName();
 
         if (this._logs[this.currentIndex].getType() == "failure") {
@@ -152,10 +152,12 @@ class TraceDebugger {
             }
 
             if ((currBehavior === nextBehavior) || currentNode.isValidTransition(nextBehavior)) {
+                this.currentIndex++;
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
                     this.addLog(`Reached atomic behavior ${nextBehavior}.`, true);
+                    this.currentIndex++;
                     this.visitCurrentNode();
                 } else {
                     this.instrumentationFailure = true;
