@@ -2,6 +2,7 @@ import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
+import {IsStringInvariant} from "./InvariantTypes/IsStringInvariant";
 import {MinLengthInvariant} from "./InvariantTypes/MinLengthInvariant";
 import {RequiredKeysInvariant} from "./InvariantTypes/RequiredKeysInvariant";
 
@@ -59,6 +60,9 @@ class Invariant extends Base {
                 } else if (value.type === "range") {
                     this[key] = new RangeInvariant(value);
                     this[key].properties = value.properties;
+                } else if (value.type === "is_string") {
+                    this[key] = new IsStringInvariant(value);
+                    this[key].properties = value.properties;
                 }
             } else {
                 this[key] = value;
@@ -87,7 +91,7 @@ class Invariant extends Base {
 
     /**
      * Accepts an invariant type class that is initialized and assigned
-     * to this invariant. This is one of the invariant types listed in 
+     * to this invariant. This is one of the invariant types listed in
      * InvariantTypes.js.
      *
      * Once the invariant type is assigned, it can be configured using the
@@ -178,7 +182,7 @@ class Invariant extends Base {
      * failing can be identified in upstream inavariant violations that
      * predict its existence.
      *
-     * @param {String} uid Unique identifier for the failure prediction. 
+     * @param {String} uid Unique identifier for the failure prediction.
      * @param {String} behavior Behavior that will fail due to this invariant
      * violation.
      * @param {String} reason Reason for the prediction.
