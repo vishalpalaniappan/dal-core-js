@@ -156,7 +156,7 @@ class TraceDebugger {
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
-                    this.addLog(`Reached atomic behavior ${nextBehavior}.`, true);
+                    // this.addLog(`Reached atomic behavior ${nextBehavior}.`, true);
                     this.currentIndex++;
                     this.visitCurrentNode();
                 } else {
