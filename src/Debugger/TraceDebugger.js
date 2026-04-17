@@ -124,39 +124,42 @@ class TraceDebugger {
         const currentNode = this.findNode(this.currentIndex);
         const currBehavior = currentNode.getBehavior().getName();
 
-        if (this._logs[this.currentIndex].getType() == "failure") {
-            // Return on failure.
-            this._failures.push(
-                {
-                    log: this._logs[this.currentIndex],
-                    index: this.currentIndex,
-                    rootCauses: [],
-                }
-            );
-            this.addLog(`Failure: ${this._logs[this.currentIndex].getBehavior()}.`);
-            return;
+        const logType = this._logs[this.currentIndex].getType();
+
+        switch (logType) {
+            case "behavior":
+                this.addLog(`Behavior: ${currBehavior}.`);
+                this.currentBehavior = currBehavior;
+                break;
+            case "participant":
+                this.processParticipant(currentNode);
+                break;
+            case "failure":
+                this._failures.push(
+                    {
+                        log: this._logs[this.currentIndex],
+                        index: this.currentIndex,
+                        rootCauses: [],
+                    }
+                );
+                this.addLog(`Failure: ${this._logs[this.currentIndex].getBehavior()}.`);
+                return;
+                break;
+            default:
+                this.addLog("Unknown log type: Instrumentation Failure")
+                return;
         }
 
         if (this.currentIndex < this._logs.length - 1) {
             const nextNode = this.findNode(this.currentIndex + 1);
             const nextBehavior = nextNode.getBehavior().getName();
 
-            if (this.currentBehavior !== currBehavior) {
-                this.addLog(`Behavior: ${currBehavior}.`);
-                this.processedTrace.push(nextNode.getBehavior());
-                this.currentBehavior = currBehavior;
-            }
-
-            if (this._logs[this.currentIndex].getType() == "participant") {
-                this.processParticipant(currentNode);
-            }
-
             if ((currBehavior === nextBehavior) || currentNode.isValidTransition(nextBehavior)) {
                 this.currentIndex++;
                 this.visitCurrentNode();
             } else {
                 if (nextNode.isAtomic()) {
-                    // this.addLog(`Reached atomic behavior ${nextBehavior}.`, true);
+                    this.addLog(`Reached atomic behavior ${nextBehavior}.`, true);
                     this.currentIndex++;
                     this.visitCurrentNode();
                 } else {
@@ -164,6 +167,8 @@ class TraceDebugger {
                     this.addLog(`Invalid Transition from ${currBehavior}->${nextBehavior}.`);
                 }
             }
+        } else {
+            this.addLog("Reached end of execution");
         }
     }
 
