@@ -1,0 +1,15 @@
+Using this folder to run some for the new way I am going to establishb behaviors.
+
+Just an overview, in this folder a behavior will be defined with the following attributes:
+- Preconditions (participants, invarants)
+- Semantic Definition (transformation)
+- Postconditions (participants, invariants)
+
+The preconditions are loaded from the log and the invariants are enforced.
+The transformation is applied to the state and the authoritative post conditions are derived.
+The postconditiosn are evaluated for correctness and invariants are enforced.
+
+So in this model, there are three different ways to be semantically invalid:
+- Preconditions invalid (invariant violated)
+- Transformation invalid (implementation fails to implement the semantic definition)
+- Postcondition invalid (invariant violated)
