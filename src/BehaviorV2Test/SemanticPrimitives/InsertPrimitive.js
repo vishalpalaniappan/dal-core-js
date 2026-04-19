@@ -13,21 +13,9 @@ class InsertPrimitive extends SemanticPrimitive {
      * - The value that is being inserted into the list.
      * - The index at which the value should be inserted.
      *
-     * This semantic definition specifies that the provided value is inserted
-     * into the target list at the provided index. The expected postcondition
-     * is derived from the precondition and the transformation. This does not
-     * implement the program's insert operation, but instead defines its
-     * semantic meaning and computes it. It is a declarative semantic rule
-     * that the engine can execute to derive the expected post-state, not an
+     * It is a declarative semantic rule that the engine can
+     * execute to derive the expected post-state, not an
      * implementation of how the program performs the operation.
-     *
-     * Process:
-     * - The invariants of the precondition will be validated before the
-     *   transformation is applied.
-     * - The transformation will insert the value and then the post conditions
-     *   will be evaluated to check if the transformation is valid.
-     * - The invariants of the post conditions will be validated after the
-     *   transformation is applied.
      *
      * @param {Object} inputs - The inputs required for the insert operation.
      * @param {Object} preconditions - The preconditions of this operation.
@@ -54,9 +42,9 @@ class InsertPrimitive extends SemanticPrimitive {
             throw new Error(`Missing required arguments: ${missingKeys.join(", ")}`);
         }
 
-        this.target = args.targetParticipantName;
+        this.targetParticipantName = args.targetParticipantName;
         this.key = args.key;
-        this.value = args.valueParticipantName;
+        this.valueParticipantName = args.valueParticipantName;
         this.index = args.index;
     }
 
@@ -69,8 +57,9 @@ class InsertPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        const targetList = this.preconditions[this.target][this.key];
-        const valueToInsert = this.preconditions[this.value];
+        const expected = structuredClone(this.preconditions);
+        const targetList = expected[this.targetParticipantName][this.key];
+        const valueToInsert = expected[this.valueParticipantName];
 
         if (!Array.isArray(targetList)) {
             throw new Error(`Target key "${this.key}" must reference an array.`);
@@ -85,20 +74,20 @@ class InsertPrimitive extends SemanticPrimitive {
         }
 
         targetList.splice(this.index, 0, valueToInsert);
-
-        if (this.evaluate_transformation_validity()) {
-            console.log("Transformation applied successfully and is valid.");
-        } else {
-            console.error("Transformation applied but is invalid.");
-        }
+        this.expectedPostconditions = expected;
+        return expected;
     }
 
     evaluate_transformation_validity () {
-        const expectedValue = this.preconditions[this.target][this.key];
-        const actualValue = this.postconditions[this.target][this.key];
+        if (!this.expectedPostconditions) {
+            throw new Error("Transformation has not been applied yet.");
+        }
 
-        // TODO: Temporary, lots of issues with this, will revisit soon.
-        // Exploring the larger structure before I work through the details.
+        const expectedValue = this.expectedPostconditions[this.targetParticipantName][this.key];
+        const actualValue = this.postconditions[this.targetParticipantName][this.key];
+
+        // TODO: Will move away from stringify. Need a more robust deep equality
+        // check, this is temporary while I work through the bigger structure.
         return JSON.stringify(expectedValue) === JSON.stringify(actualValue);
     }
 }

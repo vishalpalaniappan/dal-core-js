@@ -4,35 +4,48 @@ import InsertPrimitive from "../../src/BehaviorV2Test/SemanticPrimitives/InsertP
 
 describe("tests the insert primitive", () => {
 
-    it("tests adding inputs to insert primitive", async () => {
-        // Input needed for primitive to perform operation.
-        const input = {
+    test("applies insert transformation without mutating preconditions", () => {
+        const inputs = {
+            targetParticipantName: "basket",
             key: "contents",
-            targetParticipantName: "participantA",
-            valueParticipantName: "participantValue",
+            valueParticipantName: "book",
             index: 0,
         };
 
-        // Preconditions to apply transform to (and evaluate invariants)
-        const preConditions = {
-            participantA: {
-                contents: ["b", "c"],
+        const preconditions = {
+            basket: {
+                contents: ["pen", "pencil"],
             },
-            participantValue: "a",
+            book: "notebook",
         };
 
-        // Postconditions to check after transform (and evaluate invariants)
-        const postConditions = {
-            participantA: {
-                contents: ["a", "b", "c"],
+        const postconditions = {
+            basket: {
+                contents: ["notebook", "pen", "pencil"],
             },
+            book: "notebook",
         };
 
-        // Create the primitive and validate inputs
-        const p = new InsertPrimitive(input, preConditions, postConditions);
+        const primitive = new InsertPrimitive(inputs, preconditions, postconditions);
 
-        // Apply the transform and check if value is inserted
-        p.apply_transformations();
-        expect(p.preconditions[p.target][p.key]).toEqual(["a", "b", "c"]);
+        const expected = primitive.apply_transformations();
+
+        expect(expected).toEqual({
+            basket: {
+                contents: ["notebook", "pen", "pencil"],
+            },
+            book: "notebook",
+        });
+
+        // Ensure original preconditions were not overwritten
+        expect(preconditions).toEqual({
+            basket: {
+                contents: ["pen", "pencil"],
+            },
+            book: "notebook",
+        });
+
+        expect(primitive.expectedPostconditions).toEqual(expected);
+        expect(primitive.evaluate_transformation_validity()).toBe(true);
     });
 });
