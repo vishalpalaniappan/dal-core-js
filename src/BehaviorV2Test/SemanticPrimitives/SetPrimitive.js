@@ -13,22 +13,11 @@ class SetPrimitive extends SemanticPrimitive {
      *      (if the target variable is a collection).
      * - The value that is being set to the target variable.
      *
-     * This semantic definition specifies that the provided value is assigned
-     * to the target variable. The expected postcondition is derived from the
-     * precondition and the transformation. This does not implement the set
-     * operation, but instead defines its semantic meaning and computes it.
      * It is a declarative semantic rule that the engine can execute to derive
      * the expected post-state, not an implementation of how the program
-     * performs the operation.
+     * performs the set operation.
      *
-     * Process:
-     * - The invariants of the precondition will be validated before the
-     * transformation is applied.
-     * - The transformation will set the value and then the post conditions
-     *   will be evaluated to check if the transformation is valid.
-     * - The invariants of the post conditions will be validated after the
-     * transformation is applied.
-     * @param {Object} inputs - The inputs required for theset operation.
+     * @param {Object} inputs - The inputs required for the set operation.
      * @param {Object} preconditions - The preconditions of this operation.
      * @param {Object} postconditions - The postconditions of this operation.
      */
