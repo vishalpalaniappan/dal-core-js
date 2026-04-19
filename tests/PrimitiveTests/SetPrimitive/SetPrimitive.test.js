@@ -8,22 +8,22 @@ describe("tests the set primitive", () => {
         // Input needed for primitive to perform operation.
         const input = {
             key: "name",
-            targetParticipantName: "myVar",
-            valueParticipantName: "newValue",
+            targetParticipantName: "participantA",
+            valueParticipantName: "participantName",
         };
 
         // Preconditions to apply transform to (and evaluate invariants)
         const preConditions = {
-            myVar: {
-                name: "myVar",
+            participantA: {
+                name: "oldParticipantName",
                 value: null,
             },
-            newValue: "new name",
+            participantName: "new name",
         };
 
         // Postconditions to check after transform (and evaluate invariants)
         const postConditions = {
-            myVar: {
+            participantA: {
                 name: "new name",
                 value: null,
             },
