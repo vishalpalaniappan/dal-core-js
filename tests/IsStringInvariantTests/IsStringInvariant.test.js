@@ -15,5 +15,8 @@ describe("tests the is string invariant", () => {
         inv.evaluate("asdf");
         expect(inv.invariantViolated).toBe(false);
 
+        inv.evaluate([1, 2, 3]);
+        expect(inv.invariantViolated).toBe(true);
+
     });
 });

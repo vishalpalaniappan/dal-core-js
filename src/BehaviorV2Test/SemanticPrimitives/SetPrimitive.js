@@ -61,6 +61,18 @@ class SetPrimitive extends SemanticPrimitive {
 
     apply_transformations () {
         this.preconditions[this.target][this.key] = this.preconditions[this.value];
+
+        if (this.evaluate_transformation_validity()) {
+            console.log("Transformation applied successfully and is valid.");
+        } else {
+            console.error("Transformation applied but is invalid.");
+        }
+    }
+
+    evaluate_transformation_validity () {
+        const expectedValue = this.preconditions[this.target][this.key];
+        const actualValue = this.postconditions[this.target][this.key];
+        return expectedValue === actualValue;
     }
 }
 
