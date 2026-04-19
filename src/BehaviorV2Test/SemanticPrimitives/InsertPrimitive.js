@@ -97,6 +97,8 @@ class InsertPrimitive extends SemanticPrimitive {
         const expectedValue = this.preconditions[this.target][this.key];
         const actualValue = this.postconditions[this.target][this.key];
 
+        // TODO: Temporary, lots of issues with this, will revisit soon.
+        // Exploring the larger structure before I work through the details.
         return JSON.stringify(expectedValue) === JSON.stringify(actualValue);
     }
 }
