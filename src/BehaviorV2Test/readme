@@ -16,3 +16,32 @@ So in this model, there are three different ways to be semantically invalid:
 
 An interesting note: 
 If the preconditions are valid and the transformation is valid according to the semantics but the post condition is semantically invalid, then this points to an internally inconsistent design. This is another kind of feedback that the engine can provide, it lets to debug the design itself by identifying internal inconsistencies.
+
+### Semantic Primitives
+
+So now I can create a set of primitives, these are computable state transformations.
+
+```text
+set <value> <target>
+insert <value> <target> <position>
+remove <value> <target>
+add <value> <target>
+divide <left> <right> <target>
+sum <source> <target>
+length <source> <target>
+```
+
+### Derived Primitives
+Then I can use these primitives to create, larger ones, like Average:
+```text
+average scores result
+```
+becomes 
+```text
+sum scores total
+length scores count
+divide total count result
+```
+
+Now the behaviors are computable, the engine can realize the state transformatins descrived by the behavior and verify that the implementation is faithful to the semantic model of the behavior.
+
