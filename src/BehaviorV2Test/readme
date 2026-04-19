@@ -45,3 +45,14 @@ divide total count result
 
 Now the behaviors are computable, the engine can realize the state transformatins descrived by the behavior and verify that the implementation is faithful to the semantic model of the behavior.
 
+### Composite Behavior
+
+```text
+Start Scheduler
+
+Transformation:
+    set scheduler status "running"
+    set scheduler available true
+```
+
+This is an composite behavior that is made up of semantic primitives. It describes an unambiguous state transformation that is computable by the engine.
