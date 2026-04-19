@@ -55,4 +55,4 @@ Transformation:
     set scheduler available true
 ```
 
-This is an composite behavior that is made up of semantic primitives. It describes an unambiguous state transformation that is computable by the engine.
+This is a composite behavior that is made up of semantic primitives. It describes an unambiguous state transformation that is computable by the engine.
