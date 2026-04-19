@@ -1,4 +1,4 @@
-Using this folder to run some for the new way I am going to establishb behaviors.
+Using this folder to run some tests for the new way I am going to establish behaviors:
 
 Just an overview, in this folder a behavior will be defined with the following attributes:
 - Preconditions (participants, invarants)
@@ -13,3 +13,6 @@ So in this model, there are three different ways to be semantically invalid:
 - Preconditions invalid (invariant violated)
 - Transformation invalid (implementation fails to implement the semantic definition)
 - Postcondition invalid (invariant violated)
+
+An interesting note: 
+If the preconditions are valid and the transformation is valid according to the semantics but the post condition is semantically invalid, then this points to an internally inconsistent design. This is another kind of feedback that the engine can provide, it lets to debug the design itself by identifying internal inconsistencies.
