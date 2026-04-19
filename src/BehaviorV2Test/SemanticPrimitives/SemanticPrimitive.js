@@ -15,16 +15,8 @@ class SemanticPrimitive {
         // Valide the inputs of the primitive.
     }
 
-    process_preconditions () {
-        // Process the preconditions of the primitive.
-    }
-
     apply_transformations () {
         // Apply the transformations of the primitive.
-    }
-
-    process_postconditions () {
-        // Proess the post conditions of the primitive.
     }
 };
 

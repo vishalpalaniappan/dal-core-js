@@ -48,14 +48,6 @@ class InsertPrimitive extends SemanticPrimitive {
         this.index = args.index;
     }
 
-    process_preconditions () {
-        // Skipping for now, here I will evaluate the invariants.
-    }
-
-    process_postconditions () {
-        // Skipping for now, here I will evaluate the invariants.
-    }
-
     apply_transformations () {
         const expected = structuredClone(this.preconditions);
         const targetList = expected[this.targetParticipantName][this.key];

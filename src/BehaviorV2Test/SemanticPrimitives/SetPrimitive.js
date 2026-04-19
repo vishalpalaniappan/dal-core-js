@@ -40,14 +40,6 @@ class SetPrimitive extends SemanticPrimitive {
         this.valueParticipantName = args.valueParticipantName;
     }
 
-    process_preconditions () {
-        // Skipping for now, here I will evaluate the invariants.
-    }
-
-    process_postconditions () {
-        // Skipping for now, here I will evaluate the invariants.
-    }
-
     apply_transformations () {
         const expected = structuredClone(this.preconditions);
         expected[this.targetParticipantName][this.key] = expected[this.valueParticipantName];
