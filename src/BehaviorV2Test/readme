@@ -1,8 +1,8 @@
-Using this folder to run some tests for the new way I am going to establish behaviors:
+This folder is being used to run tests for a new approach to establishing the semantics of behaviors. The objective is to truly automate debugging by creating a semantically executable model of behavior that defines the authoritative standard of correctness.
 
-Just an overview, in this folder a behavior will be defined with the following attributes:
+Behavior consists of:
 - Preconditions (participants, invarants)
-- Semantic Definition (transformation)
+- Transformation
 - Postconditions (participants, invariants)
 
 The preconditions are loaded from the log and the invariants are enforced.
