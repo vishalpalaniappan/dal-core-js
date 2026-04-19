@@ -46,9 +46,9 @@ class SetPrimitive extends SemanticPrimitive {
         if (missingKeys.length > 0) {
             throw new Error(`Missing required arguments: ${missingKeys.join(", ")}`);
         }
-        this.target = args.targetParticipantName;
+        this.targetParticipantName = args.targetParticipantName;
         this.key = args.key;
-        this.value = args.valueParticipantName;
+        this.valueParticipantName = args.valueParticipantName;
     }
 
     process_preconditions () {
@@ -60,19 +60,19 @@ class SetPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        this.preconditions[this.target][this.key] = this.preconditions[this.value];
-
-        if (this.evaluate_transformation_validity()) {
-            console.log("Transformation applied successfully and is valid.");
-        } else {
-            console.error("Transformation applied but is invalid.");
-        }
+        const expected = structuredClone(this.preconditions);
+        expected[this.targetParticipantName][this.key] = expected[this.valueParticipantName];
+        this.expectedPostconditions = expected;
+        return expected;
     }
 
     evaluate_transformation_validity () {
-        const expectedValue = this.preconditions[this.target][this.key];
-        const actualValue = this.postconditions[this.target][this.key];
-        return expectedValue === actualValue;
+        if (!this.expectedPostconditions) {
+            throw new Error("Transformation has not been applied yet.");
+        }
+
+        return this.expectedPostconditions[this.targetParticipantName][this.key] ===
+            this.postconditions[this.targetParticipantName][this.key];
     }
 }
 

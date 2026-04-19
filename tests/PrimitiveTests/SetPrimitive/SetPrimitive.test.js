@@ -33,7 +33,9 @@ describe("tests the set primitive", () => {
         const p = new SetPrimitive(input, preConditions, postConditions);
 
         // Apply the transform and check if value is set
-        p.apply_transformations();
-        expect(p.preconditions[p.target][p.key]).toBe("new name");
+        const expected = p.apply_transformations();
+        expect(expected.participantA.name).toBe("new name");
+        expect(preConditions.participantA.name).toBe("oldParticipantName");
+        expect(p.evaluate_transformation_validity()).toBe(true);
     });
 });
