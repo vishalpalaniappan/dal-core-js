@@ -1,0 +1,170 @@
+[
+    {
+        "type": "Import",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "d11f18f5-cedb-4240-8b16-b01eecb4b0eb",
+        "start_line": 1,
+        "end_line": 1,
+        "source": "import sqlite3"
+    },
+    {
+        "type": "Import",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "ad1b13b0-6e70-4d39-a1f2-130a65d92369",
+        "start_line": 2,
+        "end_line": 2,
+        "source": "import atexit"
+    },
+    {
+        "type": "Import",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "84e7049f-04a4-44e0-93fe-d493a8cb3e42",
+        "start_line": 3,
+        "end_line": 3,
+        "source": "import uuid"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "b34f3674-4a54-42a8-9811-3d8aa1546b30",
+        "start_line": 8,
+        "end_line": 8,
+        "source": "atexit.register(self.cleanup_function)"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "01bdb53d-37a2-48ab-a175-66ab7dc2375a",
+        "start_line": 9,
+        "end_line": 9,
+        "source": "self.initializeDB()"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "81eac5db-17f1-4725-963f-3375a6c2966e",
+        "start_line": 12,
+        "end_line": 12,
+        "source": "self.conn.close()"
+    },
+    {
+        "type": "Assign",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "f42afbe7-cee9-446c-bc5c-fa5c70acc1f4",
+        "start_line": 16,
+        "end_line": 16,
+        "source": "self.conn = sqlite3.connect(\"translations.db\")"
+    },
+    {
+        "type": "Assign",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "a7f20f1e-57ae-469d-b563-7755d33ffe67",
+        "start_line": 17,
+        "end_line": 17,
+        "source": "self.cursor = self.conn.cursor()"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "88791bbf-a6b3-4552-b10b-973a59693e65",
+        "start_line": 19,
+        "end_line": 29,
+        "source": "self.cursor.execute(\"\"\"\n        CREATE TABLE IF NOT EXISTS translation_jobs (\n            job_id   INTEGER PRIMARY KEY AUTOINCREMENT,\n            uid      TEXT NOT NULL UNIQUE,\n            english  TEXT NOT NULL,\n            french   TEXT,\n            spanish  TEXT,\n            tamil    TEXT,\n            done     INTEGER NOT NULL DEFAULT 0\n        );\n        \"\"\")"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "ecd22a8f-90ab-4058-aae6-489733f3c83d",
+        "start_line": 30,
+        "end_line": 30,
+        "source": "self.conn.commit()"
+    },
+    {
+        "type": "Assign",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "60e7b18e-d976-4baf-8ea5-ae4d6a9a9ce3",
+        "start_line": 33,
+        "end_line": 33,
+        "source": "uid = str(uuid.uuid4())"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "e80c189f-5506-4905-ad58-fca98c6b7b13",
+        "start_line": 34,
+        "end_line": 40,
+        "source": "self.conn.execute(\n            \"\"\"\n            INSERT INTO translation_jobs (uid, english)\n            VALUES (?, ?)\n            \"\"\",\n            (uid, data)\n        )"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "d5fc66cd-14fb-4865-9463-bafb598653cd",
+        "start_line": 41,
+        "end_line": 41,
+        "source": "self.conn.commit()"
+    },
+    {
+        "type": "Return",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "e6a5997b-a3d0-47f6-9864-88272217f778",
+        "start_line": 43,
+        "end_line": 46,
+        "source": "return {\n            \"uid\": uid,\n            \"value\": {\"data\": data}\n        }"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "9575a91c-d909-4592-8008-0478af1c0c7d",
+        "start_line": 49,
+        "end_line": 56,
+        "source": "self.conn.execute(\n            f\"\"\"\n            UPDATE translation_jobs\n            SET {msg[\"value\"][\"language\"]} = ?\n            WHERE uid = ?\n            \"\"\",\n            (msg[\"value\"][\"translated\"], msg[\"uid\"])\n        )"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "359f9eb6-7367-4445-971b-eb796b239573",
+        "start_line": 57,
+        "end_line": 57,
+        "source": "self.conn.commit()"
+    },
+    {
+        "type": "Assign",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "c24f8ff2-4a80-43ea-8a35-34439fb8dfcb",
+        "start_line": 61,
+        "end_line": 71,
+        "source": "cur = self.conn.execute(\n            \"\"\"\n            SELECT\n                french  IS NOT NULL\n            AND spanish IS NOT NULL\n            AND tamil   IS NOT NULL\n            FROM translation_jobs\n            WHERE uid = ?\n            \"\"\",\n            (uid,)\n        )"
+    },
+    {
+        "type": "Assign",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "6de6d501-e4f3-4b1d-85dd-15b3f436a3e1",
+        "start_line": 72,
+        "end_line": 72,
+        "source": "row = cur.fetchone()"
+    },
+    {
+        "type": "Return",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "1b4a75a4-4e45-4e70-92e2-b7d2a7459cd9",
+        "start_line": 73,
+        "end_line": 73,
+        "source": "return bool(row[0]) if row else False"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "aef8099c-3747-491e-bb76-1ef8105c6c49",
+        "start_line": 76,
+        "end_line": 83,
+        "source": "self.conn.execute(\n            \"\"\"\n            UPDATE translation_jobs\n            SET done = 1\n            WHERE uid = ?\n            \"\"\",\n            (uid,)\n        )"
+    },
+    {
+        "type": "Expr",
+        "source_path": "sample/TransactionDB.py",
+        "uid": "564225c0-74fe-476d-97b5-aad522696276",
+        "start_line": 84,
+        "end_line": 84,
+        "source": "self.conn.commit()"
+    }
+]

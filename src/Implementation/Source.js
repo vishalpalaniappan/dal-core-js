@@ -1,0 +1,137 @@
+import Base from "../Base";
+import isLoadedFromFile from "../helpers/isLoadedFromFile";
+import Map from "./Map";
+
+export default class Source extends Base {
+    /**
+     * The source object represents a version of a source file in the
+     * implementation. It is represented by the content of the source file,
+     * a version ID and a statement index that maps statements in the source
+     * file to the design. Each entry in the statement index is represented
+     * by a map object that contains the behavior ID and the participants.
+     * @param {Object} args The arguments to initialize the source object with.
+     */
+    constructor (args) {
+        super();
+        this._versionId = null;
+        this._content = null;
+        this._updatedContent = null;
+        this._isDirty = false;
+        this._statementIndex = [];
+        (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
+    }
+
+    /**
+     * Loads the invariant from the provided arguments.
+     * @throws {MissingAttributes} Thrown when required attr is not present.
+     * @param {Object} args The arguments to initialize the invariant with.
+     */
+    _loadArgs (args) {
+        const expectedAttributes = [];
+        if (typeof args !== "object" || args === null || Array.isArray(args)) {
+            // Not an object, so all attributes are missing.
+            throw new MissingAttributes("Source", expectedAttributes);
+        }
+        expectedAttributes.forEach((attr) => {
+            if (!(attr in args)) {
+                throw new MissingAttributes("Source", attr);
+            }
+            this["_" + attr] = args[attr];
+        });
+    }
+
+    /**
+     * Loads the source from a JSON object read from file.
+     * @param {Object} mapJSON JSON represetation of serialized file.
+     */
+    _loadFromFile (mapJSON) {
+        for (const [key, value] of Object.entries(mapJSON)) {
+            if (key === "_statementIndex") {
+                value.forEach(node => this._statementIndex.push(new Map(node)));
+            } else {
+                this[key] = value;
+            }
+        };
+    }
+
+    /**
+     * Adds entries to the statement index.
+     * @param {Array} statementIndex The array of entries to add to the
+     * statement index.
+     */
+    setStatementIndex (statementIndex) {
+        this._statementIndex = [];
+        for (const value of statementIndex) {
+            this._statementIndex.push(new Map(value));
+        };
+    }
+
+    /**
+     * Returns the statement index of the source file.
+     * @returns {Array} Array of Maps representing the stmt index.
+     */
+    getStatementIndex () {
+        return this._statementIndex;
+    }
+
+    /**
+     * Returns the statement with the given UID.
+     * @param {String} uid UID of the statement to get.
+     * @returns {Map} Map object representing the statement.
+     */
+    getStatementByUid (uid) {
+        return this._statementIndex.find(entry => entry.getUid() === uid);
+    }
+
+    /**
+     * Sets the version ID of the source object.
+     * @param {String} versionId Version ID to set.
+     */
+    setVersionId (versionId) {
+        this._versionId = versionId;
+    }
+
+    /**
+     * Returns the version ID of the source object.
+     * @returns {String} Version ID of the source object.
+     */
+    getVersionId () {
+        return this._versionId;
+    }
+
+    /**
+     * Sets the content of the source object.
+     * @param {String} content Content to set.
+     */
+    setContent (content) {
+        this._content = content;
+        this._updatedContent = content;
+        this._lastModified = new Date();
+        this._isDirty = (this._updatedContent === this._content)
+    }
+    /**
+     * Returns the content of the source object.
+     * @returns {String} Content of the source object.
+     */
+    getContent () {
+        return this._content;
+    }
+
+    /**
+     * Sets the updated content of the source object.
+     * @param {String} updatedContent Updated content to set.
+     */
+    setUpdatedContent (updatedContent) {
+        this._updatedContent = updatedContent;
+        this._lastModified = new Date();
+        this._isDirty = (this._updatedContent === this._content)
+    }
+
+    /**
+     * Returns the updated content of this source.
+     * @returns {String} Updated content of source.
+     */
+    getUpdatedContent () {
+        return this._updatedContent;
+    }
+};
