@@ -31,9 +31,12 @@ class SetPrimitive {
         this._type = "set";
     }
 
-    validate_inputs () {
-        // The inputs of the set primitive will be valiated here
-        // an the preconditions will be initialized.
+    validate_inputs (args) {
+        const expectedArgs = ["target", "key", "value"];
+        const missingKeys = expectedArgs.filter(key => !(key in args));
+        if (missingKeys.length > 0) 
+            throw new Error(`Missing required arguments: ${missingKeys.join(", ")}`);
+        }
     }
 
     process_preconditions () {
