@@ -34,7 +34,7 @@ class SetPrimitive {
     validate_inputs (args) {
         const expectedArgs = ["target", "key", "value"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
-        if (missingKeys.length > 0) 
+        if (missingKeys.length > 0) {
             throw new Error(`Missing required arguments: ${missingKeys.join(", ")}`);
         }
     }
