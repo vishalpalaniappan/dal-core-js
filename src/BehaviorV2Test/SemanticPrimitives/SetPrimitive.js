@@ -41,22 +41,22 @@ class SetPrimitive extends SemanticPrimitive {
     }
 
     validate_inputs (args) {
-        const expectedArgs = ["targetVarName", "key", "valueVarName"];
+        const expectedArgs = ["targetParticipantName", "key", "valueParticipantName"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
         if (missingKeys.length > 0) {
             throw new Error(`Missing required arguments: ${missingKeys.join(", ")}`);
         }
-        this.target = args.targetVarName;
+        this.target = args.targetParticipantName;
         this.key = args.key;
-        this.value = args.valueVarName;
+        this.value = args.valueParticipantName;
     }
 
     process_preconditions () {
-
+        // Skipping for now, here I will evaluate the invariants.
     }
 
     process_postconditions () {
-
+        // Skipping for now, here I will evaluate the invariants.
     }
 
     apply_transformations () {

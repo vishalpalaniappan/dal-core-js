@@ -1,30 +1,36 @@
-
 import {describe, expect, it} from "vitest";
 
-import SetPrimitive from "../../../src/BehaviorV2Test/SemanticPrimitives/SetPrimitive.js"
+import SetPrimitive from "../../../src/BehaviorV2Test/SemanticPrimitives/SetPrimitive.js";
 
 describe("tests the set primitive", () => {
 
     it("tests adding inputs to set primitive", async () => {
-
+        // Input needed for primitive to perform operation.
         const input = {
-            targetVarName: "myVar",
             key: "name",
-            valueVarName: "newValue",
-        }
+            targetParticipantName: "myVar",
+            valueParticipantName: "newValue",
+        };
 
+        // Preconditions to apply transform to (and evaluate invariants)
         const preConditions = {
-            "myVar": {name: "myVar", value: null},
-            "newValue": "new name",
-        }
+            myVar: {
+                name: "myVar",
+                value: null,
+            },
+            newValue: "new name",
+        };
 
+        // Postconditions to check after transform (and evaluate invariants)
         const postConditions = {
-            "myVar": {name: "new name", value: null},
-        }
+            myVar: {
+                name: "new name",
+                value: null,
+            },
+        };
 
+        // Create the primitive and validate inputs
         const p = new SetPrimitive(input, preConditions, postConditions);
-
-        p.validate_inputs(input);
 
         // Apply the transform and check if value is set
         p.apply_transformations();
