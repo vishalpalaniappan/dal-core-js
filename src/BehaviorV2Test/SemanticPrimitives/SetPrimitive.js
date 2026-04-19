@@ -1,4 +1,6 @@
-class SetPrimitive {
+import SemanticPrimitive from "./SemanticPrimitive.js";
+
+class SetPrimitive extends SemanticPrimitive {
     /**
      * This primitive represents the semantic definition of the set operation.
      * It defines the inputs, preconditions, transformation, and postconditions
@@ -26,32 +28,39 @@ class SetPrimitive {
      *   will be evaluated to check if the transformation is valid.
      * - The invariants of the post conditions will be validated after the
      * transformation is applied.
+     * @param {Object} inputs - The inputs required for theset operation.
+     * @param {Object} preconditions - The preconditions of this operation.
+     * @param {Object} postconditions - The postconditions of this operation.
      */
-    constructor () {
+    constructor (inputs, preconditions, postconditions) {
+        super("set");
         this._type = "set";
+        this.validate_inputs(inputs);
+        this.preconditions = preconditions;
+        this.postconditions = postconditions;
     }
 
     validate_inputs (args) {
-        const expectedArgs = ["target", "key", "value"];
+        const expectedArgs = ["targetVarName", "key", "valueVarName"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
         if (missingKeys.length > 0) {
             throw new Error(`Missing required arguments: ${missingKeys.join(", ")}`);
         }
+        this.target = args.targetVarName;
+        this.key = args.key;
+        this.value = args.valueVarName;
     }
 
     process_preconditions () {
-        // Here the invariants of the preconditions will be
-        // validated.
-    }
 
-    apply_transformations () {
-        // Apply the transformations of the primitive.
     }
 
     process_postconditions () {
-        // After the transformations are applied, the post conditions
-        // will be evaluated for transformational validity and then
-        // the invariants of the post conditions will be validated.
+
+    }
+
+    apply_transformations () {
+        this.preconditions[this.target][this.key] = this.preconditions[this.value];
     }
 }
 
