@@ -43,6 +43,7 @@ class BehavioralLanguageParser {
     }
 
     executeSet (targetParticipantName, valueParticipantName, key, participants) {
+        console.log("\n---- Executing Script ----");
         console.log("Executing set with:", targetParticipantName, valueParticipantName, key);
 
         const input = {
@@ -57,7 +58,7 @@ class BehavioralLanguageParser {
         for (const key in participants) {
             participants[key].setValue(output[key]._value);
         }
-
+        console.log("---- Done Script----\n");
         return participants;
     }
 }

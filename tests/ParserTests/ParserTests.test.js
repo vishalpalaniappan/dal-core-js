@@ -3,6 +3,14 @@ import {describe, expect, it} from "vitest";
 import Participant from "../../src/Design/Participant.js"
 import BehavioralLanguageParser from "../../src/ExecutableModelTest/BehavioralLanguageParser.js";
 
+
+const showWorldState = (participants) => {
+    console.log("World State:");
+    for (const key in participants) {
+        console.log(`Participant: ${key}, Value:`, participants[key].getValue());
+    }
+}
+
 describe("parser tests", () => {
 
     it("tests a simple parser script", async () => {
@@ -19,19 +27,14 @@ describe("parser tests", () => {
         p2.setValue({});
 
         const participants = {book: p1, shelf: p2};
-        console.log("World State:")
-        for (const key in participants) {
-            console.log(`Participant: ${key}, Value:`, participants[key].getValue());
-        }
+        showWorldState(participants);
 
-        console.log("\n---- Executing Script ----");
         const parser = new BehavioralLanguageParser();
-        const updatedParticipants = parser.execute('set shelf book ["slotB"]', participants);
-        console.log("---- Done Script----\n");
 
-        console.log("World State:")
-        for (const key in updatedParticipants) {
-            console.log(`Participant: ${key}, Value:`, updatedParticipants[key].getValue());
-        }
+        parser.execute('set shelf book ["slotB"]', participants);
+        showWorldState(participants);
+
+        parser.execute('set shelf book ["slotC"]', participants);
+        showWorldState(participants);
     });
 });
