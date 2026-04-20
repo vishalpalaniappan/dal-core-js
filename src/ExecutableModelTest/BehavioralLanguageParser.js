@@ -21,15 +21,15 @@ class BehavioralLanguageParser {
      * will be refrenced in the script and the transformations will
      * be applied by the primitives.
      */
-    constructor() {
+    constructor () {
         this.primitiveConstructors = {};
     }
 
-    registerPrimitive(primitiveName, constructor) {
+    registerPrimitive (primitiveName, constructor) {
         this.primitiveConstructors[primitiveName] = constructor;
     }
 
-    execute(script, participants, participants_post) {
+    execute (script, participants, participants_post) {
         // Ex: set <target_participant> <value_participant> <key>
         const SET_RE = /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/;
 
@@ -64,7 +64,7 @@ class BehavioralLanguageParser {
         }
     }
 
-    executeSet(targetParticipantName, valueParticipantName, key, participants, participants_post) {
+    executeSet (targetParticipantName, valueParticipantName, key, participants, participants_post) {
         console.log("Executing set");
         const input = {
             key: key,
@@ -82,8 +82,7 @@ class BehavioralLanguageParser {
     }
 
     // eslint-disable-next-line max-len
-    executeInsert(valueParticipantName, targetParticipantName, keys, position, participants, participants_post) {
-        // eslint-disable-next-line max-len
+    executeInsert (valueParticipantName, targetParticipantName, keys, position, participants, participants_post) {
         console.log( "Executing insert");
         const input = {
             targetParticipantName: targetParticipantName,
