@@ -81,8 +81,6 @@ class InsertPrimitive extends SemanticPrimitive {
         const expectedValue = this.expectedPostconditions[participantName]._value[this.key];
         const actualValue = this.postconditions[participantName]._value[this.key];
 
-        // TODO: Will move away from stringify. Need a more robust deep equality
-        // check, this is temporary while I work through the bigger structure.
         return isEqual(expectedValue, actualValue);
     }
 }
