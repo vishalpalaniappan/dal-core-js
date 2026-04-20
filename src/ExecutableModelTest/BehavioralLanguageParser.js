@@ -51,14 +51,7 @@ class BehavioralLanguageParser {
         const isInsert = INSERT_RE.test(script);
         if (isInsert) {
             const [, valueParticipantName, targetParticipantName, keys, position] = script.match(INSERT_RE);
-            console.log(
-                "Executing insert with:",
-                valueParticipantName,
-                targetParticipantName,
-                keys,
-                position
-            );
-            const updatedParticipants = this.executeInsert(
+           const updatedParticipants = this.executeInsert(
                 valueParticipantName,
                 targetParticipantName,
                 JSON.parse(keys),

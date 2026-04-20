@@ -55,18 +55,26 @@ describe("behaviors semantic execution tests", () => {
         behavior.addPrimitive('set book name ["name"]');
         behavior.addPrimitive('insert book basket ["contents"] 0');
 
+        const book = createParticipant("basket", {"contents": []});
+        const basket = createParticipant("book", {"name": ""});
+        const name = createParticipant("name", "notebook");
+
         behavior.setPreWorldState({
-            basket: createParticipant("basket", {"contents": []}),
-            book: createParticipant("book", {"name": ""}),
-            name: createParticipant("name", "notebook"),
+            basket: basket,
+            book: book,
+            name: name,
         });
+
+        book.setValue({"name": "notebook"});
+        basket.setValue({"contents": [book]});
+        name.setValue("notebook");
 
         behavior.setPostWorldState({
-            basket: createParticipant("basket", {"contents": [{"name": "notebook"}]}),
-            book: createParticipant("book", {"name": "notebook"}),
-            name: createParticipant("name", "notebook"),
+            basket: basket,
+            book: book,
+            name: name,
         });
 
-        behavior.computeTransformations();
+        const updatedParticipants = behavior.computeTransformations();
     });
 });

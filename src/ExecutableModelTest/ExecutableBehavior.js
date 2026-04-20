@@ -1,3 +1,5 @@
+import isEqual from "lodash/isEqual";
+
 import BehavioralLanguageParser from "./BehavioralLanguageParser.js";
 
 class ExecutableBehavior {
@@ -17,7 +19,7 @@ class ExecutableBehavior {
      * I'm starting by building this as a standalone class and then I will
      * integrate it into the rest of the engine after I implement and verify
      * the functionality here.
-     * 
+     *
      * At the end of this, the debugger will use this behavior class to set
      * the pre and post world state and execute the behavior to determine
      * the validity of the observed transform as well as track any invariant
@@ -49,6 +51,17 @@ class ExecutableBehavior {
                 primitive, this.currentWorldState, this.postWorldState
             );
             this.currentWorldState = updatedParticipants;
+        }
+
+        if (!isEqual(this.currentWorldState, this.postWorldState)) {
+            console.warn(
+                "Postconditions not met. Expected:",
+                this.postWorldState,
+                "Actual:",
+                this.currentWorldState
+            );
+        } else {
+            console.log("Postconditions met.");
         }
 
         return this.currentWorldState;
