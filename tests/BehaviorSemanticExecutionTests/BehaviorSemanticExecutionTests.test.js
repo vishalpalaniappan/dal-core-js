@@ -23,15 +23,6 @@ describe("behaviors semantic execution tests", () => {
 
         const parser = new BehavioralLanguageParser();
 
-        /**
-         * Currently, I am setting up so that each invocation of the parser
-         * creates a new primitive and applies the transformation. Then the
-         * updated world state is propogated forward to the next primitive
-         * execution. This means that when a composit primitive in a behavior
-         * fails, we can identify which primitive caused the failure instead
-         * of just saying the behavior failed without that context.
-         */
-
         // Transformation #1
         let participants = {
             book: createParticipant("book", {"name": "BOOK1"}),
