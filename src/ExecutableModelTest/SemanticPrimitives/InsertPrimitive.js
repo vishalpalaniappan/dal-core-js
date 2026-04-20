@@ -1,3 +1,5 @@
+import isEqual from "lodash/isEqual";
+
 import SemanticPrimitive from "./SemanticPrimitive.js";
 
 class InsertPrimitive extends SemanticPrimitive {
@@ -50,8 +52,8 @@ class InsertPrimitive extends SemanticPrimitive {
 
     apply_transformations () {
         const expected = structuredClone(this.preconditions);
-        const targetList = expected[this.targetParticipantName][this.key];
-        const valueToInsert = expected[this.valueParticipantName];
+        const targetList = expected[this.targetParticipantName]._value[this.key];
+        const valueToInsert = expected[this.valueParticipantName]._value;
 
         if (!Array.isArray(targetList)) {
             throw new Error(`Target key "${this.key}" must reference an array.`);
@@ -80,7 +82,7 @@ class InsertPrimitive extends SemanticPrimitive {
 
         // TODO: Will move away from stringify. Need a more robust deep equality
         // check, this is temporary while I work through the bigger structure.
-        return JSON.stringify(expectedValue) === JSON.stringify(actualValue);
+        return isEqual(expectedValue, actualValue);
     }
 }
 
