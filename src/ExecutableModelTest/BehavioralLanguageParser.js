@@ -76,15 +76,12 @@ class BehavioralLanguageParser {
         const p = new SetPrimitive(input, participants, participants_post);
         const output = p.apply_transformations();
 
-        const isValid = p.evaluate_transformation_validity();
-        console.log("Does computed state match execution?", isValid);
-
         // Update the value of the participants as set by the transformation
         for (const key in participants) {
             participants[key].setValue(output[key]._value);
         }
         console.log("---- Done Script----\n");
-        return [participants, isValid];
+        return participants;
     }
 
     // eslint-disable-next-line max-len
@@ -101,15 +98,12 @@ class BehavioralLanguageParser {
         const p = new InsertPrimitive(input, participants, participants_post);
         const output = p.apply_transformations();
 
-        const isValid = p.evaluate_transformation_validity();
-        console.log("Does computed state match execution?", isValid);
-
         // Update the value of the participants as set by the transformation
         for (const key in participants) {
             participants[key].setValue(output[key]._value);
         }
         console.log("---- Done Script----\n");
-        return [participants, isValid];
+        return participants;
 
     }
 }
