@@ -65,10 +65,6 @@ describe("behaviors semantic execution tests", () => {
             name: name,
         });
 
-        // Note: I have to set the values in this way because the UID's of the
-        // participants are different if I create a new participant. A reminder
-        // for myself:
-        // TODO: Create proper clone method for participant that preserves UID.
         behavior.setPostWorldState({
             basket: basket.clone({"contents": [{"name": "test"}]}),
             book: book.clone({"name": "test"}),
