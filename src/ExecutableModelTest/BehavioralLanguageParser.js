@@ -1,3 +1,5 @@
+import SetPrimitive from "./SemanticPrimitives/SetPrimitive.js";
+
 class BehavioralLanguageParser {
     /**
      * Note: There is a more formal way to implement this, but I am
@@ -32,11 +34,31 @@ class BehavioralLanguageParser {
 
         const isSet = SET_RE.test(script);
         if (isSet) {
-            const [, targetParticipantName, valueParticipantName, key] =
-                script.match(SET_RE);
-            const keys = JSON.parse(key);
-            console.log("Parsed:", targetParticipantName, ",", valueParticipantName, ",", keys);
+            const [, targetParticipantName, valueParticipantName, key] = script.match(SET_RE);
+            const updatedParticipants = this.executeSet(
+                targetParticipantName, valueParticipantName, JSON.parse(key)[0], participants
+            );
+            return updatedParticipants;
         }
+    }
+
+    executeSet (targetParticipantName, valueParticipantName, key, participants) {
+        console.log("Executing set with:", targetParticipantName, valueParticipantName, key);
+
+        const input = {
+            key: key,
+            targetParticipantName: targetParticipantName,
+            valueParticipantName: valueParticipantName,
+        };
+        const p = new SetPrimitive(input, participants, {});
+        const output = p.apply_transformations();
+
+        // Update the value of the participants as set by the transformation
+        for (const key in participants) {
+            participants[key].setValue(output[key]._value);
+        }
+
+        return participants;
     }
 }
 

@@ -10,7 +10,7 @@ describe("parser tests", () => {
             name: "book",
             description: "a book participant",
         });
-        p1.setValue("BOOK1");
+        p1.setValue({"name": "BOOK1"});
 
         const p2 = new Participant({
             name: "shelf",
@@ -19,8 +19,19 @@ describe("parser tests", () => {
         p2.setValue({});
 
         const participants = {book: p1, shelf: p2};
+        console.log("World State:")
+        for (const key in participants) {
+            console.log(`Participant: ${key}, Value:`, participants[key].getValue());
+        }
 
+        console.log("\n---- Executing Script ----");
         const parser = new BehavioralLanguageParser();
-        parser.execute('set book shelf ["key1"]', participants);
+        const updatedParticipants = parser.execute('set shelf book ["slotB"]', participants);
+        console.log("---- Done Script----\n");
+
+        console.log("World State:")
+        for (const key in updatedParticipants) {
+            console.log(`Participant: ${key}, Value:`, updatedParticipants[key].getValue());
+        }
     });
 });
