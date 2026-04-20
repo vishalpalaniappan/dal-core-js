@@ -20,15 +20,13 @@ class InsertPrimitive extends SemanticPrimitive {
      * implementation of how the program performs the operation.
      *
      * @param {Object} inputs - The inputs required for the insert operation.
-     * @param {Object} preconditions - The preconditions of this operation.
-     * @param {Object} postconditions - The postconditions of this operation.
+     * @param {Object} worldstate - The state of the world before transformation
      */
-    constructor (inputs, preconditions, postconditions) {
+    constructor (inputs, worldstate) {
         super("insert");
         this._type = "insert";
         this.validate_inputs(inputs);
-        this.preconditions = preconditions;
-        this.postconditions = postconditions;
+        this.worldState = worldstate;
     }
 
     validate_inputs (args) {
@@ -51,9 +49,8 @@ class InsertPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        const expected = structuredClone(this.preconditions);
-        const targetList = expected[this.targetParticipantName]._value[this.key];
-        const valueToInsert = expected[this.valueParticipantName]._value;
+        const targetList = this.worldState[this.targetParticipantName].getValue()[this.key];
+        const valueToInsert = this.worldState[this.valueParticipantName].getValue();
 
         if (!Array.isArray(targetList)) {
             throw new Error(`Target key "${this.key}" must reference an array.`);
@@ -68,20 +65,7 @@ class InsertPrimitive extends SemanticPrimitive {
         }
 
         targetList.splice(this.index, 0, valueToInsert);
-        this.expectedPostconditions = expected;
-        return expected;
-    }
-
-    evaluate_transformation_validity () {
-        if (!this.expectedPostconditions) {
-            throw new Error("Transformation has not been applied yet.");
-        }
-
-        const participantName = this.targetParticipantName;
-        const expectedValue = this.expectedPostconditions[participantName]._value[this.key];
-        const actualValue = this.postconditions[participantName]._value[this.key];
-
-        return isEqual(expectedValue, actualValue);
+        return this.worldState;
     }
 }
 

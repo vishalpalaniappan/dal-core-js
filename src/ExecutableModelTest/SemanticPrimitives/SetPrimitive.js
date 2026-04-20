@@ -20,15 +20,13 @@ class SetPrimitive extends SemanticPrimitive {
      * performs the set operation.
      *
      * @param {Object} inputs - The inputs required for the set operation.
-     * @param {Object} preconditions - The preconditions of this operation.
-     * @param {Object} postconditions - The postconditions of this operation.
+     * @param {Object} worldstate - The state of the world before transformation
      */
-    constructor (inputs, preconditions, postconditions) {
+    constructor (inputs, worldstate) {
         super("set");
         this._type = "set";
         this.validate_inputs(inputs);
-        this.preconditions = preconditions;
-        this.postconditions = postconditions;
+        this.worldState = worldstate;
     }
 
     validate_inputs (args) {
@@ -43,36 +41,9 @@ class SetPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        // Cloning causes the participant to lose its class type, so I reassign
-        // values after. I know its not ideal but works for now, I should create
-        // a proper clone method for participant that preserves class type.
-        const expected = structuredClone(this.preconditions);
-
-        // Expected participant after transformations are applied.
-        // This is the participant being assigned the value in the set operation
-        const expectedParticipant = expected[this.targetParticipantName]._value;
-        expectedParticipant[this.key] = expected[this.valueParticipantName]._value;
-
-        this.expectedPostconditions = expected;
-
-        return expected;
-    }
-
-    evaluate_transformation_validity () {
-        if (!this.expectedPostconditions) {
-            throw new Error("Transformation has not been applied yet.");
-        }
-
-        // Note: A behavior can introduce new participants into the world, so
-        // this equality check is specific to the SET primitive, since I am
-        // checking that specific variable, key, and value were set correctly.
-        // In other primitives, we may look for the existence of new
-        // participants.
-
-        const left = this.expectedPostconditions[this.targetParticipantName]._value[this.key]
-        const right = this.postconditions[this.targetParticipantName]._value[this.key]
-
-        return isEqual(left, right);
+        const expectedParticipant = this.worldState[this.targetParticipantName].getValue();
+        expectedParticipant[this.key] = this.worldState[this.valueParticipantName].getValue();
+        return this.worldState;
     }
 }
 
