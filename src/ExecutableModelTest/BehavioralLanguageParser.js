@@ -66,7 +66,7 @@ class BehavioralLanguageParser {
             participants[key].setValue(output[key]._value);
         }
         console.log("---- Done Script----\n");
-        return participants;
+        return [participants, isValid];
     }
 }
 
