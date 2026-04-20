@@ -76,6 +76,23 @@ class Participant extends Base {
     }
 
     /**
+     * Creates clone of current participant. Used for testing where
+     * I need two instances of the same participant but with different
+     * values.
+     * @returns {Participant}
+     */
+    getClone () {
+        const clone = new Participant({
+            name: this._name,
+            description: this._description,
+        });
+        clone._invariants = [...this._invariants];
+        clone._abstractionId = this._abstractionId;
+        clone._uid = this._uid;
+        return clone;
+    }
+
+    /**
      * Returns the value of this participant.
      * @returns {*} Value of participant.
      */
