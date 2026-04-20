@@ -62,8 +62,8 @@ class ExecutableBehavior {
                      the current world state.`);
                 return false;
             }
-            const expectedValue = this.postWorldState[participantName];
-            const actualValue = this.currentWorldState[participantName]._value;
+            const expectedValue = this.postWorldState[participantName].getValue();
+            const actualValue = this.currentWorldState[participantName].getValue();
             if (!isEqual(expectedValue, actualValue)) {
                 console.log(`Value mismatch for participant ${participantName}: 
                     expected ${JSON.stringify(expectedValue)}, got ${JSON.stringify(actualValue)}`);

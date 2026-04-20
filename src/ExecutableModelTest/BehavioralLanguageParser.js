@@ -65,9 +65,7 @@ class BehavioralLanguageParser {
     }
 
     executeSet(targetParticipantName, valueParticipantName, key, participants, participants_post) {
-        console.log("\n---- Executing Script ----");
-        console.log("Executing set with:", targetParticipantName, valueParticipantName, key);
-
+        console.log("Executing set");
         const input = {
             key: key,
             targetParticipantName: targetParticipantName,
@@ -80,15 +78,13 @@ class BehavioralLanguageParser {
         for (const key in participants) {
             participants[key].setValue(output[key]._value);
         }
-        console.log("---- Done Script----\n");
         return participants;
     }
 
     // eslint-disable-next-line max-len
     executeInsert(valueParticipantName, targetParticipantName, keys, position, participants, participants_post) {
-        console.log("\n---- Executing Script ----");
         // eslint-disable-next-line max-len
-        console.log( "Executing insert with:", valueParticipantName, targetParticipantName, keys, position);
+        console.log( "Executing insert");
         const input = {
             targetParticipantName: targetParticipantName,
             key: keys[0],
@@ -102,9 +98,7 @@ class BehavioralLanguageParser {
         for (const key in participants) {
             participants[key].setValue(output[key]._value);
         }
-        console.log("---- Done Script----\n");
         return participants;
-
     }
 }
 

@@ -70,9 +70,9 @@ describe("behaviors semantic execution tests", () => {
         // for myself:
         // TODO: Create proper clone method for participant that preserves UID.
         behavior.setPostWorldState({
-            basket: {"contents": [{"name": "test"}]},
-            book: {"name": "test"},
-            name: "test",
+            basket: basket.clone({"contents": [{"name": "test"}]}),
+            book: book.clone({"name": "test"}),
+            name: name.clone("test"),
         });
 
         const [updatedParticipants, isValid] = behavior.computeTransformations();
@@ -103,9 +103,9 @@ describe("behaviors semantic execution tests", () => {
         // for myself:
         // TODO: Create proper clone method for participant that preserves UID.
         behavior.setPostWorldState({
-            basket: {"contents": [{"name": ""}]},
-            book: {"name": "test"},
-            name: "test",
+            basket: basket.clone({"contents": [{"name": ""}]}),
+            book: book.clone({"name": "test"}),
+            name: name.clone("test"),
         });
 
         const [updatedParticipants, isValid] = behavior.computeTransformations();
