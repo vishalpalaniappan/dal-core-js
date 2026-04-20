@@ -63,4 +63,14 @@ describe("behaviors semantic execution tests", () => {
         expect(isValid2).toBe(false);
         showWorldState(updatedParticipants2);
     });
+
+    it("tests insert primitive execution", async () => {
+        const parser = new BehavioralLanguageParser();
+
+        parser.execute(
+            'insert book shelf ["key1"] 0',
+            null,
+            null
+        )
+    });
 });

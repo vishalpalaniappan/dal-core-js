@@ -44,6 +44,20 @@ class BehavioralLanguageParser {
             );
             return updatedParticipants;
         }
+
+        // insert <value> <target> [keys] <position>
+        const INSERT_RE = /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/;
+        const isInsert = INSERT_RE.test(script);
+        if (isInsert) {
+            const [, valueParticipantName, targetParticipantName, keys, position] = script.match(INSERT_RE);
+            console.log(
+                "Executing insert with:",
+                valueParticipantName,
+                targetParticipantName,
+                keys,
+                position
+            );
+        }
     }
 
     executeSet (targetParticipantName, valueParticipantName, key, participants, participants_post) {
@@ -67,6 +81,10 @@ class BehavioralLanguageParser {
         }
         console.log("---- Done Script----\n");
         return [participants, isValid];
+    }
+
+    executeInsert () {
+
     }
 }
 
