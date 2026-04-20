@@ -63,6 +63,12 @@ class SetPrimitive extends SemanticPrimitive {
             throw new Error("Transformation has not been applied yet.");
         }
 
+        // Note: A behavior can introduce new participants into the world, so
+        // this equality check is specific to the SET primitive, since I am
+        // checking that specific variable, key, and value were set correctly.
+        // In other primitives, we may look for the existence of new
+        // participants.
+
         const left = this.expectedPostconditions[this.targetParticipantName]._value[this.key]
         const right = this.postconditions[this.targetParticipantName]._value[this.key]
 
