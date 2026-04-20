@@ -22,7 +22,11 @@ class ExecutableBehavior {
      * violations on the pre and post world state.
      */
     constructor () {
+        this._primitives = [];
+    }
 
+    addPrimitive (primitive) {
+        this._primitives.push(primitive);
     }
 
     setPreWorldState (preWorldState) {
