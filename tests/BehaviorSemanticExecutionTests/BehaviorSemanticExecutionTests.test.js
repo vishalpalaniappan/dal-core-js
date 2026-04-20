@@ -17,9 +17,9 @@ const createParticipant = (name, value) => {
     return participant;
 }
 
-describe("parser tests", () => {
+describe("behaviors semantic execution tests", () => {
 
-    it("tests a simple behavioral execution using primitives", async () => {
+    it("tests simple behavioral execution using primitives", async () => {
 
         const parser = new BehavioralLanguageParser();
 
