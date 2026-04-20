@@ -23,6 +23,7 @@ describe("parser tests", () => {
 
         const parser = new BehavioralLanguageParser();
 
+        // Transformation #1
         let participants = {
             book: createParticipant("book", {"name": "BOOK1"}),
             shelf: createParticipant("shelf", {}),
@@ -42,7 +43,7 @@ describe("parser tests", () => {
         expect(isValid).toBe(true);
         showWorldState(updatedParticipants);
 
-
+        // Transformation #2
         participants = {
             book: createParticipant("book", {"name": "BOOK1"}),
             shelf: createParticipant("shelf", {}),
@@ -53,9 +54,8 @@ describe("parser tests", () => {
             shelf: createParticipant("shelf", {"slotB": {"name": "BOOK1"}}),
         };
 
-        // This transformation will be incorrect, post state will place book
-        // in shelf on slotC but the evaluation will return false since the
-        // expected post state from the transformation has the book on slotB.
+        // This transformation will be incorrect, the behavior will place the
+        // book in slot C but the post conditions has it in slot B
         showWorldState(participants);
         const [updatedParticipants2, isValid2] = parser.execute(
             'set shelf book ["slotC"]', participants, participants_post
