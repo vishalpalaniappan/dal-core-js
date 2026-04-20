@@ -19,7 +19,7 @@ const createParticipant = (name, value) => {
 
 describe("parser tests", () => {
 
-    it("tests a simple parser script", async () => {
+    it("tests a simple behavioral execution using primitives", async () => {
 
         const parser = new BehavioralLanguageParser();
 
@@ -34,7 +34,7 @@ describe("parser tests", () => {
             shelf: createParticipant("shelf", {"slotB": {"name": "BOOK1"}}),
         };
 
-        // This transformation will be correct, post state will palce book
+        // This transformation will be correct, post state will place book
         // in shelf on slotB and the evaluation will return true.
         showWorldState(participants);
         const [updatedParticipants, isValid] = parser.execute(
