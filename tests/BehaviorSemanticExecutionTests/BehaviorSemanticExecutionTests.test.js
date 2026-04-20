@@ -73,4 +73,26 @@ describe("behaviors semantic execution tests", () => {
             null
         )
     });
+
+
+    it("creates a behavior with multiple primitives", async () => {
+        /**
+         * Once insert primitive is ready, this test will create behavior named:
+         * "UpdateBookNameAndAddToBasket"
+         *
+         * This behavior will set a books name and then add it to the basket:
+         * set book name ["name"]
+         * insert book basket ["books"] 0
+         *
+         * The initial participants of the world are a book with an empty name
+         * and an empty basket. The first primitive will set the books name and
+         * update the world state, then the second primitive will insert the
+         * book into the basket.
+         *
+         * The expected post state of the behavior will then be available
+         * and it will be compared to the actual post state observed from the
+         * execution. This will then validate whether the implementation
+         * realized the behavior correctly as determined by its semantics.
+         */
+    });
 });
