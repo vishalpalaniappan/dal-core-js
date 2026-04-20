@@ -58,9 +58,7 @@ class ExecutableBehavior {
     isTransformationValid () {
         for (const participantName in this.postWorldState) {
             if (!(participantName in this.currentWorldState)) {
-                throw new Error(`Expected Participant ${participantName} is missing in
-                     the current world state.`);
-                return false;
+                throw new Error(`Expected Participant ${participantName} is missing`);
             }
             const expectedValue = this.postWorldState[participantName].getValue();
             const actualValue = this.currentWorldState[participantName].getValue();
