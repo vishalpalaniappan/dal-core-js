@@ -21,15 +21,15 @@ class BehavioralLanguageParser {
      * will be refrenced in the script and the transformations will
      * be applied by the primitives.
      */
-    constructor () {
+    constructor() {
         this.primitiveConstructors = {};
     }
 
-    registerPrimitive (primitiveName, constructor) {
+    registerPrimitive(primitiveName, constructor) {
         this.primitiveConstructors[primitiveName] = constructor;
     }
 
-    execute (script, participants, participants_post) {
+    execute(script, participants, participants_post) {
         // Ex: set <target_participant> <value_participant> <key>
         const SET_RE = /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/;
 
@@ -46,12 +46,13 @@ class BehavioralLanguageParser {
             return updatedParticipants;
         }
 
-        // insert <value> <target> [keys] <position>
+        // Ex: insert <value> <target> [keys] <position>
         const INSERT_RE = /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/;
         const isInsert = INSERT_RE.test(script);
         if (isInsert) {
+            // eslint-disable-next-line max-len
             const [, valueParticipantName, targetParticipantName, keys, position] = script.match(INSERT_RE);
-           const updatedParticipants = this.executeInsert(
+            const updatedParticipants = this.executeInsert(
                 valueParticipantName,
                 targetParticipantName,
                 JSON.parse(keys),
@@ -63,7 +64,7 @@ class BehavioralLanguageParser {
         }
     }
 
-    executeSet (targetParticipantName, valueParticipantName, key, participants, participants_post) {
+    executeSet(targetParticipantName, valueParticipantName, key, participants, participants_post) {
         console.log("\n---- Executing Script ----");
         console.log("Executing set with:", targetParticipantName, valueParticipantName, key);
 
@@ -86,15 +87,11 @@ class BehavioralLanguageParser {
         return [participants, isValid];
     }
 
-    executeInsert (valueParticipantName, targetParticipantName, keys, position, participants, participants_post) {
+    // eslint-disable-next-line max-len
+    executeInsert(valueParticipantName, targetParticipantName, keys, position, participants, participants_post) {
         console.log("\n---- Executing Script ----");
-        console.log(
-            "Executing insert with:",
-            valueParticipantName,
-            targetParticipantName,
-            keys,
-            position
-        );
+        // eslint-disable-next-line max-len
+        console.log( "Executing insert with:", valueParticipantName, targetParticipantName, keys, position);
         const input = {
             targetParticipantName: targetParticipantName,
             key: keys[0],
