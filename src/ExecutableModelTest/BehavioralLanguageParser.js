@@ -1,3 +1,4 @@
+import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive.js";
 
 class BehavioralLanguageParser {
@@ -20,7 +21,7 @@ class BehavioralLanguageParser {
      * will be refrenced in the script and the transformations will
      * be applied by the primitives.
      */
-    constructor() {
+    constructor () {
         this.primitiveConstructors = {};
     }
 
@@ -57,6 +58,15 @@ class BehavioralLanguageParser {
                 keys,
                 position
             );
+            const updatedParticipants = this.executeInsert(
+                valueParticipantName,
+                targetParticipantName,
+                JSON.parse(keys),
+                position,
+                participants,
+                participants_post
+            );
+            return updatedParticipants;
         }
     }
 
@@ -83,7 +93,33 @@ class BehavioralLanguageParser {
         return [participants, isValid];
     }
 
-    executeInsert () {
+    executeInsert (valueParticipantName, targetParticipantName, keys, position, participants, participants_post) {
+        console.log("\n---- Executing Script ----");
+        console.log(
+            "Executing insert with:",
+            valueParticipantName,
+            targetParticipantName,
+            keys,
+            position
+        );
+        const input = {
+            targetParticipantName: targetParticipantName,
+            key: keys[0],
+            valueParticipantName: valueParticipantName,
+            index: parseInt(position),
+        };
+        const p = new InsertPrimitive(input, participants, participants_post);
+        const output = p.apply_transformations();
+
+        const isValid = p.evaluate_transformation_validity();
+        console.log("Does computed state match execution?", isValid);
+
+        // Update the value of the participants as set by the transformation
+        for (const key in participants) {
+            participants[key].setValue(output[key]._value);
+        }
+        console.log("---- Done Script----\n");
+        return [participants, isValid];
 
     }
 }

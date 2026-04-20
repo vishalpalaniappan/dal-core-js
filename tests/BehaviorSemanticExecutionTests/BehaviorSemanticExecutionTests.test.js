@@ -67,11 +67,22 @@ describe("behaviors semantic execution tests", () => {
     it("tests insert primitive execution", async () => {
         const parser = new BehavioralLanguageParser();
 
-        parser.execute(
-            'insert book shelf ["key1"] 0',
-            null,
-            null
-        )
+        const preconditions = {
+            basket: createParticipant("basket", {"contents": ["pen", "pencil"]}),
+            book: createParticipant("book", "notebook"),
+        };
+
+        const postconditions = {
+            basket: createParticipant("basket", {"contents": ["notebook", "pen", "pencil"]}),
+            book: createParticipant("book", "notebook"),
+        };
+
+        showWorldState(preconditions);
+        const [updatedParticipants, isValid] = parser.execute(
+            'insert book basket ["contents"] 0', preconditions, postconditions
+        );
+        expect(isValid).toBe(true);
+        showWorldState(updatedParticipants);
     });
 
 
@@ -82,7 +93,7 @@ describe("behaviors semantic execution tests", () => {
          *
          * This behavior will set a books name and then add it to the basket:
          * set book name ["name"]
-         * insert book basket ["books"] 0
+         * insert book basket ["contents"] 0
          *
          * The initial participants of the world are a book with an empty name
          * and an empty basket. The first primitive will set the books name and
