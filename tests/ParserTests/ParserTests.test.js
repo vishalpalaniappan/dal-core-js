@@ -55,7 +55,7 @@ describe("parser tests", () => {
         };
 
         // This transformation will be incorrect, the behavior will place the
-        // book in slotC but the post conditions has the book in sloB.
+        // book in slotC but the post conditions has the book in slotB.
         showWorldState(participants);
         const [updatedParticipants2, isValid2] = parser.execute(
             'set shelf book ["slotC"]', participants, participants_post
