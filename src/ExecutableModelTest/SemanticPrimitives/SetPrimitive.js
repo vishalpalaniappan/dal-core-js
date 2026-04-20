@@ -1,3 +1,5 @@
+import isEqual from "lodash/isEqual";
+
 import SemanticPrimitive from "./SemanticPrimitive.js";
 
 class SetPrimitive extends SemanticPrimitive {
@@ -61,8 +63,10 @@ class SetPrimitive extends SemanticPrimitive {
             throw new Error("Transformation has not been applied yet.");
         }
 
-        return this.expectedPostconditions[this.targetParticipantName]._value[this.key] ===
-            this.postconditions[this.targetParticipantName]._value[this.key];
+        const left = this.expectedPostconditions[this.targetParticipantName]._value[this.key]
+        const right = this.postconditions[this.targetParticipantName]._value[this.key]
+
+        return isEqual(left, right);
     }
 }
 

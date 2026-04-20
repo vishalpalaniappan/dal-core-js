@@ -28,7 +28,7 @@ class BehavioralLanguageParser {
         this.primitiveConstructors[primitiveName] = constructor;
     }
 
-    execute (script, participants) {
+    execute (script, participants, participants_post) {
         // Ex: set <target_participant> <value_participant> <key>
         const SET_RE = /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/;
 
@@ -36,13 +36,17 @@ class BehavioralLanguageParser {
         if (isSet) {
             const [, targetParticipantName, valueParticipantName, key] = script.match(SET_RE);
             const updatedParticipants = this.executeSet(
-                targetParticipantName, valueParticipantName, JSON.parse(key)[0], participants
+                targetParticipantName,
+                valueParticipantName,
+                JSON.parse(key)[0],
+                participants,
+                participants_post
             );
             return updatedParticipants;
         }
     }
 
-    executeSet (targetParticipantName, valueParticipantName, key, participants) {
+    executeSet (targetParticipantName, valueParticipantName, key, participants, participants_post) {
         console.log("\n---- Executing Script ----");
         console.log("Executing set with:", targetParticipantName, valueParticipantName, key);
 
@@ -51,8 +55,11 @@ class BehavioralLanguageParser {
             targetParticipantName: targetParticipantName,
             valueParticipantName: valueParticipantName,
         };
-        const p = new SetPrimitive(input, participants, {});
+        const p = new SetPrimitive(input, participants, participants_post);
         const output = p.apply_transformations();
+
+        const isValid = p.evaluate_transformation_validity();
+        console.log("Is transformation valid?", isValid);
 
         // Update the value of the participants as set by the transformation
         for (const key in participants) {

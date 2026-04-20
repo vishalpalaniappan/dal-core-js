@@ -11,30 +11,30 @@ const showWorldState = (participants) => {
     }
 }
 
+const createParticipant = (name, value) => {
+    const participant = new Participant({name: name, description: ""});
+    participant.setValue(value);
+    return participant;
+}
+
 describe("parser tests", () => {
 
     it("tests a simple parser script", async () => {
-        const p1 = new Participant({
-            name: "book",
-            description: "a book participant",
-        });
-        p1.setValue({"name": "BOOK1"});
 
-        const p2 = new Participant({
-            name: "shelf",
-            description: "a shelf participant",
-        });
-        p2.setValue({});
+        const p1 = createParticipant("book", {"name": "BOOK1"});
+        const p2 = createParticipant("shelf", {});
+
+        const p1_post = createParticipant("book", {"name": "BOOK1"});
+        const p2_post = createParticipant("shelf", {"slotB": {"name": "BOOK1"}});
 
         const participants = {book: p1, shelf: p2};
+        const participants_post = {book: p1_post, shelf: p2_post};
+
         showWorldState(participants);
 
         const parser = new BehavioralLanguageParser();
 
-        parser.execute('set shelf book ["slotB"]', participants);
-        showWorldState(participants);
-
-        parser.execute('set shelf book ["slotC"]', participants);
+        parser.execute('set shelf book ["slotB"]', participants, participants_post);
         showWorldState(participants);
     });
 });
