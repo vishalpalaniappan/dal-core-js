@@ -1,7 +1,4 @@
-
-
 class BehavioralLanguageParser {
-
     /**
      * Note: There is a more formal way to implement this, but I am
      * going to implement a simple version to prove this out for myself.
@@ -21,7 +18,7 @@ class BehavioralLanguageParser {
      * will be refrenced in the script and the transformations will
      * be applied by the primitives.
      */
-    constructor () {
+    constructor() {
         this.primitiveConstructors = {};
     }
 
@@ -30,9 +27,23 @@ class BehavioralLanguageParser {
     }
 
     parse (script) {
-        // parse script
-    }
+        // Ex: set <target_participant> <value_participant> <key>
+        const SET_RE = /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/;
 
+        const isSet = SET_RE.test(script);
+        if (isSet) {
+            const [, targetParticipantName, valueParticipantName, key] =
+                script.match(SET_RE);
+            console.log(
+                "Parsed set primitive with target:",
+                targetParticipantName,
+                "value:",
+                valueParticipantName,
+                "key:",
+                key,
+            );
+        }
+    }
 }
 
 export default BehavioralLanguageParser;
