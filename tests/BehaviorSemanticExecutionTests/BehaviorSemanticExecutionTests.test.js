@@ -2,6 +2,7 @@ import {describe, expect, it} from "vitest";
 
 import Participant from "../../src/Design/Participant.js"
 import BehavioralLanguageParser from "../../src/ExecutableModelTest/BehavioralLanguageParser.js";
+import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior.js";
 
 
 const showWorldState = (participants) => {
@@ -124,5 +125,21 @@ describe("behaviors semantic execution tests", () => {
          * the design is inconsistent. Meaning that everything went according to
          * the design but it still considers the state invalid.
          */
+
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive('set book name ["name"]');
+        behavior.addPrimitive('insert book basket ["contents"] 0');
+
+        behavior.setPreWorldState({
+            basket: createParticipant("basket", {"contents": []}),
+            book: createParticipant("book", {"name": ""}),
+            name: createParticipant("name", "notebook"),
+        });
+
+        behavior.setPostWorldState({
+            basket: {"contents": [{"name": "notebook"}]},
+            book: {"name": "notebook"},
+            name: "notebook",
+        });
     });
 });
