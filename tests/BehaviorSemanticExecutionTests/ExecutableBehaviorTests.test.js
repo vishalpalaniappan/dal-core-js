@@ -55,9 +55,9 @@ describe("behaviors semantic execution tests", () => {
         behavior.addPrimitive('set book name ["name"]');
         behavior.addPrimitive('insert book basket ["contents"] 0');
 
-        const book = createParticipant("basket", {"contents": []});
-        const basket = createParticipant("book", {"name": ""});
-        const name = createParticipant("name", "notebook");
+        const basket = createParticipant("basket", {"contents": []});
+        const book = createParticipant("book", {"name": ""});
+        const name = createParticipant("name", "test");
 
         behavior.setPreWorldState({
             basket: basket,
@@ -65,16 +65,53 @@ describe("behaviors semantic execution tests", () => {
             name: name,
         });
 
-        book.setValue({"name": "notebook"});
-        basket.setValue({"contents": [book]});
-        name.setValue("notebook");
-
+        // Note: I have to set the values in this way because the UID's of the
+        // participants are different if I create a new participant. A reminder
+        // for myself:
+        // TODO: Create proper clone method for participant that preserves UID.
         behavior.setPostWorldState({
+            basket: {"contents": [{"name": "test"}]},
+            book: {"name": "test"},
+            name: "test",
+        });
+
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
+
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.book._value.name).toBe("test");
+        expect(updatedParticipants.basket._value.contents[0].name).toBe("test");
+    });
+
+
+    it("creates a behavior and executes transfor with invalid post state", async () => {
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive('set book name ["name"]');
+        behavior.addPrimitive('insert book basket ["contents"] 0');
+
+        const basket = createParticipant("basket", {"contents": []});
+        const book = createParticipant("book", {"name": ""});
+        const name = createParticipant("name", "test");
+
+        behavior.setPreWorldState({
             basket: basket,
             book: book,
             name: name,
         });
 
-        const updatedParticipants = behavior.computeTransformations();
+        // Note: I have to set the values in this way because the UID's of the
+        // participants are different if I create a new participant. A reminder
+        // for myself:
+        // TODO: Create proper clone method for participant that preserves UID.
+        behavior.setPostWorldState({
+            basket: {"contents": [{"name": ""}]},
+            book: {"name": "test"},
+            name: "test",
+        });
+
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
+
+        expect(isValid).toBe(false);
+        expect(updatedParticipants.book._value.name).toBe("test");
+        expect(updatedParticipants.basket._value.contents[0].name).toBe("test");
     });
 });

@@ -44,31 +44,33 @@ class ExecutableBehavior {
     }
 
     computeTransformations () {
-
         for (const primitive of this._primitives) {
             // execute primitive and update world state
-            const [updatedParticipants, isValid] = this._parser.execute(
+            const updatedParticipants = this._parser.execute(
                 primitive, this.currentWorldState, this.postWorldState
             );
             this.currentWorldState = updatedParticipants;
         }
 
-        if (!isEqual(this.currentWorldState, this.postWorldState)) {
-            console.warn(
-                "Postconditions not met. Expected:",
-                this.postWorldState,
-                "Actual:",
-                this.currentWorldState
-            );
-        } else {
-            console.log("Postconditions met.");
-        }
-
-        return this.currentWorldState;
+        return [this.currentWorldState, this.isTransformationValid()];
     }
 
     isTransformationValid () {
-
+        for (const participantName in this.postWorldState) {
+            if (!(participantName in this.currentWorldState)) {
+                throw new Error(`Expected Participant ${participantName} is missing in
+                     the current world state.`);
+                return false;
+            }
+            const expectedValue = this.postWorldState[participantName];
+            const actualValue = this.currentWorldState[participantName]._value;
+            if (!isEqual(expectedValue, actualValue)) {
+                console.log(`Value mismatch for participant ${participantName}: 
+                    expected ${JSON.stringify(expectedValue)}, got ${JSON.stringify(actualValue)}`);
+                return false;
+            }
+        }
+        return true;
     }
 
     evaluateInvariants () {
