@@ -22,11 +22,11 @@ class BehavioralLanguageParser {
         this.primitiveConstructors = {};
     }
 
-    registerPrimitive(primitiveName, constructor) {
+    registerPrimitive (primitiveName, constructor) {
         this.primitiveConstructors[primitiveName] = constructor;
     }
 
-    parse (script) {
+    execute (script, participants) {
         // Ex: set <target_participant> <value_participant> <key>
         const SET_RE = /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/;
 
@@ -34,14 +34,8 @@ class BehavioralLanguageParser {
         if (isSet) {
             const [, targetParticipantName, valueParticipantName, key] =
                 script.match(SET_RE);
-            console.log(
-                "Parsed set primitive with target:",
-                targetParticipantName,
-                "value:",
-                valueParticipantName,
-                "key:",
-                key,
-            );
+            const keys = JSON.parse(key);
+            console.log("Parsed:", targetParticipantName, ",", valueParticipantName, ",", keys);
         }
     }
 }

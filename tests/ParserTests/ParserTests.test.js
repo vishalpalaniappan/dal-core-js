@@ -1,7 +1,7 @@
 import {describe, expect, it} from "vitest";
 
-import BehavioralLanguageParser from "../../src/ExecutableModelTest/BehavioralLanguageParser.js";
 import Participant from "../../src/Design/Participant.js"
+import BehavioralLanguageParser from "../../src/ExecutableModelTest/BehavioralLanguageParser.js";
 
 describe("parser tests", () => {
 
@@ -18,7 +18,9 @@ describe("parser tests", () => {
         });
         p2.setValue({});
 
+        const participants = {book: p1, shelf: p2};
+
         const parser = new BehavioralLanguageParser();
-        parser.parse('set book shelf ["key1"]');
+        parser.execute('set book shelf ["key1"]', participants);
     });
 });
