@@ -57,7 +57,7 @@ describe("behaviors semantic execution tests", () => {
 
         const basket = createParticipant("basket", {"contents": []});
         const book = createParticipant("book", {"name": ""});
-        const name = createParticipant("name", "test");
+        const name = createParticipant("name", "Harry Potter");
 
         behavior.setPreWorldState({
             basket: basket,
@@ -66,16 +66,16 @@ describe("behaviors semantic execution tests", () => {
         });
 
         behavior.setPostWorldState({
-            basket: basket.clone({"contents": [{"name": "test"}]}),
-            book: book.clone({"name": "test"}),
-            name: name.clone("test"),
+            basket: basket.clone({"contents": [{"name": "Harry Potter"}]}),
+            book: book.clone({"name": "Harry Potter"}),
+            name: name.clone("Harry Potter"),
         });
 
         const [updatedParticipants, isValid] = behavior.computeTransformations();
 
         expect(isValid).toBe(true);
-        expect(updatedParticipants.book._value.name).toBe("test");
-        expect(updatedParticipants.basket._value.contents[0].name).toBe("test");
+        expect(updatedParticipants.book._value.name).toBe("Harry Potter");
+        expect(updatedParticipants.basket._value.contents[0].name).toBe("Harry Potter");
     });
 
 
@@ -86,7 +86,7 @@ describe("behaviors semantic execution tests", () => {
 
         const basket = createParticipant("basket", {"contents": []});
         const book = createParticipant("book", {"name": ""});
-        const name = createParticipant("name", "test");
+        const name = createParticipant("name", "test name");
 
         behavior.setPreWorldState({
             basket: basket,
@@ -107,7 +107,7 @@ describe("behaviors semantic execution tests", () => {
         const [updatedParticipants, isValid] = behavior.computeTransformations();
 
         expect(isValid).toBe(false);
-        expect(updatedParticipants.book._value.name).toBe("test");
-        expect(updatedParticipants.basket._value.contents[0].name).toBe("test");
+        expect(updatedParticipants.book._value.name).toBe("test name");
+        expect(updatedParticipants.basket._value.contents[0].name).toBe("test name");
     });
 });
