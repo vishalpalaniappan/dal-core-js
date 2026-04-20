@@ -59,7 +59,7 @@ class BehavioralLanguageParser {
         const output = p.apply_transformations();
 
         const isValid = p.evaluate_transformation_validity();
-        console.log("Is transformation valid?", isValid);
+        console.log("Does computed state match execution?", isValid);
 
         // Update the value of the participants as set by the transformation
         for (const key in participants) {
