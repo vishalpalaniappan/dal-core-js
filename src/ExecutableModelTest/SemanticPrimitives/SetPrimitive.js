@@ -41,9 +41,18 @@ class SetPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
+        // Cloning causes the participant to lose its class type, so I reassign
+        // values after. I know its not ideal but works for now, I should create
+        // a proper clone method for participant that preserves class type.
         const expected = structuredClone(this.preconditions);
-        expected[this.targetParticipantName][this.key] = expected[this.valueParticipantName];
+
+        // Expected participant after transformations are applied.
+        // This is the participant being assigned the value in the set operation
+        const expectedParticipant = expected[this.targetParticipantName]._value;
+        expectedParticipant[this.key] = expected[this.valueParticipantName]._value;
+
         this.expectedPostconditions = expected;
+
         return expected;
     }
 
@@ -52,8 +61,8 @@ class SetPrimitive extends SemanticPrimitive {
             throw new Error("Transformation has not been applied yet.");
         }
 
-        return this.expectedPostconditions[this.targetParticipantName][this.key] ===
-            this.postconditions[this.targetParticipantName][this.key];
+        return this.expectedPostconditions[this.targetParticipantName]._value[this.key] ===
+            this.postconditions[this.targetParticipantName]._value[this.key];
     }
 }
 
