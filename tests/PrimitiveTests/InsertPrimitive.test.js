@@ -5,6 +5,12 @@ import InsertPrimitive from "../../src/BehaviorV2Test/SemanticPrimitives/InsertP
 describe("tests the insert primitive", () => {
 
     test("applies insert transformation without mutating preconditions", () => {
+
+        const basketParticipant = new Participant({name: "basket", description: ""});
+        basketParticipant.setValue(["pen", "pencil"]);
+        const bookParticipant = new Participant({name: "book", description: ""});
+        bookParticipant.setValue("notebook");
+
         const inputs = {
             targetParticipantName: "basket",
             key: "contents",
