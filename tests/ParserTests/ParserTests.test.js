@@ -23,14 +23,15 @@ describe("parser tests", () => {
 
         const parser = new BehavioralLanguageParser();
 
+        let participants = {
+            book: createParticipant("book", {"name": "BOOK1"}),
+            shelf: createParticipant("shelf", {}),
+        };
 
-        let p1 = createParticipant("book", {"name": "BOOK1"});
-        let p2 = createParticipant("shelf", {});
-        let participants = {book: p1, shelf: p2};
-
-        let p1_post = createParticipant("book", {"name": "BOOK1"});
-        let p2_post = createParticipant("shelf", {"slotB": {"name": "BOOK1"}});
-        let participants_post = {book: p1_post, shelf: p2_post};
+        let participants_post = {
+            book: createParticipant("book", {"name": "BOOK1"}),
+            shelf: createParticipant("shelf", {"slotB": {"name": "BOOK1"}}),
+        };
 
         // This transformation will be correct, post state will palce book
         // in shelf on slotB and the evaluation will return true.
@@ -42,13 +43,15 @@ describe("parser tests", () => {
         showWorldState(updatedParticipants);
 
 
-        p1 = createParticipant("book", {"name": "BOOK1"});
-        p2 = createParticipant("shelf", {});
-        participants = {book: p1, shelf: p2};
+        participants = {
+            book: createParticipant("book", {"name": "BOOK1"}),
+            shelf: createParticipant("shelf", {}),
+        };
 
-        p1_post = createParticipant("book", {"name": "BOOK1"});
-        p2_post = createParticipant("shelf", {"slotB": {"name": "BOOK1"}});
-        participants_post = {book: p1_post, shelf: p2_post};
+        participants_post = {
+            book: createParticipant("book", {"name": "BOOK1"}),
+            shelf: createParticipant("shelf", {"slotB": {"name": "BOOK1"}}),
+        };
 
         // This transformation will be incorrect, post state will place book
         // in shelf on slotC but the evaluation will return false since the
