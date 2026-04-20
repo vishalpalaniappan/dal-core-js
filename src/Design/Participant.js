@@ -81,7 +81,7 @@ class Participant extends Base {
      * @param {*} value The value to set for the cloned participant.
      * @returns {Participant}
      */
-    getClone (value) {
+    clone (value) {
         const clone = new Participant({
             name: this._name,
             description: this._description,
