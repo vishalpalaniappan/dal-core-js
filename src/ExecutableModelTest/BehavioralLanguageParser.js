@@ -10,8 +10,8 @@ class BehavioralLanguageParser {
      * but I will after I prove some concepts out for myself.
      *
      * A simple behavioral language parser that can be used
-     * to convert a script into a set of primitives that are
-     * executed by the engine. At each step, the parser will
+     * to convert a script into a set of primitives transformations that
+     * are executed by the engine. At each step, the parser will
      * use the primitive constructor, perform the transformation
      * and then propogate the world state forward to the next
      * primitive.

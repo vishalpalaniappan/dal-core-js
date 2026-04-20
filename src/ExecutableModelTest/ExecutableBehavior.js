@@ -1,7 +1,7 @@
 class ExecutableBehavior {
 
     /**
-     * This class semantically defines the behavior and provides
+     * This class defines the semantics of the behavior and provides
      * an interface for executing the primitives which consititue
      * the behavior.
      *
