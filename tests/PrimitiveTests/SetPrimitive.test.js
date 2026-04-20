@@ -1,10 +1,27 @@
 import {describe, expect, it} from "vitest";
 
 import SetPrimitive from "../../src/BehaviorV2Test/SemanticPrimitives/SetPrimitive.js";
+import Participant from "../../src/Design/Participant.js";
 
 describe("tests the set primitive", () => {
 
     it("tests adding inputs to set primitive", async () => {
+
+        const targetParticipant = new Participant({
+            name: "participantA",
+            description: "a participant whose name will be set",
+        });
+        targetParticipant.setValue({
+            name: "oldParticipantName",
+            value: null,
+        });
+
+        const valueParticipant = new Participant({
+            name: "participantName",
+            description: "a participant that holds the new name to set to the target participant",
+        });
+        valueParticipant.setValue("new name");
+
         // Input needed for primitive to perform operation.
         const input = {
             key: "name",
