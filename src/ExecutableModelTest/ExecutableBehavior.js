@@ -1,3 +1,5 @@
+import BehavioralLanguageParser from "./BehavioralLanguageParser.js";
+
 class ExecutableBehavior {
 
     /**
@@ -23,6 +25,7 @@ class ExecutableBehavior {
      */
     constructor () {
         this._primitives = [];
+        this._parser = new BehavioralLanguageParser();
     }
 
     addPrimitive (primitive) {
@@ -31,6 +34,7 @@ class ExecutableBehavior {
 
     setPreWorldState (preWorldState) {
         this.preWorldState = preWorldState;
+        this.currentWorldState = preWorldState;
     }
 
     setPostWorldState (postWorldState) {
@@ -39,6 +43,15 @@ class ExecutableBehavior {
 
     computeTransformations () {
 
+        for (const primitive of this._primitives) {
+            // execute primitive and update world state
+            const [updatedParticipants, isValid] = this._parser.execute(
+                primitive, this.currentWorldState, this.postWorldState
+            );
+            this.currentWorldState = updatedParticipants;
+        }
+
+        return this.currentWorldState;
     }
 
     isTransformationValid () {
