@@ -77,8 +77,9 @@ class InsertPrimitive extends SemanticPrimitive {
             throw new Error("Transformation has not been applied yet.");
         }
 
-        const expectedValue = this.expectedPostconditions[this.targetParticipantName][this.key];
-        const actualValue = this.postconditions[this.targetParticipantName][this.key];
+        const participantName = this.targetParticipantName;
+        const expectedValue = this.expectedPostconditions[participantName]._value[this.key];
+        const actualValue = this.postconditions[participantName]._value[this.key];
 
         // TODO: Will move away from stringify. Need a more robust deep equality
         // check, this is temporary while I work through the bigger structure.
