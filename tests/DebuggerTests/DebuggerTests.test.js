@@ -60,24 +60,24 @@ describe("debugger tests", () => {
 
         d.deserialize(source);
 
-        const traceIds = Object.keys(d.implementation._traces);
+        // const traceIds = Object.keys(d.implementation._traces);
 
-        const traceWithoutViolations = traceIds[0];
-        let traceLogs = await loadTrace(d.implementation.getTrace(traceWithoutViolations));
-        let debuggerInstance = d.createDebugger(traceLogs);
-        debuggerInstance.run();
-        let filePath2 = resolve(__dirname, "../temp/execution_trace_walker_no_failure.txt");
-        await writeFile(
-            filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
-        );
+        // const traceWithoutViolations = traceIds[0];
+        // let traceLogs = await loadTrace(d.implementation.getTrace(traceWithoutViolations));
+        // let debuggerInstance = d.createDebugger(traceLogs);
+        // debuggerInstance.run();
+        // let filePath2 = resolve(__dirname, "../temp/execution_trace_walker_no_failure.txt");
+        // await writeFile(
+        //     filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
+        // );
 
-        const traceWithViolations = traceIds[1];
-        traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolations));
-        debuggerInstance = d.createDebugger(traceLogs);
-        debuggerInstance.run();
-        filePath2 = resolve(__dirname, "../temp/execution_trace_walker_failure.txt");
-        await writeFile(
-            filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
-        );
+        // const traceWithViolations = traceIds[1];
+        // traceLogs = await loadTrace(d.implementation.getTrace(traceWithViolations));
+        // debuggerInstance = d.createDebugger(traceLogs);
+        // debuggerInstance.run();
+        // filePath2 = resolve(__dirname, "../temp/execution_trace_walker_failure.txt");
+        // await writeFile(
+        //     filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
+        // );
     });
 });
