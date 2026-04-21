@@ -10,7 +10,7 @@ class BehavioralLanguageParser {
     /**
      * Note: There is a more formal way to implement this, but I am
      * going to implement a simple version to prove this out for myself.
-     * By more formal, I mean that there is well defined patterns for how
+     * By more formal, I mean that there are well defined patterns for how
      * to establish a language parser, I haven't bothered looking it up
      * but I will after I prove some concepts out for myself.
      *
@@ -21,10 +21,7 @@ class BehavioralLanguageParser {
      * and then propogate the world state forward to the next
      * primitive.
      *
-     * I am starting with just the setkey and insert primitive. A world
-     * state has to provided with participants and these participants
-     * will be refrenced in the script and the transformations will
-     * be applied by the primitives.
+     * See readme in semantic primitives folder for more details.
      */
     constructor () {
         this.primitiveConstructors = {};
