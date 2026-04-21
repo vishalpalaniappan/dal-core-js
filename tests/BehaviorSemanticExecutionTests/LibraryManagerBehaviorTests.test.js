@@ -121,22 +121,10 @@ describe("tests the behaviors in the library manager", () => {
         expect(updatedParticipants.first_letter).toBe("T");
 
         /**
-         * Now we check if T key exists in shelf and choose the behavior.
-         * I will be updating the behavioral control graph to include the
-         * control flow so that the design itself can be executable.
-         *
-         * Also for behaviors which expect an input, I will flag that in the behavior
-         * so that the design executor will prompt the user. I am starting with a
-         * simple input prompt case but in reality designs will wait for inputs
-         * from various sources. It can all be handled neatly but its best to start
-         * with the simplest scenario and build up.
-         *
-         * Soon I will build a design executor into the engine. By that, I mean
-         * actually execute the beahvioral control graph so that the behavior of
-         * the design can be observed directly even without the implementation.
-         *
-         * For this, I will create behavior that will flag the existence of T key.
-         * Then control flow uses that to determine which behavior to execute next.
+         * I will create behavior that will flag the existence of T key. Rather
+         * than create an explicit control flow, I will use the world state to determine
+         * which behavior is exhibited next. In this sense, the state of the world chooses
+         * the next behavior.
          */
     });
 });
