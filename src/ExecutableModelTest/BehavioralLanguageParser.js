@@ -1,12 +1,13 @@
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
+import RemoveKeyPrimitive from "./SemanticPrimitives/RemoveKeyPrimitive/RemoveKeyPrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
 
 const re = {
     "SET_RE": /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
     "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
-    "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/
+    "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/,
 }
 
 class BehavioralLanguageParser {

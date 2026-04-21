@@ -5,7 +5,6 @@ import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior
 describe("standalone behaviors semantic execution tests", () => {
 
     it("tests set primitive without keys", async () => {
-        // Transformation #1
         // Set the value of bookCopy to be book
         const behavior = new ExecutableBehavior();
         behavior.addPrimitive("set bookCopy book []");
@@ -26,7 +25,6 @@ describe("standalone behaviors semantic execution tests", () => {
     });
 
     it("tests insert primitive into lists", async () => {
-        // Transformation #2
         // Insert book into basket at index 0
         const behavior = new ExecutableBehavior();
         behavior.addPrimitive("insert book basket [] 0");
@@ -47,7 +45,6 @@ describe("standalone behaviors semantic execution tests", () => {
     });
 
     it("tests insert primitive into lists with multiple keys", async () => {
-        // Transformation #3
         // Insert book into basket key "contents" at index 0
         const behavior = new ExecutableBehavior();
         behavior.addPrimitive('insert book basket ["contents", "nested_content"] 0');
@@ -126,5 +123,23 @@ describe("standalone behaviors semantic execution tests", () => {
 
         const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(updatedParticipants.book_copy.name).toBe("Lord of the Rings");
+    });
+
+    it ("tests remove key primitive", async () => {
+        // Remove the key "name" from book
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive('remove name from book');
+
+        behavior.setPreWorldState({
+            book: {"name": "Lord of the Rings"},
+        });
+
+        behavior.setPostWorldState({
+            book: {},
+        });
+
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.book.name).toBeUndefined();
     });
 });
