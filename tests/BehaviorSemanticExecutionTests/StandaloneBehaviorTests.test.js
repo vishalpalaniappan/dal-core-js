@@ -166,11 +166,11 @@ describe("standalone behaviors semantic execution tests", () => {
     it ("tests get from position array", async () => {
         // Get the first element from the book array
         const behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create book");
         behavior.addPrimitive("getFromPos basket 0 book");
 
         behavior.setPreWorldState({
             basket: ["Lord of the Rings"],
-            book: null,
         });
 
         behavior.setPostWorldState({
@@ -191,7 +191,7 @@ describe("standalone behaviors semantic execution tests", () => {
         behavior.addPrimitive("getFromPos name 0 first_letter");
 
         behavior.setPreWorldState({
-            name: "Lord of the Rings"
+            name: "Lord of the Rings",
         });
 
         behavior.setPostWorldState({
