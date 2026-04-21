@@ -164,7 +164,7 @@ describe("tests the behaviors in the library manager", () => {
     });
 
 
-    it("runs the state machine", async () => {
+    it("walks the behavioral tansition graph using the behaviors", async () => {
         let currentBehavior = "InitializeWorld";
 
         let [updatedParticipants, isValid] = behaviors[currentBehavior]({});
