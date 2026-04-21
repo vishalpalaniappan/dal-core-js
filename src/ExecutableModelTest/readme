@@ -66,23 +66,31 @@ AcceptBook
 - This is very interesting because the environment will submit a value here. The behavior itself add a book to the world state but there is no notion of the correct book. Except ofcourse, the invariants placed on the post behavior state (book name length etc.)
 So the engine will also receive a value here, it will accept it from the environment.
 
-PlaceBookInBasket
+#### AcceptName
+
+#### AcceptGenre
+
+#### CreateBook
+
+
+
+#### PlaceBookInBasket
 - insert basket book [] 0
 
-GetBookFromBasket
+#### GetBookFromBasket
 - getFromPos basket 0 book
 
-GetFirstLetterOfBookName
+#### GetFirstLetterOfBookName
 - get book ["name"] book_name
 - getFromPos book_name 0 firstLetter
 
-CreateSlotOnShelf
+#### CreateSlotOnShelf
 - set book_shelf empty_slot [<first_letter>]
 
-PlaceBookOnShelf
+#### PlaceBookOnShelf
 - insert book book_shelf [<first_letter>] 0
 
-GenerateAuditReport
+#### GenerateAuditReport
 - create audit <empty_audit>
 - set audit basket ["basket"]
 - set audit book_shelf ["book_shelf"]
