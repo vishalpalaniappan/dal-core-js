@@ -30,7 +30,7 @@ class InsertPrimitive extends SemanticPrimitive {
     validate_inputs (args) {
         const expectedArgs = [
             "targetParticipantName",
-            "key",
+            "keys",
             "valueParticipantName",
             "index",
         ];
@@ -41,13 +41,18 @@ class InsertPrimitive extends SemanticPrimitive {
         }
 
         this.targetParticipantName = args.targetParticipantName;
-        this.key = args.key;
+        this.keys = args.keys;
         this.valueParticipantName = args.valueParticipantName;
         this.index = args.index;
     }
 
     apply_transformations () {
-        const targetList = this.worldState[this.targetParticipantName][this.key];
+        let targetList;
+        if (this.keys && this.keys.length > 0) {
+            targetList = this.worldState[this.targetParticipantName][this.keys[0]];
+        } else {
+            targetList = this.worldState[this.targetParticipantName];
+        }
         const valueToInsert = this.worldState[this.valueParticipantName];
 
         if (!Array.isArray(targetList)) {

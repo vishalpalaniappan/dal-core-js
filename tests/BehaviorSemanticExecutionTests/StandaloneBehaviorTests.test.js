@@ -1,0 +1,90 @@
+import {describe, expect, it} from "vitest";
+
+import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior.js";
+
+describe("standalone behaviors semantic execution tests", () => {
+
+    it("creates a behavior with multiple primitives and executes transformation", async () => {
+        /**
+         * This is a separate test just for testing the behavior class
+         * in isolation. I am using this because I don't want to run
+         * all the other tests at the same time while developing.
+         */
+
+        // Transformation #1
+        // Set the value of basket to be book
+        let behavior = new ExecutableBehavior();
+        behavior.addPrimitive("set basket book []");
+
+        behavior.setPreWorldState({
+            book: {"name": "Harry Potter"},
+            basket: null,
+        });
+
+        behavior.setPostWorldState({
+            book: {"name": "Harry Potter"},
+            basket: {"name": "Harry Potter"}
+        });
+
+        let [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.basket.name).toBe("Harry Potter");
+
+        // Transformation #2
+        // Insert book into basket at index 0
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive("insert book basket [] 0");
+
+        behavior.setPreWorldState({
+            book: {"name": "Harry Potter"},
+            basket: [],
+        });
+
+        behavior.setPostWorldState({
+            book: {"name": "Harry Potter"},
+            basket: [{"name": "Harry Potter"}],
+        });
+
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.basket[0].name).toBe("Harry Potter");
+
+        // Transformation #3
+        // Insert book into basket key "contents" at index 0
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive('insert book basket ["contents"] 0');
+
+        behavior.setPreWorldState({
+            book: {"name": "Harry Potter"},
+            basket: {"contents": []},
+        });
+
+        behavior.setPostWorldState({
+            book: {"name": "Harry Potter"},
+            basket: {"contents": [{"name": "Harry Potter"}]},
+        });
+
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.basket.contents[0].name).toBe("Harry Potter");
+
+        // Transformation #4
+        //  Set the value of book key "name" to be name participant
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive('set book name ["name"]');
+
+        behavior.setPreWorldState({
+            book: {"name": ""},
+            name: "Lord of the Rings",
+        });
+
+        behavior.setPostWorldState({
+            book: {"name": "Lord of the Rings"},
+            name: "Lord of the Rings",
+        });
+
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.book.name).toBe("Lord of the Rings");
+    });
+});

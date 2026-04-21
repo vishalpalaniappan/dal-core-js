@@ -21,7 +21,7 @@ class BehavioralLanguageParser {
      * and then propogate the world state forward to the next
      * primitive.
      *
-     * I am starting with just the set and insert primitive. A world
+     * I am starting with just the setkey and insert primitive. A world
      * state has to provided with participants and these participants
      * will be refrenced in the script and the transformations will
      * be applied by the primitives.
@@ -31,7 +31,7 @@ class BehavioralLanguageParser {
     }
 
     execute (script, participants) {
-        // Ex: set <target_participant> <value_participant> <key>
+        // Ex: set <target_participant> <value_participant> [keys]
         const isSet = re["SET_RE"].test(script);
         if (isSet) {
             return this.executeSet(script, participants);
@@ -46,23 +46,22 @@ class BehavioralLanguageParser {
 
     executeSet (script, participants) {
         console.log("Executing set");
-        const [, targetParticipantName, valueParticipantName, keys] = script.match(re["SET_RE"]);
+        const [, targetPName, valuePName, keys] = script.match(re["SET_RE"]);
         const input = {
-            key: JSON.parse(keys)[0],
-            targetParticipantName: targetParticipantName,
-            valueParticipantName: valueParticipantName,
+            keys: JSON.parse(keys),
+            targetParticipantName: targetPName,
+            valueParticipantName: valuePName,
         };
         return new SetPrimitive(input, participants).apply_transformations();
     }
 
     executeInsert (script, participants) {
         console.log( "Executing insert");
-        // eslint-disable-next-line max-len
-        const [, valueParticipantName, targetParticipantName, keys, position] = script.match(re["INSERT_RE"]);
+        const [, valuePName, targetPName, keys, position] = script.match(re["INSERT_RE"]);
         const input = {
-            targetParticipantName: targetParticipantName,
-            key: JSON.parse(keys)[0],
-            valueParticipantName: valueParticipantName,
+            targetParticipantName: targetPName,
+            keys: JSON.parse(keys),
+            valueParticipantName: valuePName,
             index: parseInt(position),
         };
         return new InsertPrimitive(input, participants).apply_transformations();

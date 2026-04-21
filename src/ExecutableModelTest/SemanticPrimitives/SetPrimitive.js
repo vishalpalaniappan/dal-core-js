@@ -28,19 +28,23 @@ class SetPrimitive extends SemanticPrimitive {
     }
 
     validate_inputs (args) {
-        const expectedArgs = ["targetParticipantName", "key", "valueParticipantName"];
+        const expectedArgs = ["targetParticipantName", "keys", "valueParticipantName"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
         if (missingKeys.length > 0) {
             throw new Error(`Missing required arguments: ${missingKeys.join(", ")}`);
         }
         this.targetParticipantName = args.targetParticipantName;
-        this.key = args.key;
+        this.keys = args.keys;
         this.valueParticipantName = args.valueParticipantName;
     }
 
     apply_transformations () {
-        const expectedParticipant = this.worldState[this.targetParticipantName];
-        expectedParticipant[this.key] = this.worldState[this.valueParticipantName];
+        const value = this.worldState[this.valueParticipantName];
+        if (this.keys && this.keys.length > 0) {
+            this.worldState[this.targetParticipantName][this.keys[0]] = value;
+        } else {
+            this.worldState[this.targetParticipantName] = value;
+        }
         return this.worldState;
     }
 }
