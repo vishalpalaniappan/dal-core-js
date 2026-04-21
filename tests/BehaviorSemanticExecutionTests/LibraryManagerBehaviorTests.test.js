@@ -26,7 +26,6 @@ describe("tests the behaviors in the library manager", () => {
         expect(isValid).toBe(true);
         expect(updatedParticipants.pendingBook).toEqual({});
 
-
         // Accepts a book name
         behavior = new ExecutableBehavior();
         behavior.addPrimitive("create tempName");
@@ -51,7 +50,6 @@ describe("tests the behaviors in the library manager", () => {
         expect(isValid).toBe(true);
         expect(updatedParticipants.pendingBook).toEqual({"name": "Harry Potter", "genre": "Fantasy"});
 
-
         // Create book
         behavior = new ExecutableBehavior();
         behavior.addPrimitive("create book");
@@ -73,9 +71,8 @@ describe("tests the behaviors in the library manager", () => {
         expect(isValid).toBe(true);
         expect(updatedParticipants.basket).toEqual([{"name": "Harry Potter", "genre": "Fantasy"}]);
 
-        expect(updatedParticipants).toEqual({
-            basket: [{"name": "Harry Potter", "genre": "Fantasy"}],
-        });
+        // Expected final state of participants
+        expect(updatedParticipants).toEqual({basket: [{"name": "Harry Potter", "genre": "Fantasy"}]});
         console.log("Final participants:", updatedParticipants);
     });
 });
