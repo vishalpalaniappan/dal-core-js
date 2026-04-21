@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {describe, expect, it} from "vitest";
 
 import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior.js";
@@ -28,5 +29,17 @@ describe("tests the behaviors in the library manager", () => {
         [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.pendingBook).toEqual({"name": "Harry Potter"});
+
+        // Accepts a genre
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create tempGenre");
+        behavior.addPrimitive('set pendingBook tempGenre ["genre"]');
+        behavior.addPrimitive("remove tempGenre");
+        behavior.setArgs({initialValue: "Fantasy"});
+        behavior.setPreWorldState(updatedParticipants);
+        behavior.setPostWorldState({pendingBook: {"name": "Harry Potter", "genre": "Fantasy"}});
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.pendingBook).toEqual({"name": "Harry Potter", "genre": "Fantasy"});
     });
 });
