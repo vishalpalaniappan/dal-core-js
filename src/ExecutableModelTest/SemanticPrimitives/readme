@@ -8,12 +8,13 @@ These primitives are a declarative semantic rule that the engine can execute to 
 > The list below is ongoing and will be populated as the Behavioral Language is defined further.
 
 ### Axiomatic Primitives
-- [Get Primitive](/src/ExecutableModelTest/SemanticPrimitives/GetPrimitive/readme)
-- [Set Primitive](/src/ExecutableModelTest/SemanticPrimitives/SetPrimitive/readme)
 - [Create Primitive](/src/ExecutableModelTest/SemanticPrimitives/CreatePrimitive/readme)
-- [Remove Primitive](/src/ExecutableModelTest/SemanticPrimitives/RemovePrimitive/readme)
-- [Insert Primitive](/src/ExecutableModelTest/SemanticPrimitives/InsertPrimitive/readme)
+- [Get Primitive](/src/ExecutableModelTest/SemanticPrimitives/GetPrimitive/readme)
 - [GetFromPos Primitive](/src/ExecutableModelTest/SemanticPrimitives/GetFromPosPrimitive/readme)
+- [HasKey Primitive](/src/ExecutableModelTest/SemanticPrimitives/HasKeyPrimitive/readme)
+- [Insert Primitive](/src/ExecutableModelTest/SemanticPrimitives/InsertPrimitive/readme)
+- [Remove Primitive](/src/ExecutableModelTest/SemanticPrimitives/RemovePrimitive/readme)
+- [Set Primitive](/src/ExecutableModelTest/SemanticPrimitives/SetPrimitive/readme)
 
 ### Derived Primitives
 - Transfer Primitive
