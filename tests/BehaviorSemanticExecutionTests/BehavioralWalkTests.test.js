@@ -1,3 +1,4 @@
+import {describe, expect, it} from "vitest";
 
 import behaviors from "./library_manager_behaviors.js";
 
