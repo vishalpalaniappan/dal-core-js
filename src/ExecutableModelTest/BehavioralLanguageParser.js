@@ -3,7 +3,7 @@ import SetPrimitive from "./SemanticPrimitives/SetPrimitive.js";
 
 const re = {
     "SET_RE": /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
-    "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,    
+    "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
 }
 
 class BehavioralLanguageParser {

@@ -1,5 +1,3 @@
-import isEqual from "lodash/isEqual";
-
 import SemanticPrimitive from "./SemanticPrimitive.js";
 
 class InsertPrimitive extends SemanticPrimitive {
