@@ -3,6 +3,32 @@ import {describe, expect, it} from "vitest";
 
 import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior.js";
 
+const BEHAVIORS = [
+    "InitializeWorld",
+    "CreatePendingBook",
+    "AcceptBookName",
+    "AcceptBookGenre",
+    "CreateBook",
+    "AddBookToBasket",
+    "GetBookFromBasket",
+    "GetFirstLetterOfBookName",
+    "CheckIfHaveKeyForFirstLetter",
+]
+
+const TRANSITIONS = {
+    "InitializeWorld": ["CreatePendingBook"],
+    "CreatePendingBook": ["AcceptBookName"],
+    "AcceptBookName": ["AcceptBookGenre"],
+    "AcceptBookGenre": ["CreateBook"],
+    "CreateBook": ["AddBookToBasket"],
+    "AddBookToBasket": [],
+    "GetBookFromBasket": ["GetFirstLetterOfBookName"],
+    "GetFirstLetterOfBookName": ["CheckIfHaveKeyForFirstLetter"],
+    ["CheckIfHaveKeyForFirstLetter"]: ["CreateSlotOnShelf", "PlaceBookOnShelf"],
+    ["CreateSlotOnShelf"]: ["PlaceBookOnShelf"],
+    ["PlaceBookOnShelf"]: [],
+}
+
 describe("tests the behaviors in the library manager", () => {
 
     it("accepts a book", async () => {
