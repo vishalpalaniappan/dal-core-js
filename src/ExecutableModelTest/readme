@@ -62,6 +62,10 @@ This is a composite behavior that is made up of semantic primitives. It describe
 
 This plans the primitives needed to implement library manager design with transformations built from primitives. This will be used to establish the automated debugging functionality along with verification of implementation using the executable semantic model.
 
+AcceptBook
+- This is very interesting because the environment will submit a value here. The behavior itself add a book to the world state but there is no notion of the correct book. Except ofcourse, the invariants placed on the post behavior state (book name length etc.)
+So the engine will also receive a value here, it will accept it from the environment.
+
 GetBookFromBasket
 - getFromPos basket 0 book
 
