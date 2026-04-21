@@ -1,4 +1,4 @@
-import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive.js";
+import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
 
 const re = {
