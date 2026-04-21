@@ -1,0 +1,65 @@
+### GetFromPos Primitive
+
+The GetFromPos primitive will get a value from source at the given position and assign it to the target.
+
+```text
+getFromPos <source> <position> <target>
+```
+Syntax Structure:
+- `Set`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<source>` 
+    * Type: *string*
+    * This is the name of the participant whose value at position will be read.
+- `<position>` 
+    * Type: *number*
+    * This is the position in the list that will be read.
+- `<target>` 
+    * Type: *String*
+    * This is the name of the participant that will be written to.
+
+#### Example 1:
+Gets a book from a basket of books.
+
+```text
+create book
+getFromPos basket 0 book
+```
+
+Pre-transformation state:
+```text
+    {
+        basket: ["Lord of the Rings"],
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        basket: ["Lord of the Rings"],
+        book: "Lord of the Rings",
+    }
+```
+#### Example 2:
+Gets the first letter of a string
+
+```text
+create first_letter
+getFromPos name 0 first_letter
+```
+
+Pre-transformation state:
+```text
+    {
+        name: "Lord of the Rings",
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        name: "Lord of the Rings",
+        first_letter: "L",
+    }
+```
