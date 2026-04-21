@@ -6,6 +6,7 @@ const re = {
     "SET_RE": /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
     "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
+    "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/
 }
 
 class BehavioralLanguageParser {
@@ -47,6 +48,12 @@ class BehavioralLanguageParser {
         if (isGet) {
             return this.executeGet(script, participants);
         }
+
+        // Ex: remove <key> from <participant>
+        const isRemoveKey = re["REMOVE_KEY_RE"].test(script);
+        if (isRemoveKey) {
+            return this.executeRemoveKey(script, participants);
+        }
     }
 
     executeSet (script, participants) {
@@ -81,6 +88,16 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         return new GetPrimitive(input, participants).apply_transformations();
+    }
+
+    executeRemoveKey (script, participants) {
+        console.log("Executing remove key");
+        const [, key, targetPName] = script.match(re["REMOVE_KEY_RE"]);
+        const input = {
+            targetParticipantName: targetPName,
+            key: key,
+        };
+        return new RemoveKeyPrimitive(input, participants).apply_transformations();
     }
 }
 
