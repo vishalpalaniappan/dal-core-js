@@ -221,4 +221,24 @@ describe("standalone behaviors semantic execution tests", () => {
         expect(isValid).toBe(true);
         expect(updatedParticipants.basket).toEqual([]);
     });
+
+    it ("tests hasKey primitive", async () => {
+        // Check if a key exists in the book object
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create has_name");
+        behavior.addPrimitive("hasKey book keyName has_name []");
+
+        behavior.setPreWorldState({
+            book: {"name": "Lord of the Rings"},
+            keyName: "name",
+        });
+
+        behavior.setPostWorldState({
+            has_name: true,
+        });
+
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.has_name).toBe(true);
+    });
 });
