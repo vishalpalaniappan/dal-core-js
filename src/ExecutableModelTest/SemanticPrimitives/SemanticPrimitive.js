@@ -10,10 +10,9 @@ class SemanticPrimitive {
 
     /**
      * Validate the inputs to the primitive.
-     * @param {Object} args Input arguments
      */
-    validate_inputs (args) {
-        // To be implemented by subclasses
+    validate_inputs () {
+        throw new Error("validate_inputs must be implemented by primitive subclass");
     }
 
     /**
@@ -22,7 +21,7 @@ class SemanticPrimitive {
      * @returns {Object} The updated state of the world
      */
     apply_transformations () {
-        // To be implemented by subclasses
+        throw new Error("apply_transformations must be implemented by primitive subclass");
     }
 };
 
