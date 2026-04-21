@@ -41,5 +41,19 @@ describe("tests the behaviors in the library manager", () => {
         [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.pendingBook).toEqual({"name": "Harry Potter", "genre": "Fantasy"});
+
+
+        // Create book
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create book");
+        behavior.addPrimitive("set book pendingBook []");
+        behavior.addPrimitive("remove pendingBook");
+        behavior.setPreWorldState(updatedParticipants);
+        behavior.setPostWorldState({book: {"name": "Harry Potter", "genre": "Fantasy"}});
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.book).toEqual({"name": "Harry Potter", "genre": "Fantasy"});
+
+        console.log("Final participants:", updatedParticipants);
     });
 });
