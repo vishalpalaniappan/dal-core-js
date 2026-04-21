@@ -120,17 +120,19 @@ describe("tests the behaviors in the library manager", () => {
         expect(isValid).toBe(true);
         expect(updatedParticipants.first_letter).toBe("T");
 
-        /**
-         * I will create behavior that will flag the existence of T key. Rather
-         * than create an explicit control flow, I will use the world state to determine
-         * which behavior is exhibited next. In this sense, the state of the world chooses
-         * the next behavior.
-         *
-         * Its not exactly an explicit control flow in the traditional sense, its that based
-         * on the world state, certain behaviors will be valid. I'm not introducing explicit control,
-         * flow, I am reacting to the output of the transformations. I guess that is what traditional
-         * control flow is, I am just externalizing it. Anyway, I will work through the right
-         * terms to communicate that.
-         */
+        // Generate Flag for if we have the key for the first letter of the book
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create has_key_for_letter");
+        behavior.addPrimitive("hasKey book first_letter has_key_for_letter []");
+        behavior.setPreWorldState(updatedParticipants);
+        behavior.setPostWorldState({
+            book_shelf: {},
+            basket: [],
+            book: {name: "The Great Gatsby", genre: "Classic"},
+            first_letter: "T",
+            has_key_for_letter: false,
+        });
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
     });
 });
