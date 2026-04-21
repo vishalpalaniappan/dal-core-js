@@ -6,14 +6,23 @@ import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior
 describe("tests the behaviors in the library manager", () => {
 
     it("accepts a book", async () => {
+        // Create basket to initialize world
+        let behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create basket");
+        behavior.setPreWorldState({});
+        behavior.setPostWorldState({basket: []});
+        behavior.setArgs({initialValue: []});
+        let [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.basket).toEqual([]);
 
         // Creates a pending book
-        let behavior = new ExecutableBehavior();
+        behavior = new ExecutableBehavior();
         behavior.addPrimitive("create pendingBook");
-        behavior.setPreWorldState({});
+        behavior.setPreWorldState(updatedParticipants);
         behavior.setPostWorldState({pendingBook: {}});
         behavior.setArgs({initialValue: {}});
-        let [updatedParticipants, isValid] = behavior.computeTransformations();
+        [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.pendingBook).toEqual({});
 
@@ -56,19 +65,17 @@ describe("tests the behaviors in the library manager", () => {
 
         // Add book to basket
         behavior = new ExecutableBehavior();
-        behavior.addPrimitive("create basket");
         behavior.addPrimitive("insert book basket [] 0");
         behavior.addPrimitive("remove book");
-        behavior.setArgs({initialValue: []});
         behavior.setPreWorldState(updatedParticipants);
         behavior.setPostWorldState({basket: [{"name": "Harry Potter", "genre": "Fantasy"}]});
         [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.basket).toEqual([{"name": "Harry Potter", "genre": "Fantasy"}]);
 
-        console.log("Final participants:", updatedParticipants);
         expect(updatedParticipants).toEqual({
             basket: [{"name": "Harry Potter", "genre": "Fantasy"}],
         });
+        console.log("Final participants:", updatedParticipants);
     });
 });
