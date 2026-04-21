@@ -86,5 +86,44 @@ describe("standalone behaviors semantic execution tests", () => {
         [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.book.name).toBe("Lord of the Rings");
+
+
+        // Transformation #5
+        // Get the value of book key "name" and store it in book_name
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive('get book ["name"] book_name');
+
+        behavior.setPreWorldState({
+            book: {"name": "Lord of the Rings"},
+            book_name: null,
+        });
+
+        behavior.setPostWorldState({
+            book: {"name": "Lord of the Rings"},
+            book_name: "Lord of the Rings",
+        });
+
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(updatedParticipants.book_name).toBe("Lord of the Rings");
+
+
+        // Transformation #6
+        // Get the value of book and store it in book_copy
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive('get book [] book_copy');
+
+        behavior.setPreWorldState({
+            book: {"name": "Lord of the Rings"},
+            book_copy: null,
+        });
+
+        behavior.setPostWorldState({
+            book: {"name": "Lord of the Rings"},
+            book_copy: {"name": "Lord of the Rings"},
+        });
+
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(updatedParticipants.book_copy.name).toBe("Lord of the Rings");
+
     });
 });

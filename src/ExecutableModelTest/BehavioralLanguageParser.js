@@ -1,9 +1,11 @@
+import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
 
 const re = {
     "SET_RE": /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
     "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
+    "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
 }
 
 class BehavioralLanguageParser {
@@ -39,6 +41,12 @@ class BehavioralLanguageParser {
         if (isInsert) {
             return this.executeInsert(script, participants);
         }
+
+        // Ex: get <from> ["keys"] <target>
+        const isGet = re["GET_RE"].test(script);
+        if (isGet) {
+            return this.executeGet(script, participants);
+        }
     }
 
     executeSet (script, participants) {
@@ -62,6 +70,17 @@ class BehavioralLanguageParser {
             index: parseInt(position),
         };
         return new InsertPrimitive(input, participants).apply_transformations();
+    }
+
+    executeGet (script, participants) {
+        console.log("Executing get");
+        const [, sourcePName, keys, targetPName] = script.match(re["GET_RE"]);
+        const input = {
+            sourceParticipantName: sourcePName,
+            keys: JSON.parse(keys),
+            targetParticipantName: targetPName,
+        };
+        return new GetPrimitive(input, participants).apply_transformations();
     }
 }
 
