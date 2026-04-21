@@ -67,6 +67,7 @@ class BehavioralLanguageParser {
             return this.executeRemove(script, participants);
         }
 
+        // Ex: getFromPos <source> <position> <target>
         const isGetFromPos = re["GET_FROM_POS_RE"].test(script);
         if (isGetFromPos) {
             return this.executeGetFromPos(script, participants);
