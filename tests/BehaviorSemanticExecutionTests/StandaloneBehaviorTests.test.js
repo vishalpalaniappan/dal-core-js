@@ -52,21 +52,21 @@ describe("standalone behaviors semantic execution tests", () => {
         // Transformation #3
         // Insert book into basket key "contents" at index 0
         behavior = new ExecutableBehavior();
-        behavior.addPrimitive('insert book basket ["contents"] 0');
+        behavior.addPrimitive('insert book basket ["contents", "nested_content"] 0');
 
         behavior.setPreWorldState({
             book: {"name": "Harry Potter"},
-            basket: {"contents": []},
+            basket: {"contents": {"nested_content": []}},
         });
 
         behavior.setPostWorldState({
             book: {"name": "Harry Potter"},
-            basket: {"contents": [{"name": "Harry Potter"}]},
+            basket: {"contents": {"nested_content": [{"name": "Harry Potter"}]}},
         });
 
         [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
-        expect(updatedParticipants.basket.contents[0].name).toBe("Harry Potter");
+        expect(updatedParticipants.basket.contents.nested_content[0].name).toBe("Harry Potter");
 
         // Transformation #4
         //  Set the value of book key "name" to be name participant

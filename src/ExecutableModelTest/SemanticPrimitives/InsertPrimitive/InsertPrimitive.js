@@ -38,11 +38,14 @@ class InsertPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        let targetList;
+        let targetList = this.worldState[this.targetParticipantName];
         if (this.keys && this.keys.length > 0) {
-            targetList = this.worldState[this.targetParticipantName][this.keys[0]];
-        } else {
-            targetList = this.worldState[this.targetParticipantName];
+            for (const key of this.keys) {
+                if (!(key in targetList)) {
+                    throw new Error(`Key "${key}" does not exist on target path.`);
+                }
+                targetList = targetList[key];
+            }
         }
         const valueToInsert = this.worldState[this.valueParticipantName];
 
