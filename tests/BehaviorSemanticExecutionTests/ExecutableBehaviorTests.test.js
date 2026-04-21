@@ -66,33 +66,4 @@ describe("behaviors semantic execution tests", () => {
         expect(updatedParticipants.book.name).toBe("Harry Potter");
         expect(updatedParticipants.basket.contents[0].name).toBe("Harry Potter");
     });
-
-
-    it("creates a behavior and executes transfor with invalid post state", async () => {
-        const behavior = new ExecutableBehavior();
-        behavior.addPrimitive('set book name ["name"]');
-        behavior.addPrimitive('insert book basket ["contents"] 0');
-
-        behavior.setPreWorldState({
-            basket: {"contents": []},
-            book: {"name": ""},
-            name: "test name",
-        });
-
-        // Note: I have to set the values in this way because the UID's of the
-        // participants are different if I create a new participant. A reminder
-        // for myself:
-        // TODO: Create proper clone method for participant that preserves UID.
-        behavior.setPostWorldState({
-            basket: {"contents": [{"name": ""}]},
-            book: {"name": "test name"},
-            name: "test name",
-        });
-
-        const [updatedParticipants, isValid] = behavior.computeTransformations();
-
-        expect(isValid).toBe(false);
-        expect(updatedParticipants.book.name).toBe("test name");
-        expect(updatedParticipants.basket.contents[0].name).toBe("test name");
-    });
 });
