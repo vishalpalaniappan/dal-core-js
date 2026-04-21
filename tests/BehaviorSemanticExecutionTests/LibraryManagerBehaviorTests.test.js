@@ -125,6 +125,12 @@ describe("tests the behaviors in the library manager", () => {
          * than create an explicit control flow, I will use the world state to determine
          * which behavior is exhibited next. In this sense, the state of the world chooses
          * the next behavior.
+         *
+         * Its not exactly an explicit control flow in the traditional sense, its that based
+         * on the world state, certain behaviors will be valid. I'm not introducing explicit control,
+         * flow, I am reacting to the output of the transformations. I guess that is what traditional
+         * control flow is, I am just externalizing it. Anyway, I will work through the right
+         * terms to communicate that.
          */
     });
 });
