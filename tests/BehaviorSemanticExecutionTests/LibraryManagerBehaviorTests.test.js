@@ -2,6 +2,7 @@
 import {describe, expect, it} from "vitest";
 
 import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior.js";
+import behaviors from "./library_manager_behaviors.js";
 
 const BEHAVIORS = [
     "InitializeWorld",
@@ -160,5 +161,18 @@ describe("tests the behaviors in the library manager", () => {
         });
         [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
+    });
+
+
+    it("runs the state machine", async () => {
+        let currentBehavior = "InitializeWorld";
+
+        let [updatedParticipants, isValid] = behaviors[currentBehavior]({});
+        expect(isValid).toBe(true);
+
+        currentBehavior = "CreatePendingBook";
+        [updatedParticipants, isValid] = behaviors[currentBehavior](updatedParticipants);
+
+        console.log(updatedParticipants);
     });
 });
