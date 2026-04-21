@@ -1,5 +1,5 @@
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive.js";
-import SetPrimitive from "./SemanticPrimitives/SetPrimitive.js";
+import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
 
 const re = {
     "SET_RE": /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,

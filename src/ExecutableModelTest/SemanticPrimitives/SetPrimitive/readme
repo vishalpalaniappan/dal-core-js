@@ -1,0 +1,64 @@
+### Set Primitive
+
+The set primitive will set the value of a participant or a key of a participant.
+
+```text
+set <target_participant> <value_participant> <keys>
+```
+Syntax Structure:
+- Set:String
+    * This is the command identifier
+- <value_participant>:String
+    * This is the name of the participant whose value will be assigned.
+- <target_participant>:String
+    * This is the name of the participant that will be written to.
+- <keys> - Array of String
+    * This is an array of strings, representing the key path to the value to set. 
+    * For example, ["a","b"] will be target_participant["a"]["b"]
+    * If the key is specified as [], it indicates that the value should be directly assigned to the participant.
+
+#### Example 1:
+Set the value of a book's name. This operation expects book to be an object with a "name" key. It assigns the participant name's value to the name key of the book.
+
+```text
+set book name ["name"]
+```
+
+Pre-transformation state:
+```text
+    {
+        book: {"name": ""},
+        name: "Lord of the Rings",
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        book: {"name": "Lord of the Rings"},
+        name: "Lord of the Rings",
+    }
+```
+
+#### Example 2:
+Sets the value of a participant directly to another participant. In this operation, the keys list is empty, telling the primitive to assign the value directly. 
+
+```text
+set basket book []
+```
+
+Pre-transformation state:
+```text
+    {
+        book: {"name": "Harry Potter"},
+        bookCopy: null,
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        book: {"name": ""},
+        bookCopy: {"name": "Harry Potter"},
+    }
+```
