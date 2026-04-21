@@ -41,8 +41,8 @@ class SetPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        const expectedParticipant = this.worldState[this.targetParticipantName].getValue();
-        expectedParticipant[this.key] = this.worldState[this.valueParticipantName].getValue();
+        const expectedParticipant = this.worldState[this.targetParticipantName];
+        expectedParticipant[this.key] = this.worldState[this.valueParticipantName];
         return this.worldState;
     }
 }

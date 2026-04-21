@@ -60,8 +60,8 @@ class ExecutableBehavior {
             if (!(participantName in this.currentWorldState)) {
                 throw new Error(`Expected Participant ${participantName} is missing`);
             }
-            const expectedValue = this.postWorldState[participantName].getValue();
-            const actualValue = this.currentWorldState[participantName].getValue();
+            const expectedValue = this.postWorldState[participantName];
+            const actualValue = this.currentWorldState[participantName];
             if (!isEqual(expectedValue, actualValue)) {
                 console.log(`Value mismatch for participant ${participantName}`);
                 return false;

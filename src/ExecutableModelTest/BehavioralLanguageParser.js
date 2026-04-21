@@ -30,11 +30,11 @@ class BehavioralLanguageParser {
         this.primitiveConstructors = {};
     }
 
-    execute (script, participants, participants_post) {
+    execute (script, participants) {
         // Ex: set <target_participant> <value_participant> <key>
         const isSet = re["SET_RE"].test(script);
         if (isSet) {
-            return this.executeSet(script, participants,participants_post);
+            return this.executeSet(script, participants);
         }
 
         // Ex: insert <value> <target> [keys] <position>

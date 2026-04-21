@@ -49,8 +49,8 @@ class InsertPrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        const targetList = this.worldState[this.targetParticipantName].getValue()[this.key];
-        const valueToInsert = this.worldState[this.valueParticipantName].getValue();
+        const targetList = this.worldState[this.targetParticipantName][this.key];
+        const valueToInsert = this.worldState[this.valueParticipantName];
 
         if (!Array.isArray(targetList)) {
             throw new Error(`Target key "${this.key}" must reference an array.`);

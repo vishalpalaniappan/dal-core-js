@@ -1,13 +1,6 @@
 import {describe, expect, it} from "vitest";
 
-import Participant from "../../src/Design/Participant.js"
 import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior.js";
-
-const createParticipant = (name, value) => {
-    const participant = new Participant({name: name, description: ""});
-    participant.setValue(value);
-    return participant;
-}
 
 describe("behaviors semantic execution tests", () => {
 
@@ -55,27 +48,23 @@ describe("behaviors semantic execution tests", () => {
         behavior.addPrimitive('set book name ["name"]');
         behavior.addPrimitive('insert book basket ["contents"] 0');
 
-        const basket = createParticipant("basket", {"contents": []});
-        const book = createParticipant("book", {"name": ""});
-        const name = createParticipant("name", "Harry Potter");
-
         behavior.setPreWorldState({
-            basket: basket,
-            book: book,
-            name: name,
+            basket: {"contents": []},
+            book: {"name": ""},
+            name: "Harry Potter",
         });
 
         behavior.setPostWorldState({
-            basket: basket.clone({"contents": [{"name": "Harry Potter"}]}),
-            book: book.clone({"name": "Harry Potter"}),
-            name: name.clone("Harry Potter"),
+            basket: {"contents": [{"name": "Harry Potter"}]},
+            book: {"name": "Harry Potter"},
+            name: "Harry Potter",
         });
 
         const [updatedParticipants, isValid] = behavior.computeTransformations();
 
         expect(isValid).toBe(true);
-        expect(updatedParticipants.book._value.name).toBe("Harry Potter");
-        expect(updatedParticipants.basket._value.contents[0].name).toBe("Harry Potter");
+        expect(updatedParticipants.book.name).toBe("Harry Potter");
+        expect(updatedParticipants.basket.contents[0].name).toBe("Harry Potter");
     });
 
 
@@ -84,14 +73,10 @@ describe("behaviors semantic execution tests", () => {
         behavior.addPrimitive('set book name ["name"]');
         behavior.addPrimitive('insert book basket ["contents"] 0');
 
-        const basket = createParticipant("basket", {"contents": []});
-        const book = createParticipant("book", {"name": ""});
-        const name = createParticipant("name", "test name");
-
         behavior.setPreWorldState({
-            basket: basket,
-            book: book,
-            name: name,
+            basket: {"contents": []},
+            book: {"name": ""},
+            name: "test name",
         });
 
         // Note: I have to set the values in this way because the UID's of the
@@ -99,15 +84,15 @@ describe("behaviors semantic execution tests", () => {
         // for myself:
         // TODO: Create proper clone method for participant that preserves UID.
         behavior.setPostWorldState({
-            basket: basket.clone({"contents": [{"name": ""}]}),
-            book: book.clone({"name": "test"}),
-            name: name.clone("test"),
+            basket: {"contents": [{"name": ""}]},
+            book: {"name": "test name"},
+            name: "test name",
         });
 
         const [updatedParticipants, isValid] = behavior.computeTransformations();
 
         expect(isValid).toBe(false);
-        expect(updatedParticipants.book._value.name).toBe("test name");
-        expect(updatedParticipants.basket._value.contents[0].name).toBe("test name");
+        expect(updatedParticipants.book.name).toBe("test name");
+        expect(updatedParticipants.basket.contents[0].name).toBe("test name");
     });
 });
