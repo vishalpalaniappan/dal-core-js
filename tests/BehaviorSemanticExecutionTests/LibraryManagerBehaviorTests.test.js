@@ -78,7 +78,7 @@ describe("tests the behaviors in the library manager", () => {
 
     it("places a book on the shelf", async () => {
         // Initialize the world
-        const initialWorlState = {
+        const initialWorldState = {
             book_shelf: {},
             basket: [
                 {name: "The Great Gatsby", genre: "Classic"},
@@ -90,7 +90,7 @@ describe("tests the behaviors in the library manager", () => {
         behavior.addPrimitive("create book");
         behavior.addPrimitive("getFromPos basket 0 book");
         behavior.addPrimitive("removeFromPos basket 0");
-        behavior.setPreWorldState(initialWorlState);
+        behavior.setPreWorldState(initialWorldState);
         behavior.setPostWorldState({
             basket: [],
             book: {name: "The Great Gatsby", genre: "Classic"},
@@ -101,6 +101,25 @@ describe("tests the behaviors in the library manager", () => {
         let [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.basket).toEqual([]);
+
+        // Get first letter of books name
+        behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create first_letter");
+        behavior.addPrimitive("create name");
+        behavior.addPrimitive('get book ["name"] name');
+        behavior.addPrimitive("getFromPos name 0 first_letter");
+        behavior.addPrimitive("remove name");
+        behavior.setPreWorldState(updatedParticipants);
+        behavior.setPostWorldState({
+            book_shelf: {},
+            basket: [],
+            book: {name: "The Great Gatsby", genre: "Classic"},
+            first_letter: "T",
+        });
+        [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.first_letter).toBe("T");
+
 
     });
 });
