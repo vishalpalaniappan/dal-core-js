@@ -32,8 +32,8 @@ class GetPrimitive extends SemanticPrimitive {
     apply_transformations () {
         let value = this.worldState[this.sourceParticipantName];
 
+        let target = value;
         if (this.keys && this.keys.length > 0) {
-            let target = value;
             for (const key of this.keys) {
                 if (!(key in target)) {
                     throw new Error(`Key "${key}" does not exist on target path.`);
