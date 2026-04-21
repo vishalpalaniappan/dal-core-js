@@ -1,4 +1,4 @@
-import SemanticPrimitive from "./SemanticPrimitive.js";
+import SemanticPrimitive from "../SemanticPrimitive.js";
 
 class InsertPrimitive extends SemanticPrimitive {
     /**
