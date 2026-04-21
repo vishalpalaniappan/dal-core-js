@@ -1,6 +1,7 @@
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
+import RemovePrimitive from "./SemanticPrimitives/RemovePrimitive/RemovePrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
 
 const re = {
@@ -9,6 +10,7 @@ const re = {
     "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/,
     "CREATE_RE": /^create\s+(.+?)$/,
+    "REMOVE_RE": /^remove\s+(.+?)$/,
 }
 
 class BehavioralLanguageParser {
@@ -56,6 +58,12 @@ class BehavioralLanguageParser {
         if (isCreate) {
             return this.executeCreate(script, participants, args);
         }
+
+        // Ex: remove <participant>
+        const isRemove = re["REMOVE_RE"].test(script);
+        if (isRemove) {
+            return this.executeRemove(script, participants);
+        }
     }
 
     executeSet (script, participants) {
@@ -100,6 +108,15 @@ class BehavioralLanguageParser {
             initialValue: args.initialValue,
         };
         return new CreatePrimitive(input, participants).apply_transformations();
+    }
+
+    executeRemove (script, participants) {
+        console.log("Executing remove");
+        const [, targetPName] = script.match(re["REMOVE_RE"]);
+        const input = {
+            targetParticipantName: targetPName,
+        };
+        return new RemovePrimitive(input, participants).apply_transformations();
     }
 
 }
