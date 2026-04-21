@@ -68,3 +68,9 @@ GetBookFromBasket
 GetFirstLetterOfBookName
 - get book ["name"] book_name
 - getFromPos book_name 0 firstLetter
+
+CreateSlotOnShelf
+- set book_shelf empty_slot [<first_letter>]
+
+PlaceBookOnShelf
+- insert book book_shelf [<first_letter>] 0
