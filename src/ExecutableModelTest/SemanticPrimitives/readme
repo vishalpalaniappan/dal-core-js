@@ -1,0 +1,24 @@
+## Primitives
+
+The following is a list of primitve transformations that the engine can compute. Some of the entries have already been implemented, while others are simply a definition that will be implemented and other definitions will be added later.
+
+These primitives are a declarative semantic rule that the engine can execute to derive the expected post-state, not an implementation of how the program performs the operation.
+
+### Set Primitive
+
+The set primitive will set the value of a participant or a key of a participant.
+
+```text
+set <target_participant> <value_participant> <keys>
+```
+Syntax Structure:
+- Set:String
+    * This is the command identifier
+- <value_participant>:String
+    * This is the name of the participant whose value will be assigned.
+- <target_participant>:String
+    * This is the name of the participant that will be written to.
+- <keys> - Array of String
+    * This is an array of strings, representing the key path to the value to set. 
+    * For example, ["a","b"] will be target_participant["a"]["b"]
+    * If the key is specified as [], it indicates that the value should be directly assigned to the participant.
