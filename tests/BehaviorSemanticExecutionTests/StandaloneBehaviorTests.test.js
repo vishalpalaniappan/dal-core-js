@@ -136,6 +136,7 @@ describe("standalone behaviors semantic execution tests", () => {
             book: {"name": "Lord of the Rings"},
         });
 
+        // Initial value of the book being created.
         behavior.setArgs({
             initialValue: {"name": "Lord of the Rings"},
         })
