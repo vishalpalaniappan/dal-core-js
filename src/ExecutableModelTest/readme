@@ -81,3 +81,8 @@ CreateSlotOnShelf
 
 PlaceBookOnShelf
 - insert book book_shelf [<first_letter>] 0
+
+GenerateAuditReport
+- create audit <empty_audit>
+- set audit basket ["basket"]
+- set audit book_shelf ["book_shelf"]
