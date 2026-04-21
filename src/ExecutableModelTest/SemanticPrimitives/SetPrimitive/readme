@@ -3,7 +3,7 @@
 The set primitive will set the value of a participant or a key of a participant.
 
 ```text
-set <target_participant> <value_participant> <keys>
+set <target_participant> <value_participant> [keys]
 ```
 Syntax Structure:
 - `Set`:
@@ -15,9 +15,9 @@ Syntax Structure:
 - `<value_participant>` 
     * Type: *string*
     * This is the name of the participant whose value will be assigned.
-- `<keys>` 
+- `[keys]` 
     * Type: *Array*
-    * This is an array of strings, representing the key path to the value to set. 
+    * This is an array of strings, representing the key path to the target to set. 
     * For example, ["a","b"] will be target_participant["a"]["b"]
     * If the key is specified as [], it indicates that the value should be directly assigned to the participant.
 
