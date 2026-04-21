@@ -1,4 +1,5 @@
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
+import GetFromPosPrimitive from "./SemanticPrimitives/GetFromPosPrimitive/GetFromPosPrimitive.js";
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
 import RemovePrimitive from "./SemanticPrimitives/RemovePrimitive/RemovePrimitive.js";
@@ -11,6 +12,7 @@ const re = {
     "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/,
     "CREATE_RE": /^create\s+(.+?)$/,
     "REMOVE_RE": /^remove\s+(.+?)$/,
+    "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
 }
 
 class BehavioralLanguageParser {
@@ -64,6 +66,13 @@ class BehavioralLanguageParser {
         if (isRemove) {
             return this.executeRemove(script, participants);
         }
+
+        const isGetFromPos = re["GET_FROM_POS_RE"].test(script);
+        if (isGetFromPos) {
+            return this.executeGetFromPos(script, participants);
+        }
+
+        throw new Error(`Script "${script}" does not match any known primitive patterns.`);
     }
 
     executeSet (script, participants) {
@@ -117,6 +126,17 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         return new RemovePrimitive(input, participants).apply_transformations();
+    }
+
+    executeGetFromPos (script, participants) {
+        console.log("Executing getFromPos");
+        const [, sourcePName, position, targetPName] = script.match(re["GET_FROM_POS_RE"]);
+        const input = {
+            sourceParticipantName: sourcePName,
+            position: position,
+            targetParticipantName: targetPName,
+        };
+        return new GetFromPosPrimitive(input, participants).apply_transformations();
     }
 
 }

@@ -128,7 +128,7 @@ describe("standalone behaviors semantic execution tests", () => {
     it ("tests create primitive", async () => {
         // Create a new book
         const behavior = new ExecutableBehavior();
-        behavior.addPrimitive("create book'");
+        behavior.addPrimitive("create book");
 
         behavior.setPreWorldState({});
 
@@ -160,5 +160,26 @@ describe("standalone behaviors semantic execution tests", () => {
         const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.book).toBeUndefined();
+    });
+
+
+    it ("tests get from position array", async () => {
+        // Get the first element from the book array
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive("getFromPos basket 0 book");
+
+        behavior.setPreWorldState({
+            basket: ["Lord of the Rings"],
+            book: null,
+        });
+
+        behavior.setPostWorldState({
+            basket: ["Lord of the Rings"],
+            book: "Lord of the Rings",
+        });
+
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.book).toBe("Lord of the Rings");
     });
 });
