@@ -37,9 +37,6 @@ class SetPrimitive extends SemanticPrimitive {
 
         if (this.keys && this.keys.length > 0) {
             for (const [index, key] of this.keys.entries()) {
-                if (!(key in target)) {
-                    throw new Error(`Key "${key}" does not exist on target path.`);
-                }
                 if (index === this.keys.length - 1) {
                     target[key] = value;
                 } else {
