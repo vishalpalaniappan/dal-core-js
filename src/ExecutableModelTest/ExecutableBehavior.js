@@ -49,6 +49,11 @@ class ExecutableBehavior {
     }
 
     setValidPreconditions (preConditions) {
+        /**
+         * With this approach, if you wanted to, you could drive the control
+         * flow of the implementation entirely from the semantics. It would be
+         * a different way of programming and a pretty powerful one.
+         */
         this.validPreconditions = preConditions;
     }
 
