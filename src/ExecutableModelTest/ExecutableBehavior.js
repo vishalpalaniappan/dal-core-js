@@ -43,11 +43,16 @@ class ExecutableBehavior {
         this.postWorldState = postWorldState;
     }
 
+    // Sets arguments for behavior like initial value fo create primitive.
+    setArgs (args) {
+        this.args = args;
+    }
+
     computeTransformations () {
         for (const primitive of this._primitives) {
             // execute primitive and update world state
             const updatedParticipants = this._parser.execute(
-                primitive, this.currentWorldState, this.postWorldState
+                primitive, this.currentWorldState, this.args
             );
             this.currentWorldState = updatedParticipants;
         }

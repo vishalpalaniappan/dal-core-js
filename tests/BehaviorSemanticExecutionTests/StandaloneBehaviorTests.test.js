@@ -125,21 +125,23 @@ describe("standalone behaviors semantic execution tests", () => {
         expect(updatedParticipants.book_copy.name).toBe("Lord of the Rings");
     });
 
-    it ("tests remove key primitive", async () => {
-        // Remove the key "name" from book
+    it ("tests create primitive", async () => {
+        // Create a new book
         const behavior = new ExecutableBehavior();
-        behavior.addPrimitive('remove name from book');
+        behavior.addPrimitive('create book');
 
-        behavior.setPreWorldState({
+        behavior.setPreWorldState({});
+
+        behavior.setPostWorldState({
             book: {"name": "Lord of the Rings"},
         });
 
-        behavior.setPostWorldState({
-            book: {},
-        });
+        behavior.setArgs({
+            initialValue: {"name": "Lord of the Rings"},
+        })
 
         const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
-        expect(updatedParticipants.book.name).toBeUndefined();
+        expect(updatedParticipants.book.name).toBe("Lord of the Rings");
     });
 });

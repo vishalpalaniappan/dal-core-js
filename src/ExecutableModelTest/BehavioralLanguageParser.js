@@ -1,6 +1,6 @@
+import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
-import RemoveKeyPrimitive from "./SemanticPrimitives/RemoveKeyPrimitive/RemoveKeyPrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
 
 const re = {
@@ -8,6 +8,7 @@ const re = {
     "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/,
+    "CREATE_RE": /^create\s+(.+?)$/,
 }
 
 class BehavioralLanguageParser {
@@ -31,7 +32,7 @@ class BehavioralLanguageParser {
         this.primitiveConstructors = {};
     }
 
-    execute (script, participants) {
+    execute (script, participants, args) {
         // Ex: set <target_participant> <value_participant> [keys]
         const isSet = re["SET_RE"].test(script);
         if (isSet) {
@@ -50,10 +51,10 @@ class BehavioralLanguageParser {
             return this.executeGet(script, participants);
         }
 
-        // Ex: remove <key> from <participant>
-        const isRemoveKey = re["REMOVE_KEY_RE"].test(script);
-        if (isRemoveKey) {
-            return this.executeRemoveKey(script, participants);
+        // Ex: create <participant>
+        const isCreate = re["CREATE_RE"].test(script);
+        if (isCreate) {
+            return this.executeCreate(script, participants, args);
         }
     }
 
@@ -91,15 +92,16 @@ class BehavioralLanguageParser {
         return new GetPrimitive(input, participants).apply_transformations();
     }
 
-    executeRemoveKey (script, participants) {
-        console.log("Executing remove key");
-        const [, key, targetPName] = script.match(re["REMOVE_KEY_RE"]);
+    executeCreate (script, participants, args) {
+        console.log("Executing create");
+        const [, targetPName] = script.match(re["CREATE_RE"]);
         const input = {
             targetParticipantName: targetPName,
-            key: key,
+            initialValue: args.initialValue,
         };
-        return new RemoveKeyPrimitive(input, participants).apply_transformations();
+        return new CreatePrimitive(input, participants).apply_transformations();
     }
+
 }
 
 export default BehavioralLanguageParser;
