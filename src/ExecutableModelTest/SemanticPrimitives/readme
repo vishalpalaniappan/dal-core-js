@@ -9,9 +9,9 @@ These primitives are a declarative semantic rule that the engine can execute to 
 
 ### Axiomatic Primitives
 - [Set Primitive](/src/ExecutableModelTest/SemanticPrimitives/SetPrimitive/readme)
-- Insert Primitive
+- [Insert Primitive](/src/ExecutableModelTest/SemanticPrimitives/InsertPrimitive/readme)
+- [Get Primitive](/src/ExecutableModelTest/SemanticPrimitives/GetPrimitive/readme)
 - Remove Primitive
-- Get Primitive
 
 ### Derived Primitives
 - Transfer Primitive
