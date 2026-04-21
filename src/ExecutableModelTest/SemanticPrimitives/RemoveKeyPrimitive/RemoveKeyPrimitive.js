@@ -11,14 +11,14 @@ class RemoveKeyPrimitive extends SemanticPrimitive {
      * @param {Object} inputs - The inputs required for the removekey operation.
      * @param {Object} worldstate - The state of the world before transformation
      */
-    constructor(inputs, worldstate) {
+    constructor (inputs, worldstate) {
         super("remove_key");
         this._type = "remove_key";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
     }
 
-    validate_inputs(args) {
+    validate_inputs (args) {
         const expectedArgs = ["targetParticipantName", "key"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
         if (missingKeys.length > 0) {
@@ -29,7 +29,7 @@ class RemoveKeyPrimitive extends SemanticPrimitive {
         this.key = args.key;
     }
 
-    apply_transformations() {
+    apply_transformations () {
         const participant = this.worldState[this.targetParticipantName];
 
         if (!participant) {

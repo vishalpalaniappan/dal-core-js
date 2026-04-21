@@ -18,7 +18,7 @@ class GetPrimitive extends SemanticPrimitive {
         this.worldState = worldstate;
     }
 
-    validate_inputs(args) {
+    validate_inputs (args) {
         const expectedArgs = ["sourceParticipantName", "keys", "targetParticipantName"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
         if (missingKeys.length > 0) {
