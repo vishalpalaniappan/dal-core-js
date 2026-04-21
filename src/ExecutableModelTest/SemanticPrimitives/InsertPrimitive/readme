@@ -1,4 +1,4 @@
-### insert Primitive
+### Insert Primitive
 
 The insert primitive will insert a value into a participant or the key of a participant. It will throw an error if the target participant or the key of the target participant is not an array.
 
