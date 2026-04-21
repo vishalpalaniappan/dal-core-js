@@ -1,7 +1,9 @@
+/* eslint-disable max-len */
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetFromPosPrimitive from "./SemanticPrimitives/GetFromPosPrimitive/GetFromPosPrimitive.js";
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
+import RemoveFromPositionPrimitive from "./SemanticPrimitives/RemoveFromPosPrimitive/RemoveFromPosPrimitive.js";
 import RemovePrimitive from "./SemanticPrimitives/RemovePrimitive/RemovePrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
 
@@ -13,6 +15,7 @@ const re = {
     "CREATE_RE": /^create\s+(.+?)$/,
     "REMOVE_RE": /^remove\s+(.+?)$/,
     "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
+    "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
 }
 
 class BehavioralLanguageParser {
@@ -71,6 +74,12 @@ class BehavioralLanguageParser {
         const isGetFromPos = re["GET_FROM_POS_RE"].test(script);
         if (isGetFromPos) {
             return this.executeGetFromPos(script, participants);
+        }
+
+        // Ex: removeFromPos <source> <position>
+        const isRemoveFromPos = re["REMOVE_FROM_POS_RE"].test(script);
+        if (isRemoveFromPos) {
+            return this.executeRemoveFromPos(script, participants);
         }
 
         throw new Error(`Script "${script}" does not match any known primitive patterns.`);
@@ -140,6 +149,15 @@ class BehavioralLanguageParser {
         return new GetFromPosPrimitive(input, participants).apply_transformations();
     }
 
+    executeRemoveFromPos (script, participants) {
+        console.log("Executing removeFromPos");
+        const [, sourcePName, position] = script.match(re["REMOVE_FROM_POS_RE"]);
+        const input = {
+            sourceParticipantName: sourcePName,
+            position: parseInt(position),
+        };
+        return new RemoveFromPositionPrimitive(input, participants).apply_transformations();
+    }
 }
 
 export default BehavioralLanguageParser;

@@ -203,4 +203,22 @@ describe("standalone behaviors semantic execution tests", () => {
         expect(isValid).toBe(true);
         expect(updatedParticipants.first_letter).toBe("L");
     });
+
+    it ("removes from position", async () => {
+        // Remove the first element from the book array
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive("removeFromPos basket 0");
+
+        behavior.setPreWorldState({
+            basket: ["Lord of the Rings"],
+        });
+
+        behavior.setPostWorldState({
+            basket: [],
+        });
+
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.basket).toEqual([]);
+    });
 });
