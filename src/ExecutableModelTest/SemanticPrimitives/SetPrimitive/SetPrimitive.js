@@ -31,8 +31,19 @@ class SetPrimitive extends SemanticPrimitive {
 
     apply_transformations () {
         const value = this.worldState[this.valueParticipantName];
+        let target = this.worldState[this.targetParticipantName];
+
         if (this.keys && this.keys.length > 0) {
-            this.worldState[this.targetParticipantName][this.keys[0]] = value;
+            for (const [index, key] of this.keys.entries()) {
+                if (!(key in target)) {
+                    throw new Error(`Key "${key}" does not exist on target path.`);
+                }
+                if (index === this.keys.length - 1) {
+                    target[key] = value;
+                } else {
+                    target = target[key];
+                }
+            }
         } else {
             this.worldState[this.targetParticipantName] = value;
         }
