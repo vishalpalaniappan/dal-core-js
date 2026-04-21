@@ -48,6 +48,27 @@ class ExecutableBehavior {
         this.args = args;
     }
 
+    setValidPreconditions (preConditions) {
+        this.validPreconditions = preConditions;
+    }
+
+    // Checks if the preconditions are valid for this behavior
+    // (ex: Shelf has slot vs shelf doesn't have slot)
+    isValidPreconditions (participants) {
+        for (const participantName in this.validPreconditions) {
+            if (!(participantName in participants)) {
+                throw new Error(`Expected Participant ${participantName} is missing`);
+            }
+            const expectedValue = this.validPreconditions[participantName];
+            const actualValue = participants[participantName];
+            if (!isEqual(expectedValue, actualValue)) {
+                console.log(`Precondition mismatch for participant ${participantName}`);
+                return false;
+            }
+        }
+        return true;
+    }
+
     computeTransformations () {
         for (const primitive of this._primitives) {
             // execute primitive and update world state
