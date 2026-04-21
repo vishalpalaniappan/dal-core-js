@@ -6,6 +6,8 @@ class GetPrimitive extends SemanticPrimitive {
      * accepts the necessary inputs and computes the transformation that
      * realizes the meaning of the get operation.
      *
+     * Syntax: get <from> ["keys"] <target>
+     *
      * See README for details on how to use the primitive.
      *
      * @param {Object} inputs - The inputs required for the get operation.

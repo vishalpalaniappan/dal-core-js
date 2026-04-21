@@ -5,8 +5,7 @@ class GetFromPositionPrimitive extends SemanticPrimitive {
      * Semantic definition:
      * Get value from a position in an indexable source (array or string)
      *
-     * Example:
-     * getFromPos basket 0 book
+     * Syntax: getFromPos <source> <position> <target>
      *
      * @param {Object} inputs
      * @param {Object} worldstate

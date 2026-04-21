@@ -6,6 +6,8 @@ class SetPrimitive extends SemanticPrimitive {
      * accepts the necessary inputs and computes the transformation that
      * realizes the meaning of the set operation.
      *
+     * Syntax: set <target_participant> <value_participant> [keys]
+     *
      * See README for details on how to use the primitive.
      *
      * @param {Object} inputs - The inputs required for the set operation.

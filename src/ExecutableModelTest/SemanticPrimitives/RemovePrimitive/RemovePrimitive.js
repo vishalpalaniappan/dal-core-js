@@ -4,7 +4,9 @@ class RemovePrimitive extends SemanticPrimitive {
     /**
      * Semantic definition of remove. Removes a participant from
      * the world state.
-     * 
+     *
+     * Syntax: remove <participant>
+     *
      * See README for details on how to use the primitive.
      *
      * @param {Object} inputs

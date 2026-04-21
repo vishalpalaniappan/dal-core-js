@@ -5,6 +5,11 @@ class CreatePrimitive extends SemanticPrimitive {
      * Semantic definition of create.
      * Introduces a new participant into the world state.
      *
+     * Syntax: create <participant>
+     *
+     * Initial value is assigned from intput args. If not provided
+     * the value is set to null.
+     *
      * See README for details on how to use the primitive.
      *
      * @param {Object} inputs
@@ -26,7 +31,7 @@ class CreatePrimitive extends SemanticPrimitive {
         }
 
         this.targetParticipantName = args.targetParticipantName;
-        this.initialValue = args.initialValue ?? {};
+        this.initialValue = args.initialValue ?? null;
     }
 
     apply_transformations () {

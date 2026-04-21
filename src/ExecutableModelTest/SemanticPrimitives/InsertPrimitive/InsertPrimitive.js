@@ -6,6 +6,8 @@ class InsertPrimitive extends SemanticPrimitive {
      * accepts the necessary inputs and computes the transformation that
      * realizes the meaning of the insert operation.
      *
+     * Syntax: insert <value> <target> [keys] <position>
+     *
      * See README for details on how to use the primitive.
      *
      * @param {Object} inputs - The inputs required for the insert operation.
