@@ -56,3 +56,15 @@ Transformation:
 ```
 
 This is a composite behavior that is made up of semantic primitives. It describes an unambiguous state transformation that is computable by the engine.
+
+
+### Library Manager Planning with Primitives
+
+This plans the primitives needed to implement library manager design with transformations built from primitives. This will be used to establish the automated debugging functionality along with verification of implementation using the executable semantic model.
+
+GetBookFromBasket
+- getFromPos basket 0 book
+
+GetFirstLetterOfBookName
+- get book ["name"] book_name
+- getFromPos book_name 0 firstLetter
