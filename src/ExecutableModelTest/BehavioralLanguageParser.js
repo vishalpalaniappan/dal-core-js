@@ -114,7 +114,7 @@ class BehavioralLanguageParser {
         const [, targetPName] = script.match(re["CREATE_RE"]);
         const input = {
             targetParticipantName: targetPName,
-            initialValue: args.initialValue,
+            initialValue: args?.initialValue,
         };
         return new CreatePrimitive(input, participants).apply_transformations();
     }
@@ -133,7 +133,7 @@ class BehavioralLanguageParser {
         const [, sourcePName, position, targetPName] = script.match(re["GET_FROM_POS_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
-            position: position,
+            position: parseInt(position),
             targetParticipantName: targetPName,
         };
         return new GetFromPosPrimitive(input, participants).apply_transformations();

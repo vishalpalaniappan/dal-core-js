@@ -182,4 +182,25 @@ describe("standalone behaviors semantic execution tests", () => {
         expect(isValid).toBe(true);
         expect(updatedParticipants.book).toBe("Lord of the Rings");
     });
+
+
+    it ("tests get from string", async () => {
+        // Get the first element from the book array
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive("create first_letter");
+        behavior.addPrimitive("getFromPos name 0 first_letter");
+
+        behavior.setPreWorldState({
+            name: "Lord of the Rings"
+        });
+
+        behavior.setPostWorldState({
+            name: "Lord of the Rings",
+            first_letter: "L",
+        });
+
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
+        expect(isValid).toBe(true);
+        expect(updatedParticipants.first_letter).toBe("L");
+    });
 });
