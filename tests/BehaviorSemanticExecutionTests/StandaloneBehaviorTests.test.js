@@ -12,23 +12,23 @@ describe("standalone behaviors semantic execution tests", () => {
          */
 
         // Transformation #1
-        // Set the value of basket to be book
+        // Set the value of bookCopy to be book
         let behavior = new ExecutableBehavior();
-        behavior.addPrimitive("set basket book []");
+        behavior.addPrimitive("set bookCopy book []");
 
         behavior.setPreWorldState({
             book: {"name": "Harry Potter"},
-            basket: null,
+            bookCopy: null,
         });
 
         behavior.setPostWorldState({
             book: {"name": "Harry Potter"},
-            basket: {"name": "Harry Potter"}
+            bookCopy: {"name": "Harry Potter"}
         });
 
         let [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
-        expect(updatedParticipants.basket.name).toBe("Harry Potter");
+        expect(updatedParticipants.bookCopy.name).toBe("Harry Potter");
 
         // Transformation #2
         // Insert book into basket at index 0
