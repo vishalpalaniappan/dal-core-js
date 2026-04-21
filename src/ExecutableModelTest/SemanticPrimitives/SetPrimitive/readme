@@ -6,13 +6,17 @@ The set primitive will set the value of a participant or a key of a participant.
 set <target_participant> <value_participant> <keys>
 ```
 Syntax Structure:
-- Set:String
-    * This is the command identifier
-- <value_participant>:String
-    * This is the name of the participant whose value will be assigned.
-- <target_participant>:String
+- `Set`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<target_participant>` 
+    * Type: *string*
     * This is the name of the participant that will be written to.
-- <keys> - Array of String
+- `<value_participant>` 
+    * Type: *string*
+    * This is the name of the participant whose value will be assigned.
+- `<keys>` 
+    * Type: *Array*
     * This is an array of strings, representing the key path to the value to set. 
     * For example, ["a","b"] will be target_participant["a"]["b"]
     * If the key is specified as [], it indicates that the value should be directly assigned to the participant.
