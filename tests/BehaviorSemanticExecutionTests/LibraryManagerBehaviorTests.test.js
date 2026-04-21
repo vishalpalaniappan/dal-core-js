@@ -166,13 +166,30 @@ describe("tests the behaviors in the library manager", () => {
 
     it("walks the behavioral tansition graph using the behaviors", async () => {
         let currentBehavior = "InitializeWorld";
+        let worldState = {};
+        let args = {
+            name: "The Great Gatsby",
+            genre: "Classic",
+        }
 
-        let [updatedParticipants, isValid] = behaviors[currentBehavior]({});
-        expect(isValid).toBe(true);
+        do {
+            console.log(currentBehavior);
 
-        currentBehavior = "CreatePendingBook";
-        [updatedParticipants, isValid] = behaviors[currentBehavior](updatedParticipants);
+            const [updatedParticipants, isValid] = behaviors[currentBehavior](worldState, args);
+            expect(isValid).toBe(true);
 
-        console.log(updatedParticipants);
+            worldState = updatedParticipants;
+
+            const _transitions = TRANSITIONS[currentBehavior];
+            if (_transitions.length > 0) {
+                // TODO: go through transitions and check world state to
+                // determine which transition the state selects
+                currentBehavior = TRANSITIONS[currentBehavior][0];
+            } else {
+                break;
+            }
+        } while (TRANSITIONS[currentBehavior].length > 0);
+
+        console.log(worldState);
     });
 });
