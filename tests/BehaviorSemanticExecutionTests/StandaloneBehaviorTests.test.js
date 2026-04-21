@@ -89,17 +89,18 @@ describe("standalone behaviors semantic execution tests", () => {
 
 
         // Transformation #5
-        // Get the value of book key "name" and store it in book_name
+        // Get the value of book keys "name" and "name_tested"
+        // and store it in book_name
         behavior = new ExecutableBehavior();
-        behavior.addPrimitive('get book ["name"] book_name');
+        behavior.addPrimitive('get book ["name", "name_tested"] book_name');
 
         behavior.setPreWorldState({
-            book: {"name": "Lord of the Rings"},
+            book: {"name": {"name_tested": "Lord of the Rings"}},
             book_name: null,
         });
 
         behavior.setPostWorldState({
-            book: {"name": "Lord of the Rings"},
+            book: {"name": {"name_tested": "Lord of the Rings"}},
             book_name: "Lord of the Rings",
         });
 
