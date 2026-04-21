@@ -4,16 +4,10 @@ import ExecutableBehavior from "../../src/ExecutableModelTest/ExecutableBehavior
 
 describe("standalone behaviors semantic execution tests", () => {
 
-    it("creates a behavior with multiple primitives and executes transformation", async () => {
-        /**
-         * This is a separate test just for testing the behavior class
-         * in isolation. I am using this because I don't want to run
-         * all the other tests at the same time while developing.
-         */
-
+    it("tests set primitive without keys", async () => {
         // Transformation #1
         // Set the value of bookCopy to be book
-        let behavior = new ExecutableBehavior();
+        const behavior = new ExecutableBehavior();
         behavior.addPrimitive("set bookCopy book []");
 
         behavior.setPreWorldState({
@@ -26,13 +20,15 @@ describe("standalone behaviors semantic execution tests", () => {
             bookCopy: {"name": "Harry Potter"}
         });
 
-        let [updatedParticipants, isValid] = behavior.computeTransformations();
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.bookCopy.name).toBe("Harry Potter");
+    });
 
+    it("tests insert primitive into lists", async () => {
         // Transformation #2
         // Insert book into basket at index 0
-        behavior = new ExecutableBehavior();
+        const behavior = new ExecutableBehavior();
         behavior.addPrimitive("insert book basket [] 0");
 
         behavior.setPreWorldState({
@@ -45,13 +41,15 @@ describe("standalone behaviors semantic execution tests", () => {
             basket: [{"name": "Harry Potter"}],
         });
 
-        [updatedParticipants, isValid] = behavior.computeTransformations();
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.basket[0].name).toBe("Harry Potter");
+    });
 
+    it("tests insert primitive into lists with multiple keys", async () => {
         // Transformation #3
         // Insert book into basket key "contents" at index 0
-        behavior = new ExecutableBehavior();
+        const behavior = new ExecutableBehavior();
         behavior.addPrimitive('insert book basket ["contents", "nested_content"] 0');
 
         behavior.setPreWorldState({
@@ -64,34 +62,37 @@ describe("standalone behaviors semantic execution tests", () => {
             basket: {"contents": {"nested_content": [{"name": "Harry Potter"}]}},
         });
 
-        [updatedParticipants, isValid] = behavior.computeTransformations();
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
         expect(updatedParticipants.basket.contents.nested_content[0].name).toBe("Harry Potter");
+    });
 
-        // Transformation #4
-        //  Set the value of book key "name" to be name participant
-        behavior = new ExecutableBehavior();
-        behavior.addPrimitive('set book name ["name"]');
+    it("tests set primitive with multiple keys", async () => {
+        //  Set the value of book key "name" and "name_tested"
+        const behavior = new ExecutableBehavior();
+        behavior.addPrimitive('set book name ["name", "name_nested"]');
 
         behavior.setPreWorldState({
-            book: {"name": ""},
+            book: {"name": {"name_nested": null}},
             name: "Lord of the Rings",
         });
 
         behavior.setPostWorldState({
-            book: {"name": "Lord of the Rings"},
+            book: {"name": {"name_nested": "Lord of the Rings"}},
             name: "Lord of the Rings",
         });
 
-        [updatedParticipants, isValid] = behavior.computeTransformations();
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(isValid).toBe(true);
-        expect(updatedParticipants.book.name).toBe("Lord of the Rings");
+        expect(updatedParticipants.book.name.name_nested).toBe("Lord of the Rings");
+
+    });
 
 
-        // Transformation #5
+    it ("tests get primitive with multiple keys", async () => {
         // Get the value of book keys "name" and "name_tested"
         // and store it in book_name
-        behavior = new ExecutableBehavior();
+        const behavior = new ExecutableBehavior();
         behavior.addPrimitive('get book ["name", "name_tested"] book_name');
 
         behavior.setPreWorldState({
@@ -104,13 +105,13 @@ describe("standalone behaviors semantic execution tests", () => {
             book_name: "Lord of the Rings",
         });
 
-        [updatedParticipants, isValid] = behavior.computeTransformations();
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(updatedParticipants.book_name).toBe("Lord of the Rings");
+    });
 
-
-        // Transformation #6
+    it("tests get primitive with empty keys", async () => {
         // Get the value of book and store it in book_copy
-        behavior = new ExecutableBehavior();
+        const behavior = new ExecutableBehavior();
         behavior.addPrimitive('get book [] book_copy');
 
         behavior.setPreWorldState({
@@ -123,8 +124,7 @@ describe("standalone behaviors semantic execution tests", () => {
             book_copy: {"name": "Lord of the Rings"},
         });
 
-        [updatedParticipants, isValid] = behavior.computeTransformations();
+        const [updatedParticipants, isValid] = behavior.computeTransformations();
         expect(updatedParticipants.book_copy.name).toBe("Lord of the Rings");
-
     });
 });
