@@ -79,7 +79,7 @@ So the engine will also receive a value here, it will accept it from the environ
 
 #### FinalizeBookCreation
 - create book `<pendingBook>`
-- destroy pendingBook
+- remove pendingBook
 
 ### PlaceBookFromBasketOnSHelf
 ---
