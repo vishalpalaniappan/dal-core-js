@@ -232,6 +232,16 @@ class Behavior extends Base {
     setValidPreconditions (preConditions) {
         this._validPreconditions = preConditions;
     }
+
+    /**
+     * This method computes the transformations on the world state by
+     * executing the primitives. It produces an output world state that
+     * can be compared to the observed world state to identify if it
+     * is semantically valid.
+     */
+    computeTransformations () {
+
+    }
 }
 
 export default Behavior;
