@@ -1,0 +1,21 @@
+## Behavioral Language Primitives
+
+The following is a list of primitve transformations that the engine can compute. Some of the entries have already been implemented, while others are simply a definition that will be implemented.
+
+These primitives are a declarative semantic rule that the engine can execute to derive the expected post-state, not an implementation of how the program performs the operation.
+
+> [!IMPORTANT]  
+> The list below is ongoing and will be populated as the Behavioral Language is defined further.
+
+### Axiomatic Primitives
+- [Create Primitive](/src/ExecutableModelTest/SemanticPrimitives/CreatePrimitive/readme)
+- [Get Primitive](/src/ExecutableModelTest/SemanticPrimitives/GetPrimitive/readme)
+- [GetFromPos Primitive](/src/ExecutableModelTest/SemanticPrimitives/GetFromPosPrimitive/readme)
+- [HasKey Primitive](/src/ExecutableModelTest/SemanticPrimitives/HasKeyPrimitive/readme)
+- [Insert Primitive](/src/ExecutableModelTest/SemanticPrimitives/InsertPrimitive/readme)
+- [Remove Primitive](/src/ExecutableModelTest/SemanticPrimitives/RemovePrimitive/readme)
+- [Set Primitive](/src/ExecutableModelTest/SemanticPrimitives/SetPrimitive/readme)
+
+### Derived Primitives
+- Transfer Primitive
+
