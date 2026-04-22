@@ -155,7 +155,7 @@ class Behavior extends Base {
 
     /**
      * Maps the abstraction id from implementation to the behavior.
-     *
+     * TODO: Deprecated, removed.
      * @param {String} abstractionId ID of mapped abstraction.
      */
     addMapping (abstractionId) {
@@ -164,10 +164,19 @@ class Behavior extends Base {
 
     /**
      * Removes a mapping from the behavior.
+     * TODO: Deprecated, removed.
      * @param {String} abstractionId ID of the mapped abstraction to remove.
      */
     removeMapping (abstractionId) {
         this._abstractionIds = this._abstractionIds.filter(id => id !== abstractionId);
+    }
+
+    /**
+     * Adds a primitive instruction to the behavior.
+     * @param {String} primitive Primitive instruction.
+     */
+    addPrimitive (primitive) {
+        this._primitives.push(primitive);
     }
 }
 
