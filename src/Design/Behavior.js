@@ -219,6 +219,19 @@ class Behavior extends Base {
     setPrimitiveArgs (args) {
         this._primitiveArgs = args;
     }
+
+    /**
+     * Sets the valid preconditions for the behavior. The validity
+     * of the behavior is determined by checking whether the world
+     * state satisfies these preconditions. In this way, the
+     * preconditions establish control flow purely through the
+     * semantics of the behavior.
+     *
+     * @param {Object} preConditions Preconditions for the behavior.
+     */
+    setValidPreconditions (preConditions) {
+        this._validPreconditions = preConditions;
+    }
 }
 
 export default Behavior;
