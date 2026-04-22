@@ -242,6 +242,14 @@ class Behavior extends Base {
     computeTransformations () {
 
     }
+
+    /**
+     * Flags if the world state produced by the transformation and the
+     * observed world state are valid with respect to each other.
+     */
+    isTransformationValid () {
+
+    }
 }
 
 export default Behavior;
