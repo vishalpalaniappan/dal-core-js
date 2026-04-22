@@ -1,9 +1,12 @@
+import isEqual from "lodash/isEqual";
+
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
 import ParticipantAlreadyExistsError from "../Errors/ParticipantAlreadyExistsError";
 import UnknownParticipantError from "../Errors/UnknownParticipantError";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
+import BehavioralLanguageParser from "./BehavioralLanguage/BehavioralLanguageParser";
 import Participant from "./Participant";
 
 
@@ -22,6 +25,7 @@ class Behavior extends Base {
         this._invalidWorldState = false;
         this._primitives = [];
         this._primitiveArgs = {};
+        this._transformer = new BehavioralLanguageParser();
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -87,7 +91,7 @@ class Behavior extends Base {
 
     /**
      * Returns the list of participants in the behavior.
-     * @param {Participant|String} participant Name of the participant 
+     * @param {Participant|String} participant Name of the participant
      * or participant object to get.
      * @returns {Participant} The participant with the provided name.
      * @throws {UnknownParticipantError} Thrown when a participant with the
@@ -238,17 +242,41 @@ class Behavior extends Base {
      * executing the primitives. It produces an output world state that
      * can be compared to the observed world state to identify if it
      * is semantically valid.
+     * @returns {Array} The first element is the world state produced by
+     * executing the behavior, and the second element is a boolean flag
+     * indicating whether the produced world state is valid with respect
+     * to the observed world state.
      */
     computeTransformations () {
-
+        for (const primitive of this._primitives) {
+            // execute primitive and update world state
+            const updatedParticipants = this._transformer.execute(
+                primitive, this._currentWorldState, this._primitiveArgs
+            );
+            this._currentWorldState = updatedParticipants;
+        }
+        return [this._currentWorldState, this.isTransformationValid()];
     }
 
     /**
      * Flags if the world state produced by the transformation and the
      * observed world state are valid with respect to each other.
+     * @returns {Boolean} Flag to indicate if transformation is valid.
      */
     isTransformationValid () {
-
+        // Compare the current world state with the post-world state
+        for (const participantName in this._postWorldState) {
+            if (!(participantName in this._currentWorldState)) {
+                throw new Error(`Expected Participant ${participantName} is missing`);
+            }
+            const expectedValue = this._postWorldState[participantName];
+            const actualValue = this._currentWorldState[participantName];
+            if (!isEqual(expectedValue, actualValue)) {
+                console.log(`Value mismatch for participant ${participantName}`);
+                return false;
+            }
+        }
+        return true;
     }
 }
 
