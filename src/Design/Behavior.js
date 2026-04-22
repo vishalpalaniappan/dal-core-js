@@ -20,6 +20,8 @@ class Behavior extends Base {
         this._participants = [];
         this._abstractionIds = [];
         this._invalidWorldState = false;
+        this._primitives = [];
+        this._primitiveArgs = {};
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -171,6 +173,7 @@ class Behavior extends Base {
         this._abstractionIds = this._abstractionIds.filter(id => id !== abstractionId);
     }
 
+    // ===== METHODS FOR EXECUTING BEHAVIOR =====
     /**
      * Adds a primitive instruction to the behavior.
      * @param {String} primitive Primitive instruction.
@@ -186,6 +189,35 @@ class Behavior extends Base {
     addPrimitives (primitives) {
         const _primitives = primitives.split("\n");
         _primitives.forEach(primitive => this.addPrimitive(primitive));
+    }
+
+    /**
+     * Sets the pre-world state of the behavior. This is the state
+     * of the participants before the behavior is executed.
+     * @param {Objet} preWorldState State of participants.
+     */
+    setPreWorldState (preWorldState) {
+        this._preWorldState = preWorldState;
+        this._currentWorldState = preWorldState;
+    }
+
+    /**
+     * Sets the post-world state of the behavior. This is the state
+     * of the participants after the behavior is executed.
+     * @param {Object} postWorldState State of participants.
+     */
+    setPostWorldState (postWorldState) {
+        this._postWorldState = postWorldState;
+    }
+
+    /**
+     * Sets the arguments for the behavior. This is used for
+     * primitives that require arguments, such as the create
+     * primitive which requires an initial value.
+     * @param {Object} args Arguments for the behavior.
+     */
+    setPrimitiveArgs (args) {
+        this._primitiveArgs = args;
     }
 }
 
