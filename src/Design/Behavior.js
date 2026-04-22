@@ -178,6 +178,15 @@ class Behavior extends Base {
     addPrimitive (primitive) {
         this._primitives.push(primitive);
     }
+
+    /**
+     * Adds multiple primitive instructions to the behavior.
+     * @param {String} primitives Primitive instructions separated by newlines.
+     */
+    addPrimitives (primitives) {
+        const _primitives = primitives.split("\n");
+        _primitives.forEach(primitive => this.addPrimitive(primitive));
+    }
 }
 
 export default Behavior;
