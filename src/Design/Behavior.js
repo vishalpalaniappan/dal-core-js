@@ -1,4 +1,4 @@
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash-es/isEqual";
 
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
@@ -192,7 +192,9 @@ class Behavior extends Base {
      */
     addPrimitives (primitives) {
         const _primitives = primitives.split("\n");
-        _primitives.forEach(primitive => this.addPrimitive(primitive));
+        _primitives.forEach(primitive => {
+            this.addPrimitive(primitive.replace(/[\r\n]+/g, "").trim())
+        });
     }
 
     /**
