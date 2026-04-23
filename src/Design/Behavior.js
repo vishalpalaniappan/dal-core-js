@@ -25,6 +25,7 @@ class Behavior extends Base {
         this._invalidWorldState = false;
         this._primitives = [];
         this._primitiveArgs = {};
+        this._transformationTests = [];
         this._transformer = new BehavioralLanguageParser();
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
@@ -284,6 +285,33 @@ class Behavior extends Base {
             }
         }
         return true;
+    }
+
+    /**
+     * A transformation test information needed to compute a transformation.
+     * This includes:
+     * - Arguments for the primitives
+     * - The pre-world state before executing the primitives
+     * - The expected output world state after executing the primitives
+     *
+     * The primitives themselves are stord in the behavior and these are the
+     * conditions which are used to test those primitives. I am using this
+     * to save tests for the behavior manually but eventually these will
+     * be also generated from the traces since we are capturing the
+     * necessary semantic information unambiguously.
+     *
+     * @param {Object} test Object containing the transformation test.
+     */
+    addTransformationTest (test) {
+        this._transformationTests.push(test);
+    }
+
+    /**
+     * Get all the transformation tests.
+     * @returns {Array} Array of transformation tests.
+     */
+    getTransformationTests () {
+        return this._transformationTests;
     }
 }
 
