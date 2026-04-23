@@ -302,6 +302,19 @@ class Behavior extends Base {
      * be also generated from the traces since we are capturing the
      * necessary semantic information unambiguously.
      *
+     * TODO: The traces provide the necessary information to test the behavior
+     * of the design. Since an implementation is claiming to realize the design,
+     * the semantic validity of the implementation can be automatically tested.
+     * Traces which result in failed root cause analysis test that the behavior
+     * of the design has been modified to respect the new invariant learnt by
+     * the design and that the implementation faithfully represents this. You
+     * also don't have to test a single behavior, the design as a whole can be
+     * tested and that is really powerful to me. I will address this todo after
+     * I build the semantic simulator, then I will start using traces to run the
+     * semantic model, then the leap to testing implementations automatically
+     * will be much smaller. I'm not sure this is the right palce to add this
+     * todo but I'll leave it here for now to remind me to think about this.
+     *
      * TODO: Obviously the traces are compressed effectively and it makes
      * sense to store the actual tests from traces in the compressed form.
      * So in that case, this will likely become an index that will load the
