@@ -288,13 +288,15 @@ class Behavior extends Base {
     }
 
     /**
-     * A transformation test information needed to compute a transformation.
+     * A transformation test information needed to compute a transformation
+     * and determine the validity.
+     *
      * This includes:
      * - Arguments for the primitives
      * - The pre-world state before executing the primitives
      * - The expected output world state after executing the primitives
      *
-     * The primitives themselves are stord in the behavior and these are the
+     * The primitives themselves are stored in the behavior and these are the
      * conditions which are used to test those primitives. I am using this
      * to save tests for the behavior manually but eventually these will
      * be also generated from the traces since we are capturing the
