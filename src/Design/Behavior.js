@@ -300,6 +300,13 @@ class Behavior extends Base {
      * be also generated from the traces since we are capturing the
      * necessary semantic information unambiguously.
      *
+     * TODO: Obviously the traces are compressed effectively and it makes
+     * sense to store the actual tests from traces in the compressed form.
+     * So in that case, this will likely become an index that will load the
+     * relevant trace. I haven't got that far yet, for now its just manual
+     * tests while I build out the structure, but I'm leaving this todo
+     * here to remind me to think about this.
+     *
      * @param {Object} test Object containing the transformation test.
      */
     addTransformationTest (test) {
