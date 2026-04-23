@@ -267,6 +267,11 @@ class Behavior extends Base {
      */
     isTransformationValid () {
         // Compare the current world state with the post-world state
+        /**
+         * TODO: This needs to be improved its not just boolean. if computed
+         * output has extra participants - this is invalid. I think it is ok
+         * to keep the boolean, but I need a list of reasons why it isn't.
+         **/
         for (const participantName in this._postWorldState) {
             if (!(participantName in this._currentWorldState)) {
                 throw new Error(`Expected Participant ${participantName} is missing`);
