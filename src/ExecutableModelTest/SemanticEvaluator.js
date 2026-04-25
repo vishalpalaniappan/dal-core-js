@@ -80,12 +80,18 @@ class SemanticEvaluator {
                 continue;
             }
 
-            console.log("");
-            console.log("Executing line: ", line);
-            const updatedParticipants = this.BehavioralLanguageParser.execute(
-                line, this.worldState, this.args
-            );
-            console.log("Updated participants: ", updatedParticipants);
+            let updatedParticipants;
+            try {
+                console.log("");
+                console.log("Executing line: ", line);
+                updatedParticipants = this.BehavioralLanguageParser.execute(
+                    line, this.worldState, this.args
+                );
+                console.log("Updated participants: ", updatedParticipants);
+            } catch (error) {
+                console.error(`Error executing line "${line}": ${error.message}`);
+                throw error;
+            }
             this.worldState = updatedParticipants;
         }
     }

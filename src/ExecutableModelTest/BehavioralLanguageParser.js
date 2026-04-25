@@ -18,6 +18,7 @@ const re = {
     "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
     "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
     "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
+    "REQUIRE_RE": /^require\s+(.+)$/,
 };
 
 class BehavioralLanguageParser {
@@ -88,6 +89,16 @@ class BehavioralLanguageParser {
         const isHasKey = re["HAS_KEY_RE"].test(script);
         if (isHasKey) {
             return this.executeHasKey(script, participants);
+        }
+
+        // Ex: require <participant>
+        const isRequire = re["REQUIRE_RE"].test(script);
+        if (isRequire) {
+            const [, participantName] = script.match(re["REQUIRE_RE"]);
+            if (!(participantName in participants)) {
+                throw new Error(`Required participant ${participantName} is missing`);
+            }
+            return participants;
         }
 
         // throw new Error(`Script "${script}" does not match any known primitive patterns.`);
