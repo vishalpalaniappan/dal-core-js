@@ -1,6 +1,6 @@
 import BehavioralLanguageParser from "./BehavioralLanguageParser.js";
 
-class BehavioralScriptRunner {
+class SemanticEvaluator {
     /**
      * This class is responsibile for running a script writting in the
      * behavioral language. It is a stateful class that uses identifiers
@@ -91,4 +91,4 @@ class BehavioralScriptRunner {
     }
 }
 
-export default BehavioralScriptRunner;
+export default SemanticEvaluator;

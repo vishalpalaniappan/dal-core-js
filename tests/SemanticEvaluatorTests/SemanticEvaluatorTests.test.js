@@ -1,6 +1,6 @@
 import {describe, expect, it} from "vitest";
 
-import BehavioralScriptRunner from "../../src/ExecutableModelTest/BehavioralScriptRunner.js";
+import SemanticEvaluator from "../../src/ExecutableModelTest/SemanticEvaluator.js";
 
 describe("tests script runner", () => {
 
@@ -28,9 +28,9 @@ describe("tests script runner", () => {
             book_name: "The Great Gatsby",
         };
 
-        const runner = new BehavioralScriptRunner(
+        const evaluator = new SemanticEvaluator(
             script, initialWorldState, expectedPostWorldState
         );
-        runner.run();
+        evaluator.run();
     });
 });
