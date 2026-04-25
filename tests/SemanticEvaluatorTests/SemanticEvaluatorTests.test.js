@@ -9,6 +9,7 @@ describe("tests script runner", () => {
         const rawScript = `
             pre:
                 require book
+                invariant book exists [] []
 
             transform:
                 create book_name

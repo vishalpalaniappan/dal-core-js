@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import InvariantParser from "./Invariants/InvariantParser.js";
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetFromPosPrimitive from "./SemanticPrimitives/GetFromPosPrimitive/GetFromPosPrimitive.js";
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
@@ -19,6 +20,7 @@ const re = {
     "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
     "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
     "REQUIRE_RE": /^require\s+(.+)$/,
+    "INVARIANT_RE": /^invariant\s+(.+)$/,
 };
 
 class BehavioralLanguageParser {
@@ -98,6 +100,15 @@ class BehavioralLanguageParser {
             if (!(participantName in participants)) {
                 throw new Error(`Required participant ${participantName} is missing`);
             }
+            return participants;
+        }
+
+        const isInvariant = re["INVARIANT_RE"].test(script);
+        if (isInvariant) {
+            const invariantParser = new InvariantParser();
+            invariantParser.run(script, participants);
+            // TODO: The returned value needs to indicate if the invariant
+            // was respected or violated.
             return participants;
         }
 
