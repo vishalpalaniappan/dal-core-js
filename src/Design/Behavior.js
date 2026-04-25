@@ -271,22 +271,29 @@ class Behavior extends Base {
         /**
          * TODO:
          * Steps to determine validity:
-         * - Check that all expected participants are present in the current
-         *   world state. If any expected participant is missing, the
-         *   transformation is invalid.
-         * - Check that all actual participants are expected. If any unexpected
-         *   participant is present, the transformation is invalid.
-         * - For each participant, check that the value in the current world
-         *   state matches the value in the post-world state. If any value,
-         *   does not match the transformation is invalid.
+         * - Prebehavior world state:
+         *     - Check all expected participants are present.
+         *     - Check for unexpected participants.
+         *  - Postbehavior world state:
+         *     - Check that all expected participants are present.
+         *     - Check for unexpected participants.
+         * - For each participant, in post behavior world state.
+         *     - Check if value matches the expected value.
+         *     - If any value does not match, the transformation is invalid.
          * - If all checks pass, the transformation is valid.
          * - Produce boolean flag and list of causes for invalidity.
          *
          * Expected output:
          * {
          *   isValid: false,
-         *   missingParticipants: ["participant1", "participant2"],
-         *   unexpectedParticipants: ["participant3", "participant4"],
+         *   pre-behavior: {
+         *     missingParticipants: ["participant1", "participant2"],
+         *     unexpectedParticipants: ["participant3", "participant4"],
+         *   },
+         *   post-behavior: {
+         *     missingParticipants: ["participantA", "participantB"],
+         *     unexpectedParticipants: ["participantC", "participantD"],
+         *   },
          *   valueMismatches: [
          *     {
          *       participant: "participant5",
