@@ -106,7 +106,8 @@ class BehavioralLanguageParser {
         const isInvariant = re["INVARIANT_RE"].test(script);
         if (isInvariant) {
             const invariantParser = new InvariantParser();
-            invariantParser.run(script, participants);
+            const results =invariantParser.run(script, participants);
+            console.log("Invariant results: ", results);
             // TODO: The returned value needs to indicate if the invariant
             // was respected or violated.
             return participants;

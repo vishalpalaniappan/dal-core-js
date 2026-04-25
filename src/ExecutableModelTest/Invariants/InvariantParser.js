@@ -29,6 +29,8 @@ class InvariantParser {
      * Runs the invariant given a script and the participants in the world.
      * @param {String} script The script specifying the invariants.
      * @param {Object} participants Participants in the world.
+     * @returns {Object|null} The result of the invariant check with its
+     * validity and the failure prediction it makes.
      */
     run (script, participants) {
 
@@ -39,7 +41,24 @@ class InvariantParser {
         const args = match[3] ? JSON.parse(match[3]) : [];
         const predictions = match[4] ? JSON.parse(match[4]) : [];
 
+        if (!(participant in participants)) {
+            throw new Error(`Participant ${participant} is missing`);
+        }
+
+        if (type === "hasKey") {
+            return this.hasKeyInvariant(participants[participant], args, predictions);
+        }
+
         console.log(`Running invariant ${type} on participant ${participant}`);
+    }
+
+    hasKeyInvariant (participant, args, predictions) {
+        const key = args[0];
+        const isValid = participant.hasOwnProperty(key);
+        return {
+            isValid,
+            predictions: isValid ? [] : predictions,
+        }
     }
 }
 

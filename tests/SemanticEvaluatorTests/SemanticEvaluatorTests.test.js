@@ -9,7 +9,7 @@ describe("tests script runner", () => {
         const rawScript = `
             pre:
                 require book
-                invariant book exists [] []
+                invariant book hasKey ["name"] []
 
             transform:
                 create book_name
@@ -21,7 +21,7 @@ describe("tests script runner", () => {
         const script = rawScript.split("\n")
             .map(line => line.trim()).filter(line => line.length > 0);
 
-        const initialWorldState = {
+        let initialWorldState = {
             book: {"name": "The Great Gatsby"},
         };
         const expectedPostWorldState = {
@@ -32,6 +32,7 @@ describe("tests script runner", () => {
         const evaluator = new SemanticEvaluator(
             script, initialWorldState, expectedPostWorldState
         );
+
         evaluator.run();
     });
 });
