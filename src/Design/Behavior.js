@@ -271,14 +271,14 @@ class Behavior extends Base {
         /**
          * TODO:
          * Steps to determine validity:
-         * - Prebehavior world state:
+         *  - Pre-behavior world state:
          *     - Check all expected participants are present.
          *     - Check for unexpected participants.
-         *  - Postbehavior world state:
+         *  - Post-behavior world state:
          *     - Check that all expected participants are present.
          *     - Check for unexpected participants.
-         * - For each participant, in post behavior world state.
-         *     - Check if value matches the expected value.
+         * - For each participant, in observed post-behavior world state.
+         *     - Check if value matches the computed transformation output.
          *     - If any value does not match, the transformation is invalid.
          * - If all checks pass, the transformation is valid.
          * - Produce boolean flag and list of causes for invalidity.
