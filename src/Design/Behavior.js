@@ -269,9 +269,32 @@ class Behavior extends Base {
     isTransformationValid () {
         // Compare the current world state with the post-world state
         /**
-         * TODO: This needs to be improved its not just boolean. if computed
-         * output has extra participants - this is invalid. I think it is ok
-         * to keep the boolean, but I need a list of reasons why it isn't.
+         * TODO:
+         * Steps to determine validity:
+         * - Check that all expected participants are present in the current
+         *   world state. If any expected participant is missing, the
+         *   transformation is invalid.
+         * - Check that all actual participants are expected. If any unexpected
+         *   participant is present, the transformation is invalid.
+         * - For each participant, check that the value in the current world
+         *   state matches the value in the post-world state. If any value,
+         *   does not match the transformation is invalid.
+         * - If all checks pass, the transformation is valid.
+         * - Produce boolean flag and list of causes for invalidity.
+         *
+         * Expected output:
+         * {
+         *   isValid: false,
+         *   missingParticipants: ["participant1", "participant2"],
+         *   unexpectedParticipants: ["participant3", "participant4"],
+         *   valueMismatches: [
+         *     {
+         *       participant: "participant5",
+         *       expectedValue: "expectedValue5",
+         *       actualValue: "actualValue5"
+         *     }
+         *   ]
+         * }
          **/
         for (const participantName in this._postWorldState) {
             if (!(participantName in this._currentWorldState)) {
