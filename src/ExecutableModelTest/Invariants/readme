@@ -1,0 +1,14 @@
+This folder contains commands which establish invairants for the world state.
+
+Example:
+invariant [PRE|POST] <participant_name> <type> <arg_1>...<arg_n>
+
+This establishes a pattern where an invariant type is applied to a participant
+with the provided arguments. The PRE or POST arguments indicate if the invariant
+is being evaluated before or after the world transformation.
+
+The failure modes which determine behavioral semantic validity become:
+- Missing required pre-transformation participant
+- Pre-transformation invariant violation
+- Invalid post-world state after transformation
+- Post-transformation invariant violation
