@@ -6,7 +6,7 @@ class BehavioralScriptRunner {
      * can be broken down into three parts:
      *
      * pre:
-     *    define <participant> <value>
+     *    exists <participant>
      *    invariant <participant> <type> <arg1> <arg2> ...
      *
      * transform:
