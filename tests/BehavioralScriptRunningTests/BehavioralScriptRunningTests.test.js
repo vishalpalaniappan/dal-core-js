@@ -31,5 +31,6 @@ describe("tests script runner", () => {
         const runner = new BehavioralScriptRunner(
             script, initialWorldState, expectedPostWorldState
         );
+        runner.run();
     });
 });
