@@ -1,3 +1,5 @@
+import BehavioralLanguageParser from "./BehavioralLanguageParser.js";
+
 class BehavioralScriptRunner {
     /**
      * This class is responsibile for running a script writting in the
@@ -23,8 +25,14 @@ class BehavioralScriptRunner {
      * The reason I am breaking it down into these stage is as because
      * in the pre stage, we are processing the initial world state. In
      * the transform stage, we are generateing the computed post world
-     * state from the pre world state and in the post stage, we are
-     * checking the validity of the post transform world state.
+     * state and in the post stage, we are checking the validity of the
+     * post transform world state using the observed state.
+     *
+     * I want the script runner to be the source of truth for how the script is
+     * executed and how the world state is propogated. The script will be
+     * responsible for outlining every step in the process and this class will
+     * simply carry out the instructions in the script. This makes it much
+     * more maintainable and extensible in the long run.
      *
      * Pre:
      *  - Check that the initial world state has all the required participants.
@@ -42,12 +50,6 @@ class BehavioralScriptRunner {
      *   - Enforce the invariants on the participants.
      *   - Check if there are unexepcted participants in the post world state.
      *
-     * In the end, the actual script will outline every step in the process and
-     * it will be the source of truth for what the runner does. I guess there
-     * was no need to break it down into three stages but I think there is value
-     * in organizing the script and in the long run it will provide ways for me
-     * to exten this.
-     *
      * @param {Array} script Each element is a line in the script.
      * @param {Object} initialWorldState Object containing the participants.
      * @param {Object} expectedPostWorldState Object containing the expected
@@ -57,6 +59,7 @@ class BehavioralScriptRunner {
         this.script = script;
         this.worldState = initialWorldState;
         this.expectedPostWorldState = expectedPostWorldState;
+        this.BehavioralLanguageParser = new BehavioralLanguageParser();
     }
 
     run () {
