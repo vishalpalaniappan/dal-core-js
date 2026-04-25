@@ -90,7 +90,9 @@ class BehavioralLanguageParser {
             return this.executeHasKey(script, participants);
         }
 
-        throw new Error(`Script "${script}" does not match any known primitive patterns.`);
+        // throw new Error(`Script "${script}" does not match any known primitive patterns.`);
+        console.error(`Script "${script}" does not match any known primitive patterns.`);
+        return participants;
     }
 
     executeSet (script, participants) {

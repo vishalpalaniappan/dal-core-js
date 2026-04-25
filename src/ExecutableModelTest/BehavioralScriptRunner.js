@@ -52,12 +52,16 @@ class BehavioralScriptRunner {
      * @param {Array} script Each element is a line in the script.
      * @param {Object} initialWorldState Object containing the participants.
      * @param {Object} expectedPostWorldState Object containing the expected
-     *  state of the world after the script is executed.
+     * state of the world after the script is executed.
+     * @param {Object} args Object containing any arguments that are needed
+     * to execute the script, for example, the value for primitives which
+     * accept arguments like create.
      */
-    constructor (script, initialWorldState, expectedPostWorldState) {
+    constructor (script, initialWorldState, expectedPostWorldState, args) {
         this.script = script;
         this.worldState = initialWorldState;
         this.expectedPostWorldState = expectedPostWorldState;
+        this.args = args || {};
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
     }
 
@@ -76,7 +80,13 @@ class BehavioralScriptRunner {
                 continue;
             }
 
-            // Process the line.
+            console.log("");
+            console.log("Executing line: ", line);
+            const updatedParticipants = this.BehavioralLanguageParser.execute(
+                line, this.worldState, this.args
+            );
+            console.log("Updated participants: ", updatedParticipants);
+            this.worldState = updatedParticipants;
         }
     }
 }
