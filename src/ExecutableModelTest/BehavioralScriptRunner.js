@@ -28,11 +28,10 @@ class BehavioralScriptRunner {
      * state and in the post stage, we are checking the validity of the
      * post transform world state using the observed state.
      *
-     * I want the script runner to be the source of truth for how the script is
-     * executed and how the world state is propogated. The script will be
-     * responsible for outlining every step in the process and this class will
-     * simply carry out the instructions in the script. This makes it much
-     * more maintainable and extensible in the long run.
+     * I want the script to be the authority for how the world state is managed.
+     * The script will be responsible for outlining every step in the process
+     * and this class will simply carry out the instructions in the script.
+     * This makes it much more maintainable and extensible in the long run.
      *
      * Pre:
      *  - Check that the initial world state has all the required participants.
