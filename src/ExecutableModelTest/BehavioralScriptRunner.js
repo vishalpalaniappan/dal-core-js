@@ -8,14 +8,17 @@ class BehavioralScriptRunner {
      * pre:
      *    exists <participant>
      *    invariant <participant> <type> <arg1> <arg2> ...
+     *    flag unknown participants
      *
      * transform:
      *    create <participant>
      *    set <target_participant> <value_participant> [keys]
+     *    validate computed world
      *
      * post:
-     *     exists <participant>
-     *     invariant <participant> <type> <arg1> <arg2> ...
+     *    exists <participant>
+     *    invariant <participant> <type> <arg1> <arg2> ...
+     *    flag unknown participants
      *
      * The reason I am breaking it down into these stage is as because
      * in the pre stage, we are processing the initial world state. In
@@ -23,22 +26,27 @@ class BehavioralScriptRunner {
      * state from the pre world state and in the post stage, we are
      * checking the validity of the post transform world state.
      *
-     * There are unique steps that have to happen at each stage, I considered
-     * writing these unique steps directly into the language, for example,
-     * in post, I can say, check value of <participant> is <value> (this would
-     * replace the post world vs computer world state check) but since these
-     * are mechanical movements that have to happen at this stage, I decided
-     * to just hard code these steps into the runner. This keeps the language
-     * simple, and using the initial world state and expected post world state
-     * passed as arguments to the runner, we can produce the output.
+     * Pre:
+     *  - Check that the initial world state has all the required participants.
+     *  - Enforce the invariants on the participants.
+     *  - Check if there are unexepcted participants in the initial world state.
+     *  - All three of these will be done using the script.
      *
-     * So in the end, this class will determine the validity of the each of
-     * the stages: Pre, transform and post. It will check the validity of
-     * the conditions, enforce invariants and transforms. The debugger will
-     * essentially call this running by passing in the logged pre world state,
-     * the behavioral script and the expected post world state. This script
-     * will then produce an output that the debugger will use in its root
-     * cause analysis.
+     * Transform:
+     *  - Execute the transforms in the script to generate the postworld state.
+     *  - Check that the computed output state is the same as the expected post
+     *    world state, this will also be done with the script syntax.
+     *
+     * Post:
+     *   - Check that the post world state has all the required participants.
+     *   - Enforce the invariants on the participants.
+     *   - Check if there are unexepcted participants in the post world state.
+     *
+     * In the end, the actual script will outline every step in the process and
+     * it will be the source of truth for what the runner does. I guess there
+     * was no need to break it down into three stages but I think there is value
+     * in organizing the script and in the long run it will provide ways for me
+     * to exten this.
      *
      * @param {Array} script Each element is a line in the script.
      * @param {Object} initialWorldState Object containing the participants.
@@ -49,6 +57,25 @@ class BehavioralScriptRunner {
         this.script = script;
         this.worldState = initialWorldState;
         this.expectedPostWorldState = expectedPostWorldState;
+    }
+
+    run () {
+        for (const line of this.script) {
+            if (line.startsWith("pre:")) {
+                this.mode = "pre";
+                continue;
+            }
+            if (line.startsWith("transform:")) {
+                this.mode = "transform";
+                continue;
+            }
+            if (line.startsWith("post:")) {
+                this.mode = "post";
+                continue;
+            }
+
+            // Process the line.
+        }
     }
 }
 
