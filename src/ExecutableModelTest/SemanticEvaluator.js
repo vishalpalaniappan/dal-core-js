@@ -69,14 +69,10 @@ class SemanticEvaluator {
     /**
      * This method runs the script. It uses the BehavioralLanguageParser
      * to execute each line and update the world state accordingly. It also
-     * keeps track of the mode of execution (pre, transform, post).
-     *
-     * The larger principle is, the script itself should dictate the
-     * validation (keeping the control with the developer) and this simply
-     * executes the script. Clearly by calling the validatePostWorldState()
-     * method when the transform block is done, I am hardcoding that in and
-     * this is not ideal. I think I will move that to a script method like:
-     *      validate transformOutput
+     * keeps track of the mode of execution (pre, transform, post). The
+     * larger principle is, the script itself should dictate the validation
+     * (keeping the control with the developer) and this simply executes
+     * the script.
      *
      * TODO:
      * So the next stage is, this class needs to provide a summary of the
@@ -96,13 +92,14 @@ class SemanticEvaluator {
                 this.output.pre = [];
                 continue;
             }
+
             if (line.startsWith("transform:")) {
                 this.mode = "transform";
                 this.output.transform = [];
                 continue;
             }
+
             if (line.startsWith("post:")) {
-                this.validatePostWorldState();
                 this.mode = "post";
                 this.output.post = [];
                 continue;
@@ -110,6 +107,11 @@ class SemanticEvaluator {
 
             if (line.startsWith("#")) {
                 // Comment line, skip
+                continue;
+            }
+
+            if (line.startsWith("validate transformation")) {
+                this.validatePostWorldState();
                 continue;
             }
 
@@ -141,7 +143,7 @@ class SemanticEvaluator {
      * post behavior world state.
      */
     validatePostWorldState () {
-
+        console.log("Validating post world state...");
     }
 }
 

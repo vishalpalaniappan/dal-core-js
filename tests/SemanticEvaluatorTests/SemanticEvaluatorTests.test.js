@@ -15,6 +15,7 @@ describe("tests script runner", () => {
             transform:
                 create book_name
                 get book ["name"] book_name
+                validate transformation
 
             post:
                 exists book_name
