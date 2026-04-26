@@ -1,4 +1,4 @@
-import isEqual from "lodash-es";
+import isEqual from "lodash-es/isEqual";
 
 import BehavioralLanguageParser from "./BehavioralLanguageParser.js";
 
@@ -198,7 +198,6 @@ class SemanticEvaluator {
         if (output.isValid === null) {
             output.isValid = true;
         }
-        console.log("Post world state validation result:", output);
 
         return output;
     }
