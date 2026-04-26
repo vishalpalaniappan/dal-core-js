@@ -56,6 +56,9 @@ class InvariantParser {
         const key = args[0];
         const isValid = participant.hasOwnProperty(key);
         return {
+            participant,
+            invariantType: "hasKey",
+            key,
             isValid,
             predictions: isValid ? [] : predictions,
         }

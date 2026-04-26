@@ -104,16 +104,16 @@ class SemanticEvaluator {
                 continue;
             }
 
-            let updatedParticipants;
+            let output;
             try {
-                updatedParticipants = this.BehavioralLanguageParser.execute(
+                output = this.BehavioralLanguageParser.execute(
                     line, this.worldState, this.args
                 );
             } catch (error) {
                 console.error(`Error executing line "${line}": ${error.message}`);
                 throw error;
             }
-            this.worldState = updatedParticipants;
+            this.worldState = output.participants;
         }
     }
 

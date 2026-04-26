@@ -106,17 +106,20 @@ class BehavioralLanguageParser {
 
         // throw new Error(`Script "${script}" does not match any known primitive patterns.`);
         console.error(`Script "${script}" does not match any known primitive patterns.`);
-        return participants;
+        return {
+            participants,
+            output: null,
+        };
     }
 
     executeInvariant (script, participants) {
         console.log("Executing invariant");
         const invariantParser = new InvariantParser();
-        const results =invariantParser.run(script, participants);
-        console.log("Invariant results: ", results);
-        // TODO: The returned value needs to indicate if the invariant
-        // was respected or violated.
-        return participants;
+        const output = invariantParser.run(script, participants)
+        return {
+            participants,
+            output: output,
+        };
     }
 
     executeRequire (script, participants) {
@@ -132,7 +135,10 @@ class BehavioralLanguageParser {
             // TODO: Temporary, will remove log after establishing all the tests.
             console.log(`Pariticpant ${participantName} is required as input`);
         }
-        return participants;
+        return {
+            participants,
+            output: null,
+        };
     }
 
     executeSet (script, participants) {
@@ -143,7 +149,11 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
             valueParticipantName: valuePName,
         };
-        return new SetPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new SetPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeInsert (script, participants) {
@@ -155,7 +165,11 @@ class BehavioralLanguageParser {
             valueParticipantName: valuePName,
             index: parseInt(position),
         };
-        return new InsertPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new InsertPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeGet (script, participants) {
@@ -166,7 +180,11 @@ class BehavioralLanguageParser {
             keys: JSON.parse(keys),
             targetParticipantName: targetPName,
         };
-        return new GetPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new GetPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeCreate (script, participants, args) {
@@ -176,7 +194,11 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
             initialValue: args?.initialValue,
         };
-        return new CreatePrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new CreatePrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeRemove (script, participants) {
@@ -185,7 +207,11 @@ class BehavioralLanguageParser {
         const input = {
             targetParticipantName: targetPName,
         };
-        return new RemovePrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new RemovePrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeGetFromPos (script, participants) {
@@ -196,7 +222,11 @@ class BehavioralLanguageParser {
             position: parseInt(position),
             targetParticipantName: targetPName,
         };
-        return new GetFromPosPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new GetFromPosPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeRemoveFromPos (script, participants) {
@@ -206,7 +236,11 @@ class BehavioralLanguageParser {
             sourceParticipantName: sourcePName,
             position: parseInt(position),
         };
-        return new RemoveFromPositionPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new RemoveFromPositionPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeHasKey (script, participants) {
@@ -218,7 +252,11 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
             keys: JSON.parse(keys),
         };
-        return new HasKeyPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new HasKeyPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 }
 
