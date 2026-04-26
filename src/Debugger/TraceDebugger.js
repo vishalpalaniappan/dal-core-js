@@ -43,6 +43,9 @@ class TraceDebugger {
 
         // Track all the violated invariants
         this._invariantsViolated = [];
+
+        // The output of executable semantic model for each behavior in trace.
+        this._executableSemanticModelOutput = [];
     }
 
     run () {
@@ -62,12 +65,14 @@ class TraceDebugger {
         for (const trace of this.processedTrace) {
             const currentNode = this.findNodeByBehaviorName(trace.behavior);
             const currBehavior = currentNode.getBehavior();
-            const entry = this.processedTrace[this.processedTrace.length - 1];
-            currBehavior.setPreWorldState(entry.preParticipants);
-            currBehavior.setPostWorldState(entry.postParticipants);
-            currBehavior.setPrimitiveArgs(entry.arguments);
+            currBehavior.setPreWorldState(trace.preParticipants);
+            currBehavior.setPostWorldState(trace.postParticipants);
+            currBehavior.setPrimitiveArgs(trace.arguments);
             const output = currBehavior.computeTransformations();
-            console.log(output);
+            this._executableSemanticModelOutput.push({
+                behavior: trace.behavior,
+                output,
+            });
         }
     }
 
@@ -93,17 +98,8 @@ class TraceDebugger {
         }
     }
 
-    addLog (currentNode, reachedAtomic = false) {
-        this._currentPathLog.push(currentNode);
-        if (reachedAtomic) {
-            this._atomicPathsLog.push(this._currentPathLog);
-            this._currentPathLog = [];
-        }
-    }
-
     processParticipant () {
         const currLog = this._logs[this.currentIndex];
-        this.addLog(`   Processing participant named ${currLog.getParticipantName()}.`);
         const entry = this.processedTrace[this.processedTrace.length - 1];
         const logEntry = currLog["userGenerated"];
         if (logEntry["type"] === "participant" && logEntry["participantType"] === "pre") {
@@ -115,9 +111,16 @@ class TraceDebugger {
         }
     }
 
+    addLog (currentNode, reachedAtomic = false) {
+        this._currentPathLog.push(currentNode);
+        if (reachedAtomic) {
+            this._atomicPathsLog.push(this._currentPathLog);
+            this._currentPathLog = [];
+        }
+    }
+
     processBehavior (currentNode) {
         const currBehaviorName = currentNode.getBehavior().getName();
-        this.addLog(`Behavior: ${currBehaviorName}.`);
         this.currentBehavior = currBehaviorName;
         this.processedTrace.push({
             behavior: currBehaviorName,

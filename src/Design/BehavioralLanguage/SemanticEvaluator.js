@@ -63,7 +63,7 @@ class SemanticEvaluator {
         this.script = script;
         this.worldState = initialWorldState;
         this.expectedPostWorldState = expectedPostWorldState;
-        this.args = args || {};
+        this.args = args;
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
         this.output = {};
     }
