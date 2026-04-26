@@ -1,3 +1,5 @@
+import isEqual from "lodash-es";
+
 import BehavioralLanguageParser from "./BehavioralLanguageParser.js";
 
 class SemanticEvaluator {
@@ -111,7 +113,8 @@ class SemanticEvaluator {
             }
 
             if (line.startsWith("validate transformation")) {
-                this.validatePostWorldState();
+                const output =this.validatePostWorldState();
+                this.output.transform.push(output);
                 continue;
             }
 
@@ -141,9 +144,51 @@ class SemanticEvaluator {
      * In either case, this method is responsible for checking the validity of
      * the provided post behavior world state by comparing it to the computed
      * post behavior world state.
+     *
+     * @returns {Object} Object containing the validity of the post world state
      */
     validatePostWorldState () {
-        console.log("Validating post world state...");
+        const output = {
+            type: "validate",
+            isValid: null,
+            missingParticipants: [],
+            unexpectedParticipants: [],
+            mismatchedParticipants: [],
+        }
+
+        // Check for missing participants
+        for (const participant in this.expectedPostWorldState) {
+            if (!(participant in this.worldState)) {
+                output.missingParticipants.push(participant);
+                output.isValid = false;
+            }
+        }
+
+        // Check for unexpected participants
+        for (const participant in this.worldState) {
+            if (!(participant in this.expectedPostWorldState)) {
+                output.unexpectedParticipants.push(participant);
+                output.isValid = false;
+            }
+        }
+
+
+        // Check for equality of participants
+        for (const participant in this.expectedPostWorldState) {
+            if (participant in this.worldState) {
+                if (!isEqual(this.worldState[participant], this.expectedPostWorldState[participant])) {
+                    output.mismatchedParticipants.push(participant);
+                    output.isValid = false;
+                }
+            }
+        }
+
+        if (output.isValid === null) {
+            output.isValid = true;
+        }
+        console.log("Post world state validation result:", output);
+
+        return output;
     }
 }
 
