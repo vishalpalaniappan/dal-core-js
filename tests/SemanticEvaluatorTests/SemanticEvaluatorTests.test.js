@@ -9,6 +9,7 @@ describe("tests script runner", () => {
         const rawScript = `
             pre:
                 require book
+                require book2 input
                 invariant book hasKey ["name"] []
 
             transform:

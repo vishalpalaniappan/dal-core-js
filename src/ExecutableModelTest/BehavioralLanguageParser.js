@@ -19,7 +19,7 @@ const re = {
     "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
     "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
     "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
-    "REQUIRE_RE": /^require\s+(.+)$/,
+    "REQUIRE_RE": /^require\s+(.+?)(?:\s+(input))?$/,
     "INVARIANT_RE": /^invariant\s+(.+)$/,
 };
 
@@ -93,12 +93,19 @@ class BehavioralLanguageParser {
             return this.executeHasKey(script, participants);
         }
 
-        // Ex: require <participant>
+        // Ex: require <participant> input
+        // input is an optional flag to indicate that this participant is required as an input
+        // currently this input will be read from the args passed into the semantic evaluator.
+        // Soon, the value will be accepted from the user as part of executing the semantic model
         const isRequire = re["REQUIRE_RE"].test(script);
         if (isRequire) {
-            const [, participantName] = script.match(re["REQUIRE_RE"]);
-            if (!(participantName in participants)) {
+            const [, participantName, input] = script.match(re["REQUIRE_RE"]);
+            if (!input && !(participantName in participants)) {
                 throw new Error(`Required participant ${participantName} is missing`);
+            }
+            if (input) {
+                // TODO: Temporary, will remove after establishing all the tests.
+                console.log(`Pariticpant ${participantName} is required as input`);
             }
             return participants;
         }
