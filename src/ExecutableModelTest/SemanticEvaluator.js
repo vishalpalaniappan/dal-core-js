@@ -108,6 +108,11 @@ class SemanticEvaluator {
                 continue;
             }
 
+            if (line.startsWith("#")) {
+                // Comment line, skip
+                continue;
+            }
+
             let executionOutput;
             try {
                 executionOutput = this.BehavioralLanguageParser.execute(
