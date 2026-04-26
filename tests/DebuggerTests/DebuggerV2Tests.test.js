@@ -29,15 +29,22 @@ describe("debugger tests", () => {
             description: "Walks through execution traces",
         });
 
-        const filePath = resolve(__dirname, "../test_data/debuggerV2_trace.clp.zst");
+        const filePath = resolve(__dirname, "../test_data/demo2.dal");
         const source = await readFile(filePath);
 
-        const traceLogs = await loadTrace(source);
+        d.deserialize(source);
+
+        const traceIds = d.traces._traces;
+        console.log(traceIds);
+
+        const traceWithViolations = traceIds[0];
+
+        const traceLogs = await loadTrace(traceWithViolations.trace);
 
         const debuggerInstance = d.createDebugger(traceLogs);
         debuggerInstance.run();
 
-        const filePath2 = resolve(__dirname, "../temp/debugger_v2_output.txt");
+        const filePath2 = resolve(__dirname, "../temp/demo2_debugger_output.txt");
         await writeFile(
             filePath2, JSON.stringify(debuggerInstance._atomicPathsLog, null, 2)
         );
