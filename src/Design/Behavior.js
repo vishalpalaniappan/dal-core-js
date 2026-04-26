@@ -27,6 +27,7 @@ class Behavior extends Base {
         this._primitiveArgs = {};
         this._transformationTests = [];
         this._evaluator = new SemanticEvaluator();
+        this._script = "";
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -184,8 +185,7 @@ class Behavior extends Base {
      * @param {String} rawScript Script to set.
      */
     setScript (rawScript) {
-        this._primitives = rawScript.split("\n")
-            .map(line => line.trim()).filter(line => line.length > 0);
+        this._script = rawScript;
     }
 
     /**
@@ -241,8 +241,10 @@ class Behavior extends Base {
      * to the observed world state.
      */
     computeTransformations () {
+        const primitives = this._script.split("\n")
+            .map(line => line.trim()).filter(line => line.length > 0);
         const evaluator = new SemanticEvaluator(
-            this._primitives,
+            primitives,
             this._preWorldState,
             this._postWorldState,
             this._primitiveArgs
