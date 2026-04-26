@@ -63,7 +63,7 @@ class SemanticEvaluator {
         this.expectedPostWorldState = expectedPostWorldState;
         this.args = args || {};
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
-        this.output = [];
+        this.output = {};
     }
 
     /**
@@ -93,15 +93,18 @@ class SemanticEvaluator {
         for (const line of this.script) {
             if (line.startsWith("pre:")) {
                 this.mode = "pre";
+                this.output.pre = [];
                 continue;
             }
             if (line.startsWith("transform:")) {
                 this.mode = "transform";
+                this.output.transform = [];
                 continue;
             }
             if (line.startsWith("post:")) {
                 this.validatePostWorldState();
                 this.mode = "post";
+                this.output.post = [];
                 continue;
             }
 
@@ -115,7 +118,7 @@ class SemanticEvaluator {
                 throw error;
             }
             this.worldState = executionOutput.participants;
-            this.output.push(executionOutput.output);
+            this.output[this.mode].push(executionOutput);
         }
     }
 
