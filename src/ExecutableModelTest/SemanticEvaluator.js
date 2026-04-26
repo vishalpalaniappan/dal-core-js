@@ -76,6 +76,7 @@ class SemanticEvaluator {
                 continue;
             }
             if (line.startsWith("post:")) {
+                this.validatePostWorldState();
                 this.mode = "post";
                 continue;
             }
@@ -94,6 +95,23 @@ class SemanticEvaluator {
             }
             this.worldState = updatedParticipants;
         }
+    }
+
+    /**
+     * This method is called after the transform is complete. It checks the
+     * validity of the computed post world state by comparing it to the
+     * expected post world state.
+     *
+     * In the scripting playground, the pre and post world states are provided
+     * by the user or loaded from a collected trace.In the debugger, the pre
+     * and post world states are observed from the execution trace.
+     *
+     * In either case, this method is responsible for checking the validity of
+     * the provided post behavior world state by comparing it to the computed
+     * post behavior world state.
+     */
+    validatePostWorldState () {
+
     }
 }
 
