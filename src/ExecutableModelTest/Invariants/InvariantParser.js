@@ -21,7 +21,7 @@ class InvariantParser {
      * Using this, I can specify any invariant and use its state to predict
      * downstream behaviors that will fail.
      **/
-    constructor() {
+    constructor () {
 
     }
 
