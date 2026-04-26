@@ -54,18 +54,15 @@ set basket book []
 Pre-transformation state:
 ```text
     {
-        book: {"name": "Harry Potter"}
+        book: {"name": "Harry Potter"},
+        bookCopy: null,
     }
 ```
 
 Post-transformation state:
 ```text
     {
-        "book": {
-            "name": "Harry Potter"
-        },
-        "basket": {
-            "name": "Harry Potter"
-        }
+        book: {"name": ""},
+        bookCopy: {"name": "Harry Potter"},
     }
 ```

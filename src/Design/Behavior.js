@@ -6,7 +6,7 @@ import ParticipantAlreadyExistsError from "../Errors/ParticipantAlreadyExistsErr
 import UnknownParticipantError from "../Errors/UnknownParticipantError";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
-import BehavioralLanguageParser from "./BehavioralLanguage/BehavioralLanguageParser";
+import SemanticEvaluator from "./BehavioralLanguage/SemanticEvaluator.js";
 import Participant from "./Participant";
 
 
@@ -26,7 +26,7 @@ class Behavior extends Base {
         this._primitives = [];
         this._primitiveArgs = {};
         this._transformationTests = [];
-        this._transformer = new BehavioralLanguageParser();
+        this._evaluator = new SemanticEvaluator();
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -180,22 +180,12 @@ class Behavior extends Base {
 
     // ===== METHODS FOR EXECUTING BEHAVIOR =====
     /**
-     * Adds a primitive instruction to the behavior.
-     * @param {String} primitive Primitive instruction.
+     * Sets the script outlining the validation steps.
+     * @param {String} rawScript Script to set.
      */
-    addPrimitive (primitive) {
-        this._primitives.push(primitive);
-    }
-
-    /**
-     * Adds multiple primitive instructions to the behavior.
-     * @param {String} primitives Primitive instructions separated by newlines.
-     */
-    addPrimitives (primitives) {
-        const _primitives = primitives.split("\n");
-        _primitives.forEach(primitive => {
-            this.addPrimitive(primitive.replace(/[\r\n]+/g, "").trim())
-        });
+    setScript (rawScript) {
+        this._primitives = rawScript.split("\n")
+            .map(line => line.trim()).filter(line => line.length > 0);
     }
 
     /**
@@ -251,70 +241,14 @@ class Behavior extends Base {
      * to the observed world state.
      */
     computeTransformations () {
-        for (const primitive of this._primitives) {
-            // execute primitive and update world state
-            const updatedParticipants = this._transformer.execute(
-                primitive, this._currentWorldState, this._primitiveArgs
-            );
-            this._currentWorldState = updatedParticipants;
-        }
-        return [this._currentWorldState, this.isTransformationValid()];
-    }
-
-    /**
-     * Flags if the world state produced by the transformation and the
-     * observed world state are valid with respect to each other.
-     * @returns {Boolean} Flag to indicate if transformation is valid.
-     */
-    isTransformationValid () {
-        // Compare the current world state with the post-world state
-        /**
-         * TODO:
-         * Steps to determine validity:
-         *  - Pre-behavior world state:
-         *     - Check all expected participants are present.
-         *     - Check for unexpected participants.
-         *  - Post-behavior world state:
-         *     - Check that all expected participants are present.
-         *     - Check for unexpected participants.
-         * - For each participant, in observed post-behavior world state.
-         *     - Check if value matches the computed transformation output.
-         *     - If any value does not match, the transformation is invalid.
-         * - If all checks pass, the transformation is valid.
-         * - Produce boolean flag and list of causes for invalidity.
-         *
-         * Expected output:
-         * {
-         *   isValid: false,
-         *   pre-behavior: {
-         *     missingParticipants: ["participant1", "participant2"],
-         *     unexpectedParticipants: ["participant3", "participant4"],
-         *   },
-         *   post-behavior: {
-         *     missingParticipants: ["participantA", "participantB"],
-         *     unexpectedParticipants: ["participantC", "participantD"],
-         *   },
-         *   valueMismatches: [
-         *     {
-         *       participant: "participant5",
-         *       expectedValue: "expectedValue5",
-         *       actualValue: "actualValue5"
-         *     }
-         *   ]
-         * }
-         **/
-        for (const participantName in this._postWorldState) {
-            if (!(participantName in this._currentWorldState)) {
-                throw new Error(`Expected Participant ${participantName} is missing`);
-            }
-            const expectedValue = this._postWorldState[participantName];
-            const actualValue = this._currentWorldState[participantName];
-            if (!isEqual(expectedValue, actualValue)) {
-                console.log(`Value mismatch for participant ${participantName}`);
-                return false;
-            }
-        }
-        return true;
+        const evaluator = new SemanticEvaluator(
+            this._primitives,
+            this._preWorldState,
+            this._postWorldState,
+            this._primitiveArgs
+        );
+        evaluator.run();
+        return evaluator.output;
     }
 
     /**

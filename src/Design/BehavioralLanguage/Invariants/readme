@@ -1,14 +1,22 @@
 This folder contains commands which establish invairants for the world state.
 
 Example:
-invariant [PRE|POST] <participant_name> <type> <arg_1>...<arg_n>
+invariant <participant> <type> [key1,key2...keyN] [arg1,arg2..argN] [prediction1...predictionN]
 
-This establishes a pattern where an invariant type is applied to a participant
-with the provided arguments. The PRE or POST arguments indicate if the invariant
-is being evaluated before or after the world transformation.
 
-The failure modes which determine behavioral semantic validity become:
-- Missing required pre-transformation participant
-- Pre-transformation invariant violation
-- Invalid post-world state after transformation
-- Post-transformation invariant violation
+Checks if book has a key named name.
+```text
+    invariant book hasKey [] ["name"] []
+```
+
+Check if book["name"] has a minimum length of 1.
+```text
+    invariant book minLength ["name"] [1] []
+```
+
+Checks if book_name has a minimum length of 1.
+```text
+    invariant book_name minLength [] [1] []
+```
+
+                

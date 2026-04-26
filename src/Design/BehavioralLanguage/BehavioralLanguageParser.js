@@ -1,4 +1,6 @@
 /* eslint-disable max-len */
+import RequirePrimitive from "./Context/RequirePrimitive/RequirePrimitive.js";
+import InvariantParser from "./Invariants/InvariantParser.js";
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetFromPosPrimitive from "./SemanticPrimitives/GetFromPosPrimitive/GetFromPosPrimitive.js";
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
@@ -18,6 +20,8 @@ const re = {
     "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
     "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
     "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
+    "REQUIRE_RE": /^require\s+(.+?)(?:\s+(input))?$/,
+    "INVARIANT_RE": /^invariant\s+(.+)$/,
 };
 
 class BehavioralLanguageParser {
@@ -27,6 +31,12 @@ class BehavioralLanguageParser {
      * By more formal, I mean that there are well defined patterns for how
      * to establish a language parser, I haven't bothered looking it up
      * but I will after I prove some concepts out for myself.
+     *
+     * In the long run, I want this to be a formal Semantic Behavioral Language
+     * (BSL) that can be used to define executable semantic models. I feel that
+     * the way that I am using this is just one application, there are much
+     * broader implications for a language like this but I am focusing on using
+     * it to automate the management of software systems.
      *
      * A simple behavioral language parser that can be used
      * to convert a script into a set of primitives transformations that
@@ -90,22 +100,50 @@ class BehavioralLanguageParser {
             return this.executeHasKey(script, participants);
         }
 
+        // Ex: require <participant> input
+        const isRequire = re["REQUIRE_RE"].test(script);
+        if (isRequire) {
+            return this.executeRequire(script, participants, args);
+        }
+
+        const isInvariant = re["INVARIANT_RE"].test(script);
+        if (isInvariant) {
+            return this.executeInvariant(script, participants);
+        }
+
         throw new Error(`Script "${script}" does not match any known primitive patterns.`);
     }
 
+    executeInvariant (script, participants) {
+        const invariantParser = new InvariantParser();
+        const output = invariantParser.run(script, participants)
+        return {
+            participants,
+            output: output,
+        };
+    }
+
+    executeRequire (script, participants, args) {
+        const [, participantName, input] = script.match(re["REQUIRE_RE"]);
+        const requirePrimitive = new RequirePrimitive(participants, args);
+        return requirePrimitive.run(participantName, input);
+    }
+
     executeSet (script, participants) {
-        console.log("Executing set");
         const [, targetPName, valuePName, keys] = script.match(re["SET_RE"]);
         const input = {
             keys: JSON.parse(keys),
             targetParticipantName: targetPName,
             valueParticipantName: valuePName,
         };
-        return new SetPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new SetPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeInsert (script, participants) {
-        console.log( "Executing insert");
         const [, valuePName, targetPName, keys, position] = script.match(re["INSERT_RE"]);
         const input = {
             targetParticipantName: targetPName,
@@ -113,62 +151,80 @@ class BehavioralLanguageParser {
             valueParticipantName: valuePName,
             index: parseInt(position),
         };
-        return new InsertPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new InsertPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeGet (script, participants) {
-        console.log("Executing get");
         const [, sourcePName, keys, targetPName] = script.match(re["GET_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
             keys: JSON.parse(keys),
             targetParticipantName: targetPName,
         };
-        return new GetPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new GetPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeCreate (script, participants, args) {
-        console.log("Executing create");
         const [, targetPName] = script.match(re["CREATE_RE"]);
         const input = {
             targetParticipantName: targetPName,
             initialValue: args?.initialValue,
         };
-        return new CreatePrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new CreatePrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeRemove (script, participants) {
-        console.log("Executing remove");
         const [, targetPName] = script.match(re["REMOVE_RE"]);
         const input = {
             targetParticipantName: targetPName,
         };
-        return new RemovePrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new RemovePrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeGetFromPos (script, participants) {
-        console.log("Executing getFromPos");
         const [, sourcePName, position, targetPName] = script.match(re["GET_FROM_POS_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
             position: parseInt(position),
             targetParticipantName: targetPName,
         };
-        return new GetFromPosPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new GetFromPosPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeRemoveFromPos (script, participants) {
-        console.log("Executing removeFromPos");
         const [, sourcePName, position] = script.match(re["REMOVE_FROM_POS_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
             position: parseInt(position),
         };
-        return new RemoveFromPositionPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new RemoveFromPositionPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 
     executeHasKey (script, participants) {
-        console.log("Executing hasKey");
         const [, sourcePName, keyPName, targetPName, keys] = script.match(re["HAS_KEY_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
@@ -176,7 +232,11 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
             keys: JSON.parse(keys),
         };
-        return new HasKeyPrimitive(input, participants).apply_transformations();
+        const updatedParticipants = new HasKeyPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
     }
 }
 
