@@ -65,6 +65,29 @@ class SemanticEvaluator {
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
     }
 
+    /**
+     * This method runs the script. It uses the BehavioralLanguageParser
+     * to execute each line and update the world state accordingly. It also
+     * keeps track of the mode of execution (pre, transform, post).
+     *
+     * The larger principle is, the script itself should dictate the
+     * validation (keeping the control with the developer) and this simply
+     * executes the script. Clearly by calling the validatePostWorldState()
+     * method when the transform block is done, I am hardcoding that in and
+     * this is not ideal. I think I will move that to a script method like:
+     *      validate transformOutput
+     *
+     * TODO:
+     * So the next stage is, this class needs to provide a summary of the
+     * world's validity after the script is executed. There are many validity,
+     * checks, invariant checks, participant existence checks, unknown
+     * participant checks, transform output validity check etc. So I need to
+     * track all of these in an object and provide the output that the debugger
+     * can use. The debugger will use each semantic invalidity to predict which
+     * behaviors will fail and then check those predictions against the observed
+     * behaviors to automatically debug the execution. So the output of this
+     * is the input into the automated debugger.
+     */
     run () {
         for (const line of this.script) {
             if (line.startsWith("pre:")) {
@@ -83,12 +106,9 @@ class SemanticEvaluator {
 
             let updatedParticipants;
             try {
-                console.log("");
-                console.log("Executing line: ", line);
                 updatedParticipants = this.BehavioralLanguageParser.execute(
                     line, this.worldState, this.args
                 );
-                console.log("Updated participants: ", updatedParticipants);
             } catch (error) {
                 console.error(`Error executing line "${line}": ${error.message}`);
                 throw error;
