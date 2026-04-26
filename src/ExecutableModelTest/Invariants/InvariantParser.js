@@ -34,11 +34,7 @@ class InvariantParser {
      * validity and the failure prediction it makes.
      */
     run (script, participants) {
-
         const match = script.match(INVARIANT_RE);
-
-        console.log(match);
-
         const participant = match[1];
         const type = match[2];
         const keys = match[3] ? JSON.parse("[" + match[3] + "]") : [];
