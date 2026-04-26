@@ -90,12 +90,14 @@ describe("tests script runner", () => {
 
         b.setPostWorldState({
             book: {"name": "The Great Gatsby"},
-            book_name: "The Great Gatsby",
+            book_name: "The Grea Gatsby",
         });
 
         b.setPrimitiveArgs({});
 
-        const scriptOutput = b.computeTransformations();
-        console.log("output:", scriptOutput);
+        const output =b.computeTransformations();
+
+        const filePath2 = resolve(__dirname, "../temp/semanticEvaluatorOutput2.json")
+        await writeFile(filePath2, JSON.stringify(output, null, 4));
     });
 });
