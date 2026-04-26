@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import RequirePrimitive from "../ExecutableModelTest/Context/RequirePrimitive/RequirePrimitive.js";
 import InvariantParser from "./Invariants/InvariantParser.js";
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetFromPosPrimitive from "./SemanticPrimitives/GetFromPosPrimitive/GetFromPosPrimitive.js";
@@ -127,29 +128,10 @@ class BehavioralLanguageParser {
         };
     }
 
-    executeRequire (script, participants) {
+    executeRequire (script, participants, args) {
         const [, participantName, input] = script.match(re["REQUIRE_RE"]);
-        if (!input && !(participantName in participants)) {
-            throw new Error(`Required participant ${participantName} is missing`);
-        }
-        if (input) {
-            // TODO:
-            // input is an optional flag to indicate that this participant is required as an input
-            // currently this input will be read from the args passed into the semantic evaluator.
-            // Soon, the value will be accepted from the user as part of executing the semantic model
-        }
-
-        const output = {
-            "type": "require",
-            "participantName": participantName,
-            "input": !!input,
-            "isValid": participantName in participants,
-            "msg": `Required participant ${participantName} is present${input ? " as input" : ""}`,
-        }
-        return {
-            participants,
-            output: output,
-        };
+        const requirePrimitive = new RequirePrimitive(participants, args);
+        return requirePrimitive.run(participantName, input);
     }
 
     executeSet (script, participants) {
