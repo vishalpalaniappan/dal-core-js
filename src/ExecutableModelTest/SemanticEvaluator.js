@@ -123,12 +123,21 @@ class SemanticEvaluator {
                 executionOutput = this.BehavioralLanguageParser.execute(
                     line, this.worldState, this.args
                 );
+                this.output[this.mode].push({
+                    type: "success",
+                    line: line,
+                    output: executionOutput.output,
+                });
             } catch (error) {
                 console.error(`Error executing line "${line}": ${error.message}`);
-                throw error;
+                this.output[this.mode].push({
+                    type: "error",
+                    line: line,
+                    message: error.message,
+                });
+                break;
             }
             this.worldState = executionOutput.participants;
-            this.output[this.mode].push(executionOutput.output);
         }
     }
 
@@ -176,7 +185,9 @@ class SemanticEvaluator {
         // Check for equality of participants
         for (const participant in this.expectedPostWorldState) {
             if (participant in this.worldState) {
-                if (!isEqual(this.worldState[participant], this.expectedPostWorldState[participant])) {
+                if (!isEqual(
+                    this.worldState[participant], this.expectedPostWorldState[participant]
+                )) {
                     output.mismatchedParticipants.push(participant);
                     output.isValid = false;
                 }
