@@ -10,7 +10,8 @@ describe("tests script runner", () => {
             pre:
                 require book
                 require book2 input
-                invariant book hasKey ["name"] []
+                invariant book hasKey [] ["name"] []
+                invariant book minLength ["name"] [1] []
 
             transform:
                 create book_name
@@ -19,7 +20,7 @@ describe("tests script runner", () => {
 
             post:
                 require book_name
-                invariant book_name minLength [1] []
+                invariant book_name minLength [] [1] []
         `;
         const script = rawScript.split("\n")
             .map(line => line.trim()).filter(line => line.length > 0);

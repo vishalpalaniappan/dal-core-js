@@ -1,4 +1,5 @@
-const INVARIANT_RE = /^invariant\s+(\S+)\s+(\S+)(?:\s+(\[[^\]]*\]))?(?:\s+(\[[^\]]*\]))?$/;
+// eslint-disable-next-line max-len
+const INVARIANT_RE = /^invariant\s+(\S+)\s+(\S+)(?:\s+\[([^\]]*)\])?(?:\s+\[([^\]]*)\])?(?:\s+\[([^\]]*)\])?$/;
 
 class InvariantParser {
 
@@ -36,41 +37,52 @@ class InvariantParser {
 
         const match = script.match(INVARIANT_RE);
 
+        console.log(match);
+
         const participant = match[1];
         const type = match[2];
-        const args = match[3] ? JSON.parse(match[3]) : [];
-        const predictions = match[4] ? JSON.parse(match[4]) : [];
+        const keys = match[3] ? JSON.parse("[" + match[3] + "]") : [];
+        const args = match[4] ? JSON.parse("[" + match[4] + "]") : [];
+        const predictions = match[5] ? JSON.parse("[" + match[5] + "]") : [];
 
         if (!(participant in participants)) {
             throw new Error(`Participant ${participant} is missing`);
         }
 
         if (type === "hasKey") {
-            // invariant book hasKey ["name"] []
-            return this.hasKeyInvariant(participants[participant], args, predictions);
+            // invariant book hasKey [] ["name"] []
+            return this.hasKeyInvariant(participants[participant], keys, args, predictions);
         } else if (type === "minLength") {
-            // invariant book_name minLength [0] []
-            return this.minLengthInvariant(participants[participant], args, predictions);
+            // invariant book_name minLength ["book","name"] [0] []
+            return this.minLengthInvariant(participants[participant], keys, args, predictions);
         }
 
         console.log(`Running invariant ${type} on participant ${participant}`);
     }
 
-    hasKeyInvariant (participant, args, predictions) {
-        const key = args[0];
-        const isValid = participant.hasOwnProperty(key);
+    hasKeyInvariant (participant, keys, args, predictions) {
+        let value = participant;
+        for (const key of keys) {
+            value = value[key];
+        }
+        const keyToCheck = args[0];
+        const isValid = value.hasOwnProperty(keyToCheck);
         return {
-            participant,
+            value,
             invariantType: "hasKey",
-            key,
+            key: keyToCheck,
             isValid,
             predictions: isValid ? [] : predictions,
         }
     }
 
-    minLengthInvariant (participant, args, predictions) {
+    minLengthInvariant (participant, keys, args, predictions) {
+        let value = participant;
+        for (const key of keys) {
+            value = value[key];
+        }
         const minLength = args[0];
-        const isValid = participant.length >= minLength;
+        const isValid = value.length >= minLength;
         return {
             participant,
             invariantType: "minLength",
