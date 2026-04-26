@@ -94,34 +94,44 @@ class BehavioralLanguageParser {
         }
 
         // Ex: require <participant> input
-        // input is an optional flag to indicate that this participant is required as an input
-        // currently this input will be read from the args passed into the semantic evaluator.
-        // Soon, the value will be accepted from the user as part of executing the semantic model
         const isRequire = re["REQUIRE_RE"].test(script);
         if (isRequire) {
-            const [, participantName, input] = script.match(re["REQUIRE_RE"]);
-            if (!input && !(participantName in participants)) {
-                throw new Error(`Required participant ${participantName} is missing`);
-            }
-            if (input) {
-                // TODO: Temporary, will remove after establishing all the tests.
-                console.log(`Pariticpant ${participantName} is required as input`);
-            }
-            return participants;
+            return this.executeRequire(script, participants, args);
         }
 
         const isInvariant = re["INVARIANT_RE"].test(script);
         if (isInvariant) {
-            const invariantParser = new InvariantParser();
-            const results =invariantParser.run(script, participants);
-            console.log("Invariant results: ", results);
-            // TODO: The returned value needs to indicate if the invariant
-            // was respected or violated.
-            return participants;
+            return this.executeInvariant(script, participants);
         }
 
         // throw new Error(`Script "${script}" does not match any known primitive patterns.`);
         console.error(`Script "${script}" does not match any known primitive patterns.`);
+        return participants;
+    }
+
+    executeInvariant (script, participants) {
+        console.log("Executing invariant");
+        const invariantParser = new InvariantParser();
+        const results =invariantParser.run(script, participants);
+        console.log("Invariant results: ", results);
+        // TODO: The returned value needs to indicate if the invariant
+        // was respected or violated.
+        return participants;
+    }
+
+    executeRequire (script, participants) {
+        console.log("Executing require");
+        const [, participantName, input] = script.match(re["REQUIRE_RE"]);
+        if (!input && !(participantName in participants)) {
+            throw new Error(`Required participant ${participantName} is missing`);
+        }
+        if (input) {
+            // input is an optional flag to indicate that this participant is required as an input
+            // currently this input will be read from the args passed into the semantic evaluator.
+            // Soon, the value will be accepted from the user as part of executing the semantic model
+            // TODO: Temporary, will remove log after establishing all the tests.
+            console.log(`Pariticpant ${participantName} is required as input`);
+        }
         return participants;
     }
 
