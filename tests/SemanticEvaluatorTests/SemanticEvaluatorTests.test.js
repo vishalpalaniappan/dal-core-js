@@ -35,5 +35,10 @@ describe("tests script runner", () => {
         );
 
         evaluator.run();
+
+        console.log("Final world state:", evaluator.worldState);
+        expect(evaluator.worldState).toEqual(expectedPostWorldState);
+
+        console.log("Output:", evaluator.output);
     });
 });

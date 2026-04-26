@@ -63,6 +63,7 @@ class SemanticEvaluator {
         this.expectedPostWorldState = expectedPostWorldState;
         this.args = args || {};
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
+        this.output = [];
     }
 
     /**
@@ -104,16 +105,17 @@ class SemanticEvaluator {
                 continue;
             }
 
-            let output;
+            let executionOutput;
             try {
-                output = this.BehavioralLanguageParser.execute(
+                executionOutput = this.BehavioralLanguageParser.execute(
                     line, this.worldState, this.args
                 );
             } catch (error) {
                 console.error(`Error executing line "${line}": ${error.message}`);
                 throw error;
             }
-            this.worldState = output.participants;
+            this.worldState = executionOutput.participants;
+            this.output.push(executionOutput.output);
         }
     }
 
