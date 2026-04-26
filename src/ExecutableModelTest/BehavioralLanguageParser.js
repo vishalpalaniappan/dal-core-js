@@ -113,7 +113,6 @@ class BehavioralLanguageParser {
     }
 
     executeInvariant (script, participants) {
-        console.log("Executing invariant");
         const invariantParser = new InvariantParser();
         const output = invariantParser.run(script, participants)
         return {
@@ -123,7 +122,6 @@ class BehavioralLanguageParser {
     }
 
     executeRequire (script, participants) {
-        console.log("Executing require");
         const [, participantName, input] = script.match(re["REQUIRE_RE"]);
         if (!input && !(participantName in participants)) {
             throw new Error(`Required participant ${participantName} is missing`);
@@ -142,7 +140,6 @@ class BehavioralLanguageParser {
     }
 
     executeSet (script, participants) {
-        console.log("Executing set");
         const [, targetPName, valuePName, keys] = script.match(re["SET_RE"]);
         const input = {
             keys: JSON.parse(keys),
@@ -157,7 +154,6 @@ class BehavioralLanguageParser {
     }
 
     executeInsert (script, participants) {
-        console.log( "Executing insert");
         const [, valuePName, targetPName, keys, position] = script.match(re["INSERT_RE"]);
         const input = {
             targetParticipantName: targetPName,
@@ -173,7 +169,6 @@ class BehavioralLanguageParser {
     }
 
     executeGet (script, participants) {
-        console.log("Executing get");
         const [, sourcePName, keys, targetPName] = script.match(re["GET_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
@@ -188,7 +183,6 @@ class BehavioralLanguageParser {
     }
 
     executeCreate (script, participants, args) {
-        console.log("Executing create");
         const [, targetPName] = script.match(re["CREATE_RE"]);
         const input = {
             targetParticipantName: targetPName,
@@ -202,7 +196,6 @@ class BehavioralLanguageParser {
     }
 
     executeRemove (script, participants) {
-        console.log("Executing remove");
         const [, targetPName] = script.match(re["REMOVE_RE"]);
         const input = {
             targetParticipantName: targetPName,
@@ -215,7 +208,6 @@ class BehavioralLanguageParser {
     }
 
     executeGetFromPos (script, participants) {
-        console.log("Executing getFromPos");
         const [, sourcePName, position, targetPName] = script.match(re["GET_FROM_POS_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
@@ -230,7 +222,6 @@ class BehavioralLanguageParser {
     }
 
     executeRemoveFromPos (script, participants) {
-        console.log("Executing removeFromPos");
         const [, sourcePName, position] = script.match(re["REMOVE_FROM_POS_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
@@ -244,7 +235,6 @@ class BehavioralLanguageParser {
     }
 
     executeHasKey (script, participants) {
-        console.log("Executing hasKey");
         const [, sourcePName, keyPName, targetPName, keys] = script.match(re["HAS_KEY_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
