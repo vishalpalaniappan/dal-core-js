@@ -35,7 +35,6 @@ describe("debugger tests", () => {
         d.deserialize(source);
 
         const traceIds = d.traces._traces;
-        console.log(traceIds);
 
         const traceWithViolations = traceIds[0];
 

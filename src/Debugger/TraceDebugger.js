@@ -53,7 +53,22 @@ class TraceDebugger {
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
         this.debug();
+
+        this.runExecutableSemanticModels();
         return this._atomicPathsLog;
+    }
+
+    runExecutableSemanticModels () {
+        for (const trace of this.processedTrace) {
+            const currentNode = this.findNodeByBehaviorName(trace.behavior);
+            const currBehavior = currentNode.getBehavior();
+            const entry = this.processedTrace[this.processedTrace.length - 1];
+            currBehavior.setPreWorldState(entry.preParticipants);
+            currBehavior.setPostWorldState(entry.postParticipants);
+            currBehavior.setPrimitiveArgs(entry.arguments);
+            const output = currBehavior.computeTransformations();
+            console.log(output);
+        }
     }
 
     findNode (index) {
@@ -68,6 +83,16 @@ class TraceDebugger {
         }
     }
 
+    findNodeByBehaviorName (name) {
+        const graphs = this._design.getGraphs();
+        for (const graph of Object.keys(graphs)) {
+            try {
+                const behavior = graphs[graph].findNode(name);
+                return behavior;
+            } catch {}
+        }
+    }
+
     addLog (currentNode, reachedAtomic = false) {
         this._currentPathLog.push(currentNode);
         if (reachedAtomic) {
@@ -76,34 +101,31 @@ class TraceDebugger {
         }
     }
 
-    processParticipant (currentNode) {
+    processParticipant () {
         const currLog = this._logs[this.currentIndex];
         this.addLog(`   Processing participant named ${currLog.getParticipantName()}.`);
-        this.addLog(`   Participant Value: ${JSON.stringify(currLog.getParticipantValue())}.`);
-
-        const currBehavior = currentNode.getBehavior();
-        const currParticipant = currBehavior.getParticipant(currLog.getParticipantName());
-
-        currParticipant.setValue(currLog.getParticipantValue());
-        currParticipant.evaluateInvariants();
-
-        if (currParticipant.getInvariants().length > 0) {
-            this.addLog(`   Invariant Violated: ${currParticipant._invariantViolated}.`);
-        }
-
-        for (const invariant of currParticipant.getInvariants()) {
-            // Add to the list of violated invariants if invariant was violated.
-            if (invariant.invariantViolated) {
-                this._invariantsViolated.push({
-                    index: this.currentIndex,
-                    behavior: currBehavior,
-                    participant: currParticipant,
-                    invariant: invariant,
-                });
-            }
+        const entry = this.processedTrace[this.processedTrace.length - 1];
+        const logEntry = currLog["userGenerated"];
+        if (logEntry["type"] === "participant" && logEntry["participantType"] === "pre") {
+            entry.preParticipants[logEntry.participantName] = logEntry["participantValue"];
+        } else if (logEntry["type"] === "participant" && logEntry["participantType"] === "post") {
+            entry.postParticipants[logEntry.participantName] = logEntry["participantValue"];
+        } else if (logEntry["type"] === "argument") {
+            entry.arguments[logEntry.argumentName] = logEntry["argumentValue"];
         }
     }
 
+    processBehavior (currentNode) {
+        const currBehaviorName = currentNode.getBehavior().getName();
+        this.addLog(`Behavior: ${currBehaviorName}.`);
+        this.currentBehavior = currBehaviorName;
+        this.processedTrace.push({
+            behavior: currBehaviorName,
+            preParticipants: {},
+            postParticipants: {},
+            arguments: {},
+        })
+    }
     /**
      * Traverse the trace by visiting the next node in the trace. If
      * the next not is not a valid transition and is not atomic, then
@@ -128,11 +150,13 @@ class TraceDebugger {
 
         switch (logType) {
             case "behavior":
-                this.addLog(`Behavior: ${currBehavior}.`);
-                this.currentBehavior = currBehavior;
+                this.processBehavior(currentNode);
                 break;
             case "participant":
-                this.processParticipant(currentNode);
+                this.processParticipant();
+                break;
+            case "argument":
+                this.processParticipant();
                 break;
             case "failure":
                 this._failures.push(
