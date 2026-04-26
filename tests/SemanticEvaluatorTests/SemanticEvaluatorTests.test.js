@@ -34,10 +34,16 @@ describe("tests script runner", () => {
         const expectedPostWorldState = {
             book: {"name": name_value},
             book_name: name_value,
+            book2: {"name": "To Kill a Mockingbird"},
+        };
+
+        const args = {
+            book2: {"name": "To Kill a Mockingbird"},
         };
 
         const evaluator = new SemanticEvaluator(
-            script, initialWorldState, expectedPostWorldState
+            script, initialWorldState, expectedPostWorldState, args
+
         );
 
         evaluator.run();

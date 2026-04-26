@@ -29,9 +29,13 @@ class RequirePrimitive extends SemanticPrimitive {
      * participants.
      */
     run (participant, input) {
+        let msg;
         if (!input && !(participant in this.participants)) {
-            throw new Error(`Required participant ${participant} is missing`);
+            msg = `Required participant ${participant} is missing`;
+        } else if (!input) {
+            msg = `Required participant ${participant} is present`;
         }
+
         if (input) {
             /**
              * TODO:
@@ -40,8 +44,14 @@ class RequirePrimitive extends SemanticPrimitive {
              * is required as an input currently this input will be read
              * from the args passed into the semantic evaluator.
              * Soon, the value will be accepted from the user as part of
-             * executing he semantic model
+             * executing the semantic model
              */
+            if (!(participant in this.args)) {
+                msg = `Required participant ${participant} is missing from input args`;
+            } else {
+                this.participants[participant] = this.args[participant];
+                msg = `Required participant ${participant} is present as input`;
+            }
         }
 
         const output = {
@@ -49,7 +59,7 @@ class RequirePrimitive extends SemanticPrimitive {
             "participantName": participant,
             "input": !!input,
             "isValid": participant in this.participants,
-            "msg": `Required participant ${participant} is present${input ? " as input" : ""}`,
+            "msg": msg,
         }
         return {
             output,
