@@ -197,7 +197,6 @@ class SemanticEvaluator {
         if (output.isValid === null) {
             output.isValid = true;
         }
-        console.log("Post world state validation result:", output);
 
         return output;
     }
