@@ -31,6 +31,12 @@ class BehavioralLanguageParser {
      * to establish a language parser, I haven't bothered looking it up
      * but I will after I prove some concepts out for myself.
      *
+     * In the long run, I want this to be a formal Semantic Behavioral Language
+     * (BSL) that can be used to define executable semantic models. I feel that
+     * the way that I am using this is just one application, there are much
+     * broader implications for a language like this but I am focusing on using
+     * it to automate the management of software systems.
+     *
      * A simple behavioral language parser that can be used
      * to convert a script into a set of primitives transformations that
      * are executed by the engine. At each step, the parser will
