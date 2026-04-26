@@ -118,7 +118,7 @@ class SemanticEvaluator {
                 throw error;
             }
             this.worldState = executionOutput.participants;
-            this.output[this.mode].push(executionOutput);
+            this.output[this.mode].push(executionOutput.output);
         }
     }
 

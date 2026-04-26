@@ -133,15 +133,22 @@ class BehavioralLanguageParser {
             throw new Error(`Required participant ${participantName} is missing`);
         }
         if (input) {
+            // TODO:
             // input is an optional flag to indicate that this participant is required as an input
             // currently this input will be read from the args passed into the semantic evaluator.
             // Soon, the value will be accepted from the user as part of executing the semantic model
-            // TODO: Temporary, will remove log after establishing all the tests.
-            console.log(`Pariticpant ${participantName} is required as input`);
+        }
+
+        const output = {
+            "type": "require",
+            "participantName": participantName,
+            "input": !!input,
+            "isValid": participantName in participants,
+            "msg": `Required participant ${participantName} is present${input ? " as input" : ""}`,
         }
         return {
             participants,
-            output: null,
+            output: output,
         };
     }
 
