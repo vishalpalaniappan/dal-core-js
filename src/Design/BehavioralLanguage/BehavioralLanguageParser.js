@@ -15,7 +15,7 @@ const re = {
     "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/,
-    "CREATE_RE": /^create\s+(.+?)$/,
+    "CREATE_RE": /^create\s+(\S+)\s+(\S+)$/,
     "REMOVE_RE": /^remove\s+(.+?)$/,
     "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
     "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
@@ -173,10 +173,10 @@ class BehavioralLanguageParser {
     }
 
     executeCreate (script, participants, args) {
-        const [, targetPName] = script.match(re["CREATE_RE"]);
+        const [, targetPName, type] = script.match(re["CREATE_RE"]);
         const input = {
             targetParticipantName: targetPName,
-            initialValue: args?.initialValue,
+            type: type,
         };
         const updatedParticipants = new CreatePrimitive(input, participants).apply_transformations();
         return {

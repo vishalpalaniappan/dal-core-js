@@ -23,7 +23,7 @@ class CreatePrimitive extends SemanticPrimitive {
     }
 
     validate_inputs (args) {
-        const expectedArgs = ["targetParticipantName"];
+        const expectedArgs = ["targetParticipantName", "type"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
 
         if (missingKeys.length > 0) {
@@ -31,7 +31,7 @@ class CreatePrimitive extends SemanticPrimitive {
         }
 
         this.targetParticipantName = args.targetParticipantName;
-        this.initialValue = args.initialValue ?? null;
+        this.type = args.type;
     }
 
     apply_transformations () {
@@ -41,12 +41,17 @@ class CreatePrimitive extends SemanticPrimitive {
             );
         }
 
-        const value =
-            typeof this.initialValue === "object"
-                ? structuredClone(this.initialValue)
-                : this.initialValue;
-
-        this.worldState[this.targetParticipantName] = value;
+        if (this.type === "list") {
+            this.worldState[this.targetParticipantName] = [];
+        } else if (this.type === "object") {
+            this.worldState[this.targetParticipantName] = {};
+        } else if (this.type === "string") {
+            this.worldState[this.targetParticipantName] = "";
+        } else if (this.type === "number") {
+            this.worldState[this.targetParticipantName] = 0;
+        } else {
+            throw new Error(`Unsupported type "${this.type}" for create primitive.`);
+        }
 
         return this.worldState;
     }
