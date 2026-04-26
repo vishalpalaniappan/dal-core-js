@@ -46,7 +46,11 @@ class InvariantParser {
         }
 
         if (type === "hasKey") {
+            // invariant book hasKey ["name"] []
             return this.hasKeyInvariant(participants[participant], args, predictions);
+        } else if (type === "minLength") {
+            // invariant book_name minLength [0] []
+            return this.minLengthInvariant(participants[participant], args, predictions);
         }
 
         console.log(`Running invariant ${type} on participant ${participant}`);
@@ -59,6 +63,18 @@ class InvariantParser {
             participant,
             invariantType: "hasKey",
             key,
+            isValid,
+            predictions: isValid ? [] : predictions,
+        }
+    }
+
+    minLengthInvariant (participant, args, predictions) {
+        const minLength = args[0];
+        const isValid = participant.length >= minLength;
+        return {
+            participant,
+            invariantType: "minLength",
+            minLength,
             isValid,
             predictions: isValid ? [] : predictions,
         }

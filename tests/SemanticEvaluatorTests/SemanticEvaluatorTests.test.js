@@ -18,17 +18,21 @@ describe("tests script runner", () => {
                 validate transformation
 
             post:
-                exists book_name
+                require book_name
+                invariant book_name minLength [1] []
         `;
         const script = rawScript.split("\n")
             .map(line => line.trim()).filter(line => line.length > 0);
 
+
+        const name_value = "The Great Gatsby";
+
         let initialWorldState = {
-            book: {"name": "The Great Gatsby"},
+            book: {"name": name_value},
         };
         const expectedPostWorldState = {
-            book: {"name": "The Great Gatsby"},
-            book_name: "The Great Gatsby",
+            book: {"name": name_value},
+            book_name: name_value,
         };
 
         const evaluator = new SemanticEvaluator(
