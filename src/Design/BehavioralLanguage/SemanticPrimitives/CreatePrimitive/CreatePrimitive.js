@@ -49,6 +49,8 @@ class CreatePrimitive extends SemanticPrimitive {
             this.worldState[this.targetParticipantName] = "";
         } else if (this.type === "number") {
             this.worldState[this.targetParticipantName] = 0;
+        } else if (this.type === "null") {
+            this.worldState[this.targetParticipantName] = null;
         } else {
             throw new Error(`Unsupported type "${this.type}" for create primitive.`);
         }
