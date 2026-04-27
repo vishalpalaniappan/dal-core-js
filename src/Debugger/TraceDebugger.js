@@ -50,7 +50,7 @@ class TraceDebugger {
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
 
-        this.runExecutableSemanticModels();
+        this.runSemanticModels();
         return this._atomicPathsLog;
     }
 
@@ -61,7 +61,7 @@ class TraceDebugger {
      * saved and passed to the debugger which then automatically debugs the
      * execution or learns new semantics from the execution.
      */
-    runExecutableSemanticModels () {
+    runSemanticModels () {
         for (const trace of this.processedTrace) {
             const currentNode = this.findNodeByBehaviorName(trace.behavior);
             const currBehavior = currentNode.getBehavior();
@@ -104,6 +104,20 @@ class TraceDebugger {
         }
     }
 
+    addLog (currentNode, reachedAtomic = false) {
+        this._currentPathLog.push(currentNode);
+        if (reachedAtomic) {
+            this._atomicPathsLog.push(this._currentPathLog);
+            this._currentPathLog = [];
+        }
+    }
+
+    /**
+     * Process the participant logs by updating the latest entry in the
+     * processed trace with the participant values. I consider the arguments
+     * as participants as well because it is a representation of the environment
+     * as a participant.
+     */
     processParticipant () {
         const currLog = this._logs[this.currentIndex];
         const entry = this.processedTrace[this.processedTrace.length - 1];
@@ -117,15 +131,16 @@ class TraceDebugger {
         }
     }
 
-    addLog (currentNode, reachedAtomic = false) {
-        this._currentPathLog.push(currentNode);
-        if (reachedAtomic) {
-            this._atomicPathsLog.push(this._currentPathLog);
-            this._currentPathLog = [];
-        }
-    }
-
-    processBehavior (currentNode) {
+    /**
+     * When we reach a behavior log, we create a new entry in the processed
+     * trace with the placeholders for the world state. Then as we visit
+     * the participants, the values are populated and then transformations
+     * are computed by the semantic model.
+     */
+    processBehavior () {
+        const currentNode = this.findNodeByBehaviorName(
+            this._logs[this.currentIndex].getBehavior()
+        );
         const currBehaviorName = currentNode.getBehavior().getName();
         this.currentBehavior = currBehaviorName;
         this.processedTrace.push({
@@ -161,7 +176,7 @@ class TraceDebugger {
 
         switch (logType) {
             case "behavior":
-                this.processBehavior(currentNode);
+                this.processBehavior();
                 break;
             case "participant":
                 this.processParticipant();
