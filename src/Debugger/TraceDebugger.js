@@ -31,20 +31,14 @@ class TraceDebugger {
         // Indiciates if an invalid transition was found
         this._instrumentationFailure = false;
 
-        // Note: Currently there is no concurrency, so only one failure but
-        // for distributed systems, there can be many, so I'm using an array.
-        this._failures = [];
-
-        // Stores the processed trace that will be used by UI for visualization
-        // Each node is a behavior that has the participant, its value and the
-        // semantic validity of the behavior as determined by the design.
-        // Each atomic path will have its own UID.
+        // This stores the processed versions of the trace logs. In groups
+        // each behavior with its pre, post participants and arguments. This
+        // will be used to run the executable semantic models.
         this.processedTrace = [];
 
-        // Track all the violated invariants
-        this._invariantsViolated = [];
-
-        // The output of executable semantic model for each behavior in trace.
+        // Stores the computed output of each behavior in the trace. This will
+        // be an input into the automated debugging process and will be used to
+        // generate the final report of the debugging process.
         this._executableSemanticModelOutput = [];
     }
 
@@ -55,7 +49,6 @@ class TraceDebugger {
 
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
-        this.debug();
 
         this.runExecutableSemanticModels();
         return this._atomicPathsLog;
@@ -200,34 +193,6 @@ class TraceDebugger {
             }
         } else {
             this.addLog("Reached end of execution");
-        }
-    }
-
-    debug () {
-        for (const failure of this._failures) {
-            this.processFailure(failure);
-        }
-    }
-
-    processFailure (failure) {
-        let rootCause;
-        const failedBehavior = failure["log"].getBehavior();
-        for (const violation of this._invariantsViolated) {
-            for (const prediction of violation.invariant.predictedFailures) {
-                if (prediction.behavior != failedBehavior) continue;
-                rootCause = [
-                    `Root cause of failure at ${failedBehavior}`,
-                    `due to invariant ${violation.invariant.getName()}`,
-                    `being violated at behavior ${violation.behavior.getName()}.`
-                ].join(" ");
-                this.addLog(rootCause);
-                failure.rootCauses.push({
-                    invariant: violation.invariant,
-                    behavior: violation.behavior,
-                    reason: prediction.reason,
-                    summary: rootCause,
-                });
-            }
         }
     }
 }
