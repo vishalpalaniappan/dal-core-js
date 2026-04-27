@@ -241,6 +241,19 @@ class TraceDebugger {
             this.addLog("Reached end of execution");
         }
     }
+
+
+    debug () {
+        /**
+         * TODO:
+         * 1. Identify all invariant violations from output of computation.
+         * 2. Identify all the failures.
+         * 3. For each failure, identify the root cause.
+         *
+         * I could move the computation of the semantic model into this function
+         * as well to keep things clean.
+         */
+    }
 }
 
 export default TraceDebugger;
