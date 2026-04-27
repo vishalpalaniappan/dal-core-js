@@ -31,7 +31,7 @@ class TraceDebugger {
         // Indiciates if an invalid transition was found
         this._instrumentationFailure = false;
 
-        // This stores the processed versions of the trace logs. In groups
+        // This stores the processed versions of the trace logs. It groups
         // each behavior with its pre, post participants and arguments. This
         // will be used to run the executable semantic models.
         this.processedTrace = [];
@@ -49,8 +49,11 @@ class TraceDebugger {
 
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
-
         this.runSemanticModels();
+
+        // TODO
+        // Call new debug method with the output of computations.
+
         return this._atomicPathsLog;
     }
 
@@ -185,13 +188,28 @@ class TraceDebugger {
                 this.processParticipant();
                 break;
             case "failure":
-                this._failures.push(
-                    {
-                        log: this._logs[this.currentIndex],
-                        index: this.currentIndex,
-                        rootCauses: [],
-                    }
-                );
+                /**
+                 * On Failure, I think I want to store the failure in the
+                 * behavior of the processed trace and then include it in the
+                 * output of the semantic model computation. I still want to
+                 * validate the world state up to the point of failure and this
+                 * includes the participants in the behavior. Then the input
+                 * into the debugger is simply all the outputs of the semantic
+                 * model (which includes the failure). I won't need to maintain
+                 * a separate failures variable. This also extends cleanly when
+                 * working with concurrency.
+                 *
+                 * As I establish my new executable model based debugging
+                 * apprach, I am taking these things into consideration to
+                 * inform my design decisions.
+                 */
+                // this._failures.push(
+                //     {
+                //         log: this._logs[this.currentIndex],
+                //         index: this.currentIndex,
+                //         rootCauses: [],
+                //     }
+                // );
                 this.addLog(`Failure: ${this._logs[this.currentIndex].getBehavior()}.`);
                 return;
                 break;
