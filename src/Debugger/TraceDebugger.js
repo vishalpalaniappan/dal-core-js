@@ -54,14 +54,27 @@ class TraceDebugger {
         return this._atomicPathsLog;
     }
 
+    /**
+     * The processed trace array contains a list of behaviors with their
+     * world state. This function initializes the semantic evaluator with
+     * the world state and computes the transformation. The output is then
+     * saved and passed to the debugger which then automatically debugs the
+     * execution or learns new semantics from the execution.
+     */
     runExecutableSemanticModels () {
         for (const trace of this.processedTrace) {
             const currentNode = this.findNodeByBehaviorName(trace.behavior);
             const currBehavior = currentNode.getBehavior();
+
+            // Pass the world state to semantic evaluator
             currBehavior.setPreWorldState(trace.preParticipants);
             currBehavior.setPostWorldState(trace.postParticipants);
             currBehavior.setPrimitiveArgs(trace.arguments);
+
+            // Compute the transformation
             const output = currBehavior.computeTransformations();
+
+            // Save the output
             this._executableSemanticModelOutput.push({
                 behavior: trace.behavior,
                 output,
