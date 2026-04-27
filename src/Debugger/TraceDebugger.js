@@ -76,23 +76,23 @@ class TraceDebugger {
         }
     }
 
-    findNode (index) {
+    /**
+     * Find the behavior given the name.
+     *
+     * TODO: I really don't like using name as the identifier but for now I
+     * am going to leave this because I don't allow duplicate names in a
+     * single graph. When I enable multiple graphs at the same time in the
+     * debugger, this will become a problem and relying on UID's will be the
+     * right solution.
+     *
+     * @param {String} behaviorName Name of the behavior to find.
+     * @returns {GraphNode} The node in the design with the behavior name.
+     */
+    findNodeByBehaviorName (behaviorName) {
         const graphs = this._design.getGraphs();
         for (const graph of Object.keys(graphs)) {
             try {
-                const behavior = graphs[graph].findNode(
-                    this._logs[index].getBehavior()
-                );
-                return behavior;
-            } catch {}
-        }
-    }
-
-    findNodeByBehaviorName (name) {
-        const graphs = this._design.getGraphs();
-        for (const graph of Object.keys(graphs)) {
-            try {
-                const behavior = graphs[graph].findNode(name);
+                const behavior = graphs[graph].findNode(behaviorName);
                 return behavior;
             } catch {}
         }
@@ -146,7 +146,9 @@ class TraceDebugger {
      *
      */
     visitCurrentNode () {
-        const currentNode = this.findNode(this.currentIndex);
+        const currentNode = this.findNodeByBehaviorName(
+            this._logs[this.currentIndex].getBehavior()
+        );
         const currBehavior = currentNode.getBehavior().getName();
 
         const logType = this._logs[this.currentIndex].getType();
@@ -178,7 +180,9 @@ class TraceDebugger {
         }
 
         if (this.currentIndex < this._logs.length - 1) {
-            const nextNode = this.findNode(this.currentIndex + 1);
+            const nextNode = this.findNodeByBehaviorName(
+                this._logs[this.currentIndex + 1].getBehavior()
+            );
             const nextBehavior = nextNode.getBehavior().getName();
 
             if ((currBehavior === nextBehavior) || currentNode.isValidTransition(nextBehavior)) {
