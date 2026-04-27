@@ -32,7 +32,7 @@ class BehavioralLanguageParser {
      * to establish a language parser, I haven't bothered looking it up
      * but I will after I prove some concepts out for myself.
      *
-     * In the long run, I want this to be a formal Semantic Behavioral Language
+     * In the long run, I want this to be a formal Behavioral Semantic Language
      * (BSL) that can be used to define executable semantic models. I feel that
      * the way that I am using this is just one application, there are much
      * broader implications for a language like this but I am focusing on using

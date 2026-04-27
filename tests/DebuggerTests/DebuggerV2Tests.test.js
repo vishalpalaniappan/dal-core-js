@@ -45,7 +45,9 @@ describe("debugger tests", () => {
 
         const filePath2 = resolve(__dirname, "../temp/demo2_debugger_output.txt");
         await writeFile(
-            filePath2, JSON.stringify(debuggerInstance._executableSemanticModelOutput, null, 2)
+            filePath2, JSON.stringify(
+                debuggerInstance._executableSemanticModelOutput, null, 2
+            )
         );
     });
 });
