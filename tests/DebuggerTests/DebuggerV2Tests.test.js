@@ -36,7 +36,7 @@ describe("debugger tests", () => {
 
         const traceIds = d.traces._traces;
 
-        const traceWithViolations = traceIds[0];
+        const traceWithViolations = traceIds[4];
 
         const traceLogs = await loadTrace(traceWithViolations.trace);
 

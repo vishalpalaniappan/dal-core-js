@@ -51,8 +51,7 @@ class TraceDebugger {
         this._atomicPathsLog.push(this._currentPathLog);
         this.runSemanticModels();
 
-        // TODO
-        // Call new debug method with the output of computations.
+        this.debug();
 
         return this._atomicPathsLog;
     }
@@ -249,10 +248,28 @@ class TraceDebugger {
          * 1. Identify all invariant violations from output of computation.
          * 2. Identify all the failures.
          * 3. For each failure, identify the root cause.
-         *
-         * I could move the computation of the semantic model into this function
-         * as well to keep things clean.
          */
+
+        const invariantViolations = [];
+        for (const [index, entry] of Object.entries(this._executableSemanticModelOutput)) {
+            const behavior = entry.behavior;
+            const transformationOutput = entry.output;
+
+            for (const key of ["pre", "post"]) {
+                if (!(key in transformationOutput)) continue;
+                for (const line of transformationOutput[key]) {
+                    if (line.output.type === "invariant" && !line.output.isValid) {
+                        invariantViolations.push({
+                            behavior,
+                            index: Number(index),
+                            key: key,
+                            details: line.output,
+                        });
+                    }
+                }
+            }
+        }
+        console.log("Invariant Violations:", invariantViolations);
     }
 }
 
