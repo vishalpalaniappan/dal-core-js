@@ -64,6 +64,7 @@ class InvariantParser {
         const keyToCheck = args[0];
         const isValid = value.hasOwnProperty(keyToCheck);
         return {
+            type: "invariant",
             value,
             invariantType: "hasKey",
             key: keyToCheck,
@@ -80,6 +81,7 @@ class InvariantParser {
         const minLength = args[0];
         const isValid = value.length >= minLength;
         return {
+            type: "invariant",
             participant,
             invariantType: "minLength",
             minLength,
