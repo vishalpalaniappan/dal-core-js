@@ -74,6 +74,10 @@ class TraceDebugger {
             currBehavior.setPostWorldState(trace.postParticipants);
             currBehavior.setPrimitiveArgs(trace.arguments);
 
+            // TODO:
+            // Set the observed failure of the behavior before computing
+            // transformation.
+
             // Compute the transformation
             const output = currBehavior.computeTransformations();
 
@@ -151,8 +155,25 @@ class TraceDebugger {
             preParticipants: {},
             postParticipants: {},
             arguments: {},
+            failure: false,
         })
     }
+
+
+    /**
+     * When a failure log is reached, the current behavior is marked as failed.
+     * This tells the computable semantic module that no observed post-behavior
+     * world state exists for this behavior.
+     *
+     * The debugger then determines the root cause by identifying the invariant
+     * that predicted the failure. If no invariant predicted the failure, the
+     * design has encountered missing semantics and can learn a new invariant.
+     */
+    processFailure () {
+        const entry = this.processedTrace[this.processedTrace.length - 1];
+        entry.failure = true
+    }
+
     /**
      * Traverse the trace by visiting the next node in the trace. If
      * the next not is not a valid transition and is not atomic, then
@@ -188,28 +209,7 @@ class TraceDebugger {
                 this.processParticipant();
                 break;
             case "failure":
-                /**
-                 * On Failure, I think I want to store the failure in the
-                 * behavior of the processed trace and then include it in the
-                 * output of the semantic model computation. I still want to
-                 * validate the world state up to the point of failure and this
-                 * includes the participants in the behavior. Then the input
-                 * into the debugger is simply all the outputs of the semantic
-                 * model (which includes the failure). I won't need to maintain
-                 * a separate failures variable. This also extends cleanly when
-                 * working with concurrency.
-                 *
-                 * As I establish my new executable model based debugging
-                 * apprach, I am taking these things into consideration to
-                 * inform my design decisions.
-                 */
-                // this._failures.push(
-                //     {
-                //         log: this._logs[this.currentIndex],
-                //         index: this.currentIndex,
-                //         rootCauses: [],
-                //     }
-                // );
+                this.processFailure();
                 this.addLog(`Failure: ${this._logs[this.currentIndex].getBehavior()}.`);
                 return;
                 break;
