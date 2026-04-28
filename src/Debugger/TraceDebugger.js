@@ -69,9 +69,9 @@ class TraceDebugger {
             const currBehavior = currentNode.getBehavior();
 
             // Pass the world state to semantic evaluator
-            currBehavior.setPreWorldState(trace.preParticipants);
-            currBehavior.setPostWorldState(trace.postParticipants);
-            currBehavior.setPrimitiveArgs(trace.arguments);
+            currBehavior.setPreWorldState(structuredClone(trace.preParticipants));
+            currBehavior.setPostWorldState(structuredClone(trace.postParticipants));
+            currBehavior.setPrimitiveArgs(structuredClone(trace.arguments));
 
             // TODO:
             // Set the observed failure of the behavior before computing
