@@ -67,8 +67,9 @@ class TraceDebugger {
      * execution or learns new semantics from the execution.
      */
     runSemanticModels () {
+        let runningIndex = 0;
         for (const processedTrace of this.processedTraces) {
-            for (const trace of processedTrace) {
+            for (const [index, trace] of Object.entries(processedTrace)) {
                 const currentNode = this.findNodeByBehaviorName(trace.behavior);
                 const currBehavior = currentNode.getBehavior();
 
@@ -84,12 +85,15 @@ class TraceDebugger {
                 // Save the output
                 this._executableSemanticModelOutput.push({
                     behavior: trace.behavior,
+                    index: Number(index) + runningIndex,
                     output,
                 });
             }
             this._executableSemanticModelOutputs.push(
                 this._executableSemanticModelOutput
             );
+            runningIndex = runningIndex + processedTrace.length;
+            this._executableSemanticModelOutput = [];
         }
     }
 
@@ -266,22 +270,19 @@ class TraceDebugger {
          * 2. Identify all the failures.
          * 3. For each failure, identify the root cause.
          */
-
         const invariantViolations = [];
-        for (const [index, entry] of Object.entries(this._executableSemanticModelOutput)) {
-            const behavior = entry.behavior;
-            const transformationOutput = entry.output;
-
-            for (const key of ["pre", "post"]) {
-                if (!(key in transformationOutput)) continue;
-                for (const line of transformationOutput[key]) {
-                    if (line.output.type === "invariant" && !line.output.isValid) {
-                        invariantViolations.push({
-                            behavior,
-                            index: Number(index),
-                            key: key,
-                            details: line.output,
-                        });
+        for (const output of this._executableSemanticModelOutputs) {
+            for (const entry of Object.values(output)) {
+                for (const key of ["pre", "post"]) {
+                    if (!(key in entry.output)) continue;
+                    for (const line of entry.output[key]) {
+                        if (line.output.type === "invariant" && !line.output.isValid) {
+                            invariantViolations.push({
+                                behavior: entry.behavior,
+                                index: entry.index,
+                                details: line.output,
+                            });
+                        }
                     }
                 }
             }
