@@ -58,13 +58,17 @@ class SemanticEvaluator {
      * @param {Object} args Object containing any arguments that are needed
      * to execute the script, for example, the value for primitives which
      * accept arguments like create.
+     * @param {Boolean} implementationFailure Boolean indicating whether the
+     * implementation failed or not.
      */
-    constructor (script, initialWorldState, expectedPostWorldState, args) {
+    constructor (script, initialWorldState, expectedPostWorldState, args, implementationFailure) {
         this.script = script;
         this.worldState = initialWorldState;
         this.expectedPostWorldState = expectedPostWorldState;
         this.args = args;
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
+        this.implementationFailure = implementationFailure;
+        this.transformFailure = false;
         this.output = {};
         this.transformValidFlag = false;
         this.invariantsViolatedFlag = false;
@@ -125,13 +129,14 @@ class SemanticEvaluator {
                 executionOutput = this.BehavioralLanguageParser.execute(
                     line, this.worldState, this.args
                 );
-                if (executionOutput?.output?.type === "invariant") {
-                    this.invariantsViolatedFlag = executionOutput.output.isValid;
+                const output = executionOutput.output;
+                if (output?.type === "invariant" && !output.isValid) {
+                    this.invariantsViolatedFlag = !output.isValid;
                 }
                 this.output[this.mode].push({
                     type: "success",
                     line: line,
-                    output: executionOutput.output,
+                    output: output,
                 });
             } catch (error) {
                 console.error(`Error executing line "${line}": ${error.message}`);
@@ -140,10 +145,19 @@ class SemanticEvaluator {
                     line: line,
                     message: error.message,
                 });
+                this.transformFailure = true;
                 break;
             }
             this.worldState = executionOutput.participants;
         }
+
+        // Note: I chose to keep the convention of both so true means valid. So
+        // is invariants were not violated, then invariants were respected.
+        // Transform validity is true if transform is valid, no inversion needed
+        this.output["transformValidFlag"] = this.transformValidFlag;
+        this.output["invariantsRespectedFlag"] = !this.invariantsViolatedFlag;
+        this.output["implementationFailure"] = this.implementationFailure;
+        this.output["transformFailure"] = this.transformFailure;
     }
 
     /**
