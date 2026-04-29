@@ -269,7 +269,6 @@ class TraceDebugger {
                 }
             }
         }
-        console.log("Invariant Violations:", invariantViolations);
     }
 }
 
