@@ -242,6 +242,16 @@ class TraceDebugger {
     debug () {
         /**
          * TODO:
+         * Group the output of the executable semantic model by atomic
+         * paths. This will allow us to identify the invariant violations and
+         * failures that occur in each atomic path and then use that to debug
+         * the execution. Once the grouping is done, I will implement the
+         * functionality in this method to identify the root cause. I will also
+         * add functionality to the UI to group by atomic paths. I was intially
+         * going to make it a collapsible tree but I think I will let them
+         * select the path they want to view from a higher abstraction.
+         *
+         * TODO:
          * 1. Identify all invariant violations from output of computation.
          * 2. Identify all the failures.
          * 3. For each failure, identify the root cause.
