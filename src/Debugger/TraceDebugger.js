@@ -41,6 +41,7 @@ class TraceDebugger {
         // be an input into the automated debugging process and will be used to
         // generate the final report of the debugging process.
         this._executableSemanticModelOutput = [];
+        this._executableSemanticModelOutputs = [];
     }
 
     run () {
@@ -66,24 +67,29 @@ class TraceDebugger {
      * execution or learns new semantics from the execution.
      */
     runSemanticModels () {
-        for (const trace of this.processedTrace) {
-            const currentNode = this.findNodeByBehaviorName(trace.behavior);
-            const currBehavior = currentNode.getBehavior();
+        for (const processedTrace of this.processedTraces) {
+            for (const trace of processedTrace) {
+                const currentNode = this.findNodeByBehaviorName(trace.behavior);
+                const currBehavior = currentNode.getBehavior();
 
-            // Pass the world state to semantic evaluator
-            currBehavior.setPreWorldState(structuredClone(trace.preParticipants));
-            currBehavior.setPostWorldState(structuredClone(trace.postParticipants));
-            currBehavior.setPrimitiveArgs(structuredClone(trace.arguments));
-            currBehavior.setImplementationFailure(trace.failure);
+                // Pass the world state to semantic evaluator
+                currBehavior.setPreWorldState(structuredClone(trace.preParticipants));
+                currBehavior.setPostWorldState(structuredClone(trace.postParticipants));
+                currBehavior.setPrimitiveArgs(structuredClone(trace.arguments));
+                currBehavior.setImplementationFailure(trace.failure);
 
-            // Compute the transformation
-            const output = currBehavior.computeTransformations();
+                // Compute the transformation
+                const output = currBehavior.computeTransformations();
 
-            // Save the output
-            this._executableSemanticModelOutput.push({
-                behavior: trace.behavior,
-                output,
-            });
+                // Save the output
+                this._executableSemanticModelOutput.push({
+                    behavior: trace.behavior,
+                    output,
+                });
+            }
+            this._executableSemanticModelOutputs.push(
+                this._executableSemanticModelOutput
+            );
         }
     }
 
