@@ -35,6 +35,7 @@ class TraceDebugger {
         // each behavior with its pre, post participants and arguments. This
         // will be used to run the executable semantic models.
         this.processedTrace = [];
+        this.processedTraces = [];
 
         // Stores the computed output of each behavior in the trace. This will
         // be an input into the automated debugging process and will be used to
@@ -49,6 +50,7 @@ class TraceDebugger {
 
         this.visitCurrentNode();
         this._atomicPathsLog.push(this._currentPathLog);
+        this.processedTraces.push(this.processedTrace);
         this.runSemanticModels();
 
         this.debug();
@@ -112,6 +114,8 @@ class TraceDebugger {
         if (reachedAtomic) {
             this._atomicPathsLog.push(this._currentPathLog);
             this._currentPathLog = [];
+            this.processedTraces.push(this.processedTrace);
+            this.processedTrace = [];
         }
     }
 
@@ -241,15 +245,15 @@ class TraceDebugger {
 
     debug () {
         /**
-         * TODO:
-         * Group the output of the executable semantic model by atomic
-         * paths. This will allow us to identify the invariant violations and
-         * failures that occur in each atomic path and then use that to debug
-         * the execution. Once the grouping is done, I will implement the
-         * functionality in this method to identify the root cause. I will also
-         * add functionality to the UI to group by atomic paths. I was intially
-         * going to make it a collapsible tree but I think I will let them
-         * select the path they want to view from a higher abstraction.
+         * Note: I wanted to clarify confusing wording I used earlier.
+         * Even though atomic paths are separated in the design,
+         * the root cause of a failure in one path can be from another path
+         * and they are connected by the participants in the world. For
+         * example, if you accept a book with no name in one path and then
+         * in another path you place it on the book shelf using the first
+         * letter of its name, the root cause of the failure is when you
+         * accepted the book. I just wanted to group the behaviors by atomic
+         * paths before I proceed.
          *
          * TODO:
          * 1. Identify all invariant violations from output of computation.

@@ -36,7 +36,7 @@ describe("debugger tests", () => {
 
         const traceIds = d.traces._traces;
 
-        const traceWithViolations = traceIds[4];
+        const traceWithViolations = traceIds[1];
 
         const traceLogs = await loadTrace(traceWithViolations.trace);
 
@@ -46,7 +46,7 @@ describe("debugger tests", () => {
         const filePath2 = resolve(__dirname, "../temp/demo2_debugger_output.txt");
         await writeFile(
             filePath2, JSON.stringify(
-                debuggerInstance._executableSemanticModelOutput, null, 2
+                debuggerInstance.processedTraces, null, 2
             )
         );
     });
