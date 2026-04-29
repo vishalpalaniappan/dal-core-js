@@ -295,7 +295,20 @@ class TraceDebugger {
                 }
             }
         }
-        console.log("Failures: ", failures);
+
+        for (const failure of failures) {
+            const predicted = invariantViolations.filter(
+                (violation) => {
+                    const predictions = violation.details.predictions || [];
+                    const behavior = failure.behavior;
+                    return (violation.index <= failure.index) && (predictions.includes(behavior));
+                }
+            );
+            if (!("rootCauses" in failure)) {
+                failure.rootCauses = [];
+            }
+            failure.rootCauses.push(...predicted);
+        }
     }
 }
 
