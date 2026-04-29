@@ -66,6 +66,8 @@ class SemanticEvaluator {
         this.args = args;
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
         this.output = {};
+        this.transformValidFlag = false;
+        this.invariantsViolatedFlag = false;
     }
 
     /**
@@ -123,6 +125,9 @@ class SemanticEvaluator {
                 executionOutput = this.BehavioralLanguageParser.execute(
                     line, this.worldState, this.args
                 );
+                if (executionOutput?.output?.type === "invariant") {
+                    this.invariantsViolatedFlag = executionOutput.output.isValid;
+                }
                 this.output[this.mode].push({
                     type: "success",
                     line: line,
@@ -198,6 +203,8 @@ class SemanticEvaluator {
         if (output.isValid === null) {
             output.isValid = true;
         }
+
+        this.transformValidFlag = output.isValid;
 
         return output;
     }
