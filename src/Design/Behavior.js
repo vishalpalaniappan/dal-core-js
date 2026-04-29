@@ -218,6 +218,15 @@ class Behavior extends Base {
     }
 
     /**
+     * Indicates if observed behavior from the execution failed.
+     * @param {Boolean} failure Indicate if implementation of
+     * behavior experienced failure.
+     */
+    setImplementationFailure (failure) {
+        this._implementationFailure = failure;
+    }
+
+    /**
      * Sets the valid preconditions for the behavior. The validity
      * of the behavior is determined by checking whether the world
      * state satisfies these preconditions. In this way, the
@@ -247,7 +256,8 @@ class Behavior extends Base {
             primitives,
             this._preWorldState,
             this._postWorldState,
-            this._primitiveArgs
+            this._primitiveArgs,
+            this._implementationFailure
         );
         evaluator.run();
         return evaluator.output;

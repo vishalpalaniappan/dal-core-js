@@ -72,10 +72,7 @@ class TraceDebugger {
             currBehavior.setPreWorldState(structuredClone(trace.preParticipants));
             currBehavior.setPostWorldState(structuredClone(trace.postParticipants));
             currBehavior.setPrimitiveArgs(structuredClone(trace.arguments));
-
-            // TODO:
-            // Set the observed failure of the behavior before computing
-            // transformation.
+            currBehavior.setImplementationFailure(trace.failure);
 
             // Compute the transformation
             const output = currBehavior.computeTransformations();
