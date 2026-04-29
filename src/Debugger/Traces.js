@@ -107,6 +107,7 @@ export default class Traces {
              * Also have to create getters etc but I'll fix this later.
              */
             trace.executableModelOutput = _debugger._executableSemanticModelOutputs.flat();
+            trace.processedTraces = _debugger.processedTraces.flat();
         }
         this._traces.push(trace);
 
