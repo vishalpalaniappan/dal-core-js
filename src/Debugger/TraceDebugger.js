@@ -271,6 +271,7 @@ class TraceDebugger {
          * 3. For each failure, identify the root cause.
          */
         const invariantViolations = [];
+        const failures = [];
         for (const output of this._executableSemanticModelOutputs) {
             for (const entry of Object.values(output)) {
                 for (const key of ["pre", "post"]) {
@@ -285,8 +286,16 @@ class TraceDebugger {
                         }
                     }
                 }
+                // Currently finding root casue of implementation failure.
+                if (entry?.output?.implementationFailure) {
+                    failures.push({
+                        behavior: entry.behavior,
+                        index: entry.index,
+                    });
+                }
             }
         }
+        console.log("Failures: ", failures);
     }
 }
 
