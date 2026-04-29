@@ -94,7 +94,19 @@ export default class Traces {
             const _debugger = new TraceDebugger(this._design, decompressedLogs);
             trace.debugger = _debugger;
             trace.debugLog = _debugger.run();
-            trace.executableModelOutput = _debugger._executableSemanticModelOutput;
+
+            /**
+             * TODO:
+             * This is a temporary operation and I am doing this because I
+             * haven't fully shifted the UI to use the traces split by atomic
+             * paths. In the debugger, in _executableSemanticModelOutputs, I
+             * have grouped the outputs by atomic paths and ultimately, the
+             * UI will use that to populate the debugging view. The debugger
+             * already uses the grouped outputs to do the root cause analysis
+             * so this is the last remaining use of the ungrouned outputs.
+             * Also have to create getters etc but I'll fix this later.
+             */
+            trace.executableModelOutput = _debugger._executableSemanticModelOutputs.flat();
         }
         this._traces.push(trace);
 

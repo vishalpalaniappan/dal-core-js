@@ -312,6 +312,19 @@ class TraceDebugger {
 
         this._failures = failures;
     }
+
+    /**
+     * Returns the failures found in the trace along with their root causes and
+     * the violated invariants that predicted the failure. This will be used by
+     * the UI to populate a view of debugging results and allow the user to
+     * inspect the behavior where the invariant violation happened. If no root
+     * cause is found, then new semantics will be added in learning mode and it
+     * will be associated with this trace where this failure occured.
+     * @returns {Object}
+     */
+    getFailures () {
+        return this._failures;
+    }
 }
 
 export default TraceDebugger;
