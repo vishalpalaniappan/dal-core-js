@@ -69,7 +69,7 @@ class InvariantParser {
             invariantType: "hasKey",
             key: keyToCheck,
             isValid,
-            predictions: isValid ? [] : predictions,
+            predictions: predictions,
         }
     }
 
@@ -86,7 +86,7 @@ class InvariantParser {
             invariantType: "minLength",
             minLength,
             isValid,
-            predictions: isValid ? [] : predictions,
+            predictions: predictions,
         }
     }
 }
