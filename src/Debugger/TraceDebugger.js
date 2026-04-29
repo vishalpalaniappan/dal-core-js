@@ -309,6 +309,8 @@ class TraceDebugger {
             }
             failure.rootCauses.push(...predicted);
         }
+
+        this._failures = failures;
     }
 }
 
