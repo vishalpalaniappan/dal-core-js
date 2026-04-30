@@ -267,7 +267,7 @@ class Behavior extends Base {
             postWorldState: this._postWorldState,
             validPreconditions: this._validPreconditions,
             implementationFailure: this._implementationFailure,
-            argument: this._primitiveArgs,
+            arguments: this._primitiveArgs,
         }
 
         // I'm saving the input and the output in the result of the
