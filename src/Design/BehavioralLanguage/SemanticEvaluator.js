@@ -124,6 +124,13 @@ class SemanticEvaluator {
             }
 
             if (line.startsWith("transform:")) {
+                // If the implementaiton failed, then there is no reliable
+                // post world state, so we shouldn't attempt to validate any
+                // more semantics. Mark the transform as failed and return.
+                if (this.implementationFailure) {
+                    this.transformFailure = true;
+                    break;
+                }
                 this.mode = "transform";
                 this.output.transform = [];
                 continue;
