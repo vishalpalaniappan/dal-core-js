@@ -103,13 +103,12 @@ class SemanticEvaluator {
      * engine will produce an output in natural language that explains exactly
      * what went wrong and the user will only inspect the raw data if they want.
      *
-     * To start, I can do something very simple and build up from there:
-     * meta:
-     *   success I accepted the name <post_name> from the user.
-     *   failure I failed while trying to accept a name from the user.
-     *
-     * This will get the name from the post behavior world state and create
-     * the sentence using it.
+     * There is a lot of power in the fact that the behavioral script
+     * itself captures the entire lifecycle of the behavior with each step
+     * in the script having an explicit intent and meaning. So in this sense,
+     * the script itself is the structure that the summary will build on. There
+     * is a lot to unpack here and build on, I will leave this TODO here to
+     * remind me to return to this.
      */
     run () {
         for (const line of this.script) {
