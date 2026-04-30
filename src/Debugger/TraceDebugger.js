@@ -273,15 +273,18 @@ class TraceDebugger {
          */
         const invariantViolations = [];
         const failures = [];
-        for (const output of this._executableSemanticModelOutputs) {
-            for (const entry of Object.values(output)) {
+        for (const [index, output] of this._executableSemanticModelOutputs.entries()) {
+            for (const [entryIndex, entry] of Object.entries(output)) {
                 for (const key of ["pre", "post"]) {
                     if (!(key in entry.output)) continue;
                     for (const line of entry.output[key]) {
                         if (line.output.type === "invariant" && !line.output.isValid) {
                             invariantViolations.push({
                                 behavior: entry.behavior,
-                                index: entry.index,
+                                index: {
+                                    atomicIndex: index,
+                                    entryIndex: entryIndex,
+                                },
                                 details: line.output,
                             });
                         }
@@ -291,7 +294,10 @@ class TraceDebugger {
                 if (entry?.output?.implementationFailure) {
                     failures.push({
                         behavior: entry.behavior,
-                        index: entry.index,
+                        index: {
+                            atomicIndex: index,
+                            entryIndex: entryIndex,
+                        },
                     });
                 }
             }
