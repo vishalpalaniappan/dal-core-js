@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // eslint-disable-next-line max-len
 const INVARIANT_RE = /^invariant\s+(\S+)\s+(\S+)(?:\s+\[([^\]]*)\])?(?:\s+\[([^\]]*)\])?(?:\s+\[([^\]]*)\])?$/;
 
@@ -47,45 +48,68 @@ class InvariantParser {
 
         if (type === "hasKey") {
             // invariant book hasKey [] ["name"] []
-            return this.hasKeyInvariant(participants[participant], keys, args, predictions);
+            return this.hasKeyInvariant(
+                participant, participants[participant], keys, args, predictions
+            );
         } else if (type === "minLength") {
             // invariant book_name minLength ["book","name"] [0] []
-            return this.minLengthInvariant(participants[participant], keys, args, predictions);
+            return this.minLengthInvariant(
+                participant, participants[participant], keys, args, predictions
+            );
         }
 
         console.log(`Running invariant ${type} on participant ${participant}`);
     }
 
-    hasKeyInvariant (participant, keys, args, predictions) {
-        let value = participant;
+    hasKeyInvariant (participantName, participantValue, keys, args, predictions) {
         for (const key of keys) {
-            value = value[key];
+            participantValue = participantValue[key];
         }
         const keyToCheck = args[0];
-        const isValid = value.hasOwnProperty(keyToCheck);
+        const isValid = participantValue.hasOwnProperty(keyToCheck);
+
+        let msg;
+        if (isValid) {
+            msg = `Participant named "${participantName}" has the required key named "${keyToCheck}"`;
+        } else {
+            msg = `Participant named "${participantName}" does not have the required key named "${keyToCheck}"`;
+        }
         return {
             type: "invariant",
-            value,
+            participantName: participantName,
+            participantValue: participantValue,
             invariantType: "hasKey",
             key: keyToCheck,
-            isValid,
+            isValid: isValid,
             predictions: predictions,
+            message: msg,
         }
     }
 
-    minLengthInvariant (participant, keys, args, predictions) {
-        let value = participant;
+    minLengthInvariant (participantName, participantValue, keys, args, predictions) {
         for (const key of keys) {
-            value = value[key];
+            participantValue = participantValue[key];
         }
         const minLength = args[0];
-        const isValid = value.length >= minLength;
+        const isValid = participantValue.length >= minLength;
+
+        let msg;
+        if (!isValid) {
+            msg = `Participant named "${participantName}" has length ${participantValue.length} which is less than the minimum length of ${minLength}`;
+        } else if (isValid && minLength === participantValue.length) {
+            msg = `Participant named "${participantName}" has length ${participantValue.length} which is equal to the minimum length of ${minLength}`;
+        } else {
+            msg = `Participant named "${participantName}" has length ${participantValue.length} which is greater than the minimum length of ${minLength}`;
+        }
+        console.log(msg);
         return {
             type: "invariant",
-            participant,
+            participantName: participantName,
+            participantValue: participantValue,
             invariantType: "minLength",
-            minLength,
-            isValid,
+            minLength: minLength,
+            message: msg,
+            isValid: isValid,
             predictions: predictions,
         }
     }
