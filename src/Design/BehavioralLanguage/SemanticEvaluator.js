@@ -92,6 +92,24 @@ class SemanticEvaluator {
      * behaviors will fail and then check those predictions against the observed
      * behaviors to automatically debug the execution. So the output of this
      * is the input into the automated debugger.
+     *
+     * TODO:
+     * Create a process that will allow the generation of natural language
+     * messages summarising the execution of the behavioral semantics.
+     * This will be used to generate messges that the debugger can use
+     * to explain the behavior to the dev using natural language.
+     * Since this is a semantic engine, the ability to create meaningful
+     * sentences is intrinically possible. In the end, I imagine that the
+     * engine will produce an output in natural language that explains exactly
+     * what went wrong and the user will only inspect the raw data if they want.
+     *
+     * To start, I can do something very simple and build up from there:
+     * meta:
+     *   success I accepted the name <post_name> from the user.
+     *   failure I failed while trying to accept a name from the user.
+     *
+     * This will get the name from the post behavior world state and create
+     * the sentence using it.
      */
     run () {
         for (const line of this.script) {
