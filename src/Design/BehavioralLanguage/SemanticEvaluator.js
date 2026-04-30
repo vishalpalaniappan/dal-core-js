@@ -128,7 +128,8 @@ class SemanticEvaluator {
                 // post world state, so we shouldn't attempt to validate any
                 // more semantics. Mark the transform as failed and return.
                 if (this.implementationFailure) {
-                    this.transformFailure = true;
+                    this.transformFailure = null;
+                    this.transformValidFlag = null;
                     break;
                 }
                 this.mode = "transform";
