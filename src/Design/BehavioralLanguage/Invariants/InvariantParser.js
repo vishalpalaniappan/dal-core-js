@@ -77,7 +77,6 @@ class InvariantParser {
         return {
             type: "invariant",
             participantName: participantName,
-            participantValue: participantValue,
             invariantType: "hasKey",
             key: keyToCheck,
             isValid: isValid,
@@ -105,7 +104,6 @@ class InvariantParser {
         return {
             type: "invariant",
             participantName: participantName,
-            participantValue: participantValue,
             invariantType: "minLength",
             minLength: minLength,
             message: msg,
