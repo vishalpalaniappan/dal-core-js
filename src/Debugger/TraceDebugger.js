@@ -80,13 +80,14 @@ class TraceDebugger {
                 currBehavior.setImplementationFailure(trace.failure);
 
                 // Compute the transformation
-                const output = currBehavior.computeTransformations();
+                const transformInfo = currBehavior.computeTransformations();
 
                 // Save the output
                 this._executableSemanticModelOutput.push({
                     behavior: trace.behavior,
                     index: Number(index) + runningIndex,
-                    output,
+                    output: transformInfo.output,
+                    input: transformInfo.input,
                 });
             }
             this._executableSemanticModelOutputs.push(

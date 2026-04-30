@@ -260,7 +260,24 @@ class Behavior extends Base {
             this._implementationFailure
         );
         evaluator.run();
-        return evaluator.output;
+
+        const input = {
+            script: this._script,
+            preWorldState: this._preWorldState,
+            postWorldState: this._postWorldState,
+            validPreconditions: this._validPreconditions,
+            implementationFailure: this._implementationFailure
+        }
+
+        // I'm saving the input and the output in the result of the
+        // transformation because it makes it easy to access the
+        // information needed to visualize the infrmation in the UI.
+        // In the end, all of this information will be in compressed
+        // form and I will simply save indexes and access it as needed.
+        return {
+            input: input,
+            output: evaluator.output,
+        };
     }
 
     /**
