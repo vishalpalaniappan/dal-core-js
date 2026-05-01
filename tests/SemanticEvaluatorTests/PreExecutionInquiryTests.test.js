@@ -56,6 +56,9 @@ describe("tests the requirement parsing for executing behavior", () => {
 
         evaluator.getRequiredInputs();
 
+        console.log("Required inputs:", evaluator.requiredInputs);
+        console.log("Is world state valid for behavior?", evaluator.isWorldStateValidForBehaviorFlag);
+
         // evaluator.run();
 
         // console.log("Final world state:", evaluator.worldState);

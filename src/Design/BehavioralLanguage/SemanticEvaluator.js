@@ -103,14 +103,13 @@ class SemanticEvaluator {
                         participant, Boolean(input), keys, value
                     );
                     if (requireOutput) {
-                        console.log(requireOutput);
                         if (requireOutput.type === "require_input") {
                             this.requiredInputs.push(requireOutput.participantName);
                         } else if (requireOutput.type === "missing_required_participant") {
                             this.isWorldStateValidForBehaviorFlag = false;
                             return;
                         } else if (requireOutput.type === "is_valid_world_state_for_behavior") {
-                            this.isWorldStateValidForBehaviorFlag = requireOutput.valid;
+                            this.isWorldStateValidForBehaviorFlag = requireOutput.isValid;
                             return;
                         }
                     }
