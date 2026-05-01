@@ -25,7 +25,7 @@ describe("tests the requirement parsing for executing behavior", () => {
             pre:
                 require book
                 require name input
-                require book3 ["name"] "Artimes Fowl"
+                require book3 ["name"] Artimes Fowl
 
             transform:
 

@@ -1,3 +1,5 @@
+import isEqual from "lodash-es/isEqual";
+
 import SemanticPrimitive from "../../SemanticPrimitives/SemanticPrimitive.js";
 
 class RequirePrimitive extends SemanticPrimitive {
@@ -32,18 +34,55 @@ class RequirePrimitive extends SemanticPrimitive {
      * @returns {Object || null}
      */
     getPreExecutionMeta (participant, input, keys, value) {
+        // Return required input to get from user
         if (input) {
             return {
                 type: "require_input",
                 participantName: participant,
             }
-        } else if (keys && value) {
-            // TODO: CHECK IF WORLD STATE IS VALID
+        }
+
+        if (keys && value) {
+            // Participant isn't in the world
+            if (!(participant in this.participants)) {
+                return {
+                    type: "missing_required_participant",
+                    participantName: participant,
+                    valid: false,
+                    reason: "Missing from world",
+                }
+            }
+
+            let valueAtKey = this.participants[participant];
+            if (keys && keys.length > 0) {
+                for (const key of JSON.parse(keys)) {
+                    // Key isn't in the participant
+                    if (!(key in valueAtKey)) {
+                        return {
+                            type: "missing_required_participant",
+                            participantName: participant,
+                            valid: false,
+                            reason: `Missing key ${key} in world state`,
+                        }
+                    }
+                    valueAtKey = valueAtKey[key];
+                }
+            }
+
+            // Value at key doesn't match required value
+            const isValid = isEqual(valueAtKey, value);
+            if (!isValid) {
+                return {
+                    type: "missing_required_participant",
+                    participantName: participant,
+                    valid: false,
+                    reason: `Value at key ${keys} does not match required value`,
+                }
+            }
+
             return {
-                type: "require_condition",
-                participantName: participant,
-                keys,
-                value,
+                type: "is_valid_world_state_for_behavior",
+                isValid: isValid,
             }
         }
     }
