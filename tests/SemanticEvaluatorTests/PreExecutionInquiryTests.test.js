@@ -21,15 +21,21 @@ describe("tests the requirement parsing for executing behavior", () => {
          * require primitive is parsed correctly and conditions are checked
          * as expected.
          */
+
+        // TODO: Currently, the require <participant> input statements have to
+        // be first in the pre section. Otherwise, the evaluator does not
+        // recognize them and this is not intentional, I have to fix this.
         const rawScript = `
             pre:
-                require book
                 require name input
-                require book3 ["name"] Artimes Fowl
+                require selectedOption [] a
 
             transform:
+                validate transformation
 
             post:
+                require name
+                invariant name minLength [] [1] ["getFirstLetterOfBookName"]
         `;
         const script = rawScript.split("\n")
             .map(line => line.trim()).filter(line => line.length > 0);
