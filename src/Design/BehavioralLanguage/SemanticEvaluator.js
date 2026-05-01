@@ -111,15 +111,6 @@ class SemanticEvaluator {
     }
 
     /**
-     * Given the pre behavior world state, this method checks if a command
-     * specifies valid conditions for the behavior. If it exists, it evaluates
-     * it and returns the validity. If it doesn't exist, it returs null.
-     */
-    isBehaviorValid () {
-
-    }
-
-    /**
      * This method runs the script. It uses the BehavioralLanguageParser
      * to execute each line and update the world state accordingly. It also
      * keeps track of the mode of execution (pre, transform, post). The
