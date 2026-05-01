@@ -131,10 +131,6 @@ class RequirePrimitive extends SemanticPrimitive {
                 this.participants[participant] = this.args[participant];
                 msg = `Required participant ${participant} is present as input`;
             }
-        } else if (keys && value) {
-            console.log("Checking for keys and values in require primitive");
-        } else {
-            console.log("Checking if participant exists");
         }
 
         const output = {

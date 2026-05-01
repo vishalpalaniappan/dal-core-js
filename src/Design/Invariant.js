@@ -119,7 +119,6 @@ class Invariant extends Base {
     evaluate (value) {
         if (!this.invariantType) {
             // TODO: Make into custom error.
-            console.log("Invariant type not assigned.");
             return;
         }
         for (const key in this.invariantType.properties) {

@@ -52,8 +52,6 @@ class InvariantParser {
             // invariant book_name minLength ["book","name"] [0] []
             return this.minLengthInvariant(participants[participant], keys, args, predictions);
         }
-
-        console.log(`Running invariant ${type} on participant ${participant}`);
     }
 
     hasKeyInvariant (participant, keys, args, predictions) {

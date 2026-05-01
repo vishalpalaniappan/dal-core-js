@@ -67,7 +67,6 @@ class ExecutableBehavior {
             const expectedValue = this.validPreconditions[participantName];
             const actualValue = participants[participantName];
             if (!isEqual(expectedValue, actualValue)) {
-                console.log(`Precondition mismatch for participant ${participantName}`);
                 return false;
             }
         }
@@ -94,7 +93,6 @@ class ExecutableBehavior {
             const expectedValue = this.postWorldState[participantName];
             const actualValue = this.currentWorldState[participantName];
             if (!isEqual(expectedValue, actualValue)) {
-                console.log(`Value mismatch for participant ${participantName}`);
                 return false;
             }
         }

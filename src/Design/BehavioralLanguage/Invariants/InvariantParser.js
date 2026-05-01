@@ -57,8 +57,6 @@ class InvariantParser {
                 participant, participants[participant], keys, args, predictions
             );
         }
-
-        console.log(`Running invariant ${type} on participant ${participant}`);
     }
 
     hasKeyInvariant (participantName, participantValue, keys, args, predictions) {
@@ -100,7 +98,6 @@ class InvariantParser {
         } else {
             msg = `Participant named "${participantName}" has length ${participantValue.length} which is greater than the minimum length of ${minLength}`;
         }
-        console.log(msg);
         return {
             type: "invariant",
             participantName: participantName,
