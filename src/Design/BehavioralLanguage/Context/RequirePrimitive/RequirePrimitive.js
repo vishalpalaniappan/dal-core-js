@@ -25,10 +25,22 @@ class RequirePrimitive extends SemanticPrimitive {
      * @param {String} participant The participant that is required.
      * @param {Boolean} input Whether this participant is an input that should
      * be read from the args.
+     * @param {String} keys Optional keys to check for the participant.
+     * @param {String} value Optional value to check for the participant.
      * @returns {Object} The output of the primitive and the updated
      * participants.
      */
-    run (participant, input) {
+    run (participant, input, keys, value) {
+        /**
+         * TODO:
+         * Extend this so that based on the primitive args, I return the
+         * relevant information.
+         * - If it is marked as an input, I indicate that the semantic model
+         *  should ask for an input.
+         * - If the participant with a value (and or key), I indicate if the
+         * requirement is satisfied or not.
+         * - If it just participant, I check for the presence.
+         */
         let msg;
         if (!input && !(participant in this.participants)) {
             msg = `Required participant ${participant} is missing`;
