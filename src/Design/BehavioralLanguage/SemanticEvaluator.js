@@ -85,7 +85,7 @@ class SemanticEvaluator {
      * evaluator as args. It also checks the validity of the world state
      * to determine if this behavior is semantically valid to be executed.
      */
-    getRequiredInputs () {
+    getPreExecutionMeta () {
         for (const line of this.script) {
             if (line.startsWith("pre:")) continue;
             if (line.startsWith("transform:")) break;

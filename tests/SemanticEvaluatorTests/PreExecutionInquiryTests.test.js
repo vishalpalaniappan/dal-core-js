@@ -54,10 +54,12 @@ describe("tests the requirement parsing for executing behavior", () => {
 
         );
 
-        evaluator.getRequiredInputs();
+        evaluator.getPreExecutionMeta();
 
         console.log("Required inputs:", evaluator.requiredInputs);
-        console.log("Is world state valid for behavior?", evaluator.isWorldStateValidForBehaviorFlag);
+        console.log(
+            "Is world state valid for behavior?", evaluator.isWorldStateValidForBehaviorFlag
+        );
 
         // evaluator.run();
 
