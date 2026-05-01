@@ -9,10 +9,22 @@ describe("tests the requirement parsing for executing behavior", () => {
 
     it("tests the require semantic to see if it specifies conditions accurately", async () => {
 
+        /**
+         * This script specifies the following:
+         * - The user's input for the book name must be accepted
+         * - Book3 must be present in the world state with the name
+         *   "Artimes Fowl" for this behavior to be valid.
+         * - Book must be present in the world state (behavior will fail
+         *   without it)
+         *
+         * No transform operations yet. I will add them after I verify the
+         * require primitive is parsed correctly and conditions are checked
+         * as expected.
+         */
         const rawScript = `
             pre:
                 require book
-                require book2 input
+                require name input
                 require book3 ["name"] "Artimes Fowl"
 
             transform:
@@ -34,7 +46,7 @@ describe("tests the requirement parsing for executing behavior", () => {
         };
 
         const args = {
-            book2: {"name": "To Kill a Mockingbird"},
+            name: "To Kill a Mockingbird",
         };
 
         const evaluator = new SemanticEvaluator(
