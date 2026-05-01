@@ -90,12 +90,11 @@ class SemanticEvaluator {
             try {
                 const isRequire = this.BehavioralLanguageParser.re["REQUIRE_RE"].test(line);
                 if (isRequire) {
-                    console.log(line);
                     const [, participant, input, keys, value] = line.match(
                         this.BehavioralLanguageParser.re["REQUIRE_RE"]
                     );
                     const _require = new RequirePrimitive(
-                        this.worldState, this.args
+                        this.worldState, {}
                     )
                     const requireOutput = _require.getPreExecutionMeta(
                         participant, Boolean(input), keys, value

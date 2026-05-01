@@ -21,15 +21,31 @@ class RequirePrimitive extends SemanticPrimitive {
     }
 
     /**
-     * 
-     * @param {String} participant 
-     * @param {*} input 
-     * @param {*} keys 
-     * @param {*} value 
+     * Parses the require primitives before executing the script to determine
+     * if world state is valid for behavior and to provide the necessary
+     * inputs for the behavior.
+     * @param {String} participant The participant that is required.
+     * @param {*} input Whether this participant is an input that
+     *  should be read from the args.
+     * @param {*} keys Optional keys to check for the participant.
+     * @param {*} value Optional value to check for the participant.
+     * @returns {Object || null}
      */
     getPreExecutionMeta (participant, input, keys, value) {
-
-
+        if (input) {
+            return {
+                type: "require_input",
+                participantName: participant,
+            }
+        } else if (keys && value) {
+            // TODO: CHECK IF WORLD STATE IS VALID
+            return {
+                type: "require_condition",
+                participantName: participant,
+                keys,
+                value,
+            }
+        }
     }
 
     /**
