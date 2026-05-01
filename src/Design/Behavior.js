@@ -193,27 +193,6 @@ class Behavior extends Base {
     }
 
     /**
-     * Sets the world state preconditions for the behavior. This uses the
-     * world state to select valid behaviors purely through the semantics
-     * of the behavior. It estbalishes control flow purely through
-     * behavioral semantics without the need for explicit control flow.
-     *
-     * TODO:
-     * I think this should be part of the script. Example:
-     * preconditions:
-     *    require participant1 ["key1"] value1
-     *    require participant2 ["key2"] value2
-     *
-     * Unless these conditions are met, the behavior is not valid. So for
-     * example, user makes a menu choice and that choice is the precondition
-     * for the next behavior.
-     * @param {Object} preConditions Preconditions for the behavior.
-     */
-    setValidPreconditions (preConditions) {
-        this._validPreconditions = preConditions;
-    }
-
-    /**
      * Sets the pre-world state of the behavior. This is the state
      * of the participants before the behavior is executed.
      * @param {Objet} preWorldState State of participants.
