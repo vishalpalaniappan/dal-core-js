@@ -267,7 +267,10 @@ class Behavior extends Base {
             this._primitiveArgs,
             this._implementationFailure
         );
-        return evaluator.getPreExecutionMeta();
+        return {
+            requiredInputs: evaluator.requiredInputs,
+            isWorldStateValidForBehavior: evaluator.isWorldStateValidForBehaviorFlag,
+        }
     }
 
     /**
