@@ -1,6 +1,7 @@
 import isEqual from "lodash-es/isEqual";
 
 import BehavioralLanguageParser from "./BehavioralLanguageParser.js";
+import RequirePrimitive from "./Context/RequirePrimitive/RequirePrimitive.js";
 
 class SemanticEvaluator {
     /**
@@ -90,6 +91,18 @@ class SemanticEvaluator {
                 const isRequire = this.BehavioralLanguageParser.re["REQUIRE_RE"].test(line);
                 if (isRequire) {
                     console.log(line);
+                    const [, participant, input, keys, value] = line.match(
+                        this.BehavioralLanguageParser.re["REQUIRE_RE"]
+                    );
+                    const _require = new RequirePrimitive(
+                        this.worldState, this.args
+                    )
+                    const requireOutput = _require.getPreExecutionMeta(
+                        participant, Boolean(input), keys, value
+                    );
+                    if (requireOutput) {
+                        console.log(requireOutput);
+                    }
                 }
 
             } catch (error) {
