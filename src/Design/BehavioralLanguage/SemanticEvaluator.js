@@ -74,6 +74,26 @@ class SemanticEvaluator {
         this.invariantsViolatedFlag = false;
     }
 
+
+    /**
+     * This method is responsible for parsing the pre section of the srcipt
+     * and identifying any require inputs. The design runtime will request
+     * these inputs from the user and then pass them into the semantic
+     * evaluator as args.
+     */
+    getRequiredInputs () {
+
+    }
+
+    /**
+     * Given the pre behavior world state, this method checks if a command
+     * specifies valid conditions for the behavior. If it exists, it evaluates
+     * it and returns the validity. If it doesn't exist, it returs null.
+     */
+    isBehaviorValid () {
+
+    }
+
     /**
      * This method runs the script. It uses the BehavioralLanguageParser
      * to execute each line and update the world state accordingly. It also
