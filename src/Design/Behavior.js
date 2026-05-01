@@ -180,6 +180,10 @@ class Behavior extends Base {
     }
 
     // ===== METHODS FOR EXECUTING BEHAVIOR =====
+    // TODO: The variables in these methods below need to be intializes as
+    // null in the contstructure so that they are tracked cleanly. I've just
+    // been adding them as I go but that is not the right way to proceed.
+
     /**
      * Sets the script outlining the validation steps.
      * @param {String} rawScript Script to set.
