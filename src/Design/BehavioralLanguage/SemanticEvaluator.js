@@ -63,7 +63,7 @@ class SemanticEvaluator {
      */
     constructor (script, initialWorldState, expectedPostWorldState, args, implementationFailure) {
         this.script = script;
-        this.worldState = initialWorldState;
+        this.worldState = structuredClone(initialWorldState);
         this.expectedPostWorldState = expectedPostWorldState;
         this.args = args;
         this.BehavioralLanguageParser = new BehavioralLanguageParser();
