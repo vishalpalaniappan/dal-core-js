@@ -82,7 +82,8 @@ class SemanticEvaluator {
      * This method is responsible for parsing the pre section of the srcipt
      * and identifying any require inputs. The design runtime will request
      * these inputs from the user and then pass them into the semantic
-     * evaluator as args.
+     * evaluator as args. It also checks the validity of the world state
+     * to determine if this behavior is semantically valid to be executed.
      */
     getRequiredInputs () {
         for (const line of this.script) {
