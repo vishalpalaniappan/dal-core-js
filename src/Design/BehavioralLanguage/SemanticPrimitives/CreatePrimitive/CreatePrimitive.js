@@ -35,12 +35,6 @@ class CreatePrimitive extends SemanticPrimitive {
     }
 
     apply_transformations () {
-        if (this.targetParticipantName in this.worldState) {
-            throw new Error(
-                `Participant "${this.targetParticipantName}" already exists in world state.`
-            );
-        }
-
         if (this.type === "list") {
             this.worldState[this.targetParticipantName] = [];
         } else if (this.type === "object") {
