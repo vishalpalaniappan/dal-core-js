@@ -86,14 +86,9 @@ class SemanticEvaluator {
             if (line.startsWith("pre:")) continue;
             if (line.startsWith("transform:")) break;
 
-            let executionOutput;
             try {
-                executionOutput = this.BehavioralLanguageParser.execute(
-                    line, this.worldState, this.args
-                );
-                const output = executionOutput.output;
-
-                if (output?.type === "require") {
+                const isRequire = this.BehavioralLanguageParser.re["REQUIRE_RE"].test(line);
+                if (isRequire) {
                     console.log(line);
                 }
 
