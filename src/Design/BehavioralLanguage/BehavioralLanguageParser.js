@@ -49,64 +49,65 @@ class BehavioralLanguageParser {
      */
     constructor () {
         this.primitiveConstructors = {};
+        this.re = re;
     }
 
     execute (script, participants, args) {
         // Ex: set <target_participant> <value_participant> [keys]
-        const isSet = re["SET_RE"].test(script);
+        const isSet = this.re["SET_RE"].test(script);
         if (isSet) {
             return this.executeSet(script, participants);
         }
 
         // Ex: insert <value> <target> [keys] <position>
-        const isInsert = re["INSERT_RE"].test(script);
+        const isInsert = this.re["INSERT_RE"].test(script);
         if (isInsert) {
             return this.executeInsert(script, participants);
         }
 
         // Ex: get <from> ["keys"] <target>
-        const isGet = re["GET_RE"].test(script);
+        const isGet = this.re["GET_RE"].test(script);
         if (isGet) {
             return this.executeGet(script, participants);
         }
 
         // Ex: create <participant>
-        const isCreate = re["CREATE_RE"].test(script);
+        const isCreate = this.re["CREATE_RE"].test(script);
         if (isCreate) {
             return this.executeCreate(script, participants, args);
         }
 
         // Ex: remove <participant>
-        const isRemove = re["REMOVE_RE"].test(script);
+        const isRemove = this.re["REMOVE_RE"].test(script);
         if (isRemove) {
             return this.executeRemove(script, participants);
         }
 
         // Ex: getFromPos <source> <position> <target>
-        const isGetFromPos = re["GET_FROM_POS_RE"].test(script);
+        const isGetFromPos = this.re["GET_FROM_POS_RE"].test(script);
         if (isGetFromPos) {
             return this.executeGetFromPos(script, participants);
         }
 
         // Ex: removeFromPos <source> <position>
-        const isRemoveFromPos = re["REMOVE_FROM_POS_RE"].test(script);
+        const isRemoveFromPos = this.re["REMOVE_FROM_POS_RE"].test(script);
         if (isRemoveFromPos) {
             return this.executeRemoveFromPos(script, participants);
         }
 
         // Ex: hasKey <source> <key> <target> [keys]
-        const isHasKey = re["HAS_KEY_RE"].test(script);
+        const isHasKey = this.re["HAS_KEY_RE"].test(script);
         if (isHasKey) {
             return this.executeHasKey(script, participants);
         }
 
         // Ex: require <participant> input
-        const isRequire = re["REQUIRE_RE"].test(script);
+        const isRequire = this.re["REQUIRE_RE"].test(script);
         if (isRequire) {
             return this.executeRequire(script, participants, args);
         }
 
-        const isInvariant = re["INVARIANT_RE"].test(script);
+        const isInvariant = this.re["INVARIANT_RE"].test(script);
         if (isInvariant) {
             return this.executeInvariant(script, participants);
         }
@@ -124,13 +125,13 @@ class BehavioralLanguageParser {
     }
 
     executeRequire (script, participants, args) {
-        const [, participantName, input, keys, value] = script.match(re["REQUIRE_RE"]);
+        const [, participantName, input, keys, value] = script.match(this.re["REQUIRE_RE"]);
         const requirePrimitive = new RequirePrimitive(participants, args);
         return requirePrimitive.run(participantName, input, keys, value);
     }
 
     executeSet (script, participants) {
-        const [, targetPName, valuePName, keys] = script.match(re["SET_RE"]);
+        const [, targetPName, valuePName, keys] = script.match(this.re["SET_RE"]);
         const input = {
             keys: JSON.parse(keys),
             targetParticipantName: targetPName,
@@ -144,7 +145,7 @@ class BehavioralLanguageParser {
     }
 
     executeInsert (script, participants) {
-        const [, valuePName, targetPName, keys, position] = script.match(re["INSERT_RE"]);
+        const [, valuePName, targetPName, keys, position] = script.match(this.re["INSERT_RE"]);
         const input = {
             targetParticipantName: targetPName,
             keys: JSON.parse(keys),
@@ -159,7 +160,7 @@ class BehavioralLanguageParser {
     }
 
     executeGet (script, participants) {
-        const [, sourcePName, keys, targetPName] = script.match(re["GET_RE"]);
+        const [, sourcePName, keys, targetPName] = script.match(this.re["GET_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
             keys: JSON.parse(keys),
@@ -173,7 +174,7 @@ class BehavioralLanguageParser {
     }
 
     executeCreate (script, participants, args) {
-        const [, targetPName, type] = script.match(re["CREATE_RE"]);
+        const [, targetPName, type] = script.match(this.re["CREATE_RE"]);
         const input = {
             targetParticipantName: targetPName,
             type: type,
@@ -186,7 +187,7 @@ class BehavioralLanguageParser {
     }
 
     executeRemove (script, participants) {
-        const [, targetPName] = script.match(re["REMOVE_RE"]);
+        const [, targetPName] = script.match(this.re["REMOVE_RE"]);
         const input = {
             targetParticipantName: targetPName,
         };
@@ -198,7 +199,7 @@ class BehavioralLanguageParser {
     }
 
     executeGetFromPos (script, participants) {
-        const [, sourcePName, position, targetPName] = script.match(re["GET_FROM_POS_RE"]);
+        const [, sourcePName, position, targetPName] = script.match(this.re["GET_FROM_POS_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
             position: parseInt(position),
@@ -212,7 +213,7 @@ class BehavioralLanguageParser {
     }
 
     executeRemoveFromPos (script, participants) {
-        const [, sourcePName, position] = script.match(re["REMOVE_FROM_POS_RE"]);
+        const [, sourcePName, position] = script.match(this.re["REMOVE_FROM_POS_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
             position: parseInt(position),
@@ -225,7 +226,7 @@ class BehavioralLanguageParser {
     }
 
     executeHasKey (script, participants) {
-        const [, sourcePName, keyPName, targetPName, keys] = script.match(re["HAS_KEY_RE"]);
+        const [, sourcePName, keyPName, targetPName, keys] = script.match(this.re["HAS_KEY_RE"]);
         const input = {
             sourceParticipantName: sourcePName,
             keyParticipantName: keyPName,
