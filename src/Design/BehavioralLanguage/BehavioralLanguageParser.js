@@ -20,7 +20,7 @@ const re = {
     "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
     "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
     "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
-    "REQUIRE_RE": /^require\s+(.+?)(?:\s+(input))?$/,
+    "REQUIRE_RE": /^require\s+(\w+)(?:\s+(input)|\s+(\[[^\]]*\])\s+(.+))?$/,
     "INVARIANT_RE": /^invariant\s+(.+)$/,
 };
 
@@ -124,9 +124,9 @@ class BehavioralLanguageParser {
     }
 
     executeRequire (script, participants, args) {
-        const [, participantName, input] = script.match(re["REQUIRE_RE"]);
+        const [, participantName, input, keys, value] = script.match(re["REQUIRE_RE"]);
         const requirePrimitive = new RequirePrimitive(participants, args);
-        return requirePrimitive.run(participantName, input);
+        return requirePrimitive.run(participantName, input, keys, value);
     }
 
     executeSet (script, participants) {
