@@ -73,6 +73,8 @@ class SemanticEvaluator {
         this.output = {};
         this.transformValidFlag = false;
         this.invariantsViolatedFlag = false;
+        this.requiredInputs = [];
+        this.isWorldStateValidForBehaviorFlag = null;
     }
 
 
@@ -101,6 +103,15 @@ class SemanticEvaluator {
                     );
                     if (requireOutput) {
                         console.log(requireOutput);
+                        if (requireOutput.type === "require_input") {
+                            this.requiredInputs.push(requireOutput.participantName);
+                        } else if (requireOutput.type === "missing_required_participant") {
+                            this.isWorldStateValidForBehaviorFlag = false;
+                            return;
+                        } else if (requireOutput.type === "is_valid_world_state_for_behavior") {
+                            this.isWorldStateValidForBehaviorFlag = requireOutput.valid;
+                            return;
+                        }
                     }
                 }
 
