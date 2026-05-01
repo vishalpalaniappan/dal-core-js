@@ -82,7 +82,25 @@ class SemanticEvaluator {
      * evaluator as args.
      */
     getRequiredInputs () {
+        for (const line of this.script) {
+            if (line.startsWith("pre:")) continue;
+            if (line.startsWith("transform:")) break;
 
+            let executionOutput;
+            try {
+                executionOutput = this.BehavioralLanguageParser.execute(
+                    line, this.worldState, this.args
+                );
+                const output = executionOutput.output;
+
+                if (output?.type === "require") {
+                    console.log(line);
+                }
+
+            } catch (error) {
+                console.error(`Error executing line "${line}": ${error.message}`);
+            }
+        }
     }
 
     /**

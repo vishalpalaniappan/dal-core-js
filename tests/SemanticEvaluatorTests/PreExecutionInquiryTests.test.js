@@ -3,7 +3,7 @@ import {resolve} from "path"
 import {describe, expect, it} from "vitest";
 
 import Behavior from "../../src/Design/Behavior.js";
-import SemanticEvaluator from "../../src/ExecutableModelTest/SemanticEvaluator.js";
+import SemanticEvaluator from "../../src/Design/BehavioralLanguage/SemanticEvaluator.js";
 
 describe("tests the requirement parsing for executing behavior", () => {
 
@@ -17,7 +17,7 @@ describe("tests the requirement parsing for executing behavior", () => {
          * - Book must be present in the world state (behavior will fail
          *   without it)
          *
-         * No transform operations yet. I will add them after I verify the
+         * No transform operations yet. Add them after verifying that the
          * require primitive is parsed correctly and conditions are checked
          * as expected.
          */
@@ -54,7 +54,9 @@ describe("tests the requirement parsing for executing behavior", () => {
 
         );
 
-        evaluator.run();
+        evaluator.getRequiredInputs();
+
+        // evaluator.run();
 
         // console.log("Final world state:", evaluator.worldState);
         // console.log("Output:", evaluator.output);
