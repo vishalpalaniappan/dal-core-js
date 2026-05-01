@@ -243,6 +243,33 @@ class Behavior extends Base {
         this._validPreconditions = preConditions;
     }
 
+
+    /**
+     * Before executing a behavior, we need to use the script to establish
+     * the following:
+     * - What inputs we need to get from the user
+     * - Whether the world state itself is valid for the behavior to be executed
+     *
+     * This method is responsible for getting that information and returning it
+     * to the design runtime so that it can determine if this is the next
+     * behavior to execute based on the world state. If it is, it will also
+     * get the necessary inputs and save it in the arguments before executing
+     * the behavior.
+     * @returns {Object} Pre-execution metadata.
+     */
+    getPreExecutionMeta () {
+        const primitives = this._script.split("\n")
+            .map(line => line.trim()).filter(line => line.length > 0);
+        const evaluator = new SemanticEvaluator(
+            primitives,
+            this._preWorldState,
+            this._postWorldState,
+            this._primitiveArgs,
+            this._implementationFailure
+        );
+        return evaluator.getPreExecutionMeta();
+    }
+
     /**
      * This method computes the transformations on the world state by
      * executing the primitives. It produces an output world state that
