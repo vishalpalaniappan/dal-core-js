@@ -56,6 +56,11 @@ class InvariantParser {
             return this.minLengthInvariant(
                 participant, participants[participant], keys, args, predictions
             );
+        } else if (type === "isString") {
+            // invariant book_name isString ["book","name"] [] []
+            return this.isStringInvariant(
+                participant, participants[participant], keys, args, predictions
+            );
         }
     }
 
@@ -106,6 +111,28 @@ class InvariantParser {
             message: msg,
             isValid: isValid,
             predictions: predictions,
+        }
+    }
+
+    isStringInvariant (participantName, participantValue, keys, args, predictions) {
+        for (const key of keys) {
+            participantValue = participantValue[key];
+        }
+        const isValid = typeof participantValue === "string";
+
+        let msg;
+        if (isValid) {
+            msg = `Participant named "${participantName}" is a string as required`;
+        } else {
+            msg = `Participant named "${participantName}" is not a string as required`;
+        }
+        return {
+            type: "invariant",
+            participantName: participantName,
+            invariantType: "isString",
+            isValid: isValid,
+            predictions: predictions,
+            message: msg,
         }
     }
 }
