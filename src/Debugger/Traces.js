@@ -12,7 +12,7 @@ export default class Traces {
      * look at the version in the trace, load the relevant design
      * and use it to debug the trace. The plan is that when the engine
      * learns from the trace, it creates a new version of the design.
-     * So the output of this autoamted debugging process will create
+     * So the output of this automated debugging process will create
      * new versions that will be used to debug future traces.
      *
      * In many ways this captures the learning loop, a design is created
@@ -72,7 +72,7 @@ export default class Traces {
 
         /**
          * TODO:
-         * I am not incuding the clp-ffi-js library in the engine right now
+         * I am not including the clp-ffi-js library in the engine right now
          * because it keeps things simpler while I workout some build issues.
          * This means that when the trace is added, I accept the externally
          * decompressed log files, debug it and save the results in the trace
@@ -125,6 +125,11 @@ export default class Traces {
             throw new Error(`Trace with UID ${uid} does not exist.`);
         }
         return found;
+    }
+
+    setTraceName (uid, name) {
+        const trace = this.getTrace(uid);
+        trace.name = name;
     }
 
     /**
