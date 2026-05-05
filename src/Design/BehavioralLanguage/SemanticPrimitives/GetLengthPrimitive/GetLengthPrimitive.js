@@ -2,9 +2,9 @@ import SemanticPrimitive from "../SemanticPrimitive.js";
 
 class GetLengthPrimitive extends SemanticPrimitive {
     /**
-     * Semantic definition of the GetLength operation.
+     * Semantic definition of the getLength operation.
      *
-     * Syntax: GetLength <participant> <target>
+     * Syntax: getLength <participant> <target>
      *
      * Gets the length of the given participant and stores it in target.
      *
