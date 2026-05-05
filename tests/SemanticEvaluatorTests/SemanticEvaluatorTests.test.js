@@ -77,6 +77,7 @@ describe("tests script runner", () => {
             transform:
                 create book_name string
                 create text_length number
+                create expected_length number 5
                 get book ["name"] book_name
                 getLength text text_length
                 validate transformation
@@ -84,6 +85,7 @@ describe("tests script runner", () => {
             post:
                 require book_name
                 require text_length
+                require expected_length
                 invariant book_name minLength [] [1] []
         `;
         b.setScript(s);
