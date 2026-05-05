@@ -5,7 +5,7 @@ class CreatePrimitive extends SemanticPrimitive {
      * Semantic definition of create.
      * Introduces a new participant into the world state.
      *
-     * Syntax: create <participant> <type>
+     * Syntax: create <participant> <type> [value]
      *
      * Initial value is assigned from intput args. If not provided
      * the value is set to null.
@@ -23,7 +23,7 @@ class CreatePrimitive extends SemanticPrimitive {
     }
 
     validate_inputs (args) {
-        const expectedArgs = ["targetParticipantName", "type"];
+        const expectedArgs = ["targetParticipantName", "type", "value"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
 
         if (missingKeys.length > 0) {
@@ -32,10 +32,16 @@ class CreatePrimitive extends SemanticPrimitive {
 
         this.targetParticipantName = args.targetParticipantName;
         this.type = args.type;
+        this.value = args.value;
     }
 
     apply_transformations () {
         // TODO: UPDATE README WITH SUPPORTED TYPES AND ADD EXAMPLES
+
+        if (this.value !== undefined) {
+            this.worldState[this.targetParticipantName] = this.value;
+            return this.worldState;
+        }
 
         if (this.type === "list") {
             this.worldState[this.targetParticipantName] = [];
