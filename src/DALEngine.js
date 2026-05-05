@@ -127,6 +127,22 @@ export class DALEngine {
     }
 
     /**
+     * Sets the name of the design (this is also the file name)
+     * @param {String} name Name of design.
+     */
+    setName (name) {
+        this._name = name;
+    }
+
+    /**
+     * Sets the description of the design.
+     * @param {String} description Description of design.
+     */
+    setDescription (description) {
+        this._description = description;
+    }
+
+    /**
      * Add a file to the implementation with the given key, name, and content.
      *
      * @param {String} key Key of file in implementation.
