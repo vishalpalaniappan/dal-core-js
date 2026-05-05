@@ -3,6 +3,7 @@ import RequirePrimitive from "./Context/RequirePrimitive/RequirePrimitive.js";
 import InvariantParser from "./Invariants/InvariantParser.js";
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetFromPosPrimitive from "./SemanticPrimitives/GetFromPosPrimitive/GetFromPosPrimitive.js";
+import GetLengthPrimitive from "./SemanticPrimitives/GetLengthPrimitive/GetLengthPrimitive.js";
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import HasKeyPrimitive from "./SemanticPrimitives/HasKeyPrimitive/HasKeyPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
@@ -22,6 +23,7 @@ const re = {
     "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
     "REQUIRE_RE": /^require\s+(\w+)(?:\s+(input)|\s+(\[[^\]]*\])\s+(.+))?$/,
     "INVARIANT_RE": /^invariant\s+(.+)$/,
+    "GET_LENGTH_RE": /^getLength\s+(\w+)\s+(\w+)$/,
 };
 
 class BehavioralLanguageParser {
@@ -105,6 +107,12 @@ class BehavioralLanguageParser {
         const isRequire = this.re["REQUIRE_RE"].test(script);
         if (isRequire) {
             return this.executeRequire(script, participants, args);
+        }
+
+        // Ex: getLength <participant> <target>
+        const isGetLength = this.re["GET_LENGTH_RE"].test(script);
+        if (isGetLength) {
+            return this.executeGetLength(script, participants);
         }
 
         const isInvariant = this.re["INVARIANT_RE"].test(script);
@@ -219,6 +227,19 @@ class BehavioralLanguageParser {
             position: parseInt(position),
         };
         const updatedParticipants = new RemoveFromPositionPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
+    }
+
+    executeGetLength (script, participants) {
+        const [, sourcePName, targetPName] = script.match(this.re["GET_LENGTH_RE"]);
+        const input = {
+            sourceParticipantName: sourcePName,
+            targetParticipantName: targetPName,
+        };
+        const updatedParticipants = new GetLengthPrimitive(input, participants).apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
