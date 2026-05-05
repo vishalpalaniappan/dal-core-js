@@ -77,15 +77,18 @@ describe("tests script runner", () => {
             transform:
                 create book_name string
                 create text_length number
+                create is_length_correct null
                 create expected_length number 5
                 get book ["name"] book_name
                 getLength text text_length
+                isEqual text_length expected_length is_length_correct
                 validate transformation
 
             post:
                 require book_name
                 require text_length
                 require expected_length
+                expect is_length_correct
                 invariant book_name minLength [] [1] []
         `;
         b.setScript(s);
