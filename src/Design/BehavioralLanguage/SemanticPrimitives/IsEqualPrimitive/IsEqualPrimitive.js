@@ -49,10 +49,13 @@ class IsEqualPrimitive extends SemanticPrimitive {
         const right =
             this.worldState[this.rightParticipantName];
 
+        // TODO: I am setting this to string because in my require
+        // primitive implementation, I am only allowing string inputs.
+        // I will update this later.
         if (left === right) {
-            this.worldState[this.targetParticipantName] = 1;
+            this.worldState[this.targetParticipantName] = "1";
         } else {
-            this.worldState[this.targetParticipantName] = 0;
+            this.worldState[this.targetParticipantName] = "0";
         }
 
         return this.worldState;
