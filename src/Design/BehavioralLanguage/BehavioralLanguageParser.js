@@ -7,6 +7,7 @@ import GetLengthPrimitive from "./SemanticPrimitives/GetLengthPrimitive/GetLengt
 import GetPrimitive from "./SemanticPrimitives/GetPrimitive/GetPrimitive.js";
 import HasKeyPrimitive from "./SemanticPrimitives/HasKeyPrimitive/HasKeyPrimitive.js";
 import InsertPrimitive from "./SemanticPrimitives/InsertPrimitive/InsertPrimitive.js";
+import IsEqualPrimitive from "./SemanticPrimitives/IsEqualPrimitive/IsEqualPrimitive.js";
 import RemoveFromPositionPrimitive from "./SemanticPrimitives/RemoveFromPosPrimitive/RemoveFromPosPrimitive.js";
 import RemovePrimitive from "./SemanticPrimitives/RemovePrimitive/RemovePrimitive.js";
 import SetPrimitive from "./SemanticPrimitives/SetPrimitive/SetPrimitive.js";
@@ -23,6 +24,7 @@ const re = {
     "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
     "REQUIRE_RE": /^require\s+(\w+)(?:\s+(input)|\s+(\[[^\]]*\])\s+(.+))?$/,
     "INVARIANT_RE": /^invariant\s+(.+)$/,
+    "IS_EQUAL_RE": /^isEqual\s+(\w+)\s+(\w+)\s+(\w+)$/,
     "GET_LENGTH_RE": /^getLength\s+(\w+)\s+(\w+)$/,
 };
 
@@ -113,6 +115,12 @@ class BehavioralLanguageParser {
         const isGetLength = this.re["GET_LENGTH_RE"].test(script);
         if (isGetLength) {
             return this.executeGetLength(script, participants);
+        }
+
+        // Ex: isEqual <left> <right> <target>
+        const isEqual = this.re["IS_EQUAL_RE"].test(script);
+        if (isEqual) {
+            return this.executeIsEqual(script, participants);
         }
 
         const isInvariant = this.re["INVARIANT_RE"].test(script);
@@ -241,6 +249,20 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         const updatedParticipants = new GetLengthPrimitive(input, participants).apply_transformations();
+        return {
+            participants: updatedParticipants,
+            output: null,
+        };
+    }
+
+    executeIsEqual (script, participants) {
+        const [, leftPName, rightPName, targetPName] = script.match(this.re["IS_EQUAL_RE"]);
+        const input = {
+            leftParticipantName: leftPName,
+            rightParticipantName: rightPName,
+            targetParticipantName: targetPName,
+        };
+        const updatedParticipants = new IsEqualPrimitive(input, participants).apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
