@@ -86,6 +86,20 @@ class SemanticEvaluator {
      * to determine if this behavior is semantically valid to be executed.
      */
     getPreExecutionMeta () {
+
+        /**
+         * TODO:
+         * I actually think it makes sense to specify the next behavior
+         * the script itself. So for example, based on the selected menu
+         * choice, select the specified behavior. This is a much more scalable
+         * and maintainable way to establish the control flow through the
+         * abstraction language. The behavior iself selects the next behavior.
+         *
+         * I think in general, I can script more things and the number of
+         * moving pieces in this solution will be minimized. So going forward,
+         * the principle I am going to follow is, always think about how this
+         * can be scripted instead of trying to build a solution outsie of it.
+         */
         for (const line of this.script) {
             if (line.startsWith("pre:")) continue;
             if (line.startsWith("transform:")) break;
