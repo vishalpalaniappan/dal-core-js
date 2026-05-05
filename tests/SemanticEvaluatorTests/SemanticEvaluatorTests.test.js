@@ -70,27 +70,32 @@ describe("tests script runner", () => {
             pre:
                 require book
                 require book2 input
+                require text
                 invariant book hasKey [] ["name"] []
                 invariant book minLength ["name"] [1] []
 
             transform:
-                create book_name
+                create book_name string
+                create text_length number
                 get book ["name"] book_name
+                getLength text text_length
                 validate transformation
 
             post:
                 require book_name
+                require text_length
                 invariant book_name minLength [] [1] []
         `;
         b.setScript(s);
 
         b.setPreWorldState({
+            text: "apple",
             book: {"name": "The Great Gatsby"},
         });
 
         b.setPostWorldState({
             book: {"name": "The Great Gatsby"},
-            book_name: "The Grea Gatsby",
+            book_name: "The Great Gatsby",
         });
 
         b.setPrimitiveArgs({});
