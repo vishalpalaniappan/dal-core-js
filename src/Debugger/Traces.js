@@ -92,8 +92,9 @@ export default class Traces {
          */
         if (debug) {
             const _debugger = new TraceDebugger(this._design, decompressedLogs);
-            trace.debugger = _debugger;
             trace.debugLog = _debugger.run();
+            trace.computedResults = _debugger._executableSemanticModelOutputs;
+            trace.failures = _debugger._failures;
         }
         this._traces.push(trace);
 
