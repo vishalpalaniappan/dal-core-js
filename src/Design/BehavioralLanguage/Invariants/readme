@@ -1,5 +1,9 @@
 This folder contains commands which establish invairants for the world state.
 
+Note: After working with the primitives some more, it has become clear to me that I don't
+need to establish invariants in this way. I can just script the invariant from the primitives
+and define it that way. It will establish the validity through the script.
+
 Example:
 invariant <participant> <type> [key1,key2...keyN] [arg1,arg2..argN] [prediction1...predictionN]
 
