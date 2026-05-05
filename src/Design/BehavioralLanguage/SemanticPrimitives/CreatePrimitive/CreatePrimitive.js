@@ -38,11 +38,6 @@ class CreatePrimitive extends SemanticPrimitive {
     apply_transformations () {
         // TODO: UPDATE README WITH SUPPORTED TYPES AND ADD EXAMPLES
 
-        if (this.value !== undefined) {
-            this.worldState[this.targetParticipantName] = this.value;
-            return this.worldState;
-        }
-
         if (this.type === "list") {
             this.worldState[this.targetParticipantName] = [];
         } else if (this.type === "object") {
@@ -55,6 +50,21 @@ class CreatePrimitive extends SemanticPrimitive {
             this.worldState[this.targetParticipantName] = null;
         } else {
             throw new Error(`Unsupported type "${this.type}" for create primitive.`);
+        }
+
+        if (this.value !== undefined && this.type === "number") {
+            this.worldState[this.targetParticipantName] = Number(this.value);
+        } else if (this.value !== undefined && this.type === "string") {
+            this.worldState[this.targetParticipantName] = String(this.value);
+        } else if (this.value !== undefined && this.type === "list") {
+            this.worldState[this.targetParticipantName] = JSON.parse(this.value);
+        } else if (this.value !== undefined && this.type === "object") {
+            this.worldState[this.targetParticipantName] = JSON.parse(this.value);
+        } else if (this.value !== undefined && this.type === "null") {
+            this.worldState[this.targetParticipantName] = null;
+        } else if (this.value !== undefined) {
+            // eslint-disable-next-line max-len
+            throw new Error(`Value provided for create primitive does not match type "${this.type}".`);
         }
 
         return this.worldState;
