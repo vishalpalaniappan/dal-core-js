@@ -7,8 +7,8 @@ class IsEqualPrimitive extends SemanticPrimitive {
      * Syntax:
      * isEqual <leftParticipant> <rightParticipant> <target>
      *
-     * Compares two participants and stores the boolean
-     * result in the target participant.
+     * Compares two participants and stores the result
+     * (1 for equal, 0 for not equal) in the target participant.
      *
      * @param {Object} inputs
      * @param {Object} worldstate
@@ -49,8 +49,11 @@ class IsEqualPrimitive extends SemanticPrimitive {
         const right =
             this.worldState[this.rightParticipantName];
 
-        this.worldState[this.targetParticipantName] =
-            left === right;
+        if (left === right) {
+            this.worldState[this.targetParticipantName] = 1;
+        } else {
+            this.worldState[this.targetParticipantName] = 0;
+        }
 
         return this.worldState;
     }
