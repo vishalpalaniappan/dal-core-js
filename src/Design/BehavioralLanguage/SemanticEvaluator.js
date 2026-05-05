@@ -210,6 +210,22 @@ class SemanticEvaluator {
                 continue;
             }
 
+            if (line.startsWith("next:")) {
+                /** This will contain the instruction for which behavior to
+                * exhibit next based on the current world state. For example,
+                * select <behavior> when <participant> is <value>
+                *
+                * and in a real example, this would become:
+                * select "Accept Name" when choice is "a"
+                *
+                * In this way, the behavior is exhibited and then the script
+                * itself determines the next behavior. The behavioral control
+                * graph is just a visualization of this process. However,
+                * implementing it just through the script is much more scalable
+                * and maintainable.
+                */
+            }
+
             let executionOutput;
             try {
                 executionOutput = this.BehavioralLanguageParser.execute(
