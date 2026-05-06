@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import RequirePrimitive from "./Context/RequirePrimitive/RequirePrimitive.js";
+import SelectPrimitive from "./Context/SelectPrimitive/SelectPrimitive.js";
 import InvariantParser from "./Invariants/InvariantParser.js";
 import CreatePrimitive from "./SemanticPrimitives/CreatePrimitive/CreatePrimitive.js";
 import GetFromPosPrimitive from "./SemanticPrimitives/GetFromPosPrimitive/GetFromPosPrimitive.js";
@@ -26,6 +27,7 @@ const re = {
     "INVARIANT_RE": /^invariant\s+(.+)$/,
     "IS_EQUAL_RE": /^isEqual\s+(\w+)\s+(\w+)\s+(\w+)$/,
     "GET_LENGTH_RE": /^getLength\s+(\w+)\s+(\w+)$/,
+    "SELECT_RE": /^select\s+(\w+)(?:\s+if\s+(\w+))?$/,
 };
 
 class BehavioralLanguageParser {
@@ -121,6 +123,12 @@ class BehavioralLanguageParser {
         const isEqual = this.re["IS_EQUAL_RE"].test(script);
         if (isEqual) {
             return this.executeIsEqual(script, participants);
+        }
+
+        // Ex: select <behaviorName> if <flagParticipant>
+        const isSelect = this.re["SELECT_RE"].test(script);
+        if (isSelect) {
+            return this.executeSelect(script, participants, args);
         }
 
         const isInvariant = this.re["INVARIANT_RE"].test(script);
@@ -281,6 +289,19 @@ class BehavioralLanguageParser {
         return {
             participants: updatedParticipants,
             output: null,
+        };
+    }
+
+    executeSelect (script, participants, args) {
+        const [, behaviorName, flagParticipantName] = script.match(this.re["SELECT_RE"]);
+        const input = {
+            behaviorName: behaviorName,
+            flagParticipantName: flagParticipantName,
+        };
+        const output = new SelectPrimitive(input, participants).apply_transformations();
+        return {
+            participants: participants,
+            output: output,
         };
     }
 }
