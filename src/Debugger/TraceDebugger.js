@@ -84,13 +84,13 @@ class TraceDebugger {
 
                 /**
                  * TODO:
-                 * With the semantics of the behavior moving to the script,
-                 * I need to now modify the debugger so that it uses the script
-                 * to determine atomic and next behavior. This will involve:
-                 * - Use script output to determine next valid behavior
-                 * - Use script to determine if its atomic, so this means that
-                 * the grouping will happen after the script is run, not before.
-                 * - I will add more here as I finish planning it out.
+                 * With the semantics of the behavior moving entirely to the
+                 * script (atomic flag, next behaviors etc). I need to now
+                 * modify the debugger so that it uses the script exclusively.
+                 * In fact, the entire application will revolve around the
+                 * script, it is speaking the language of the engine. This
+                 * change will make this entire framework very easy to use,
+                 * extend and maintain.
                  */
 
                 // Save the output
