@@ -82,6 +82,17 @@ class TraceDebugger {
                 // Compute the transformation
                 const transformInfo = currBehavior.computeTransformations();
 
+                /**
+                 * TODO:
+                 * With the semantics of the behavior moving to the script,
+                 * I need to now modify the debugger so that it uses the script
+                 * to determine atomic and next behavior. This will involve:
+                 * - Use script output to determine next valid behavior
+                 * - Use script to determine if its atomic, so this means that
+                 * the grouping will happen after the script is run, not before.
+                 * - I will add more here as I finish planning it out.
+                 */
+
                 // Save the output
                 this._executableSemanticModelOutput.push({
                     behavior: trace.behavior,
