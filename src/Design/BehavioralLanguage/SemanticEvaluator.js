@@ -224,6 +224,9 @@ class SemanticEvaluator {
                 * implementing it just through the script is much more scalable
                 * and maintainable.
                 */
+                this.mode = "next";
+                this.output.next = [];
+                continue;
             }
 
             let executionOutput;
