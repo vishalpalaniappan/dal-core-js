@@ -1,43 +1,105 @@
 ### Create Primitive
 
-The create primitive will get a value from the source and save it in the target.
-
-Note: A behavior has a method calle setArgs, using this, you can pass the arguments into the primitives of the behavior. By setting the initial value key, that will get assigned to the participant that is created.
+The Create primitive introduces a new participant into the world state.
 
 ```text
-create <participant>
+create <participant> <type> <value>
 ```
+
 Syntax Structure:
-- `get`:
+- `create`:
     * Type: *string*
     * This is the identifier for the instruction.
-- `<participant>` 
+- `<participant>`
     * Type: *string*
-    * This is the name of the participant being created.
+    * This is the name of the participant to create.
+- `<type>`
+    * Type: *string*
+    * This defines the type of the participant being created.
+- `<value>`
+    * Type: *any*
+    * Optional value assigned to the participant.
+    * If omitted, a default value is created based on the type.
+
+Supported Types:
+- `list`
+- `object`
+- `string`
+- `number`
+- `null`
 
 #### Example 1:
-Creates a book.
+Creates an empty list.
 
 ```text
-    const behavior = new ExecutableBehavior();
-    behavior.addPrimitive('create book');
-    behavior.setArgs({
-        initialValue: {"name": "Lord of the Rings"},
-    })
-```
-
-```text
-    create book
+create books list
 ```
 
 Pre-transformation state:
 ```text
-    {}
+{}
 ```
 
 Post-transformation state:
 ```text
-    {
-        book: {"name": "Lord of the Rings"}
-    }
+{
+    books: [],
+}
+```
+
+#### Example 2:
+Creates a string with an initial value.
+
+```text
+create title string The Great Gatsby
+```
+
+Pre-transformation state:
+```text
+{}
+```
+
+Post-transformation state:
+```text
+{
+    title: "The Great Gatsby",
+}
+```
+
+#### Example 3:
+Creates a number using the default value.
+
+```text
+create count number
+```
+
+Pre-transformation state:
+```text
+{}
+```
+
+Post-transformation state:
+```text
+{
+    count: 0,
+}
+```
+
+#### Example 4:
+Creates an empty object.
+
+```text
+create metadata object
+```
+
+Pre-transformation state:
+```text
+{}
+```
+
+Post-transformation state:
+```text
+{
+    metadata: {},
+}
 ```
