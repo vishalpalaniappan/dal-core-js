@@ -88,8 +88,13 @@ describe("tests script runner", () => {
                 require book_name
                 require text_length
                 require expected_length
-                expect is_length_correct
                 invariant book_name minLength [] [1] []
+
+            next:
+                create number1 number 5
+                create is_length_correct string
+                isEqual text_length number1 is_length_correct
+                select AcceptName if is_length_correct
         `;
         b.setScript(s);
 
