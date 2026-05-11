@@ -40,6 +40,15 @@ import Implementation from "./Implementation/Implementation";
  * live in the worker. I will explore the pros and cons of both approaches
  * and take a look at existing tools to see what the standard approach is for
  * this type of architeture before making a decision and removing this todo.
+ *
+ * TODO: The engine will contain the runtime for the design to execute the
+ * behavioral script, instrumenter for the implementation, the debugger,
+ * seralizer/ deseralizer for the engine. Git style version control for
+ * the design and implementation etc. It will be able to play back the entire
+ * evolution of the software system deterministically.
+ * In the long run, it should be written in C++ for performance and then
+ * it can be ported to many languages using ffi bindings. For now, I am just
+ * sticking with javascript.
  */
 export class DALEngine {
     constructor (args) {
