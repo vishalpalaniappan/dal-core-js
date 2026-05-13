@@ -47,12 +47,12 @@ class SetPrimitive extends SemanticPrimitive {
      *
      * @returns {Object} Metadata to synthesize program.
      */
-    synthesis_meta () {
+    get_synthesis_meta () {
         return {
             primitive: "set",
             targetParticipantName: this.targetParticipantName,
             keys: this.keys,
-            valueParticipantName: this.valueParticipantName
+            valueParticipantName: this.valueParticipantName,
         };
     }
 

@@ -38,12 +38,14 @@ class CreatePrimitive extends SemanticPrimitive {
     /**
      * Provides metadata necessary to synthesize code for the create primitive.
      *
-     * Python synthesis target:
-     *   create <participant> <type> [value]
+     * Example:
+     *   create name string "Lord of the Rings"
+     *
+     * name = "Lord of the Rings"
      *
      * @returns {Object} metadata for code synthesis
      */
-    synthesis_meta() {
+    get_synthesis_meta () {
         return {
             primitive: this._type,
             targetParticipantName: this.targetParticipantName,
