@@ -15,14 +15,14 @@ class CreatePrimitive extends SemanticPrimitive {
      * @param {Object} inputs
      * @param {Object} worldstate
      */
-    constructor (inputs, worldstate) {
+    constructor(inputs, worldstate) {
         super("create");
         this._type = "create";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
     }
 
-    validate_inputs (args) {
+    validate_inputs(args) {
         const expectedArgs = ["targetParticipantName", "type", "value"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
 
@@ -35,7 +35,58 @@ class CreatePrimitive extends SemanticPrimitive {
         this.value = args.value;
     }
 
-    apply_transformations () {
+    /**
+     * Used by python AST to synthesis code for the primitive. This method
+     * returns a JSON object that has necessary metadata for the synthesis.
+     * @returns {Object} metadata for code synthesis
+     */
+    synthesis_meta() {
+        // TODO: Add support for keys
+        const meta = {
+            type: "Assign",
+            targets: [
+                {
+                    type: "Name",
+                    id: this.participant,
+                    ctx: "Store",
+                },
+            ],
+        };
+
+        // TODO: If value is provided, use it instead of default
+        if (this.type === "list") {
+            meta.value = {
+                type: "ListExpression",
+                value: [],
+            };
+        } else if (this.type === "object") {
+            meta.value = {
+                type: "ObjectExpression",
+                value: {},
+            };
+        } else if (this.type === "string") {
+            meta.value = {
+                type: "StringLiteral",
+                value: "",
+            };
+        } else if (this.type === "number") {
+            meta.value = {
+                type: "NumericLiteral",
+                value: 0,
+            };
+        } else if (this.type === "null") {
+            meta.value = {
+                type: "NullLiteral",
+                value: null,
+            };
+        } else {
+            throw new Error(`Unsupported type "${this.type}" for create primitive.`);
+        }
+
+        return meta;
+    }
+
+    apply_transformations() {
         // TODO: UPDATE README WITH SUPPORTED TYPES AND ADD EXAMPLES
 
         if (this.type === "list") {
