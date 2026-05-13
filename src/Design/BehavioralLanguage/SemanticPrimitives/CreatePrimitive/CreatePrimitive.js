@@ -47,7 +47,7 @@ class CreatePrimitive extends SemanticPrimitive {
             targets: [
                 {
                     type: "Name",
-                    id: this.participant,
+                    id: this.targetParticipantName,
                     ctx: "Store",
                 },
             ],
