@@ -31,6 +31,31 @@ class SetPrimitive extends SemanticPrimitive {
         this.valueParticipantName = args.valueParticipantName;
     }
 
+    /**
+     * Returns metadata necessary to synthesize code for the set primitive.
+     * This method is used by the code synthesis process to understand how to
+     * generate code that realizes the semantics of the set operation.
+     *
+     * Example:
+     * {
+     *   targetParticipantName: "book",
+     *   keys: ["name"],
+     *   valueParticipantName: "Harry Potter"
+     * }
+     *
+     * book["name"] = "Harry Potter"
+     *
+     * @returns {Object} Metadata to synthesize program.
+     */
+    synthesis_meta () {
+        return {
+            primitive: "set",
+            targetParticipantName: this.targetParticipantName,
+            keys: this.keys,
+            valueParticipantName: this.valueParticipantName
+        };
+    }
+
     apply_transformations () {
         const value = this.worldState[this.valueParticipantName];
         let target = this.worldState[this.targetParticipantName];
