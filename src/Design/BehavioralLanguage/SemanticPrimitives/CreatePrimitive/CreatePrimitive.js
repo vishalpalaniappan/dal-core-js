@@ -36,54 +36,20 @@ class CreatePrimitive extends SemanticPrimitive {
     }
 
     /**
-     * Used by python AST to synthesis code for the primitive. This method
-     * returns a JSON object that has necessary metadata for the synthesis.
+     * Provides metadata necessary to synthesize code for the create primitive.
+     *
+     * Python synthesis target:
+     *   create <participant> <type> [value]
+     *
      * @returns {Object} metadata for code synthesis
      */
     synthesis_meta() {
-        // TODO: Add support for keys
-        const meta = {
-            type: "Assign",
-            targets: [
-                {
-                    type: "Name",
-                    id: this.targetParticipantName,
-                    ctx: "Store",
-                },
-            ],
+        return {
+            primitive: this._type,
+            targetParticipantName: this.targetParticipantName,
+            type: this.type,
+            value: this.value,
         };
-
-        // TODO: If value is provided, use it instead of default
-        if (this.type === "list") {
-            meta.value = {
-                type: "ListExpression",
-                value: [],
-            };
-        } else if (this.type === "object") {
-            meta.value = {
-                type: "ObjectExpression",
-                value: {},
-            };
-        } else if (this.type === "string") {
-            meta.value = {
-                type: "StringLiteral",
-                value: "",
-            };
-        } else if (this.type === "number") {
-            meta.value = {
-                type: "NumericLiteral",
-                value: 0,
-            };
-        } else if (this.type === "null") {
-            meta.value = {
-                type: "NullLiteral",
-                value: null,
-            };
-        } else {
-            throw new Error(`Unsupported type "${this.type}" for create primitive.`);
-        }
-
-        return meta;
     }
 
     apply_transformations() {
