@@ -1,4 +1,4 @@
-export default PRIMITIVE_REGISTRY = Object.freeze({
+export const PRIMITIVE_REGISTRY = Object.freeze({
     "SET_RE": /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
     "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
     "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
