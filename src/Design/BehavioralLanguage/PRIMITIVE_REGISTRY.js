@@ -1,0 +1,16 @@
+export default PRIMITIVE_REGISTRY = Object.freeze({
+    "SET_RE": /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
+    "INSERT_RE": /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
+    "GET_RE": /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/,
+    "REMOVE_KEY_RE": /^remove\s+(.+?)\s+from\s+(.+?)$/,
+    "CREATE_RE": /^create\s+(\S+)\s+(\S+)(?:\s+(.+))?$/,
+    "REMOVE_RE": /^remove\s+(.+?)$/,
+    "GET_FROM_POS_RE": /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/,
+    "REMOVE_FROM_POS_RE": /^removeFromPos\s+(.+?)\s+(.+?)$/,
+    "HAS_KEY_RE": /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/,
+    "REQUIRE_RE": /^require\s+(\w+)(?:\s+(input)|\s+(\[[^\]]*\])\s+(.+))?$/,
+    "INVARIANT_RE": /^invariant\s+(.+)$/,
+    "IS_EQUAL_RE": /^isEqual\s+(\w+)\s+(\w+)\s+(\w+)$/,
+    "GET_LENGTH_RE": /^getLength\s+(\w+)\s+(\w+)$/,
+    "SELECT_RE": /^select\s+(\w+)(?:\s+if\s+(\w+))?$/,
+});
