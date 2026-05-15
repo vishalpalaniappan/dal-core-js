@@ -50,7 +50,6 @@ describe("tests script runner", () => {
         );
 
         evaluator.run();
-
         // console.log("Final world state:", evaluator.worldState);
         // console.log("Output:", evaluator.output);
         // expect(evaluator.worldState).toEqual(expectedPostWorldState);
@@ -62,7 +61,7 @@ describe("tests script runner", () => {
     it("tests the transformation through the behavior", async () => {
 
         const b = new Behavior({
-            name: "Test Behavior",
+            name: "TestBehavior",
             description: "",
         });
 
