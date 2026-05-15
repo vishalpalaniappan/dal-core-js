@@ -20,6 +20,7 @@ class CreatePrimitive extends SemanticPrimitive {
         this._type = "create";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^create\s+(\S+)\s+(\S+)(?:\s+(.+))?$/;
     }
 
     validate_inputs(args) {
