@@ -75,6 +75,7 @@ class SemanticEvaluator {
         this.invariantsViolatedFlag = false;
         this.requiredInputs = [];
         this.isWorldStateValidForBehaviorFlag = null;
+        this.synthesisMeta = [];
     }
 
 
@@ -234,6 +235,9 @@ class SemanticEvaluator {
                 executionOutput = this.BehavioralLanguageParser.execute(
                     line, this.worldState, this.args
                 );
+                if (executionOutput?.synthesisMeta) {
+                    this.synthesisMeta.push(executionOutput.synthesisMeta);
+                }
                 const output = executionOutput.output;
                 if (output?.type === "invariant" && !output.isValid) {
                     this.invariantsViolatedFlag = !output.isValid;
@@ -263,6 +267,7 @@ class SemanticEvaluator {
         this.output["invariantsRespectedFlag"] = !this.invariantsViolatedFlag;
         this.output["implementationFailure"] = this.implementationFailure;
         this.output["transformFailure"] = this.transformFailure;
+        this.output["synthesisMeta"] = this.synthesisMeta;
     }
 
     /**

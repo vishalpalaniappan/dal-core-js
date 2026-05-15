@@ -125,6 +125,14 @@ class BehavioralLanguageParser {
         throw new Error(`Script "${script}" does not match any known primitive patterns.`);
     }
 
+    getSynthesisMeta (prim) {
+        try {
+            return prim.get_synthesis_meta();
+        } catch (e) {
+            return null;
+        }
+    }
+
     executeInvariant (script, participants) {
         const invariantParser = new InvariantParser();
         const output = invariantParser.run(script, participants)
@@ -147,10 +155,11 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
             valueParticipantName: valuePName,
         };
-        const updatedParticipants = new SetPrimitive(input, participants).apply_transformations();
+        const prim = new SetPrimitive(input, participants);
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -162,10 +171,12 @@ class BehavioralLanguageParser {
             valueParticipantName: valuePName,
             index: parseInt(position),
         };
-        const updatedParticipants = new InsertPrimitive(input, participants).apply_transformations();
+        const prim = new InsertPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -176,10 +187,12 @@ class BehavioralLanguageParser {
             keys: JSON.parse(keys),
             targetParticipantName: targetPName,
         };
-        const updatedParticipants = new GetPrimitive(input, participants).apply_transformations();
+        const prim = new GetPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -190,10 +203,12 @@ class BehavioralLanguageParser {
             type: type,
             value: value,
         };
-        const updatedParticipants = new CreatePrimitive(input, participants).apply_transformations();
+        const prim = new CreatePrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -202,10 +217,12 @@ class BehavioralLanguageParser {
         const input = {
             targetParticipantName: targetPName,
         };
-        const updatedParticipants = new RemovePrimitive(input, participants).apply_transformations();
+        const prim = new RemovePrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -216,10 +233,12 @@ class BehavioralLanguageParser {
             position: parseInt(position),
             targetParticipantName: targetPName,
         };
-        const updatedParticipants = new GetFromPosPrimitive(input, participants).apply_transformations();
+        const prim = new GetFromPosPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -229,10 +248,12 @@ class BehavioralLanguageParser {
             sourceParticipantName: sourcePName,
             position: parseInt(position),
         };
-        const updatedParticipants = new RemoveFromPositionPrimitive(input, participants).apply_transformations();
+        const prim = new RemoveFromPositionPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -242,10 +263,12 @@ class BehavioralLanguageParser {
             sourceParticipantName: sourcePName,
             targetParticipantName: targetPName,
         };
-        const updatedParticipants = new GetLengthPrimitive(input, participants).apply_transformations();
+        const prim = new GetLengthPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -256,10 +279,12 @@ class BehavioralLanguageParser {
             rightParticipantName: rightPName,
             targetParticipantName: targetPName,
         };
-        const updatedParticipants = new IsEqualPrimitive(input, participants).apply_transformations();
+        const prim = new IsEqualPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -271,10 +296,12 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
             keys: JSON.parse(keys),
         };
-        const updatedParticipants = new HasKeyPrimitive(input, participants).apply_transformations();
+        const prim = new HasKeyPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 
@@ -284,10 +311,12 @@ class BehavioralLanguageParser {
             behaviorName: behaviorName,
             flagParticipantName: flagParticipantName,
         };
-        const output = new SelectPrimitive(input, participants).apply_transformations();
+        const prim = new SelectPrimitive(input, participants);
+        const output = prim.apply_transformations();
         return {
             participants: participants,
             output: output,
+            synthesisMeta: this.getSynthesisMeta(prim),
         };
     }
 }
