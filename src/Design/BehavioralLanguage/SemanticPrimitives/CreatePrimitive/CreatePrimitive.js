@@ -48,10 +48,13 @@ class CreatePrimitive extends SemanticPrimitive {
      */
     get_synthesis_meta () {
         return {
-            primitive: this._type,
+            type: "set",
             targetParticipantName: this.targetParticipantName,
-            type: this.type,
-            value: this.value,
+            keys: [],
+            valueType: {
+                type: "constant",
+                value: this.worldState[this.targetParticipantName],
+            },
         };
     }
 
