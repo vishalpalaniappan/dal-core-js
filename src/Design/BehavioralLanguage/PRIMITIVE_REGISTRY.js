@@ -32,59 +32,59 @@ export const PRIMITIVE_REGISTRY = Object.freeze({
 
 export const PRIMITIVE_BINDINGS = Object.freeze({
     "SET": {
-        "invoke": SetPrimitive,
+        "invoke": SetPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.SET_RE,
     },
     "INSERT": {
-        "invoke": InsertPrimitive,
+        "invoke": InsertPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.INSERT_RE,
     },
     "GET": {
-        "invoke": GetPrimitive,
+        "invoke": GetPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.GET_RE,
     },
     "REMOVE_KEY": {
-        "invoke": RemovePrimitive,
+        "invoke": RemovePrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.REMOVE_KEY_RE,
     },
     "CREATE": {
-        "invoke": CreatePrimitive,
+        "invoke": CreatePrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.CREATE_RE,
     },
     "REMOVE": {
-        "invoke": RemovePrimitive,
+        "invoke": RemovePrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.REMOVE_RE,
     },
     "GET_FROM_POS": {
-        "invoke": GetFromPosPrimitive,
+        "invoke": GetFromPosPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.GET_FROM_POS_RE,
     },
     "REMOVE_FROM_POS": {
-        "invoke": RemoveFromPositionPrimitive,
+        "invoke": RemoveFromPositionPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.REMOVE_FROM_POS_RE,
     },
     "HAS_KEY": {
-        "invoke": HasKeyPrimitive,
+        "invoke": HasKeyPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.HAS_KEY_RE,
     },
     "REQUIRE": {
-        "invoke": RequirePrimitive,
+        "invoke": RequirePrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.REQUIRE_RE,
     },
     "INVARIANT": {
-        "invoke": InvariantParser,
+        "invoke": InvariantParser.bind(this),
         "regex": PRIMITIVE_REGISTRY.INVARIANT_RE,
     },
     "IS_EQUAL": {
-        "invoke": IsEqualPrimitive,
+        "invoke": IsEqualPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.IS_EQUAL_RE,
     },
     "GET_LENGTH": {
-        "invoke": GetLengthPrimitive,
+        "invoke": GetLengthPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.GET_LENGTH_RE,
     },
     "SELECT": {
-        "invoke": SelectPrimitive,
+        "invoke": SelectPrimitive.bind(this),
         "regex": PRIMITIVE_REGISTRY.SELECT_RE,
     },
 });
