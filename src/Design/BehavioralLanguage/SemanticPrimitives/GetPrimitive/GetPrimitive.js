@@ -31,6 +31,18 @@ class GetPrimitive extends SemanticPrimitive {
         this.targetParticipantName = args.targetParticipantName;
     }
 
+    get_synthesis_meta () {
+        return {
+            type: "get",
+            targetParticipantName: this.targetParticipantName,
+            keys: this.keys,
+            valueType: {
+                type: "name",
+                value: this.valueParticipantName,
+            },
+        };
+    }
+
     apply_transformations () {
         let value = this.worldState[this.sourceParticipantName];
 
@@ -43,6 +55,7 @@ class GetPrimitive extends SemanticPrimitive {
                 target = target[key];
             }
         }
+        this.valueParticipantName = target;
 
         this.worldState[this.targetParticipantName] = target;
         return this.worldState;
