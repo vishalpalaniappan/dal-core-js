@@ -4,25 +4,16 @@ substrate level mechanisms into the program and for learning substrate invariant
 
 ## Logic
 
-The design itself is made of transformations that are directly computable. This
-means that they can synthesized into programs deterministcally using the AST
-mapping for each primitive. 
+I have been thinking a lot about the interaction between a design and the substrate and working to understand how the interaction between the two get established. So I will start by exploring the nature of the design and the substrate and then explore how I can establish the interaction between the two.
 
-The actual interaction with reality is not directly computable, these are substrate
-level mechanisms that allow the design to intereact with reality. For example, a
-websocket connection. On the other hand, there are other substrte level mechanisms
-like threads or locks which are also essential for the design to realize its intentions
-succesfully. 
+Each behavior in the design is specified as a series of computable transformations using the Design Abstraction Language. Since each of these transformations is directly computable and it can be mapped onto an abstract syntax tree that can be used to synthesize implementations of the design. The implementation can be in any language, the transformations just have to be mapped onto the AST of that language. 
 
-So before every behavior, I will let the design call effects that I have registered with
-the engine. These effects will contain the mechanisms for the design to interact with the
-substrate. This could be creating a thread, or receiving an input from the user. I will
-also allow the user to register custom effects so they have full control, for example,
-this could be a specific API call.
+When the design is manifested in reality, it has to be able to interact with the environment. The environment provides the impulse that ripples through the behaviors of the design until it reaches stability. If the environment provides an impulse that is semantically invalid, then the behavior of the design must reject it. So practically, this means that there has to be a mechanism for the substrate to provide the input from the environment into the design. 
 
-So in this folder, I am going to let the user register effects that will be synthesized
-into the program when substrate level mechanisms are specified. I thought about creating a
-new type of behavior called substrate behavior that is interleaved with the design behavior
-and I still might go this way but for now, I will start with the design specifying an input
-from the user and the engine synthesizing a program that accepts an input from the user
-using an effect.
+In addition to this, when a design experiences concurrency, in reality, this could be realized on multiple threads or machines. The substrate is realizing the design and for example, in this case, the concurrency is enabled using threads. Regardless, the substrate must be able to realize the behaviors concurrently and it has to leverage the right substrate mechanism to make it possible in reality. So this then means that there has to be a mechanism for the substrate to practically realize concurrency.
+
+So I decided that I would register effects with the engine that are leveraged by the design when it is accepting an input from the environment or establishing how the design is realized in reality. I don't think this needs to be so mysterious, it is simply the implementation mechanism but rather than manually creating a control flow outside of the the behaviors to invoke the substrate mechanisms, I decided that I would register it and allow the behaviors to recognize what they need to do. 
+
+It is possible that the best first step is to do this manually with the behaviors being synthesized and a state machine invoking the necessary substrate mechanisms and feeding it into the behaviors. For example, when it gets to the AcceptName behavior, it would invoke the input(" ") mechanism and feed that into the environment of the behavior.
+
+I am exploring all the possibilities to figure out the nuances of how this would work.
