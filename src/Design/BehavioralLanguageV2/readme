@@ -6,3 +6,4 @@ Notes:
 - Is it right to call it a scripting language? It seems more approriate to call it a decleartive language.
 - The invariants should be calculated from the pimitives, this way, the entire flow of the behavioral is configurable insteafd of hardcoding invariants.
 - The last point is more general, it applies to all of the functionality, even when selecting the next behavior based on the world state, that can be done through the primitives. This process doesn't have to be convoluted, I just have to establish the right primitives to make all of this possible.
+- In the long term, there will be a lexer that will generate the syntax tree that is created from the behavioral langugae and it will be compiled to identify errors. Here the compiler is checking the meaning to ensure it is valid before it is synthesized into a program.
