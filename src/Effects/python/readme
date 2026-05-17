@@ -1,4 +1,6 @@
-This folder contains registered substrate effects.
+This folder contains registered substrate effects. These are my initial thoughts and I
+am going to continue expanding on these as I explore the nuances of synthesizing the
+substrate level mechanisms into the program and for learning substrate invariants etc.
 
 ## Logic
 
@@ -13,12 +15,13 @@ like threads or locks which are also essential for the design to realize its int
 succesfully. 
 
 So before every behavior, I will let the design call effects that I have registered with
-the engine. These effects will contain the mechanisms for the design to actually realize
-itself on the substrate. This could be creating a thread, or receiving an input from the
-user. 
+the engine. These effects will contain the mechanisms for the design to interact with the
+substrate. This could be creating a thread, or receiving an input from the user. I will
+also allow the user to register custom effects so they have full control, for example,
+this could be a specific API call.
 
 So in this folder, I am going to let the user register effects that will be synthesized
-into the program when substrate level mechanisms are needed. I thought about creating a
+into the program when substrate level mechanisms are specified. I thought about creating a
 new type of behavior called substrate behavior that is interleaved with the design behavior
 and I still might go this way but for now, I will start with the design specifying an input
 from the user and the engine synthesizing a program that accepts an input from the user
