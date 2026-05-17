@@ -49,12 +49,16 @@ class SetPrimitive extends SemanticPrimitive {
      */
     get_synthesis_meta () {
         return {
-            primitive: "set",
+            type: "set",
             targetParticipantName: this.targetParticipantName,
             keys: this.keys,
-            valueParticipantName: this.valueParticipantName,
+            valueType: {
+                type: "name",
+                value: this.valueParticipantName,
+            },
         };
     }
+
 
     apply_transformations () {
         const value = this.worldState[this.valueParticipantName];
