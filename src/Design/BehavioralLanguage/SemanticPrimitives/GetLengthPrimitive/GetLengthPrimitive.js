@@ -16,6 +16,7 @@ class GetLengthPrimitive extends SemanticPrimitive {
         this._type = "GetLength";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^getLength\s+(\w+)\s+(\w+)$/;
     }
 
     validate_inputs(args) {

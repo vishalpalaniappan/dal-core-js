@@ -18,6 +18,7 @@ class InsertPrimitive extends SemanticPrimitive {
         this._type = "insert";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /insert\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/;
     }
 
     validate_inputs (args) {

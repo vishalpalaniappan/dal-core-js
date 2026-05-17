@@ -18,6 +18,7 @@ class SetPrimitive extends SemanticPrimitive {
         this._type = "set";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^set\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/;
     }
 
     validate_inputs (args) {

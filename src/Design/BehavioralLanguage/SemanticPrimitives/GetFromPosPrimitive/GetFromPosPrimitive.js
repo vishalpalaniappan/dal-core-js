@@ -15,6 +15,7 @@ class GetFromPositionPrimitive extends SemanticPrimitive {
         this._type = "getFromPos";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^getFromPos\s+(.+?)\s+(.+?)\s+(.+?)$/;
     }
 
     validate_inputs(args) {

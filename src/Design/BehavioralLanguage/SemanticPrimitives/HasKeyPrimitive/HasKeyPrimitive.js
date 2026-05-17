@@ -14,6 +14,7 @@ class HasKeyPrimitive extends SemanticPrimitive {
         this._type = "hasKey";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^hasKey\s+(.+?)\s+(.+?)\s+(.+?)(?:\s+(\[[^\]]*\]))?$/;
     }
 
     validate_inputs(args) {

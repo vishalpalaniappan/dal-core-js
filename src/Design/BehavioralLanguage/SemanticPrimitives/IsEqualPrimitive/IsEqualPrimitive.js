@@ -18,6 +18,7 @@ class IsEqualPrimitive extends SemanticPrimitive {
         this._type = "isEqual";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^isEqual\s+(\w+)\s+(\w+)\s+(\w+)$/;
     }
 
     validate_inputs(args) {

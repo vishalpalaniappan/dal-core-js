@@ -18,6 +18,7 @@ class GetPrimitive extends SemanticPrimitive {
         this._type = "get";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^get\s+(.+?)(?:\s+(\[[^\]]*\]))?\s+(.+)$/;
     }
 
     validate_inputs (args) {

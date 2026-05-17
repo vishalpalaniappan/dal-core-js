@@ -16,6 +16,7 @@ class RemoveFromPositionPrimitive extends SemanticPrimitive {
         this._type = "removeFromPos";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^removeFromPos\s+(.+?)\s+(.+?)$/;
     }
 
     validate_inputs (args) {

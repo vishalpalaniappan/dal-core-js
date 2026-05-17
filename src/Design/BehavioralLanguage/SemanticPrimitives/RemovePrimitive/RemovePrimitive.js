@@ -17,6 +17,7 @@ class RemovePrimitive extends SemanticPrimitive {
         this._type = "remove";
         this.validate_inputs(inputs);
         this.worldState = worldstate;
+        this.re = /^remove\s+(.+?)$/;
     }
 
     validate_inputs(args) {
