@@ -38,7 +38,7 @@ class GetPrimitive extends SemanticPrimitive {
             keys: this.keys,
             valueType: {
                 type: "name",
-                value: this.valueParticipantName,
+                value: this.sourceParticipantName,
             },
         };
     }
@@ -55,7 +55,6 @@ class GetPrimitive extends SemanticPrimitive {
                 target = target[key];
             }
         }
-        this.valueParticipantName = target;
 
         this.worldState[this.targetParticipantName] = target;
         return this.worldState;
