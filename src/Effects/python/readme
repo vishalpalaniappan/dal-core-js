@@ -1,0 +1,25 @@
+This folder contains registered substrate effects.
+
+## Logic
+
+The design itself is made of transformations that are directly computable. This
+means that they can synthesized into programs deterministcally using the AST
+mapping for each primitive. 
+
+The actual interaction with reality is not directly computable, these are substrate
+level mechanisms that allow the design to intereact with reality. For example, a
+websocket connection. On the other hand, there are other substrte level mechanisms
+like threads or locks which are also essential for the design to realize its intentions
+succesfully. 
+
+So before every behavior, I will let the design call effects that I have registered with
+the engine. These effects will contain the mechanisms for the design to actually realize
+itself on the substrate. This could be creating a thread, or receiving an input from the
+user. 
+
+So in this folder, I am going to let the user register effects that will be synthesized
+into the program when substrate level mechanisms are needed. I thought about creating a
+new type of behavior called substrate behavior that is interleaved with the design behavior
+and I still might go this way but for now, I will start with the design specifying an input
+from the user and the engine synthesizing a program that accepts an input from the user
+using an effect.
