@@ -1,0 +1,8 @@
+My current goal is to synthesize the library manager from the design and execute it. The synthesized program is what will be loaded into the implementation of the design. 
+
+However as I am workign towards that, I am learning a lot of things which I want to address in my next interation of this laguage. So I am adding this folder as a place for me to leave notes as I identify them. 
+
+Notes: 
+- Is it right to call it a scripting language? It seems more approriate to call it a decleartive language.
+- The invariants should be calculated from the pimitives, this way, the entire flow of the behavioral is configurable insteafd of hardcoding invariants.
+- The last point is more general, it applies to all of the functionality, even when selecting the next behavior based on the world state, that can be done through the primitives. This process doesn't have to be convoluted, I just have to establish the right primitives to make all of this possible.
