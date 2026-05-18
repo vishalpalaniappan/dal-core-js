@@ -21,3 +21,19 @@ I am exploring all the possibilities to figure out the nuances of how this would
 # Update
 
 I manually went through an example where I had the design synthesized into a program. Then I constructed the substrate behaviors around it to enable the design to function and the process is actually much more straight forward than I thought. I think to start, I am not going to bother with effects etc, instead I am going to implement the structure needed myself and invoke the synthesized behaviors in the right substrate. So in the case of the library manager, I would have a mechanism that invokes the atomic behavior and then I would get the substrate input when a book name or the menu choice is accepted. There is no need for threads here but if there was concurrency in the design, I would perform the sustrate configuration before I invoke the behaviors on the relevant substrate. I want to create a few more primitives that will let me select the next behavior in a cleaner way and then I will move forward with the implementation.
+
+# Update
+
+So my implementation will consist of the following: 
+
+- Substrate configurations
+- Import Synthesized behaviors
+- Invoke synthesized behavior
+
+Then before each behavior, the relevate substrate methods will be invoked to get the relevant data from the environment. So for example, if a behavior says that it gets an input from the user, this will call the method that prompts the user for a value. This is then fed into the behavior. 
+
+I like this separation because it lets me configure the substrate, import the synthesized behaviors and then invoke the design by feeding it impulses from the environment. It is also easier to implement because it lets me configure the substrate mechanisms myself and invoke them as needed. So if the design says a participant is an input, then this has unambiguous meaning.
+
+I am going to start working through more interesting examples and then I will work through the nuances of the problem as I work towards a complete solution. There are some interesting cases I can think of now, like what happens if a websocket connection dies in the middle of a design path that has multiple inputs from a websocket, from the designs perspective the environment is unavailable. This ofcourse becomes something the design needs to account for to continue realizing its intentions, but all of this needs to be addressed in time, I will build up the knowledge with smaller case studies.
+
+So I am first going to work towards producing a synthesized behavior package for a design and then I will implement the substrate level mechanisms and then connect them together.
