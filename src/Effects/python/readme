@@ -17,3 +17,7 @@ So I decided that I would register effects with the engine that are leveraged by
 It is possible that the best first step is to do this manually with the behaviors being synthesized and a state machine invoking the necessary substrate mechanisms and feeding it into the behaviors. For example, when it gets to the AcceptName behavior, it would invoke the input(" ") mechanism and feed that into the environment of the behavior.
 
 I am exploring all the possibilities to figure out the nuances of how this would work.
+
+# Update
+
+I manually went through an example where I had the design synthesized into a program. Then I constructed the substrate behaviors around it to enable the design to function and the process is actually much more straight forward than I thought. I think to start, I am not going to bother with effects etc, instead I am going to implement the structure needed myself and invoke the synthesized behaviors in the right substrate. So in the case of the library manager, I would have a mechanism that invokes the atomic behavior and then I would get the substrate input when a book name or the menu choice is accepted. There is no need for threads here but if there was concurrency in the design, I would perform the sustrate configuration before I invoke the behaviors on the relevant substrate. I want to create a few more primitives that will let me select the next behavior in a cleaner way and then I will move forward with the implementation.
