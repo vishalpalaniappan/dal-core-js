@@ -59,3 +59,22 @@ If a behavior requires an input from the environment, I get it and then I invoke
 With this approach, I can very quickly setup the substrate mechanism and then connect it to the synthesized behaviors. 
 
 This is more manual than what I imagine the final solution will look like but that isn't a problem, this will provide me with everything I need and I can start identifying substrate invariants and learning from them.
+
+# Update
+
+I manually implemented a design with the approach mentioned above and it worked well. 
+
+The plan is as follows:
+- Add more primitives to the semantic language and clean up that implementation
+- Synthesize all the behaviors from the design as importable modules, and place in implementation folder automatically
+- For now, the synthesis will happen by calling a python program using a node script
+- In implementation mode in the workbench, import the synthesized nodule
+- Configure the substrate, start at atomic behavior and accept environmental impulses as needed while propogating behaviors forward
+- Once behavior impulse is stable (no propogation), start at atomic behavior again
+
+With this, I will be able to establish a design, synthesize it, execute it on the chosen substrate and feed that back into the debugger and learn itself.
+
+When the design can be executed on its own, it doesn't have a substrate, I provide it the inputs based on its type (this will let me establish the design and its
+invariants without the substrate).
+
+I will likely share implementation updates over the course of the week.
