@@ -47,6 +47,7 @@ In my initial implementation, I intend to use an approach like this:
 ```
 if behavior == "behavior_A"
     input = invoke_substrate_input()
+    args.input = input
     synthesized_behaviors.invoke(behavior, args)
 else:
     synthesized_behaviors.invoke(behavior, args)
