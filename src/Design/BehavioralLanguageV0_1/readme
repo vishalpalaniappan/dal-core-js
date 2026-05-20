@@ -25,13 +25,23 @@ Ongoing list:
 
 Ongoing list:
 - If block 
-    - This will contain the ability to execute logic based on the logical evaluation.
-    - Currently, this will only establish an if else block. In the end, multiple if statements are just nested if statements where the else blocks evaluates the next if condition, so making that leap later won't be difficult.
+- This will contain the ability to execute logic based on the logical evaluation.
+- Currently, this will only establish an if else block. In the end, multiple if statements are just nested if statements where the else blocks evaluates the next if condition, so making that leap later won't be difficult.
 
 
 ## Derived-Behavior-Lifecycle Primitives (upcoming)
 
 These are functional blocks of a behavior lifecycle and they are derived from the atomic 
-- Require (Check if world state has the necessary keys)
-- Select (If world state statisfies condition, then set variable name)
-- Invairant (Check if participant satisfies conditions)
+- Require 
+- Select
+- Invairant 
+
+Right now, I am only going to use axiomatic primitives to establish this. 
+
+The technique I am going to use is, I will have a participant hold the result of the operation with a given convention. I won't propogate these participants forward through the world state.
+
+- require result is under `lifecycle_require_<name>` with the value being the result.
+- select is simple `select_behavior `
+- invariant is `invariant_<participant>_<type>`.
+
+I am essentially just writing the script with axiomatic primitives and then using participants to store the results. I am doing it this way as my incremental approach because I want to establish the synthesis using the primitives by providing their AST mapping. Then I will build larger abstractions.
