@@ -36,7 +36,7 @@ These are functional blocks of a behavior lifecycle and they are derived from th
 
 Right now, I am only going to use axiomatic primitives to establish this, meaning it will have to be implemented using the axiomatic primitives. I will have a participant hold the result of the operation with a given convention. 
 
-- select is simple `select_behavior `
+- select is `select_behavior `
 
 I am essentially just writing the script with axiomatic primitives and then using participants to store the results. I am doing it this way as my incremental approach because I want to establish the synthesis using the primitives by providing their AST mapping. Then I will build larger abstractions.
 
@@ -45,7 +45,10 @@ I am essentially just writing the script with axiomatic primitives and then usin
 - Require 
 - Invairant 
 
-These are pirmitives that are invoked by the debugger to establish the correctness of the behavior.
+These are pirmitives that are invoked by the debugger to establish the correctness of the behavior. 
 
 - require result is under `lifecycle_require_<name>` with the value being the result.
 - invariant is `invariant_<participant>_<type>`.
+
+As I am working through this new approach of using the synthesized program, I want to migrate the debugger to use the synthesized output to evaluate the correctness of the behavior. Ultimately, I want everything relevant to the behavior to be specified in the behavioral language, so this means invariants, require etc will have to be synthesized and evaluated. I feel that this approach is effective because it gives the developer complete control, it makes the engine itself just a computer and the develop establishes the intelligence. 
+
