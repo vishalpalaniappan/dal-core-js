@@ -32,16 +32,20 @@ Ongoing list:
 ## Derived-Behavior-Lifecycle Primitives (upcoming)
 
 These are functional blocks of a behavior lifecycle and they are derived from the atomic 
-- Require 
 - Select
-- Invairant 
 
-Right now, I am only going to use axiomatic primitives to establish this. 
+Right now, I am only going to use axiomatic primitives to establish this, meaning it will have to be implemented using the axiomatic primitives. I will have a participant hold the result of the operation with a given convention. 
 
-The technique I am going to use is, I will have a participant hold the result of the operation with a given convention. I won't propogate these participants forward through the world state.
-
-- require result is under `lifecycle_require_<name>` with the value being the result.
 - select is simple `select_behavior `
-- invariant is `invariant_<participant>_<type>`.
 
 I am essentially just writing the script with axiomatic primitives and then using participants to store the results. I am doing it this way as my incremental approach because I want to establish the synthesis using the primitives by providing their AST mapping. Then I will build larger abstractions.
+
+## Derived-Behavior-Debugger Pirmitives
+
+- Require 
+- Invairant 
+
+These are pirmitives that are invoked by the debugger to establish the correctness of the behavior.
+
+- require result is under `lifecycle_require_<name>` with the value being the result.
+- invariant is `invariant_<participant>_<type>`.
