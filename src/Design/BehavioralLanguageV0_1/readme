@@ -24,7 +24,10 @@ Ongoing list:
 ## Functional Primitives:
 
 Ongoing list:
-- If block - This will contain the ability to execute logic based on the logical evaluation.
+- If block 
+    - This will contain the ability to execute logic based on the logical evaluation.
+    - Currently, this will only establish an if else block. In the end, multiple if statements are just nested if statements where the else blocks evaluates the next if condition, so making that leap later won't be difficult.
+
 
 ## Derived-Behavior-Lifecycle Primitives (upcoming)
 
