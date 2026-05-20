@@ -12,19 +12,19 @@ Notes:
 
 In this version, I will be more faithful to my initial plan of using Axiomatic Primitives to build Derived Primitives and then use those to build composite behaviors. In my first iteration, I will actually write the derived primitives using the axiomatic primitives (i.e. I won't be abstracting them yet). However, since I will be building them from the axiomatic primitives, establishing the abstraction later won't be difficult. I also am taking an incremental step and am not yet establishing a language with a lexer etc, I am still using basic regex parsing to work through the core functionality of synthesizing the program and executing it.
 
-    ## Axiomatic Primitives
+## Axiomatic Primitives
 
-    Ongoing list:
-    - Create Primitive
-    - Get Primitive
-    - Set Primitive
-    - Delete Primitive
-    - BinOp Primitive
+Ongoing list:
+- Create Primitive
+- Get Primitive
+- Set Primitive
+- Delete Primitive
+- BinOp Primitive
 
-    ## Functional Primitives:
+## Functional Primitives:
 
-    Ongoing list:
-    - If block - This will contain the ability to execute logic based on the logical evaluation.
+Ongoing list:
+- If block - This will contain the ability to execute logic based on the logical evaluation.
 
 ## Derived-Behavior-Lifecycle Primitives (upcoming)
 
