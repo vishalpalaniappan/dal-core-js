@@ -7,3 +7,28 @@ Notes:
 - The invariants should be calculated from the pimitives, this way, the entire flow of the behavioral is configurable insteafd of hardcoding invariants.
 - The last point is more general, it applies to all of the functionality, even when selecting the next behavior based on the world state, that can be done through the primitives. This process doesn't have to be convoluted, I just have to establish the right primitives to make all of this possible.
 - In the long term, there will be a lexer that will generate the syntax tree that is created from the behavioral langugae and it will be compiled to identify errors. Here the compiler is checking the meaning to ensure it is valid before it is synthesized into a program.
+
+# Planning
+
+In this version, I will be more faithful to my initial plan of using Axiomatic Primitives to build Derived Primitives and then use those to build composite behaviors. In my first iteration, I will actually write the derived primitives using the axiomatic primitives (i.e. I won't be abstracting them yet). However, since I will be building them from the axiomatic primitives, establishing the abstraction later won't be difficult. I also am taking an incremental step and am not yet establishing a language with a lexer etc, I am still using basic regex parsing to work through the core functionality of synthesizing the program and executing it.
+
+    ## Axiomatic Primitives
+
+    Ongoing list:
+    - Create Primitive
+    - Get Primitive
+    - Set Primitive
+    - Delete Primitive
+    - BinOp Primitive
+
+    ## Functional Primitives:
+
+    Ongoing list:
+    - If block - This will contain the ability to execute logic based on the logical evaluation.
+
+## Derived-Behavior-Lifecycle Primitives (upcoming)
+
+These are functional blocks of a behavior lifecycle and they are derived from the atomic 
+- Require (Check if world state has the necessary keys)
+- Select (If world state statisfies condition, then set variable name)
+- Invairant (Check if participant satisfies conditions)
