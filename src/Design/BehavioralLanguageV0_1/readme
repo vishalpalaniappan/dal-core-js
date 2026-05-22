@@ -1,16 +1,8 @@
-My current goal is to synthesize the library manager from the design and execute it. The synthesized program is what will be loaded into the implementation of the design. 
-
-However as I am workign towards that, I am learning a lot of things which I want to address in my next interation of this laguage. So I am adding this folder as a place for me to leave notes as I identify them. 
-
-Notes: 
-- Is it right to call it a scripting language? It seems more approriate to call it a decleartive language.
-- The invariants should be calculated from the pimitives, this way, the entire flow of the behavioral is configurable insteafd of hardcoding invariants.
-- The last point is more general, it applies to all of the functionality, even when selecting the next behavior based on the world state, that can be done through the primitives. This process doesn't have to be convoluted, I just have to establish the right primitives to make all of this possible.
-- In the long term, there will be a lexer that will generate the syntax tree that is created from the behavioral langugae and it will be compiled to identify errors. Here the compiler is checking the meaning to ensure it is valid before it is synthesized into a program.
+My current goal is to synthesize the library manager from the design and execute it. The synthesized program along with the substrate configuration will be the implementation of the design stored in the engine.
 
 # Planning
 
-In this version, I will be more faithful to my initial plan of using Axiomatic Primitives to build Derived Primitives and then use those to build composite behaviors. In my first iteration, I will actually write the derived primitives using the axiomatic primitives (i.e. I won't be abstracting them yet). However, since I will be building them from the axiomatic primitives, establishing the abstraction later won't be difficult. I also am taking an incremental step and am not yet establishing a language with a lexer etc, I am still using basic regex parsing to work through the core functionality of synthesizing the program and executing it.
+In this version, I will be more faithful to my initial plan of using Axiomatic Primitives to build Derived Primitives and then use those to build composite behaviors. In my first iteration, I will actually write the derived primitives using the axiomatic primitives (i.e. I won't be abstracting them yet). However, since I will be building them from the axiomatic primitives, establishing the derived primitive abstraction later won't be difficult. I also am taking an incremental step and am not yet establishing a language with a lexer etc, I am still using basic regex parsing to work through the core functionality of synthesizing the program and executing it.
 
 ## Axiomatic Primitives
 
@@ -21,26 +13,30 @@ Ongoing list:
 - Delete Primitive
 - BinOp Primitive
 
-## Functional Primitives:
+These will be mapped onto the Abstract Syntax Tree (AST) of its implementation and used to synthesize the behavior. 
+
+## Structural Primitives:
 
 Ongoing list:
 - If block 
-- This will contain the ability to execute logic based on the logical evaluation.
-- Currently, this will only establish an if else block. In the end, multiple if statements are just nested if statements where the else blocks evaluates the next if condition, so making that leap later won't be difficult.
+  - This will contain the ability to execute logic based on the logical evaluation.
+  - Currently, this will only establish an if else block. In the end, multiple if statements are just nested if statements where the else blocks evaluates the next if condition, so making that leap later won't be difficult.
+- While Block
+  - Repeat logical block while condition is met
 
+These structural primitives establish the logic within the behavioral language. These will be synthesized into an AST where the contents of its body are axiomatic primitives which will themselves be synthesized. The core idea with this language that it establishes meaning, so now this takes the next step and establishes the meaning of the logic.
+
+## Derived Primitives
+
+In the sections below, I am essentially just writing the script with axiomatic and structural primitives and then using meta participants (thinking of a better name) to store the results. These aren't actual world participants, they just hold the metadata and the runtime can use it as needed. For example, it can store the next behavior to select based on the world state.
 
 ## Derived-Behavior-Lifecycle Primitives (upcoming)
 
-These are functional blocks of a behavior lifecycle and they are derived from the atomic 
 - Select
-
-I will have a meta participant hold the result of the operation with a given convention. 
-
-- select is `select_behavior `
-
-I am essentially just writing the script with axiomatic primitives and then using meta participants to store the results. These aren't actual world participants, they just hold the metadata and the runtime can use it as needed. In this case, it determines the next behavior revealed by the world state.
-
-TODO: Maybe calling it meta participant is actually confusing and I should think of another name.
+  - Based on the current world state, ths primitive selects the next behavior to exhibit. 
+  - This is synthesized into the behavior becasue it is used during runtime.
+  - As the intro paragraph above states, currently, in the behavioral language, this is established using the axiomatic and structural primitives and the result is stored in a meta participant with an unambiguous naming convention.
+  - The naming convention that I am using is `behavior_select_<name>`
 
 ## Derived-Behavior-Debugger Pirmitives
 
@@ -52,5 +48,14 @@ These are pirmitives that are invoked by the debugger to establish the correctne
 - require result is under `lifecycle_require_<name>` with the value being the result.
 - invariant is `invariant_<participant>_<type>`.
 
-As I am working through this new approach of using the synthesized program, I want to migrate the debugger to use the synthesized output to evaluate the correctness of the behavior. Ultimately, I want everything relevant to the behavior to be specified in the behavioral language, so this means invariants, require etc will have to be synthesized and evaluated. I feel that this approach is effective because it gives the developer complete control, it makes the engine itself just a computer and the develop establishes the intelligence.
+As I am working through this new approach of using the synthesized program, I want to migrate the debugger to use the synthesized output to evaluate the correctness of the behavior. Ultimately, everything relevant to the behavior will be specified in the behavioral language, so this means invariants, require etc will have to be synthesized and evaluated (although they are not part of the core behavior). I feel that this approach is effective because it gives the developer complete control, it makes the engine itself just a computer and the developer establishes the intelligence through the language. I will define this further as I implement it and work through the nuances.
+
+## Notes
+
+Some ongoing notes highlighting the changes I want to make in the coming iterations of this language. Some of this might be repetitive because I first add the notes here and then it gets incorporated into the planning.
+
+- Is it right to call it a scripting language? It seems more approriate to call it a declarative language.
+- The invariants should be calculated from the pimitives, this way, the entire flow of the behavioral is configurable insteafd of hardcoding invariants.
+- The last point is more general, it applies to all of the functionality, even when selecting the next behavior based on the world state, that can be done through the primitives. This process doesn't have to be convoluted, I just have to establish the right primitives to make all of this possible.
+- In the long term, there will be a lexer that will generate the syntax tree that is created from the behavioral langugae and it will be compiled to identify errors. Here the compiler is checking the meaning to ensure it is valid before it is synthesized into a program.
 
