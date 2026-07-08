@@ -1,3 +1,5 @@
+import BehavioralLanguageParser from "./BehavioralLanguageParser";
+
 export const GetSynthesisPackage = (script) => {
 
     /**
@@ -11,14 +13,15 @@ export const GetSynthesisPackage = (script) => {
      */
 
     const synthesisMeta = [];
+    const parser = new BehavioralLanguageParser();
+    let executionOutput;
 
-    for (const line of this.script) {
+    for (const line of script) {
         if (line.trim().startsWith("#")) {
             // Comment line or empty line, skip
             continue;
         }
 
-        let executionOutput;
         try {
             /**
              * TODO:
@@ -38,16 +41,21 @@ export const GetSynthesisPackage = (script) => {
              * and then I will build cleanly with everything I've learned.
              */
             const worldState = null;
-            executionOutput = this.BehavioralLanguageParser.execute(
-                line, worldState, this.args
+            executionOutput = parser.execute(
+                line.trim(), worldState, {}
             );
             if (executionOutput?.synthesisMeta) {
                 synthesisMeta.push(executionOutput.synthesisMeta);
             }
         } catch (error) {
-            console.error(`Error executing line "${line}": ${error.message}`);
+            // Surupressing error log for now because some of the
+            // errors are intentional while I implement the rest
+            // of the function.
+            // console.error(
+            // `Error executing line "${line}": ${error.message}`
+            // );
         }
     }
-
+    console.log(synthesisMeta);
 }
 
