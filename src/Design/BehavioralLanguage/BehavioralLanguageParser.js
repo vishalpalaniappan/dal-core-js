@@ -156,6 +156,7 @@ class BehavioralLanguageParser {
             valueParticipantName: valuePName,
         };
         const prim = new SetPrimitive(input, participants);
+        const updatedParticipants = prim.apply_transformations();
         return {
             participants: updatedParticipants,
             output: null,
