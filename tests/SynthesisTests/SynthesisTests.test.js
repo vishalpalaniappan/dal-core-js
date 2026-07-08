@@ -45,7 +45,9 @@ describe("tests synthesis meta output", () => {
                 select AcceptName if is_length_correct
         `;
 
-        const output = GetSynthesisPackage(s.split("\n"));
+        b.setScript(s);
+
+        const output = b.generateSynthesisPackage();
         console.log(output);
 
         // const filePath2 = resolve(__dirname, "../temp/synthPackage.json")

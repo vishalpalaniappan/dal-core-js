@@ -6,6 +6,7 @@ import ParticipantAlreadyExistsError from "../Errors/ParticipantAlreadyExistsErr
 import UnknownParticipantError from "../Errors/UnknownParticipantError";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
 import ENGINE_TYPES from "../TYPES";
+import {GetSynthesisPackage} from "./BehavioralLanguage/GetSynthesisPackage.js";
 import SemanticEvaluator from "./BehavioralLanguage/SemanticEvaluator.js";
 import Participant from "./Participant";
 
@@ -324,6 +325,17 @@ class Behavior extends Base {
             input: input,
             output: evaluator.output,
         };
+    }
+
+    /**
+     * Generates the synthesis package for the behavior.
+     * @returns {Object} synthPkg Synthesis package.
+     */
+    generateSynthesisPackage () {
+        const primitives = this._script.split("\n")
+            .map(line => line.trim()).filter(line => line.length > 0);
+        const synthPkg = GetSynthesisPackage(primitives);
+        return synthPkg
     }
 
     /**
