@@ -156,7 +156,7 @@ class BehavioralLanguageParser {
             valueParticipantName: valuePName,
         };
         const prim = new SetPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -173,7 +173,7 @@ class BehavioralLanguageParser {
             index: parseInt(position),
         };
         const prim = new InsertPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -189,7 +189,7 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         const prim = new GetPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -205,7 +205,7 @@ class BehavioralLanguageParser {
             value: value,
         };
         const prim = new CreatePrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -219,7 +219,7 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         const prim = new RemovePrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -235,7 +235,7 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         const prim = new GetFromPosPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -250,7 +250,7 @@ class BehavioralLanguageParser {
             position: parseInt(position),
         };
         const prim = new RemoveFromPositionPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -265,7 +265,7 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         const prim = new GetLengthPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -281,7 +281,7 @@ class BehavioralLanguageParser {
             targetParticipantName: targetPName,
         };
         const prim = new IsEqualPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
@@ -298,7 +298,7 @@ class BehavioralLanguageParser {
             keys: JSON.parse(keys),
         };
         const prim = new HasKeyPrimitive(input, participants);
-        const updatedParticipants = prim.apply_transformations();
+        const updatedParticipants = participants?prim.apply_transformations():null;
         return {
             participants: updatedParticipants,
             output: null,
