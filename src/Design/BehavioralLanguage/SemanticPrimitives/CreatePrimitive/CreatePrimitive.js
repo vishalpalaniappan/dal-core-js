@@ -47,13 +47,15 @@ class CreatePrimitive extends SemanticPrimitive {
      * @returns {Object} metadata for code synthesis
      */
     get_synthesis_meta () {
+        // TODO: Set type dynamically, currently it is
+        // always a constant.
         return {
             type: "set",
             targetParticipantName: this.targetParticipantName,
             keys: [],
             valueType: {
                 type: "constant",
-                value: this.worldState[this.targetParticipantName],
+                value: this.targetParticipantName,
             },
         };
     }
