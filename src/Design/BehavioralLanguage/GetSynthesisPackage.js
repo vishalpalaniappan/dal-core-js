@@ -10,6 +10,28 @@ export const GetSynthesisPackage = (script) => {
      * a separate tool. In the future, it will be integrated into the engine.
      */
 
+    const synthesisMeta = [];
+
+    for (const line of this.script) {
+        if (line.trim().startsWith("#")) {
+            // Comment line or empty line, skip
+            continue;
+        }
+
+        let executionOutput;
+        try {
+            // Worldstate null to only get the synthesis meta
+            const worldState = null;
+            executionOutput = this.BehavioralLanguageParser.execute(
+                line, worldState, this.args
+            );
+            if (executionOutput?.synthesisMeta) {
+                synthesisMeta.push(executionOutput.synthesisMeta);
+            }
+        } catch (error) {
+            console.error(`Error executing line "${line}": ${error.message}`);
+        }
+    }
 
 }
 
