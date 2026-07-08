@@ -56,6 +56,6 @@ export const GetSynthesisPackage = (script) => {
             // );
         }
     }
-    console.log(synthesisMeta);
+    return synthesisMeta;
 }
 
