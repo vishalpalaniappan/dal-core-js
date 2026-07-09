@@ -297,16 +297,6 @@ class Behavior extends Base {
         );
         evaluator.run();
 
-        if (evaluator?.output?.synthesisMeta) {
-            const synthPackage = {};
-            synthPackage["behavior"] = this._name;
-            synthPackage["pre_participants"] = Object.keys(this._preWorldState);
-            synthPackage["post_participants"] = Object.keys(this._postWorldState);
-            synthPackage["transformations"] = evaluator.output.synthesisMeta;
-            evaluator.output.synthPackage = synthPackage;
-            delete evaluator.output.synthesisMeta;
-        }
-
         const input = {
             script: this._script,
             preWorldState: this._preWorldState,
