@@ -335,7 +335,8 @@ class Behavior extends Base {
         const primitives = this._script.split("\n")
             .map(line => line.trim()).filter(line => line.length > 0);
         const synthPkg = GetSynthesisPackage(primitives);
-        return synthPkg
+        synthPkg["behavior"] = this._name;
+        return synthPkg;
     }
 
     /**
