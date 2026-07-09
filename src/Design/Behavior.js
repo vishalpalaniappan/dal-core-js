@@ -334,9 +334,10 @@ class Behavior extends Base {
     generateSynthesisPackage () {
         const primitives = this._script.split("\n")
             .map(line => line.trim()).filter(line => line.length > 0);
-        const synthPkg = GetSynthesisPackage(primitives);
-        synthPkg["behavior"] = this._name;
-        return synthPkg;
+        return {
+            "behavior": this._name,
+            "transformations": GetSynthesisPackage(primitives),
+        }
     }
 
     /**
