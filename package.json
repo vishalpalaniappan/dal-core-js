@@ -1,6 +1,6 @@
 {
     "name": "dal-engine-core-js-lib-dev",
-    "version": "0.0.59-dev-2",
+    "version": "0.0.61-dev-2",
     "main": "dist/index.cjs",
     "module": "dist/index.esm.js",
     "type": "module",
