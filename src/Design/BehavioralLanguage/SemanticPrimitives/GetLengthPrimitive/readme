@@ -1,0 +1,40 @@
+### Get Length Primitive
+
+The get primitive will get a value from the source and save it in the target.
+
+```text
+getLength <participant> <target>
+```
+Syntax Structure:
+- `get`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<participant>` 
+    * Type: *string*
+    * This is the name of the participant whose length will be read.
+- `<target>` 
+    * Type: *string*
+    * This is the name of the participant the value will be saved in.
+
+#### Example 1:
+Gets the length of a string.
+
+```text
+create number name_length
+getLength name name_length
+```
+
+Pre-transformation state:
+```text
+{
+    "name": "Book Name"
+}
+```
+
+Post-transformation state:
+```text
+{
+    "name": "Book Name",
+    "name_length": 9
+}
+```

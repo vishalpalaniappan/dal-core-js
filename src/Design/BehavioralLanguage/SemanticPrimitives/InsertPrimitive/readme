@@ -1,0 +1,68 @@
+### Insert Primitive
+
+The insert primitive will insert a value into a participant or the key of a participant. It will throw an error if the target participant or the key of the target participant is not an array.
+
+```text
+insert <value_participant> <target_participant> [keys] <position>
+```
+Syntax Structure:
+- `insert`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<value_participant>` 
+    * Type: *string*
+    * This is the name of the participant whose value will be inserted.
+- `<target_participant>` 
+    * Type: *string*
+    * This is the name of the participant that the value will be inserted into.
+- `[keys]` 
+    * Type: *Array*
+    * This is an array of strings, representing the key path to key value to insert.
+    * For example, ["a","b"] will be target_participant["a"]["b"]
+    * If the key is specified as [], it indicates that the value should be directly assigned to the participant.
+
+#### Example 1:
+Inserts the book participant into the basket participant at index 0. It expects basket to be an array.
+
+```text
+insert book basket [] 0
+```
+
+Pre-transformation state:
+```text
+    {
+        book: {"name": "Harry Potter"},
+        basket: [],
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        book: {"name": "Harry Potter"},
+        basket: [{"name": "Harry Potter"}],
+    }
+```
+
+#### Example 2:
+Inserts the book participant into the basket participant's `contents` key. It expets the contents key of the basket to be an array.
+
+```text
+insert book basket ["contents"] 0
+```
+
+Pre-transformation state:
+```text
+    {
+        book: {"name": "Harry Potter"},
+        basket: {"contents": []},
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        book: {"name": "Harry Potter"},
+        basket: {"contents": [{"name": "Harry Potter"}]},
+    }
+```
