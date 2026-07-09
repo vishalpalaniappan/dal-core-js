@@ -145,7 +145,9 @@ class BehavioralLanguageParser {
     executeRequire (script, participants, args) {
         const [, participantName, input, keys, value] = script.match(this.re["REQUIRE_RE"]);
         const requirePrimitive = new RequirePrimitive(participants, args);
-        return requirePrimitive.run(participantName, input, keys, value);
+        const result = participants?requirePrimitive.run(participantName, input, keys, value):{};
+        result["synthesisMeta"] = requirePrimitive.get_synthesis_meta(participantName);
+        return result
     }
 
     executeSet (script, participants) {
