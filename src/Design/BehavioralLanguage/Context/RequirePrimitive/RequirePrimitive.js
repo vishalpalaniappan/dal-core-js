@@ -90,11 +90,13 @@ class RequirePrimitive extends SemanticPrimitive {
     /**
      * Indiciate that this participant has to be logged.
      * @param {*} participantName Name of participant being logged.
-     * @returns
+     * @param {*} input Is the argument an input
+     * @returns {Object}
      */
-    get_synthesis_meta (participantName) {
+    get_synthesis_meta (participantName, input) {
         return {
             type: "log",
+            isInput: input?true:false,
             participant: participantName,
         }
     }
