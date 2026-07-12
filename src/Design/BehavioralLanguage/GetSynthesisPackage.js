@@ -48,12 +48,9 @@ export const GetSynthesisPackage = (script) => {
                 synthesisMeta.push(executionOutput.synthesisMeta);
             }
         } catch (error) {
-            // Surupressing error log for now because some of the
-            // errors are intentional while I implement the rest
-            // of the function.
-            // console.error(
-            // `Error executing line "${line}": ${error.message}`
-            // );
+            console.error(
+            `Error executing line "${line}": ${error}`
+            );
         }
     }
     return synthesisMeta;
