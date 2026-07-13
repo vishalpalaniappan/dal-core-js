@@ -19,7 +19,18 @@ class GetLengthPrimitive extends SemanticPrimitive {
         this.re = /^getLength\s+(\w+)\s+(\w+)$/;
     }
 
-    validate_inputs(args) {
+    get_synthesis_meta () {
+        return {
+            type: "getLength",
+            targetParticipantName: this.targetParticipantName,
+            valueType: {
+                type: "name",
+                value: this.sourceParticipantName,
+            },
+        };
+    }
+
+    validate_inputs (args) {
         const expectedArgs = ["sourceParticipantName", "targetParticipantName"];
         const missingKeys = expectedArgs.filter(key => !(key in args));
 
