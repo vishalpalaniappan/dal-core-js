@@ -1,0 +1,55 @@
+### IsEqual Primitive
+
+The IsEqual primitive compares two participants and assigns the boolean result to the target.
+
+```text
+isEqual <left> <right> <target>
+```
+
+Syntax Structure:
+- `isEqual`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<left>`
+    * Type: *string*
+    * This is the name of the first participant being compared.
+- `<right>`
+    * Type: *string*
+    * This is the name of the second participant being compared.
+- `<target>`
+    * Type: *string*
+    * This is the name of the participant that will store the result.
+
+TODO: Use type metadata to validate if the participants are of correct type.
+
+#### Example 1:
+Checks if two letters are equal.
+
+
+Semantic Model
+```text
+create result boolean
+isEqual first_letter expected_letter result
+```
+
+Synthesized
+```text
+result = False
+result = (expected_letter == first_letter)
+```
+
+
+#### Example 2:
+Checks if two book names are not equal.
+
+Semantic Model
+```text
+create result boolean
+isEqual book_name expected_name result
+```
+
+Synthesized
+```text
+result = False
+result = (expected_name == book_name)
+```
