@@ -320,7 +320,7 @@ class BehavioralLanguageParser {
             flagParticipantName: flagParticipantName,
         };
         const prim = new SelectPrimitive(input, participants);
-        const output = prim.apply_transformations();
+        const output = participants?prim.apply_transformations():null;
         return {
             participants: participants,
             output: output,
