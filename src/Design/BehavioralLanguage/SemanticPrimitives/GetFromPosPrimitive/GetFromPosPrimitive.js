@@ -31,6 +31,31 @@ class GetFromPositionPrimitive extends SemanticPrimitive {
         this.targetParticipantName = args.targetParticipantName;
     }
 
+    /**
+     * Returns metadata necessary to synthesize code for the
+     * getFromPos primitive.
+     *
+     * Example:
+     * {
+     *      type: "getFromPos",
+     *      sourceParticipantName: bookName
+     *      position: 0,
+     *      targetParticipantName: firstLetter
+     * }
+     *
+     * firstLetter = bookName[0]
+     *
+     * @returns {Object} Metadata to synthesize statement.
+     */
+    get_synthesis_meta () {
+        return {
+            type: "getFromPos",
+            sourceParticipantName: this.sourceParticipantName,
+            position: this.position,
+            targetParticipantName: this.targetParticipantName,
+        };
+    }
+
     apply_transformations() {
         const source = this.worldState[this.sourceParticipantName];
 
