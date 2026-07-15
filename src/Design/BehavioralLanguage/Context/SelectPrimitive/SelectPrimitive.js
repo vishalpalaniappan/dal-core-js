@@ -10,7 +10,19 @@ class SelectPrimitive extends SemanticPrimitive {
      *
      * Selects the next behavior to execute.
      * If a flag participant is provided, the behavior
-     * is only selected when the flag evaluates to "1".
+     * is only selected when the flag evaluates to true.
+     *
+     * TODO:
+     * After I expand the BSL to include conditional
+     * operators, I will move the select primitive to the
+     * actual script, where users can write:
+     *
+     * if <flagParticipant>:
+     *    set nextBehavior string <behaviorName>
+     *
+     * Until I do that, this is a temporary solution to
+     * select the next behavior based on the world state
+     * so that I can establish the synthesis pipeline.
      *
      * @param {Object} inputs
      * @param {Object} worldstate
