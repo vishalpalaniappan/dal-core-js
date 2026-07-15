@@ -13,7 +13,7 @@ class IsEqualPrimitive extends SemanticPrimitive {
      * @param {Object} inputs
      * @param {Object} worldstate
      */
-    constructor(inputs, worldstate) {
+    constructor (inputs, worldstate) {
         super("isEqual");
         this._type = "isEqual";
         this.validate_inputs(inputs);
@@ -41,6 +41,30 @@ class IsEqualPrimitive extends SemanticPrimitive {
         this.leftParticipantName = args.leftParticipantName;
         this.rightParticipantName = args.rightParticipantName;
         this.targetParticipantName = args.targetParticipantName;
+    }
+
+    /**
+     * Returns metadata necessary to synthesize code for the isEqual primitive.
+     *
+     * Example:
+     * {
+     *      type: "isEqual",
+     *      targetParticipant: isSameName
+     *      left: name,
+     *      right: bookName
+     * }
+     *
+     * isSameName = (name == bookName)
+     *
+     * @returns {Object} Metadata to synthesize statement.
+     */
+    get_synthesis_meta () {
+        return {
+            type: "isEqual",
+            targetParticipant: this.targetParticipantName,
+            left: this.leftParticipantName,
+            right: this.rightParticipantName,
+        };
     }
 
     apply_transformations() {
