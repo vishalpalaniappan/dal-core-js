@@ -37,6 +37,11 @@ class BehavioralLanguageParser {
      * and then propogate the world state forward to the next
      * primitive.
      *
+     * TODO:
+     * I will be removing all the transformations that are performed
+     * by the engine and only generate the metadata to enable the
+     * synthesis of behaviors.
+     *
      * See readme in semantic primitives folder for more details.
      */
     constructor () {
