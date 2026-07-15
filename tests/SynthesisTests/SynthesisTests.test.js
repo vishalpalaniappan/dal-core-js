@@ -29,6 +29,7 @@ describe("tests synthesis meta output", () => {
                 create expected_length number 5
                 get book ["name"] book_name
                 getLength text text_length
+                getFromPos book_name 0 firstLetter
                 isEqual text_length expected_length is_length_correct
                 validate transformation
 
