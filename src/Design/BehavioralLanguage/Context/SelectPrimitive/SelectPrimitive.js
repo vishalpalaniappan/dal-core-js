@@ -42,6 +42,48 @@ class SelectPrimitive extends SemanticPrimitive {
             args.flagParticipantName || null;
     }
 
+    /**
+     * Returns metadata necessary to synthesize code for the set primitive.
+     * This method is used by the code synthesis process to understand how to
+     * generate code that realizes the semantics of the set operation.
+     *
+     * Example:
+     * {
+     *      type: "selectNextBehavior",
+     *      nextBehavior: "acceptBook"
+     * }
+     * 
+     * nextBehavior = "acceptBook"
+     *
+     * Example:
+     * {
+     *      type: "selectNextBehavior",
+     *      nextBehavior: "acceptBook"
+     *      flagParticipantName: "isAcceptBook"
+     * }
+     *
+     * if (isAcceptBook):
+     *      nextBehavior = "acceptBook"
+     *
+     * @returns {Object} Metadata to synthesize program.
+     */
+    get_synthesis_meta () {
+
+        if (this.flagParticipantName !== null) {
+            return {
+                type: "selectNextBehaviorConditional",
+                nextBehavior: this.behaviorName,
+                hasFlag: this.flagParticipantName !== null,
+                flagParticipantName: this.flagParticipantName,
+            };
+        } else {
+            return {
+                type: "selectNextBehavior",
+                nextBehavior: this.behaviorName,
+            };
+        }
+    }
+
     apply_transformations () {
         // Unconditional selection
         if (!this.flagParticipantName) {
