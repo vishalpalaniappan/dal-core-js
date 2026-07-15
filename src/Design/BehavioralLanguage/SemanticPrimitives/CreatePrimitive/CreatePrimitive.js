@@ -55,7 +55,7 @@ class CreatePrimitive extends SemanticPrimitive {
             keys: [],
             valueType: {
                 type: this.type,
-                value: this.targetParticipantName,
+                value: this.value,
             },
         };
     }
