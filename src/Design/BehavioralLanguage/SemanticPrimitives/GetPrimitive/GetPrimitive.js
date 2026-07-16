@@ -37,10 +37,7 @@ class GetPrimitive extends SemanticPrimitive {
             type: "get",
             targetParticipantName: this.targetParticipantName,
             keys: this.keys,
-            valueType: {
-                type: "name",
-                value: this.sourceParticipantName,
-            },
+            sourceParticipantName: this.sourceParticipantName,
         };
     }
 
