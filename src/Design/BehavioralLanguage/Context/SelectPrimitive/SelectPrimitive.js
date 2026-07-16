@@ -52,6 +52,8 @@ class SelectPrimitive extends SemanticPrimitive {
         this.behaviorName = args.behaviorName;
         this.flagParticipantName =
             args.flagParticipantName || null;
+        this.behaviorNameFalse =
+            args.behaviorNameFalse || null;
     }
 
     /**
@@ -70,12 +72,15 @@ class SelectPrimitive extends SemanticPrimitive {
      * Example:
      * {
      *      type: "selectNextBehavior",
-     *      nextBehavior: "acceptBook"
+     *      nextBehaviorTrue: "acceptBook"
+     *      nextBehaviorFalse: "behavior2"
      *      flagParticipantName: "isAcceptBook"
      * }
      *
      * if (isAcceptBook):
      *      nextBehavior = "acceptBook"
+     * else:
+     *      nextBehavior = "behavior2"
      *
      * @returns {Object} Metadata to synthesize program.
      */
@@ -84,7 +89,8 @@ class SelectPrimitive extends SemanticPrimitive {
         if (this.flagParticipantName !== null) {
             return {
                 type: "selectNextBehaviorConditional",
-                nextBehavior: this.behaviorName,
+                nextBehaviorTrue: this.behaviorName,
+                nextBehaviorFalse: this.behaviorNameFalse,
                 hasFlag: this.flagParticipantName !== null,
                 flagParticipantName: this.flagParticipantName,
             };

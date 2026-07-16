@@ -12,6 +12,6 @@ export const PRIMITIVE_REGISTRY = Object.freeze({
     "INVARIANT_RE": /^invariant\s+(.+)$/,
     "IS_EQUAL_RE": /^isEqual\s+(\w+)\s+(\w+)\s+(\w+)$/,
     "GET_LENGTH_RE": /^getLength\s+(\w+)\s+(\w+)$/,
-    "SELECT_RE": /^select\s+(\w+)(?:\s+if\s+(\w+))?$/,
+    "SELECT_RE": /^select\s+(\w+)(?:\s+if\s+(\w+)(?:\s+else\s+(\w+))?)?$/,
 });
 

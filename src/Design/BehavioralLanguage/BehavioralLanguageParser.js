@@ -314,9 +314,10 @@ class BehavioralLanguageParser {
     }
 
     executeSelect (script, participants, args) {
-        const [, behaviorName, flagParticipantName] = script.match(this.re["SELECT_RE"]);
+        const [,  behaviorName, flagParticipantName, behaviorNameFalse] = script.match(this.re["SELECT_RE"]);
         const input = {
             behaviorName: behaviorName,
+            behaviorNameFalse: behaviorNameFalse,
             flagParticipantName: flagParticipantName,
         };
         const prim = new SelectPrimitive(input, participants);
