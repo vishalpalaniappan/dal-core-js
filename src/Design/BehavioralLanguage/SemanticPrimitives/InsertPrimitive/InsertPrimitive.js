@@ -43,7 +43,7 @@ class InsertPrimitive extends SemanticPrimitive {
     get_synthesis_meta () {
         return {
             type: "insert",
-            targetParticipantName: this.sourceParticipantName,
+            targetParticipantName: this.targetParticipantName,
             keys: this.keys,
             valueParticipantName: this.valueParticipantName,
             index: this.index,
