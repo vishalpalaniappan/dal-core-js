@@ -31,6 +31,15 @@ class RemoveFromPositionPrimitive extends SemanticPrimitive {
         this.position = args.position;
     }
 
+    get_synthesis_meta () {
+        return {
+            type: "removeFromPos",
+            sourceParticipantName: this.sourceParticipantName,
+            position: this.position,
+        };
+    }
+
+
     apply_transformations() {
         const target = this.worldState[this.sourceParticipantName];
 
