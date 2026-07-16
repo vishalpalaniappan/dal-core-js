@@ -40,6 +40,17 @@ class InsertPrimitive extends SemanticPrimitive {
         this.index = args.index;
     }
 
+    get_synthesis_meta () {
+        return {
+            type: "insert",
+            targetParticipantName: this.sourceParticipantName,
+            keys: this.keys,
+            valueParticipantName: this.valueParticipantName,
+            index: this.index,
+        };
+    }
+
+
     apply_transformations () {
         let targetList = this.worldState[this.targetParticipantName];
         if (this.keys && this.keys.length > 0) {
