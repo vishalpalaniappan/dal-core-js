@@ -1,0 +1,22 @@
+This folder contains commands which establish invairants for the world state.
+
+Example:
+invariant <participant> <type> [key1,key2...keyN] [arg1,arg2..argN] [prediction1...predictionN]
+
+
+Checks if book has a key named name.
+```text
+    invariant book hasKey [] ["name"] []
+```
+
+Check if book["name"] has a minimum length of 1.
+```text
+    invariant book minLength ["name"] [1] []
+```
+
+Checks if book_name has a minimum length of 1.
+```text
+    invariant book_name minLength [] [1] []
+```
+
+                

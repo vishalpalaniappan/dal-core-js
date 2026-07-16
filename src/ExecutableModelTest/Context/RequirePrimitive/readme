@@ -1,0 +1,36 @@
+### Require Primitive
+
+The require primitive is used to establish the world state.
+
+If a participant is declared as required, it must exist in the world state.
+If a participant is declared as an input, it must exist in the args and should
+be loaded in the world state. 
+
+When the semantic model is executed, the value of the input will be accepted dynamically.
+
+```text
+require <participant> input
+```
+Syntax Structure:
+- `require`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<participant>` 
+    * Type: *string*
+    * This is the name of the participant that is required.
+- `<input>`
+    * Type: *string*
+    * Optional: true
+    * If input is provided at the end of the required syntax, this flags the participant as an input.
+
+#### Examples:
+
+```text
+require book
+```
+
+```text
+require book_name input
+```
+
+TODO: Add more detailed examples and how it can fail.
