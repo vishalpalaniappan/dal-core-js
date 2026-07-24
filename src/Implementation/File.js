@@ -1,3 +1,5 @@
+import {DalAstGenerator} from "dal-ast-js";
+
 import Base from "../Base";
 import MissingAttributes from "../Errors/MissingAttributes";
 import isLoadedFromFile from "../helpers/isLoadedFromFile";
@@ -85,6 +87,18 @@ export default class File extends Base {
                 this[key] = savedJSON[key];
             }
         };
+    }
+
+    /**
+     * Get the ast for the given behavioral script.
+     * @returns {Object} AST of the script.
+     */
+    getAst () {
+        if (!this._name.endsWith(".dal")) {
+            throw new Error("File is not a design.")
+        }
+        const source = this._activeVersion.getContent();
+        return new DalAstGenerator().run(source);
     }
 
     /**
