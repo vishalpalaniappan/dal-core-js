@@ -1,0 +1,79 @@
+design ("library_manager")
+
+behavior createBasket {
+    create(name=basket, type="list", role="basket", accepts="book")
+    set("basket",[],[])
+    set(worldState, ["basket"], basket)
+    select(getChoice)
+}
+
+behavior getChoice {
+    getInput(choice, "\nGet user choice (a for add book, g for get book, else exit): ")
+    log("getChoice", "choice", "string", choice )
+    isEqual(choice, "a", isAdd)
+    isEqual(choice, "g", isGet)
+    set(worldState, ["choice"], choice)
+    if (isAdd) {
+        select(getName)
+    }
+    if (isGet) {
+        select(getBookFromBasket)
+    }
+}
+
+behavior getBookFromBasket {
+    get(basket, worldState, ["basket"])
+    removeFromPos(book, basket, 0)
+    set(worldState, ["book"], book)
+    select(getFirstLetterOfBookName)
+}
+
+behavior getFirstLetterOfBookName {
+    get(book, worldState, ["book"])
+    get(name, book, ["name"])
+    getFromPos(firstLetter, name, 0)
+    display("f'Got book named {name} and it has first letter {firstLetter}'")
+    set(worldState, ["firstLetter"], firstLetter)
+    select(getChoice)
+}
+
+behavior displayChoice {
+    get(choice, worldState, ["choice"])
+    display("f'User Choice: {choice}'")
+    select(getChoice)
+}
+
+behavior getName {
+    create(name=name, type="string", role="name")
+    getInput(name, "\nPlease enter book name: ")
+    log("getName", "name", "string", name )
+    set(worldState, ["name"], name)
+    select(createBook)
+}
+
+behavior createBook {
+    get(name, worldState, ["name"])
+    create(name=book, type="object", role="book")
+    set(book, [], {})
+    set(book, ["name"], name)
+    set(worldState, ["book"], book)
+    remove(worldState, ["name"])
+    select(addBookToBasket)
+}
+
+behavior addBookToBasket {
+    get(book, worldState, ["book"])
+    get(basket, worldState, ["basket"])
+    insert(basket, [], book, 0)
+    set(worldState, ["basket"], basket)
+    remove(worldState, ["book"])
+    select(showBasket)
+}
+
+behavior showBasket {
+    get(basket, worldState, ["basket"])
+    display("f'Basket Contents: {basket}'")
+    select(getChoice)
+}
+
+run(createBasket)
