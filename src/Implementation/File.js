@@ -45,6 +45,7 @@ export default class File extends Base {
         this._key = args.key;
         this._activeVersion = null;
         this._uid = crypto.randomUUID();
+        this._ast = null;
         (isLoadedFromFile(args) ? this._loadFromFile(args) : this._loadArgs(args));
     }
 
@@ -93,12 +94,21 @@ export default class File extends Base {
      * Get the ast for the given behavioral script.
      * @returns {Object} AST of the script.
      */
-    getAst () {
+    generateAst () {
         if (!this._name.endsWith(".dal")) {
             throw new Error("File is not a design.")
         }
         const source = this._activeVersion.getContent();
-        return new DalAstGenerator().run(source);
+        this._ast = new DalAstGenerator().run(source);
+        return this._ast;
+    }
+
+    /**
+     * Returns the generated AST.
+     * @returns {Object} Generated AST.
+     */
+    getAst () {
+        return this._ast;
     }
 
     /**

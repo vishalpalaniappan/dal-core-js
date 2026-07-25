@@ -18,7 +18,7 @@ describe("file tests", () => {
         const f = new File({name: "library_manager_script.dal", key: "library_manager_script.dal"});
         f.addVersion();
         f.setContent(source);
-        const ast = f.getAst();
+        const ast = f.generateAst();
         const filePath2 = resolve(__dirname, "../temp/ast.json")
         await writeFile(filePath2, JSON.stringify(ast, null, 4));
     });
