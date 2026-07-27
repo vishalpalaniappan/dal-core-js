@@ -1,6 +1,6 @@
 {
     "name": "dal-engine-core-js-lib-dev",
-    "version": "0.0.22-dev-3",
+    "version": "0.0.24-dev-3",
     "main": "dist/index.cjs",
     "module": "dist/index.esm.js",
     "type": "module",
@@ -34,7 +34,7 @@
         "vitest": "^4.0.18"
     },
     "dependencies": {
-        "dal-ast-js": "^0.0.4-dev",
+        "dal-ast-js": "^0.0.5-dev",
         "fflate": "^0.8.2",
         "lodash-es": "^4.18.1"
     }
