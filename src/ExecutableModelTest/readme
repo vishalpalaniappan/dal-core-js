@@ -1,0 +1,108 @@
+This folder is being used to run tests for a new approach to establishing the semantics of behaviors. The objective is to truly automate debugging by creating a semantically executable model of behavior that defines the authoritative standard of correctness.
+
+Behavior consists of:
+- Preconditions (participants, invarants)
+- Transformation
+- Postconditions (participants, invariants)
+
+The preconditions are loaded from the log and the invariants are enforced.
+The transformation is applied to the state and the authoritative post conditions are derived.
+The postconditiosn are evaluated for correctness and invariants are enforced.
+
+So in this model, there are three different ways to be semantically invalid:
+- Preconditions invalid (invariant violated)
+- Transformation invalid (implementation fails to implement the semantic definition)
+- Postcondition invalid (invariant violated)
+
+An interesting note: 
+If the preconditions are valid and the transformation is valid according to the semantics but the post condition is semantically invalid, then this points to an internally inconsistent design. This is another kind of feedback that the engine can provide, it lets to debug the design itself by identifying internal inconsistencies.
+
+### Semantic Primitives
+
+So now I can create a set of primitives, these are computable state transformations.
+
+```text
+set <value> <target>
+insert <value> <target> <position>
+remove <value> <target>
+add <value> <target>
+divide <left> <right> <target>
+sum <source> <target>
+length <source> <target>
+```
+
+### Derived Primitives
+Then I can use these primitives to create, larger ones, like Average:
+```text
+average scores result
+```
+becomes 
+```text
+sum scores total
+length scores count
+divide total count result
+```
+
+Now the behaviors are computable, the engine can realize the state transformatins descrived by the behavior and verify that the implementation is faithful to the semantic model of the behavior.
+
+### Composite Behavior
+
+```text
+Start Scheduler
+
+Transformation:
+    set scheduler status "running"
+    set scheduler available true
+```
+
+This is a composite behavior that is made up of semantic primitives. It describes an unambiguous state transformation that is computable by the engine.
+
+
+## Library Manager Planning with Primitives
+
+This plans the primitives needed to implement library manager design with transformations built from primitives. This will be used to establish the automated debugging functionality along with verification of implementation using the executable semantic model.
+
+A note on create primitive:
+This will introduce a new participant into the world. In my current configuration, I set the value that was accepted from the environment to the args of the behavior. So in the args of the behavior, there is an initial value key that has the empty book being created.
+
+In my executable semantic module, I will make this interactive and allow the user to provide inputs which are then accepted by the behavior of the design.
+
+### Accept Book
+---
+#### BeginBookCreation
+- create pendingBook {}
+
+#### AcceptName
+- set `<name>` pendingBook ["name"]
+
+#### AcceptGenre
+- set `<genre>` pendingBook ["genre"]
+
+#### FinalizeBookCreation
+- create book `<pendingBook>`
+- remove pendingBook
+
+### PlaceBookFromBasketOnSHelf
+---
+#### PlaceBookInBasket
+- insert basket book [] 0
+
+#### GetBookFromBasket
+- getFromPos basket 0 book
+
+#### GetFirstLetterOfBookName
+- get book ["name"] book_name
+- getFromPos book_name 0 firstLetter
+
+#### CreateSlotOnShelf
+- set book_shelf empty_slot [`<first_letter>`]
+
+#### PlaceBookOnShelf
+- insert book book_shelf [`<first_letter>`] 0
+
+### Generate Audit
+---
+#### GenerateAuditReport
+- create audit <empty_audit>
+- set audit basket ["basket"]
+- set audit book_shelf ["book_shelf"]

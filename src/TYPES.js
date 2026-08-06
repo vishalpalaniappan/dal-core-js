@@ -1,0 +1,10 @@
+let ENGINE_TYPES = {
+    BEHAVIOR: 1,
+    INVARIANT: 2,
+    PARTICIPANT: 3,
+    BEHAVIORAL_CONTROL_GRAPH: 4,
+    GRAPH_NODE: 5,
+};
+ENGINE_TYPES = Object.freeze(ENGINE_TYPES);
+
+export default ENGINE_TYPES;

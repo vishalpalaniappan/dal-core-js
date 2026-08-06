@@ -1,0 +1,43 @@
+### Create Primitive
+
+The create primitive will get a value from the source and save it in the target.
+
+Note: A behavior has a method calle setArgs, using this, you can pass the arguments into the primitives of the behavior. By setting the initial value key, that will get assigned to the participant that is created.
+
+```text
+create <participant>
+```
+Syntax Structure:
+- `get`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<participant>` 
+    * Type: *string*
+    * This is the name of the participant being created.
+
+#### Example 1:
+Creates a book.
+
+```text
+    const behavior = new ExecutableBehavior();
+    behavior.addPrimitive('create book');
+    behavior.setArgs({
+        initialValue: {"name": "Lord of the Rings"},
+    })
+```
+
+```text
+    create book
+```
+
+Pre-transformation state:
+```text
+    {}
+```
+
+Post-transformation state:
+```text
+    {
+        book: {"name": "Lord of the Rings"}
+    }
+```

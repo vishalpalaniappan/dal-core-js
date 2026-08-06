@@ -1,0 +1,68 @@
+### Get Primitive
+
+The get primitive will get a value from the source and save it in the target.
+
+```text
+get <from> ["keys"] <target>
+```
+Syntax Structure:
+- `get`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<from>` 
+    * Type: *string*
+    * This is the name of the participant whose value to get.
+- `[keys]` 
+    * Type: *Array*
+    * This is an array of strings, representing the key path to key value to insert.
+    * For example, ["a","b"] will be target_participant["a"]["b"]
+    * If the key is specified as [], it indicates that the value should be directly assigned to the participant.
+- `<target>` 
+    * Type: *string*
+    * This is the name of the participant the value will be saved in.
+
+#### Example 1:
+Inserts the book participant into the basket participant at index 0. It expects basket to be an array.
+
+```text
+get book ["name"] book_name
+```
+
+Pre-transformation state:
+```text
+    {
+        book: {"name": "Lord of the Rings"},
+        book_name: null,
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        book: {"name": "Lord of the Rings"},
+        book_name: "Lord of the Rings",
+    }
+```
+
+#### Example 2:
+Gets the value of book and saves it in book copy.
+
+```text
+get book [] book_copy
+```
+
+Pre-transformation state:
+```text
+    {
+        book: {"name": "Lord of the Rings"},
+        book_copy: null,
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        book: {"name": "Lord of the Rings"},
+        book_copy: {"name": "Lord of the Rings"},
+    }
+```

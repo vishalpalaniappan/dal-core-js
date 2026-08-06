@@ -1,0 +1,45 @@
+### Has Key Primitive
+
+The has key primitive will set the value of a participant or a key of a participant.
+
+```text
+hasKey <source> <key> <target> [keys]
+```
+Syntax Structure:
+- `Set`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<source>` 
+    * Type: *string*
+    * This is the name of the participant that will be evaluated.
+- `<target>` 
+    * Type: *string*
+    * This is the name of the participant that will be written to.
+- `[keys]` 
+    * Type: *Array*
+    * This is an array of strings, representing the key path to the target to set. 
+    * For example, ["a","b"] will be target_participant["a"]["b"]
+    * If the key is specified as [], it indicates that the value should be directly assigned to the participant.
+
+#### Example 1:
+Checks if a participant has a key specified by a participant.
+
+```text
+create has_name
+hasKey book keyName has_name []
+```
+
+Pre-transformation state:
+```text
+    {
+        book: {"name": "Lord of the Rings"},
+        keyName: "name",
+    }
+```
+
+Post-transformation state:
+```text
+    {
+        has_name: true,
+    }
+```

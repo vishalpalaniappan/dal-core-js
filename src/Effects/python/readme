@@ -1,0 +1,80 @@
+This folder contains registered substrate effects. These are my initial thoughts and I
+am going to continue expanding on these as I explore the nuances of synthesizing the
+substrate level mechanisms into the program and for learning substrate invariants etc.
+
+## Logic
+
+I have been thinking a lot about the interaction between a design and the substrate and working to understand how the interaction between the two get established. So I will start by exploring the nature of the design and the substrate and then explore how I can establish the interaction between the two.
+
+Each behavior in the design is specified as a series of computable transformations using the Design Abstraction Language. Since each of these transformations is directly computable and it can be mapped onto an abstract syntax tree that can be used to synthesize implementations of the design. The implementation can be in any language, the transformations just have to be mapped onto the AST of that language. 
+
+When the design is manifested in reality, it has to be able to interact with the environment. The environment provides the impulse that ripples through the behaviors of the design until it reaches stability. If the environment provides an impulse that is semantically invalid, then the behavior of the design must reject it. So practically, this means that there has to be a mechanism for the substrate to provide the input from the environment into the design. 
+
+In addition to this, when a design experiences concurrency, in reality, this could be realized on multiple threads or machines. The substrate is realizing the design and for example, in this case, the concurrency is enabled using threads. Regardless, the substrate must be able to realize the behaviors concurrently and it has to leverage the right substrate mechanism to make it possible in reality. So this then means that there has to be a mechanism for the substrate to practically realize concurrency.
+
+So I decided that I would register effects with the engine that are leveraged by the design when it is accepting an input from the environment or establishing how the design is realized in reality. I don't think this needs to be so mysterious, it is simply the implementation mechanism but rather than manually creating a control flow outside of the the behaviors to invoke the substrate mechanisms, I decided that I would register it and allow the behaviors to recognize what they need to do. 
+
+It is possible that the best first step is to do this manually with the behaviors being synthesized and a state machine invoking the necessary substrate mechanisms and feeding it into the behaviors. For example, when it gets to the AcceptName behavior, it would invoke the input(" ") mechanism and feed that into the environment of the behavior.
+
+I am exploring all the possibilities to figure out the nuances of how this would work.
+
+# Update
+
+I manually went through an example where I had the design synthesized into a program. Then I constructed the substrate behaviors around it to enable the design to function and the process is actually much more straight forward than I thought. I think to start, I am not going to bother with effects etc, instead I am going to implement the structure needed myself and invoke the synthesized behaviors in the right substrate. So in the case of the library manager, I would have a mechanism that invokes the atomic behavior and then I would get the substrate input when a book name or the menu choice is accepted. There is no need for threads here but if there was concurrency in the design, I would perform the sustrate configuration before I invoke the behaviors on the relevant substrate. I want to create a few more primitives that will let me select the next behavior in a cleaner way and then I will move forward with the implementation.
+
+# Update
+
+So my implementation will consist of the following: 
+
+- Substrate configurations
+- Import Synthesized behaviors
+- Invoke synthesized behavior
+
+Then before each behavior, the relevate substrate methods will be invoked to get the relevant data from the environment. So for example, if a behavior says that it gets an input from the user, this will call the method that prompts the user for a value. This is then fed into the behavior. 
+
+I like this separation because it lets me configure the substrate, import the synthesized behaviors and then invoke the design by feeding it impulses from the environment. It is also easier to implement because it lets me configure the substrate mechanisms myself and invoke them as needed. 
+
+I am going to start working through more interesting examples and then I will work through the nuances of the problem as I work towards a complete solution. There are some interesting cases I can think of now, like what happens if a websocket connection dies in the middle of a design path that has multiple inputs from a websocket, from the designs perspective the environment is unavailable. This ofcourse becomes something the design needs to account for to continue realizing its intentions, but all of this needs to be addressed in time, I will build up the knowledge with smaller case studies.
+
+Another example is if the substrate serializes the output message in such a way that places limitations on the message produced by the design. Maybe there can't be any circlular references or some other limitation, this is an invariant that the design must respect to continue realizing its intentions. In this way, when the substrate and the design are connected together, the design will learn new invariants that it must respect and these are unique to the substrate. Its possible with another library, this limitation doesn't exist.
+
+So I am first going to work towards producing a synthesized behavior package for a design and then I will implement the substrate level mechanisms and then connect them together.
+
+# Early Orchestration Model
+
+In my initial implementation, I intend to use an approach like this:
+
+```
+if behavior == "behavior_A"
+    input = invoke_substrate_input()
+    args.input = input
+    synthesized_behaviors.invoke(behavior, args)
+else:
+    synthesized_behaviors.invoke(behavior, args)
+
+```
+
+If a behavior requires an input from the environment, I get it and then I invoke it. If it doesn't, then I invoke it directly.
+
+With this approach, I can very quickly setup the substrate mechanism and then connect it to the synthesized behaviors. 
+
+This is more manual than what I imagine the final solution will look like but that isn't a problem, this will provide me with everything I need and I can start identifying substrate invariants and learning from them.
+
+# Update
+
+I manually implemented a design with the approach mentioned above and it worked well. 
+
+The plan is as follows:
+- Add more primitives to the semantic language and clean up that implementation
+- Synthesize all the behaviors from the design as importable modules, and place in implementation folder automatically
+- For now, the synthesis will happen by calling a python program using a node script
+- In implementation mode in the workbench, import the synthesized nodule
+- Configure the substrate, start at atomic behavior and accept environmental impulses as needed while propogating behaviors forward
+- Once behavior impulse is stable (no propogation), start at atomic behavior again
+
+With this, I will be able to establish a design, synthesize it, execute it on the chosen substrate and feed that back into the debugger and learn itself.
+
+When the design can be executed on its own, it doesn't have a substrate, I provide it the inputs based on its type (this will let me establish the design and its
+invariants without the substrate).
+
+I will likely share implementation updates over the course of the week.

@@ -1,29 +1,41 @@
 {
-  "name": "dal-engine-core-js-lib",
-  "version": "0.0.0",
-  "main": "dist/index.cjs",
-  "module": "dist/index.esm.js",
-  "type": "module",
-  "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
-    "test:run": "vitest run"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vishalpalaniappan/dal-engine-core-js.git"
-  },
-  "author": "Vishal Palaniappan",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vishalpalaniappan/dal-engine-core-js/issues"
-  },
-  "homepage": "https://github.com/vishalpalaniappan/dal-engine-core-js",
-  "devDependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.3",
-    "rollup": "^4.57.1",
-    "vitest": "^4.0.18"
-  }
+    "name": "dal-engine-core-js-lib-dev",
+    "version": "0.0.32-dev-3",
+    "main": "dist/index.cjs",
+    "module": "dist/index.esm.js",
+    "type": "module",
+    "scripts": {
+        "build": "rollup -c",
+        "dev": "rollup -c -w",
+        "test": "vitest",
+        "test:watch": "vitest --watch",
+        "test:run": "vitest run",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vishalpalaniappan/dal-engine-core-js.git"
+    },
+    "author": "Vishal Palaniappan",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vishalpalaniappan/dal-engine-core-js/issues"
+    },
+    "homepage": "https://github.com/vishalpalaniappan/dal-engine-core-js",
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^16.0.3",
+        "clp-ffi-js": "^0.6.1",
+        "eslint": "^9.39.3",
+        "eslint-plugin-jsdoc": "^61.7.1",
+        "eslint-plugin-simple-import-sort": "^10.0.0",
+        "eslint-plugin-vitest": "^0.5.4",
+        "rollup": "^4.57.1",
+        "vitest": "^4.0.18"
+    },
+    "dependencies": {
+        "dal-ast-js": "^0.0.10-dev",
+        "fflate": "^0.8.2",
+        "lodash-es": "^4.18.1"
+    }
 }

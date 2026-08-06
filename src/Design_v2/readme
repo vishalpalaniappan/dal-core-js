@@ -1,0 +1,3 @@
+I am adding the DAL script based design functionality here so that I don't break the existing features in the workbench. I will slowly migrate things over.
+
+There are still some features I want to keep from my old implmentation, like the behavioral control graph class used to visualize the design. However, I'll do this in stages, first, I want to be able to synthesize a DAL script, execute it and then save the trace.

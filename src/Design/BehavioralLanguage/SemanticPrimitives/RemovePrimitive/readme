@@ -1,0 +1,33 @@
+### Remove Primitive
+
+The remove primitive will remove the participant from the world.
+
+```text
+remove <participant>
+```
+Syntax Structure:
+- `remove`:
+    * Type: *string*
+    * This is the identifier for the instruction.
+- `<participant>` 
+    * Type: *string*
+    * This is the name of the participant being removed.
+
+#### Example 1:
+Removes a book from the world.
+
+```text
+    remove book
+```
+
+Pre-transformation state:
+```text
+    {
+        book: "Harry Potter"
+    }
+```
+
+Post-transformation state:
+```text
+    {}
+```
